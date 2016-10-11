@@ -6,5 +6,5 @@
 #' @return The analysis data set with the fitted values.
 #' @export
 residuals.mb_analysis <- function(object, ...) {
-  predict(object, term = "residual")
+  predict(object, new_data = data_set(object), term = "residual")
 }
