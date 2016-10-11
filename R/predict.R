@@ -15,7 +15,3 @@ predict.mb_analysis <- function(object, new_data = data_set(object), new_expr = 
                                 term = "prediction", conf_int = FALSE, conf_level = 0.95, ...) {
   stop("not implemented")
 }
-
-#' @param object The tmb_analysis object.
-#' @param new_data The data frame to calculate the predictions for.
-#' @param term A string of the term in predict_expr.
