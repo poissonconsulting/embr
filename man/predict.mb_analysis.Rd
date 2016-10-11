@@ -4,10 +4,22 @@
 \alias{predict.mb_analysis}
 \title{Predict}
 \usage{
-\method{predict}{mb_analysis}(object, ...)
+\method{predict}{mb_analysis}(object, new_data = data_set(object),
+  new_expr = NULL, term = "prediction", conf_int = FALSE,
+  conf_level = 0.95, ...)
 }
 \arguments{
 \item{object}{The tmb_analysis object.}
+
+\item{new_data}{The data frame to calculate the predictions for.}
+
+\item{new_expr}{A string of R code specifying the predictive relationship.}
+
+\item{term}{A string of the term in new_expr.}
+
+\item{conf_int}{A flag indicating whether to calculate confidence intervals.}
+
+\item{conf_level}{A number specifying the confidence level. By default 0.95.}
 
 \item{...}{Unused.}
 }
