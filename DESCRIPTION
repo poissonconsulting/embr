@@ -7,7 +7,8 @@ Description: Utility functions and virtual classes shared by model builder packa
 Depends:
     R (>= 3.3.1)
 Imports:
-  dplyr
+    dplyr,
+    magrittr
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
