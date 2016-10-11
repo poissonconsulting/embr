@@ -5,8 +5,8 @@
 \title{Predict}
 \usage{
 \method{predict}{mb_analysis}(object, new_data = data_set(object),
-  new_expr = NULL, term = "prediction", back_transform = identity,
-  conf_int = FALSE, conf_level = 0.95, ...)
+  new_expr = NULL, term = "prediction", conf_int = FALSE,
+  conf_level = 0.95, ...)
 }
 \arguments{
 \item{object}{The tmb_analysis object.}
@@ -16,8 +16,6 @@
 \item{new_expr}{A string of R code specifying the predictive relationship.}
 
 \item{term}{A string of the term in new_expr.}
-
-\item{back_transform}{A single argument function specifying the transformation for the estimate and confidence intervals.}
 
 \item{conf_int}{A flag indicating whether to calculate confidence intervals.}
 
