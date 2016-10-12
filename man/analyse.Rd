@@ -4,7 +4,8 @@
 \alias{analyse}
 \title{Analyse}
 \usage{
-analyse(model, data, beep = TRUE, debug = FALSE, ...)
+analyse(model, data, beep = getOption("mb.beep", TRUE),
+  debug = getOption("mb.debug", FALSE), ...)
 }
 \arguments{
 \item{model}{The model to use for the analysis.}

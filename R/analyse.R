@@ -4,4 +4,5 @@
 #'
 #' @inheritParams analyse_data
 #' @export
-analyse <- function(model, data, beep = TRUE, debug = FALSE, ...) {UseMethod("analyse")}
+analyse <- function(model, data, beep = getOption("mb.beep", TRUE),
+                         debug = getOption("mb.debug", FALSE), ...) {UseMethod("analyse")}

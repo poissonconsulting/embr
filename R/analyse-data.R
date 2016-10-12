@@ -8,7 +8,8 @@
 #' @param debug A flag indicating whether to run in debug mode.
 #' @param ...  Additional arguments.
 #' @export
-analyse_data <- function(data, model, beep = TRUE, debug = FALSE, ...) {
+analyse_data <- function(data, model, beep = getOption("mb.beep", TRUE),
+                         debug = getOption("mb.debug", FALSE), ...) {
   check_mb_model(model)
   analyse(model, data = data, beep = beep, debug = debug, ...)
 }

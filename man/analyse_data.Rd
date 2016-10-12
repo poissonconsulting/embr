@@ -4,7 +4,8 @@
 \alias{analyse_data}
 \title{Analyse Data}
 \usage{
-analyse_data(data, model, beep = TRUE, debug = FALSE, ...)
+analyse_data(data, model, beep = getOption("mb.beep", TRUE),
+  debug = getOption("mb.debug", FALSE), ...)
 }
 \arguments{
 \item{data}{The data frame to analyse.}
