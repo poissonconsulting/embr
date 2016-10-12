@@ -4,17 +4,20 @@
 \alias{analyse}
 \title{Analyse}
 \usage{
-analyse(model, data, beep = getOption("mb.beep", TRUE),
-  debug = getOption("mb.debug", FALSE), ...)
+analyse(model, data, quick = getOption("mb.quick", FALSE),
+  quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep", TRUE),
+  ...)
 }
 \arguments{
 \item{model}{The model to use for the analysis.}
 
 \item{data}{The data frame to analyse.}
 
-\item{beep}{A flag indicating whether to beep on completion of the analysis.}
+\item{quick}{A flag indicating whether to quickly get unreliable values.}
 
-\item{debug}{A flag indicating whether to run in debug mode.}
+\item{quiet}{A flag indicating whether to disable tracing information.}
+
+\item{beep}{A flag indicating whether to beep on completion of the analysis.}
 
 \item{...}{Additional arguments.}
 }

@@ -4,12 +4,16 @@
 #'
 #' @param data The data frame to analyse.
 #' @param model The model to use for the analysis.
+#' @param quick A flag indicating whether to quickly get unreliable values.
+#' @param quiet A flag indicating whether to disable tracing information.
 #' @param beep A flag indicating whether to beep on completion of the analysis.
-#' @param debug A flag indicating whether to run in debug mode.
 #' @param ...  Additional arguments.
 #' @export
-analyse_data <- function(data, model, beep = getOption("mb.beep", TRUE),
-                         debug = getOption("mb.debug", FALSE), ...) {
+analyse_data <- function(data, model,
+                         quick = getOption("mb.quick", FALSE),
+                         quiet = getOption("mb.quiet", TRUE),
+                         beep = getOption("mb.beep", TRUE),
+                         ...) {
   check_mb_model(model)
-  analyse(model, data = data, beep = beep, debug = debug, ...)
+  analyse(model, data = data, quick = quick, quiet = quiet, beep = beep, ...)
 }

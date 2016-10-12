@@ -5,7 +5,9 @@
 \title{Predict Data}
 \usage{
 predict_data(data, analysis, new_expr = NULL, term = "prediction",
-  conf_int = FALSE, conf_level = 0.95, ...)
+  conf_int = FALSE, conf_level = 0.95, quick = getOption("mb.quick",
+  FALSE), quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep",
+  FALSE), ...)
 }
 \arguments{
 \item{data}{The data frame to calculate the predictions for.}
@@ -19,6 +21,12 @@ predict_data(data, analysis, new_expr = NULL, term = "prediction",
 \item{conf_int}{A flag indicating whether to calculate confidence intervals.}
 
 \item{conf_level}{A number specifying the confidence level. By default 0.95.}
+
+\item{quick}{A flag indicating whether to quickly get unreliable values.}
+
+\item{quiet}{A flag indicating whether to disable tracing information.}
+
+\item{beep}{A flag indicating whether to beep on completion of the analysis.}
 
 \item{...}{Additional arguments.}
 }

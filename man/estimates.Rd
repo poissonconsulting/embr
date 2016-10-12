@@ -11,7 +11,7 @@ estimates(object, terms = "fixed", ...)
 
 \item{terms}{A string indicating the parameters to get the estimates for.}
 
-\item{...}{Unused.}
+\item{...}{Additional arguments.}
 }
 \value{
 The estimates as a named list.
