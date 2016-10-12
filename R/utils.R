@@ -10,3 +10,15 @@
 dims <- function(x) {
   if (is.vector(x)) length(x) else dim(x)
 }
+
+
+#' Error
+#'
+#' Throws an error without the call as part of the error message.
+#'
+#' @inheritParams base::stop
+#' @seealso base::stop
+#' @export
+error <- function(...) {
+  stop(..., call. = FALSE)
+}

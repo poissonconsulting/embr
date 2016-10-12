@@ -7,7 +7,7 @@
 \method{fitted}{mb_analysis}(object, ...)
 }
 \arguments{
-\item{object}{The tmb_analysis object.}
+\item{object}{The MB analysis object.}
 
 \item{...}{Unused.}
 }
@@ -16,5 +16,8 @@ The analysis data set with the fitted values.
 }
 \description{
 Extract fitted values for a MB analysis.
+}
+\details{
+The new_expr in the model must include the term 'fit'.
 }
 

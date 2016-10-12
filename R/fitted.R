@@ -2,7 +2,10 @@
 #'
 #' Extract fitted values for a MB analysis.
 #'
-#' @inheritParams predict.mb_analysis
+#' The new_expr in the model must include the term 'fit'.
+#'
+#' @param object The MB analysis object.
+#' @param ... Unused.
 #' @return The analysis data set with the fitted values.
 #' @export
 fitted.mb_analysis <- function(object, ...) {

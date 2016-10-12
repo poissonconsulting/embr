@@ -7,14 +7,17 @@
 \method{residuals}{mb_analysis}(object, ...)
 }
 \arguments{
-\item{object}{The tmb_analysis object.}
+\item{object}{The MB analysis object.}
 
 \item{...}{Unused.}
 }
 \value{
-The analysis data set with the fitted values.
+The analysis data set with the residual values.
 }
 \description{
 Extract residual values for an MB analysis.
+}
+\details{
+The new_expr in the model must include the term 'residual'.
 }
 
