@@ -9,7 +9,7 @@ Depends:
     R (>= 3.3.1),
     stats
 Imports:
-    datacheckr,
+    datacheckr (>= 0.1.1.9002),
     dplyr,
     magrittr,
     pryr,
@@ -20,7 +20,8 @@ LazyData: true
 Suggests:
     testthat,
     covr
-Remotes:     poissonconsulting/datacheckr
+Remotes:
+    poissonconsulting/datacheckr
 URL: https://github.com/poissonconsulting/mbr
 BugReports: https://github.com/poissonconsulting/mbr/issues
 RoxygenNote: 5.0.1
