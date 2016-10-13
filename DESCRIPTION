@@ -20,6 +20,7 @@ LazyData: true
 Suggests:
     testthat,
     covr
+Remotes:     poissonconsulting/datacheckr
 URL: https://github.com/poissonconsulting/mbr
 BugReports: https://github.com/poissonconsulting/mbr/issues
 RoxygenNote: 5.0.1
