@@ -22,7 +22,8 @@ Suggests:
     testthat,
     covr
 Remotes:
-    poissonconsulting/datacheckr
+    poissonconsulting/datacheckr,
+    poissonconsulting/rescale
 URL: https://github.com/poissonconsulting/mbr
 BugReports: https://github.com/poissonconsulting/mbr/issues
 RoxygenNote: 5.0.1
