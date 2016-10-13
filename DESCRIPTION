@@ -13,6 +13,7 @@ Imports:
     dplyr,
     magrittr,
     pryr,
+    rescale,
     stringr
 License: MIT + file LICENSE
 Encoding: UTF-8
