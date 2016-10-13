@@ -2,17 +2,19 @@
 % Please edit documentation in R/model.R
 \name{model}
 \alias{model}
-\title{Model}
+\title{MB Model}
 \usage{
-model(object)
+model(x, ...)
 }
 \arguments{
-\item{object}{The object.}
+\item{x}{The object.}
+
+\item{...}{Additional arguments.}
 }
 \value{
 An object inheriting from class mb_model.
 }
 \description{
-Gets the model for an object.
+Creates or retrieves an object inherting from class mb_model.
 }
 

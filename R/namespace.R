@@ -1,4 +1,4 @@
-#' @importFrom datacheckr check_data2
+#' @import datacheckr
 #' @importFrom magrittr %<>% %>%
 #' @importFrom stats predict
 NULL

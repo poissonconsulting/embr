@@ -1,11 +1,79 @@
-#' Model
+#' MB Model
 #'
-#' Gets the model for an object.
+#' Creates or retrieves an object inherting from class mb_model.
 #'
-#' @param object The object.
+#' @param x The object.
+#' @param ... Additional arguments.
 #' @return An object inheriting from class mb_model.
 #' @export
-model <- function(object) {UseMethod("model")}
+model <- function(x, ...) {
+  UseMethod("model")
+}
+
+#' MB Model
+#'
+#' Creates TMB model.
+#'
+#' @param x An object inheriting from class mb_code.
+#' @param gen_inits A single argument function taking the modified data and
+#' returning a named list of initial values for all fixed parameters.
+#' Missing random parameters are assigned the value 0.
+#' @param random_effects A named list specifying the random effects and the associated factors.
+#' @param select_data A named list specifying the columns to select and their associated classes and values.
+#' @inheritParams rescale::rescale
+#' @param modify_data A single argument function to modify the data (in list form) immediately prior to the analysis.
+#' @param niters A count between 3 and 6 specifying the order of the number of iterations.
+#' @param new_expr A string of R code specifying the predictive relationships.
+#' @param ... Unused arguments.
+#' @return An object inherting from class mb_model.
+#' @seealso \code{\link[datacheckr]{check_data}} \code{\link[rescale]{rescale}}
+#' @export
+model.mb_code <- function(x, gen_inits, random_effects = list(), select_data = list(),
+  center = character(0), scale = character(0), modify_data = identity, niters = 3L,
+  new_expr = character(0), ...) {
+
+  check_mb_code(x)
+  check_single_arg_fun(gen_inits)
+  check_uniquely_named_list(random_effects)
+  check_uniquely_named_list(select_data)
+  check_unique_character_vector(center)
+  check_unique_character_vector(scale)
+  check_single_arg_fun(modify_data)
+  check_vector(new_expr, "", min_length = 0, max_length = 1)
+  check_scalar(niters, c(3L, 6L))
+  check_unused(...)
+
+  check_all_elements_class_character(random_effects)
+  check_x_in_y(unlist(random_effects), names(select_data),
+               x_name = "random_effects", y_name = "select_data",
+               type_x = "elements", type_y = "names")
+
+  check_x_not_in_y(unlist(random_effects), center, x_name = "random_effects",
+                   type_x = "elements")
+  check_x_not_in_y(unlist(random_effects), scale, x_name = "random_effects",
+                   type_x = "elements")
+
+  check_x_in_y(center, names(select_data), y_name = "select_data", type_y = "names")
+  check_x_in_y(scale, names(select_data), y_name = "select_data", type_y = "names")
+
+  center %<>% sort()
+  scale %<>% sort()
+  random_effects %<>% sort_nlist()
+
+  obj <- list(code = x,
+              gen_inits = gen_inits,
+              select_data = select_data,
+              center = center,
+              scale = scale,
+              random_effects =  random_effects,
+              modify_data = modify_data,
+              new_expr = new_expr,
+              niters = niters)
+  class(obj) <- c("tmb_model", "mb_model")
+  obj
+}
 
 #' @export
-model.mb_analysis <- function(object) object$model
+model.mb_analysis <- function(x, ...) {
+  x$model
+}
