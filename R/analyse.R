@@ -4,7 +4,7 @@
 #'
 #' @inheritParams analyse_data
 #' @export
-analyse <- function(model, data,
+analyse <- function(model, data, drop,
                          quick = getOption("mb.quick", FALSE),
                          quiet = getOption("mb.quiet", TRUE),
                          beep = getOption("mb.beep", TRUE),

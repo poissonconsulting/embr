@@ -4,7 +4,7 @@
 \alias{analyse}
 \title{Analyse}
 \usage{
-analyse(model, data, quick = getOption("mb.quick", FALSE),
+analyse(model, data, drop, quick = getOption("mb.quick", FALSE),
   quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep", TRUE),
   ...)
 }
@@ -12,6 +12,8 @@ analyse(model, data, quick = getOption("mb.quick", FALSE),
 \item{model}{The model to use for the analysis.}
 
 \item{data}{The data frame to analyse.}
+
+\item{drop}{A character vector of scalar parameters to drop (fix at 0).}
 
 \item{quick}{A flag indicating whether to quickly get unreliable values.}
 
