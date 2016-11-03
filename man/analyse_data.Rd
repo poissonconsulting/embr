@@ -4,9 +4,9 @@
 \alias{analyse_data}
 \title{Analyse Data}
 \usage{
-analyse_data(data, model, drop = NULL, quick = getOption("mb.quick", FALSE),
-  quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep", TRUE),
-  ...)
+analyse_data(data, model, drop = character(0), quick = getOption("mb.quick",
+  FALSE), quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep",
+  TRUE), ...)
 }
 \arguments{
 \item{data}{The data frame to analyse.}

@@ -4,9 +4,9 @@
 \alias{analyse}
 \title{Analyse}
 \usage{
-analyse(model, data, drop, quick = getOption("mb.quick", FALSE),
-  quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep", TRUE),
-  ...)
+analyse(model, data, drop = character(0), quick = getOption("mb.quick",
+  FALSE), quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep",
+  TRUE), ...)
 }
 \arguments{
 \item{model}{The model to use for the analysis.}
