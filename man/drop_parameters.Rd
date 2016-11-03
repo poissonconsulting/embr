@@ -4,12 +4,14 @@
 \alias{drop_parameters}
 \title{Drop Parameters}
 \usage{
-drop_parameters(x, parameters = character(0))
+drop_parameters(x, parameters = character(0), ...)
 }
 \arguments{
 \item{x}{The object.}
 
 \item{parameters}{A character vector of the parameters to drop.}
+
+\item{...}{Not used.}
 }
 \value{
 The updated object.
