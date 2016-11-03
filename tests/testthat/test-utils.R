@@ -1,3 +1,5 @@
+context("utils")
+
 test_that("dims", {
   expect_identical(dims(integer()), 0L)
   expect_identical(dims(1), 1L)
