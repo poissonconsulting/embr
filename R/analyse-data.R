@@ -10,7 +10,7 @@
 #' @param beep A flag indicating whether to beep on completion of the analysis.
 #' @param ...  Additional arguments.
 #' @export
-analyse_data <- function(data, model, drop = NULL,
+analyse_data <- function(data, model, drop = character(0),
                          quick = getOption("mb.quick", FALSE),
                          quiet = getOption("mb.quiet", TRUE),
                          beep = getOption("mb.beep", TRUE),
