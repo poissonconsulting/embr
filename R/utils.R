@@ -74,3 +74,9 @@ scalar_nlist <- function(x) {
   x[vapply(x, dims, 0L) == 1]
 }
 
+indexes <- function(x) {
+  x %<>% str_replace("^(\\w+)(\\[\\d+([,]\\d+)*\\])$", "\\2")
+  x[!str_detect(x, "\\[")] <- ""
+  x
+}
+

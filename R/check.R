@@ -86,6 +86,19 @@ check_unique_character_vector <- function(x, x_name = substitute(x)) {
   x
 }
 
+check_uniquely_named_character_vector <- function(x, x_name = substitute(x)) {
+  if (is.name(x)) x_name %<>% deparse()
+
+  if (!is.character(x)) error(x_name, " must be a character vector")
+
+  if (!length(x))
+    return(x)
+
+  if (is.null(names(x))) error(x_name, "must be named")
+  check_unique(names(x), x_name = x_name)
+  x
+}
+
 check_uniquely_named_list <- function(x, x_name = substitute(x)) {
   if (is.name(x)) x_name %<>% deparse()
 

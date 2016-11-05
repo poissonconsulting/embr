@@ -24,13 +24,14 @@ model <- function(x, ...) {
 #' @param modify_data A single argument function to modify the data (in list form) immediately prior to the analysis.
 #' @param niters A count between 3 and 6 specifying the order of the number of iterations.
 #' @param new_expr A string of R code specifying the predictive relationships.
+#' @param latex A named character vector of the latex math code for each parameter.
 #' @param ... Unused arguments.
 #' @return An object inherting from class mb_model.
 #' @seealso \code{\link[datacheckr]{check_data}} \code{\link[rescale]{rescale}}
 #' @export
 model.mb_code <- function(x, gen_inits, random_effects = list(), select_data = list(),
   center = character(0), scale = character(0), modify_data = identity, niters = 3L,
-  new_expr = character(0), ...) {
+  new_expr = character(0), latex = character(0), ...) {
 
   check_mb_code(x)
   check_single_arg_fun(gen_inits)
@@ -42,6 +43,7 @@ model.mb_code <- function(x, gen_inits, random_effects = list(), select_data = l
   check_vector(new_expr, "", min_length = 0, max_length = 1)
   check_scalar(niters, c(3L, 6L))
   check_unused(...)
+  check_uniquely_named_character_vector(latex)
 
   check_all_elements_class_character(random_effects)
   check_x_in_y(unlist(random_effects), names(select_data),
@@ -68,6 +70,7 @@ model.mb_code <- function(x, gen_inits, random_effects = list(), select_data = l
               random_effects =  random_effects,
               modify_data = modify_data,
               new_expr = new_expr,
+              latex = latex,
               niters = niters)
   class(obj) <- c("tmb_model", "mb_model")
   obj

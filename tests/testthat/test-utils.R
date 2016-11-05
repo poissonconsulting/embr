@@ -7,6 +7,16 @@ test_that("dims", {
   expect_identical(dims(matrix(1:2)), c(2L:1L))
 })
 
+test_that("indexes", {
+  expect_identical(indexes(c("a", "b", "bYear[1,1]", "bYear[1,2,4,1]")), c("", "", "[1,1]", "[1,2,4,1]"))
+})
+
+test_that("replace latex", {
+  term <- c("a", "b", paste0("c", c("[1,1]", "[2,1,44]")))
+  expect_identical(replace_latex(term, c(a = "\\alpha", b = "\\beta_{\\lambda}", c = "\\beta Y")),
+                   c("\\alpha", "\\beta_{\\lambda}", "\\beta Y_{1,1}", "\\beta Y_{2,1,44}"))
+})
+
 test_that("is_nlist", {
   expect_false(is_nlist(1))
   expect_true(is_nlist(list()))
