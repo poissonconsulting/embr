@@ -2,6 +2,6 @@
 #' @importFrom stats coef
 #' @importFrom magrittr %<>% %>%
 #' @importFrom rescale rescale
-#' @importFrom stats predict
+#' @importFrom stats fitted predict var
 #' @importFrom stringr str_c str_detect str_replace_all
 NULL
