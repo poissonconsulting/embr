@@ -1,3 +1,8 @@
+#' Check Unused
+#'
+#' @param ... The dots to check whether the are unused.
+#' @return An invisible NULL if unused or else throws an error.
+#' @export
 check_unused <- function(...) {
   dots <- pryr::named_dots(...)
   if (length(dots)) error("dots are not unused")
