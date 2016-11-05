@@ -6,7 +6,7 @@ Authors@R: person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c
 Description: Utility functions and virtual classes shared by model builder packages
     such as tmbr.
 Depends:
-    R (>= 3.3.2),
+    R (>= 3.3.1),
     stats
 Imports:
     beepr,
