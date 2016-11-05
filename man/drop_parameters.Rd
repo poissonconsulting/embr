@@ -17,6 +17,6 @@ drop_parameters(x, parameters = character(0), ...)
 The updated object.
 }
 \description{
-Drops named scalar fixed parameters from a model by fixing them at 0.
+Drops named scalar fixed parameters from an object by fixing them at 0.
 }
 

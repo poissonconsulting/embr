@@ -12,4 +12,6 @@ test_that("drop_parameters", {
   expect_match(drop_parameters(new_expr, "a"), "fit [<][-] 0 [+] b [*] x +")
   expect_match(drop_parameters(new_expr, "a"), "fit2 [<][-] 0 [+] b [*] x")
   expect_match(drop_parameters(new_expr, c("a", "b")), "fit2 [<][-] 0 [+] 0 [*] x")
+  expect_error(drop_parameters(new_expr, c("bYear")), "parameters must be scalar")
+  expect_error(drop_parameters(new_expr, c("bYear[1]")), "parameters must be scalar")
 })
