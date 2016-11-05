@@ -57,3 +57,20 @@ sort_nlist <- function(x) {
   if (!length(x)) return(x)
   x[order(names(x))]
 }
+
+#' Scalar Named List
+#'
+#' Filters a named list so only scalar elements remain.wiby its names.
+#'
+#' @param x The named list to sort.
+#' @return The sorted named list.
+#' @export
+#' @examples
+#' scalar_nlist(list(y = 2, x = 1, a = c(10,1)))
+scalar_nlist <- function(x) {
+  stopifnot(is_nlist(x))
+
+  if (!length(x)) return(x)
+  x[vapply(x, dims, 0L) == 1]
+}
+

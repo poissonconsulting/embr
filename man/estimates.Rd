@@ -4,14 +4,16 @@
 \alias{estimates}
 \title{Get Estimates}
 \usage{
-estimates(object, terms = "fixed", ...)
+estimates(object, terms = "fixed", scalar = FALSE, ...)
 }
 \arguments{
 \item{object}{The object.}
 
-\item{terms}{A string indicating the parameters to get the estimates for.}
+\item{terms}{A string indicating the type of terms to get the estimates for.}
 
-\item{...}{Additional arguments.}
+\item{scalar}{A flag indicating whether to only return scalar terms.}
+
+\item{...}{Not used.}
 }
 \value{
 The estimates as a named list.
