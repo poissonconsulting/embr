@@ -1,3 +1,18 @@
+add_nfactors <- function(data) {
+  factor <- data[vapply(data, is.factor, TRUE)]
+
+  if (!length(factor)) return(data)
+
+  factor %<>% lapply(nlevels)
+  names(factor) %<>% str_c("n", .)
+
+  if (any(names(factor) %in% names(data)))
+    error("nFactor names are reserved")
+
+  data %<>% c(factor)
+  data
+}
+
 select_data <- function(data, select_data, center, scale, random_effects) {
   if (!length(select_data)) {
     cols <- c(center, scale)
@@ -17,7 +32,7 @@ select_data <- function(data, select_data, center, scale, random_effects) {
 #'
 #' @param data The data to modify.
 #' @param data2 The base data.
-#' @param model An object inheriting from class tmb_model.#'
+#' @param model An object inheriting from class tmb_model.
 #' @return The modified data in list form.
 #' @export
 process_data <- function(data, data2, model) {
@@ -25,5 +40,6 @@ process_data <- function(data, data2, model) {
   data %<>% select_data(model$select_data, model$center, model$scale, model$random_effects)
   data %<>% rescale::rescale(data2 = data2, center = model$center, scale = model$scale)
   data %<>% as.list()
+  data %<>% add_nfactors()
   data
 }

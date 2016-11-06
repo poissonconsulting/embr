@@ -11,7 +11,7 @@ process_data(data, data2, model)
 
 \item{data2}{The base data.}
 
-\item{model}{An object inheriting from class tmb_model.#'}
+\item{model}{An object inheriting from class tmb_model.}
 }
 \value{
 The modified data in list form.
