@@ -1,0 +1,17 @@
+context("arrayize")
+
+test_that("arrayize", {
+  list <- list(a = 1:6, fac6 = factor(1:6), fac3 = factor(1:3), fac32 = rep(factor(1:3), 2),
+               fac23 = rep(factor(1:2),3), fac16 = rep(factor(10),6))
+
+  expect_error(arrayize(list, "a", "fac6"), "factors must be at least of length 2")
+  expect_error(arrayize(list, "a", c("fac6","fac3")), "vector and factors must be the same lengths")
+  expect_identical(arrayize(list, "a", c("fac6","fac16"))[-1], list[-1])
+  expect_identical(arrayize(list, "a", c("fac6","fac16"))[[1]], matrix(1:6, nrow = 6, dimnames = list(fac6 = 1:6, fac16 = 10)))
+  expect_identical(arrayize(list, "a", c("fac32","fac16", "fac23"))$a, array(as.integer(c(1,5,3,4,2,6)), dim = c(3,1,2), dimnames = list(fac32 = 1:3, fac16 = 10, fac23 = 1:2)))
+
+  list <- as.data.frame(list)
+  list <- list[order(list$fac23),,drop = FALSE]
+  list <- as.list(list)
+  expect_identical(arrayize(list, "a", c("fac32","fac16", "fac23"))$a, array(as.integer(c(1,5,3,4,2,6)), dim = c(3,1,2), dimnames = list(fac32 = 1:3, fac16 = 10, fac23 = 1:2)))
+})
