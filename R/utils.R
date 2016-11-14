@@ -8,7 +8,7 @@
 #' dims(matrix(1:6, nrow = 2))
 #' @export
 dims <- function(x) {
-  if (is.vector(x)) length(x) else dim(x)
+  if (is.vector(x) || is.factor(x)) length(x) else dim(x)
 }
 
 
