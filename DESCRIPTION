@@ -1,6 +1,6 @@
 Package: mbr
 Title: Model Builder Utility Functions and Virtual Classes
-Version: 0.0.0.9013
+Version: 0.0.0.9014
 Date: 2016-11-14
 Authors@R: person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre"))
 Description: Utility functions and virtual classes shared by model builder packages
@@ -10,7 +10,7 @@ Depends:
     stats
 Imports:
     beepr,
-    datacheckr (>= 0.1.1.9002),
+    datacheckr (>= 0.1.2),
     dplyr,
     magrittr,
     pryr,
@@ -24,7 +24,6 @@ Suggests:
     testthat,
     covr
 Remotes:
-    poissonconsulting/datacheckr,
     poissonconsulting/rescale
 URL: https://github.com/poissonconsulting/mbr
 BugReports: https://github.com/poissonconsulting/mbr/issues
