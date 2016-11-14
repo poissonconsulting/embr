@@ -4,14 +4,14 @@
 \alias{parameters}
 \title{Parameters}
 \usage{
-parameters(x, terms = "fixed", scalar = FALSE, ...)
+parameters(x, terms = "fixed", scalar_only = FALSE, ...)
 }
 \arguments{
 \item{x}{The object.}
 
 \item{terms}{A string indicating the type of terms to get the names for.}
 
-\item{scalar}{A flag indicating whether to only return scalar terms.}
+\item{scalar_only}{A flag indicating whether to only return scalar terms.}
 
 \item{...}{Not used.}
 }

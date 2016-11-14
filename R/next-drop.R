@@ -5,7 +5,7 @@ next_drop <- function(analysis, drop, conf_level) {
 
   if (!length(drop)) return(character(0))
 
-  coef <- coef(analysis, scalar = TRUE, conf_level = conf_level)
+  coef <- coef(analysis, scalar_only = TRUE, conf_level = conf_level)
 
   if (!all(drop %in% coef$term)) error("unrecognised fixed scalar parameter")
 
