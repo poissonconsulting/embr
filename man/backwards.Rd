@@ -4,7 +4,7 @@
 \alias{backwards}
 \title{Backwards}
 \usage{
-backwards(model, data, drop = character(0), conf_level = 0.95,
+backwards(model, data, drops = list(), conf_level = 0.95,
   quick = getOption("mb.quick", FALSE), quiet = getOption("mb.quiet", TRUE),
   beep = getOption("mb.beep", TRUE), ...)
 }
@@ -13,7 +13,7 @@ backwards(model, data, drop = character(0), conf_level = 0.95,
 
 \item{data}{The data frame to analyse.}
 
-\item{drop}{A character vector of scalar parameters to drop (fix at 0).}
+\item{drops}{A list of character vectors specifying the scalar parameters to consider.}
 
 \item{conf_level}{A number specifying the confidence level. By default 0.95.}
 
@@ -32,5 +32,11 @@ A list of the analyses.
 Perform backwards step-wise regression on a model.
 Returns a list of the analysis at each step sorted by increasing number
 of parameters ie. the final model is the first element in the list.
+}
+\details{
+drop is a list of character vectors specifying the scalar parameters to possibly drop.
+If a list element consists of two or more strings then the earlier strings
+are only available to drop after the later strings have been eliminated.
+This allows polynomial dependencies to be respected.
 }
 

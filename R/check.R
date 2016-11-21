@@ -1,3 +1,18 @@
+check_drops <- function(drops) {
+  if (!is.list(drops)) error("drops must be a list")
+  if (!length(drops)) return(drops)
+  if (!all(vapply(drops, is.character, TRUE)))
+    error("drops must be a list of character vectors")
+  if (!all(vapply(drops, length, 1L) > 0))
+    error("drops must be a list of non-zero length character vectors")
+  if (anyDuplicated(drops))
+    error("drops must be a list of unique character vectors")
+
+  if (any(impossible_drop(drops) %in% possible_drop(drops)))
+    error("drops is inconsistent")
+  drops
+}
+
 #' Check Unused
 #'
 #' @param ... The dots to check whether the are unused.
