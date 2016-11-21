@@ -9,20 +9,41 @@ not_last <- function(x) {
 
 eliminate_drop <- function(drops, drop) {
   check_drops(drops)
-  check_vector(drop, "")
+  check_vector(drop, "", min_length = 0)
   drops %<>% lapply(eliminate, drop)
   drops <- drops[vapply(drops, length, 1L) > 0]
   drops
 }
 
 possible_drop <- function(drops) {
+  if (!length(drops)) return(character(0))
   drops %<>% lapply(dplyr::last) %>% unlist() %>% unique() %>% sort()
   drops
 }
 
 impossible_drop <- function(drops) {
+  if (!length(drops)) return(character(0))
   drops %<>% lapply(not_last) %>% unlist() %>% unique() %>% sort()
   drops
+}
+
+recursive_drop <- function(drops, drop) {
+  list <- list(drop)
+  drop2 <- eliminate_drop(drops, drop) %>% possible_drop()
+  for (d2 in drop2) {
+    d2 <- c(drop, d2)
+    list %<>% c(recursive_drop(drops, d2))
+  }
+  list
+}
+
+make_all_drops <- function(drops) {
+  check_drops(drops)
+  if (!length(drops)) return(list(character(0)))
+  drop <- recursive_drop(drops, character(0))
+  drop %<>% lapply(sort) %>% unique()
+  drop <- drop[order(vapply(drop, length, 1L))]
+  drop
 }
 
 next_drop <- function(analysis, drops, conf_level) {
