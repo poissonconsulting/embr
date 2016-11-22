@@ -32,7 +32,7 @@ backwards.mb_model <- function(model, data, drops = list(), conf_level = 0.95,
   dropped <- character(0)
 
   analysis <- analyse(model, data, quick = quick, quiet = quiet, beep = beep)
-  analyses <- list(analysis)
+  analyses <- list("-" = analysis)
 
   next_drop <- next_drop(analysis, drops, conf_level = conf_level)
 
@@ -43,9 +43,11 @@ backwards.mb_model <- function(model, data, drops = list(), conf_level = 0.95,
     dropped %<>% c(next_drop)
 
     analysis <- analyse(model, data, drop = dropped, quick = quick, quiet = quiet, beep = beep)
-    analyses %<>% c(list(analysis))
+    analysis_list <- list(analysis)
+    names(analysis_list) <- str_c("", dropped) %>% str_c(collapse = "-")
+    analyses %<>% c(analysis_list)
 
-    next_drop <- next_drop(analysis, drop, conf_level = conf_level)
+    next_drop <- next_drop(analysis, drops, conf_level = conf_level)
   }
   rev(analyses)
 }
