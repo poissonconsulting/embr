@@ -4,20 +4,18 @@
 \alias{arrayize}
 \title{Arrayize}
 \usage{
-arrayize(list, vector, factors)
+arrayize(vector, factors)
 }
 \arguments{
-\item{list}{The named list with the vector and factors.}
+\item{vector}{The vector.}
 
-\item{vector}{A string specifying the vector.}
-
-\item{factors}{A character vector specifying two or more factors}
+\item{factors}{A named list of two or more factors.}
 }
 \value{
-The modified list.
+An array.
 }
 \description{
-Converts a vector in a named list into a matrix or array based on two or more factors.
+Converts a vector into a matrix or array based on two or more factors.
 }
 \details{
 The function can be used in modify_data functions to convert vectors to matrices or
