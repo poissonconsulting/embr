@@ -44,10 +44,10 @@ test_that("full_drop", {
 
 test_that("make_all_drops", {
   expect_identical(make_all_drops(list()), list("base" = character(0)))
-  expect_identical(make_all_drops(list("1")), list("base+1" = character(0), "base" = "1"))
-  expect_identical(make_all_drops(list("1", "2")), list("base+1+2" = character(0), "base+2" = "1", "base+1" = "2", "base" = c("1", "2")))
-  expect_identical(make_all_drops(list("2", "1")), list("base+1+2" = character(0), "base+2" = "1", "base+1" = "2", "base" = c("1", "2")))
+  expect_identical(make_all_drops(list("1")), list("full" = character(0), "base" = "1"))
+  expect_identical(make_all_drops(list("1", "2")), list("full" = character(0), "base+2" = "1", "base+1" = "2", "base" = c("1", "2")))
+  expect_identical(make_all_drops(list("2", "1")), list("full" = character(0), "base+2" = "1", "base+1" = "2", "base" = c("1", "2")))
   expect_identical(length(make_all_drops(list("1", "2", "3"))), 8L)
-  expect_identical(make_all_drops(list(c("2", "1", "3"))), list("base+1+2+3" = character(0), "base+1+2" = "3", "base+2" = c("1", "3"), "base" = c("1", "2", "3")))
-  expect_identical(make_all_drops(list("1", c("2", "3"))), list("base+1+2+3" = character(0), "base+2+3" = "1", "base+1+2" = "3", "base+2" = c("1", "3"), "base+1" = c("2", "3"), "base" = c("1", "2", "3")))
+  expect_identical(make_all_drops(list(c("2", "1", "3"))), list("full" = character(0), "base+1+2" = "3", "base+2" = c("1", "3"), "base" = c("1", "2", "3")))
+  expect_identical(make_all_drops(list("1", c("2", "3"))), list("full" = character(0), "base+2+3" = "1", "base+1+2" = "3", "base+2" = c("1", "3"), "base+1" = c("2", "3"), "base" = c("1", "2", "3")))
 })

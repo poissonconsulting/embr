@@ -42,12 +42,12 @@ test_that("scalar_nlist", {
 })
 
 test_that("model_names", {
-  expect_identical(model_names(list(character(0)), list("1")), "base+1")
-  expect_identical(model_names(list(character(0), "a"), list("a")), c("base+a", "base"))
-  expect_identical(model_names(list(character(0), "a"), list(c("a", "b"))), c("base+a+b", "base+b"))
-  expect_identical(model_names(list(character(0), "a"), list(c("b", "a"))), c("base+a+b", "base+b"))
+  expect_identical(model_names(list(character(0)), list("1")), "full")
+  expect_identical(model_names(list(character(0), "a"), list("a")), c("full", "base"))
+  expect_identical(model_names(list(character(0), "a"), list(c("a", "b"))), c("full", "base+b"))
+  expect_identical(model_names(list(character(0), "a"), list(c("b", "a"))), c("full", "base+b"))
   expect_identical(model_names(list("b", "a"), list(c("b", "a"))), c("base+a", "base+b"))
   expect_identical(model_names(list("a", "b"), list(c("b", "a"))), c("base+b", "base+a"))
-  expect_identical(model_names(list("a", character(0), c("b","a")), list("a", "b")), c("base+b", "base+a+b", "base"))
+  expect_identical(model_names(list("a", character(0), c("b","a")), list("a", "b")), c("base+b", "full", "base"))
   expect_error(model_names(list(character(0), "a"), list()))
 })

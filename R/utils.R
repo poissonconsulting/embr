@@ -92,6 +92,7 @@ model_names <- function(x, drops) {
   x %<>% lapply(str_c, collapse = "+") %>% unlist()
   x %<>% vapply(function(x) str_c("base+", x, collapse = ""), "")
   x[x == "base+base"] <- "base"
+  x[x == str_c("base+", str_c(drops, collapse = "+"), collapse = "")] <- "full"
   names(x) <- NULL
   x
 }
