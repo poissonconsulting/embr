@@ -31,6 +31,8 @@ backwards.mb_model <- function(model, data, drops = list(), conf_level = 0.95,
 
   if (!length(drops)) drops <- model$drops
 
+  drops_org <- drops
+
   to_drop <- character(0)
   dropped <- list(character(0))
 
@@ -51,6 +53,6 @@ backwards.mb_model <- function(model, data, drops = list(), conf_level = 0.95,
 
     next_drop <- next_drop(analysis, drops, conf_level = conf_level)
   }
-  names(analyses) <- model_names(dropped, drops)
+  names(analyses) <- model_names(dropped, drops_org)
   analyses
 }

@@ -86,7 +86,7 @@ remainder <- function(x, y) {
 
 model_names <- function(x, drops) {
   drops %<>% full_drop()
-  stopifnot(unique(unlist((x))) %in% drops)
+  stopifnot(all(unique(unlist((x))) %in% drops))
   x %<>% lapply(remainder, drops)
   x[vapply(x, length, 1L) == 0] <- "base"
   x %<>% lapply(str_c, collapse = "+") %>% unlist()
