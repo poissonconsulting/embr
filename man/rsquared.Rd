@@ -4,17 +4,33 @@
 \alias{rsquared}
 \title{R-Squared}
 \usage{
-rsquared(analysis, observed, ...)
+rsquared(analysis, response = "response", prediction = "prediction",
+  discounted = NULL, new_expr = NULL, modify_new_data = NULL,
+  quick = getOption("mb.quick", FALSE), quiet = getOption("mb.quiet", TRUE),
+  beep = getOption("mb.beep", FALSE), ...)
 }
 \arguments{
-\item{analysis}{The analysis object.}
+\item{analysis}{An object inheriting from class mb_analysis.}
 
-\item{observed}{A string specifying the observed column in the data.}
+\item{response}{A string indicating the response term.}
 
-\item{...}{Unused.}
+\item{prediction}{A string indicating the prediction term.}
+
+\item{discounted}{A string indicating the term to discount.}
+
+\item{new_expr}{A string of R code specifying the predictive relationship.}
+
+\item{modify_new_data}{A single argument function to modify new data (in list form) immediately prior to calculating new_expr.}
+
+\item{quick}{A flag indicating whether to quickly get unreliable values.}
+
+\item{quiet}{A flag indicating whether to disable tracing information.}
+
+\item{beep}{A flag indicating whether to beep on completion of the analysis.}
+
+\item{...}{Additional arguments.}
 }
 \description{
-Calculate the proportion of the variance in the observed data explained
-by the fit.
+Calculate the proportion of the variance in the response predicted after discounting.
 }
 
