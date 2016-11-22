@@ -36,11 +36,11 @@ test_that("eliminate_drop", {
 })
 
 test_that("make_all_drops", {
-  expect_identical(make_all_drops(list()), list(character(0)))
-  expect_identical(make_all_drops(list("1")), list(character(0), "1"))
-  expect_identical(make_all_drops(list("1", "2")), list(character(0), "1", "2", c("1", "2")))
-  expect_identical(make_all_drops(list("2", "1")), list(character(0), "1", "2", c("1", "2")))
+  expect_identical(make_all_drops(list()), list("-" = character(0)))
+  expect_identical(make_all_drops(list("1")), list("-" = character(0), "-1" = "1"))
+  expect_identical(make_all_drops(list("1", "2")), list("-" = character(0), "-1" = "1", "-2" = "2", "-1-2" = c("1", "2")))
+  expect_identical(make_all_drops(list("2", "1")), list("-" = character(0), "-1" = "1", "-2" = "2", "-1-2" = c("1", "2")))
   expect_identical(length(make_all_drops(list("1", "2", "3"))), 8L)
-  expect_identical(make_all_drops(list(c("2", "1", "3"))), list(character(0), "3", c("1", "3"), c("1", "2", "3")))
-  expect_identical(make_all_drops(list("1", c("2", "3"))), list(character(0), "1", "3", c("1", "3"), c("2", "3"), c("1", "2", "3")))
+  expect_identical(make_all_drops(list(c("2", "1", "3"))), list("-" = character(0), "-3" = "3", "-1-3" = c("1", "3"), "-1-2-3" = c("1", "2", "3")))
+  expect_identical(make_all_drops(list("1", c("2", "3"))), list("-" = character(0), "-1" = "1", "-3" = "3", "-1-3" = c("1", "3"), "-2-3" = c("2", "3"), "-1-2-3" = c("1", "2", "3")))
 })

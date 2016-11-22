@@ -1,8 +1,7 @@
 #' Backwards
 #'
 #' Perform backwards step-wise regression on a model.
-#' Returns a list of the analysis at each step sorted by increasing number
-#' of parameters ie. the final model is the first element in the list.
+#' Returns a list of the analysis at each step starting with the full model.
 #'
 #' drop is a list of character vectors specifying the scalar parameters to possibly drop.
 #' If a list element consists of two or more strings then the earlier strings
@@ -29,10 +28,11 @@ backwards.mb_model <- function(model, data, drops = list(), conf_level = 0.95,
   check_flag(beep)
   if (beep) on.exit(beepr::beep(2))
 
-  dropped <- character(0)
+  to_drop <- character(0)
+  dropped <- list(to_drop)
 
   analysis <- analyse(model, data, quick = quick, quiet = quiet, beep = beep)
-  analyses <- list("-" = analysis)
+  analyses <- list(analysis)
 
   next_drop <- next_drop(analysis, drops, conf_level = conf_level)
 
@@ -40,14 +40,14 @@ backwards.mb_model <- function(model, data, drops = list(), conf_level = 0.95,
     cat("dropping", next_drop, "...\n")
 
     drops %<>% eliminate_drop(next_drop)
-    dropped %<>% c(next_drop)
+    to_drop %<>% c(next_drop)
+    dropped %<>% c(to_drop)
 
-    analysis <- analyse(model, data, drop = dropped, quick = quick, quiet = quiet, beep = beep)
-    analysis_list <- list(analysis)
-    names(analysis_list) <- str_c("", dropped) %>% str_c(collapse = "-")
-    analyses %<>% c(analysis_list)
+    analysis <- analyse(model, data, drop = to_drop, quick = quick, quiet = quiet, beep = beep)
+    analyses %<>% c(list(analysis))
 
     next_drop <- next_drop(analysis, drops, conf_level = conf_level)
   }
-  rev(analyses)
+  names(analyses) <- model_names(dropped)
+  analyses
 }

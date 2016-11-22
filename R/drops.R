@@ -39,10 +39,11 @@ recursive_drop <- function(drops, drop) {
 
 make_all_drops <- function(drops) {
   check_drops(drops)
-  if (!length(drops)) return(list(character(0)))
+  if (!length(drops)) return(list("-" = character(0)))
   drop <- recursive_drop(drops, character(0))
   drop %<>% lapply(sort) %>% unique()
   drop <- drop[order(vapply(drop, length, 1L))]
+  names(drop) <- model_names(drop)
   drop
 }
 

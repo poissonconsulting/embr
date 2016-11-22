@@ -30,8 +30,7 @@ A list of the analyses.
 }
 \description{
 Perform backwards step-wise regression on a model.
-Returns a list of the analysis at each step sorted by increasing number
-of parameters ie. the final model is the first element in the list.
+Returns a list of the analysis at each step starting with the full model.
 }
 \details{
 drop is a list of character vectors specifying the scalar parameters to possibly drop.

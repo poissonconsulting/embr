@@ -80,3 +80,10 @@ indexes <- function(x) {
   x
 }
 
+model_names <- function(x) {
+  x[vapply(x, length, 1L) == 0] <- ""
+  x %<>% lapply(str_c, collapse = "-") %>% unlist()
+  x %<>% vapply(function(x) str_c("-", x, collapse = ""), "")
+  names(x) <- NULL
+  x
+}

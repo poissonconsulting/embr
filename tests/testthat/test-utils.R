@@ -40,3 +40,9 @@ test_that("scalar_nlist", {
   expect_identical(scalar_nlist(list(y = 2, x = 1, a = 10)), list(y = 2, x = 1, a = 10))
   expect_identical(scalar_nlist(list(y = 1:2, x = 1, a = c(3,10))), list(x = 1))
 })
+
+test_that("model_names", {
+  expect_identical(model_names(list(character(0))), "-")
+  expect_identical(model_names(list(character(0), "a")), c("-", "-a"))
+  expect_identical(model_names(list("a", character(0), c("b","a"))), c("-a", "-", "-b-a"))
+})
