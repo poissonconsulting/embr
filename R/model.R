@@ -25,6 +25,7 @@ model <- function(x, ...) {
 #' @param niters A count between 3 and 6 specifying the order of the number of iterations.
 #' @param new_expr A string of R code specifying the predictive relationships.
 #' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
+#' @param drops A list of character vector of possible scalar parameters to drop (fix at 0).
 #' @param latex A named character vector of the latex math code for each parameter.
 #' @param ... Unused arguments.
 #' @return An object inherting from class mb_model.
@@ -32,7 +33,7 @@ model <- function(x, ...) {
 #' @export
 model.mb_code <- function(x, gen_inits, random_effects = list(), select_data = list(),
   center = character(0), scale = character(0), modify_data = identity, niters = 3L,
-  new_expr = character(0), modify_new_data = identity, latex = character(0), ...) {
+  new_expr = character(0), modify_new_data = identity, drops = list(), latex = character(0), ...) {
 
   check_mb_code(x)
   check_single_arg_fun(gen_inits)
@@ -44,8 +45,9 @@ model.mb_code <- function(x, gen_inits, random_effects = list(), select_data = l
   check_single_arg_fun(modify_new_data)
   check_vector(new_expr, "", min_length = 0, max_length = 1)
   check_scalar(niters, c(3L, 6L))
-  check_unused(...)
+  check_drops(drops)
   check_uniquely_named_character_vector(latex)
+  check_unused(...)
 
   check_all_elements_class_character(random_effects)
   check_x_in_y(unlist(random_effects), names(select_data),
@@ -73,9 +75,10 @@ model.mb_code <- function(x, gen_inits, random_effects = list(), select_data = l
               modify_data = modify_data,
               new_expr = new_expr,
               modify_new_data = modify_new_data,
+              drops = drops,
               latex = latex,
               niters = niters)
-  class(obj) <- c("tmb_model", "mb_model")
+  class(obj) <- class(x) %>% str_replace("code", "model")
   obj
 }
 

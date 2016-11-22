@@ -25,11 +25,14 @@ backwards.mb_model <- function(model, data, drops = list(), conf_level = 0.95,
                                   quick = getOption("mb.quick", FALSE),
                                   quiet = getOption("mb.quiet", TRUE),
                                   beep = getOption("mb.beep", TRUE), ...) {
+
   check_flag(beep)
   if (beep) on.exit(beepr::beep(2))
 
+  if (!length(drops)) drops <- model$drops
+
   to_drop <- character(0)
-  dropped <- list(to_drop)
+  dropped <- list(character(0))
 
   analysis <- analyse(model, data, quick = quick, quiet = quiet, beep = beep)
   analyses <- list(analysis)
