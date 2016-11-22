@@ -12,12 +12,10 @@
 arrayize <- function(vector, factors) {
   if (!is.vector(vector)) error("vector must be a vector")
   if (is.list(vector)) error("vector must not be a list")
-  check_uniquely_named_list(factors)
-  if (length(factors) < 2) error("factors must be at least of length 2")
-  if ("vector" %in% names(factors)) error("factors must not be named 'vector'")
+  check_arrayize_factors(factors)
 
-  lengths <- vapply(c("vector" = list(vector), factors), length, 1L)
-  if (!all(lengths == lengths[1])) error("vector and factors must be the same lengths")
+  if (!identical(length(vector), length(factors[[1]])))
+     error("vector and factors must be the same lengths")
 
   data <- as.data.frame(c("vector" = list(vector), factors))
   data %<>% unique()
@@ -40,4 +38,30 @@ arrayize <- function(vector, factors) {
   } else
     vector <- array(data$vector, dim = dims, dimnames = dimnames)
   vector
+}
+
+#' Vectorize
+#'
+#' Converts a matrix or array into a vector based on two or more factors.
+#'
+#' The function can be used in new_expr code to convert arrays or matrices
+#' to vectors that line up with factors for exporting.
+#'
+#' @param array The matrix or array.
+#' @param factors A named list of two or more factors.
+#' @return A vector.
+#' @export
+vectorize <- function(array, factors) {
+  if (!is.matrix(array) && !is.array(array)) error("array must be a matrix or array")
+  check_arrayize_factors(factors)
+
+  dims <- vapply(factors, nlevels, 1L)
+  names(dims) <- NULL
+  if (!identical(dims(array), dims)) error("array dims are incompatible with factor levels")
+
+  data <- expand.grid(lapply(factors, levels), stringsAsFactors = FALSE)
+  data$vector <- as.vector(array)
+  factors %<>% lapply(as.character) %>% as.data.frame(stringsAsFactors = FALSE)
+  factors %<>% dplyr::inner_join(data, by = names(factors))
+  factors$vector
 }
