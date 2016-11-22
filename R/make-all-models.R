@@ -12,5 +12,8 @@ make_all_models <- function(model, drops = list()) {
   drops %<>% make_all_drops()
   models <- rep(list(model), length(drops))
   models %<>% purrr::map2(drops, drop_parameters)
+  drops %<>% lapply(str_c, collapse = " ") %>% unlist()
+  drops[1] <- ""
+  names(models) <- drops
   models
 }
