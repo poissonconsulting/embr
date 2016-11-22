@@ -9,7 +9,7 @@ analyse(model, data, drop = character(0), quick = getOption("mb.quick",
   TRUE), ...)
 }
 \arguments{
-\item{model}{The model to use for the analysis.}
+\item{model}{An object inheriting from class mb_model or a list of such objects.}
 
 \item{data}{The data frame to analyse.}
 
