@@ -1,3 +1,9 @@
+full_drop <- function(drops) {
+  check_drops(drops)
+  if (!length(drops)) return(character(0))
+  unlist(drops) %>% unique() %>% sort()
+}
+
 eliminate <- function(x, y) {
   x[!x %in% y]
 }
@@ -39,11 +45,11 @@ recursive_drop <- function(drops, drop) {
 
 make_all_drops <- function(drops) {
   check_drops(drops)
-  if (!length(drops)) return(list("-" = character(0)))
+  if (!length(drops)) return(list("base" = character(0)))
   drop <- recursive_drop(drops, character(0))
   drop %<>% lapply(sort) %>% unique()
   drop <- drop[order(vapply(drop, length, 1L))]
-  names(drop) <- model_names(drop)
+  names(drop) <- model_names(drop, drops)
   drop
 }
 

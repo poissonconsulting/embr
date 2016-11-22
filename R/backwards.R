@@ -51,6 +51,6 @@ backwards.mb_model <- function(model, data, drops = list(), conf_level = 0.95,
 
     next_drop <- next_drop(analysis, drops, conf_level = conf_level)
   }
-  names(analyses) <- model_names(dropped)
+  names(analyses) <- model_names(dropped, drops)
   analyses
 }

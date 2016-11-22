@@ -9,9 +9,5 @@ base_model <- function(model, drops = list()) {
   check_drops(drops)
 
   if (!length(drops)) drops <- model$drops
-
-  if (!length(drops)) return(list(model))
-
-  drop <- unlist(drops) %>% unique() %>% sort()
-  drop_parameters(model, drop)
+  drop_parameters(model, full_drop(drops))
 }

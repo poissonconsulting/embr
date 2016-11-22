@@ -80,10 +80,18 @@ indexes <- function(x) {
   x
 }
 
-model_names <- function(x) {
-  x[vapply(x, length, 1L) == 0] <- ""
-  x %<>% lapply(str_c, collapse = "-") %>% unlist()
-  x %<>% vapply(function(x) str_c("-", x, collapse = ""), "")
+remainder <- function(x, y) {
+  dplyr::setdiff(y, x)
+}
+
+model_names <- function(x, drops) {
+  drops %<>% full_drop()
+  stopifnot(unique(unlist((x))) %in% drops)
+  x %<>% lapply(remainder, drops)
+  x[vapply(x, length, 1L) == 0] <- "base"
+  x %<>% lapply(str_c, collapse = "+") %>% unlist()
+  x %<>% vapply(function(x) str_c("base+", x, collapse = ""), "")
+  x[x == "base+base"] <- "base"
   names(x) <- NULL
   x
 }
