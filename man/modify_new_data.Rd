@@ -11,7 +11,7 @@ modify_new_data(data, data2, model, modify_new_data = NULL)
 
 \item{data2}{The base data.}
 
-\item{model}{An object inheriting from class tmb_model.}
+\item{model}{An object inheriting from class mb_model.}
 
 \item{modify_new_data}{A single argument function to modify new data (in list form) immediately prior to calculating new_expr.}
 }

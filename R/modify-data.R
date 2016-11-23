@@ -31,7 +31,7 @@ select_data <- function(data, select_data, center, scale, random_effects) {
 #' Modifies a data frame to the form it will be passed to the analysis code.
 #'
 #' @param data The data to modify.
-#' @param model An object inheriting from class tmb_model.
+#' @param model An object inheriting from class mb_model.
 #' @return The modified data in list form.
 #' @export
 modify_data <- function(data, model) {
@@ -53,7 +53,7 @@ modify_data <- function(data, model) {
 #'
 #' @param data The new data to modify.
 #' @param data2 The base data.
-#' @param model An object inheriting from class tmb_model.
+#' @param model An object inheriting from class mb_model.
 #' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
 #' @return The modified data in list form.
 #' @export

@@ -10,6 +10,19 @@ model <- function(x, ...) {
   UseMethod("model")
 }
 
+#' @export
+model.character <- function(x, gen_inits, random_effects = list(), select_data = list(),
+  center = character(0), scale = character(0), modify_data = identity, niters = 3L,
+  new_expr = character(0), modify_new_data = identity, drops = list(), latex = character(0), ...) {
+  x %<>% mb_code()
+  check_unused(...)
+  model(x, gen_inits = gen_inits,
+        random_effects = random_effects, select_data = select_data,
+        center = center, scale = scale, modify_data = modify_data,
+        niters = niters, new_expr = new_expr, modify_new_data = modify_new_data,
+        drops = drops, latex = latex)
+}
+
 #' MB Model
 #'
 #' Creates TMB model.

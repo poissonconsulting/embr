@@ -10,6 +10,17 @@ template <- function(object, ...) {
   UseMethod("template")
 }
 
+#' Set Template
+#'
+#' Sets the template for an object.
+#'
+#' @inheritParams template
+#' @param value A string of the new template
+#' @export
+"template<-" <- function(object, value) {
+  UseMethod("template<-", object)
+}
+
 #' @export
 template.mb_code <- function(object, ...) {
   check_unused(...)
@@ -24,4 +35,10 @@ template.mb_model <- function(object, ...) {
 #' @export
 template.mb_analysis <- function(object, ...) {
   template(model(object), ...)
+}
+
+#' @export
+"template<-.mb_code" <- function(object, value) {
+  check_string(value)
+  mb_code(value)
 }

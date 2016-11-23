@@ -9,7 +9,7 @@ modify_data(data, model)
 \arguments{
 \item{data}{The data to modify.}
 
-\item{model}{An object inheriting from class tmb_model.}
+\item{model}{An object inheriting from class mb_model.}
 }
 \value{
 The modified data in list form.
