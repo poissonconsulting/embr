@@ -8,3 +8,11 @@ numericize_dates <- function(data) {
   data[vapply(data, lubridate::is.Date, TRUE)] %<>% lapply(days_since_2000)
   data
 }
+
+numericize_logicals <- function(data) {
+  check_uniquely_named_list(data)
+  if (!length(data)) return(data)
+  data[vapply(data, is.logical, TRUE)] %<>% lapply(as.integer)
+  data
+}
+
