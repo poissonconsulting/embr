@@ -67,6 +67,7 @@ modify_new_data <- function(data, data2, model, modify_new_data = NULL) {
   data %<>% select_data(model$select_data, model$center, model$scale, model$random_effects)
   data %<>% rescale::rescale(data2 = data2, center = model$center, scale = model$scale)
   data %<>% as.list()
+  data %<>% numericize_dates()
   data %<>% add_nfactors()
   data %<>% modify_new_data()
   data
