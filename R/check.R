@@ -6,6 +6,9 @@ check_arrayize_factors <- function(factors) {
   lengths <- vapply(factors, length, 1L)
   if (!all(lengths == lengths[1])) error("factors must be the same length")
 
+  if (!all(vapply(factors, is.factor, 1L)))
+    error("factors must be factors")
+
   factors
 }
 
