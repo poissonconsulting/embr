@@ -4,15 +4,19 @@
 \alias{data_set}
 \title{Data Set}
 \usage{
-data_set(x)
+data_set(analysis, modify = FALSE, ...)
 }
 \arguments{
-\item{x}{The object.}
+\item{analysis}{The object.}
+
+\item{modify}{A flag indicating whether to modify the data.}
+
+\item{...}{Unused.}
 }
 \value{
 The data set as a tibble.
 }
 \description{
-Gets the data set for an object.
+Gets the data set for an object inheriting from class mb_analysis.
 }
 
