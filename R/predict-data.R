@@ -25,8 +25,7 @@ predict_data <- function(data, analysis, new_expr = NULL, new_values = list(),
                          ...) {
   check_mb_analysis(analysis)
   predict(analysis, new_data = data, new_expr = new_expr, new_values = new_values,
-          term = term,
-          new_valuesconf_int = conf_int,
+          term = term, conf_int = conf_int,
           conf_level = conf_level, modify_new_data = modify_new_data,
           quick = quick, quiet = quiet, beep = beep, ...)
 }
