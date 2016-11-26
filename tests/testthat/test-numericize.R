@@ -16,3 +16,7 @@ test_that("numericize_logicals", {
   expect_identical(numericize_logicals(list(Dayte = c(TRUE, FALSE, NA))), list(Dayte = c(1L,0L,NA)))
 })
 
+test_that("numericize_factors", {
+  expect_identical(numericize_factors(list(Dayte = factor(TRUE))), list(Dayte = 1L))
+  expect_identical(numericize_factors(list(Dayte = factor(c(TRUE, FALSE, NA)))), list(Dayte = c(2L,1L,NA)))
+})
