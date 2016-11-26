@@ -128,6 +128,12 @@ check_uniquely_named_character_vector <- function(x, x_name = substitute(x)) {
   x
 }
 
+#' Check Uniquely Named List
+#'
+#' @param x The object to check.
+#' @param x_name A string of the objects name.
+#' @return The original object or throws an informative error.
+#' @export
 check_uniquely_named_list <- function(x, x_name = substitute(x)) {
   if (is.name(x)) x_name %<>% deparse()
 
