@@ -5,6 +5,7 @@
 #' @param data The data frame to calculate the predictions for.
 #' @param analysis An object inheriting from class mb_analysis.
 #' @param new_expr A string of R code specifying the predictive relationship.
+#' @param new_values A named list of new or replacement values to pass to new_expr.
 #' @param term A string of the term in new_expr.
 #' @param conf_int A flag indicating whether to calculate confidence intervals.
 #' @param conf_level A number specifying the confidence level. By default 0.95.
@@ -14,7 +15,8 @@
 #' @param beep A flag indicating whether to beep on completion of the analysis.
 #' @param ...  Additional arguments.
 #' @export
-predict_data <- function(data, analysis, new_expr = NULL, term = "prediction",
+predict_data <- function(data, analysis, new_expr = NULL, new_values = list(),
+                         term = "prediction",
                          conf_int = FALSE, conf_level = 0.95,
                          modify_new_data = NULL,
                          quick = getOption("mb.quick", FALSE),
@@ -22,7 +24,9 @@ predict_data <- function(data, analysis, new_expr = NULL, term = "prediction",
                          beep = getOption("mb.beep", FALSE),
                          ...) {
   check_mb_analysis(analysis)
-  predict(analysis, new_data = data, new_expr = new_expr, term = term, conf_int = conf_int,
+  predict(analysis, new_data = data, new_expr = new_expr, new_values = new_values,
+          term = term,
+          new_valuesconf_int = conf_int,
           conf_level = conf_level, modify_new_data = modify_new_data,
           quick = quick, quiet = quiet, beep = beep, ...)
 }

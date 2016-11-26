@@ -4,10 +4,11 @@
 \alias{predict_data}
 \title{Predict Data}
 \usage{
-predict_data(data, analysis, new_expr = NULL, term = "prediction",
-  conf_int = FALSE, conf_level = 0.95, modify_new_data = NULL,
-  quick = getOption("mb.quick", FALSE), quiet = getOption("mb.quiet", TRUE),
-  beep = getOption("mb.beep", FALSE), ...)
+predict_data(data, analysis, new_expr = NULL, new_values = list(),
+  term = "prediction", conf_int = FALSE, conf_level = 0.95,
+  modify_new_data = NULL, quick = getOption("mb.quick", FALSE),
+  quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep", FALSE),
+  ...)
 }
 \arguments{
 \item{data}{The data frame to calculate the predictions for.}
@@ -15,6 +16,8 @@ predict_data(data, analysis, new_expr = NULL, term = "prediction",
 \item{analysis}{An object inheriting from class mb_analysis.}
 
 \item{new_expr}{A string of R code specifying the predictive relationship.}
+
+\item{new_values}{A named list of new or replacement values to pass to new_expr.}
 
 \item{term}{A string of the term in new_expr.}
 
