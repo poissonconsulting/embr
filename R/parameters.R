@@ -11,6 +11,20 @@
 parameters <- function(x, terms = "fixed", scalar_only = FALSE, ...) {UseMethod("parameters")}
 
 #' @export
+parameters.character <- function(x, ...) {
+  check_unused(...)
+  x %<>% str_extract_all("\\w+") %>% unlist() %>% unique() %>% sort()
+  x
+}
+
+#' @export
+parameters.mb_code <- function(x, terms = "fixed", scalar_only = FALSE, ...) {
+  check_unused(...)
+  parameters(template(x))
+}
+
+#' @export
 parameters.mb_analysis <- function(x, terms = "fixed", scalar_only = FALSE, ...) {
+  check_unused(...)
   coef(x, terms = terms, scalar_only = scalar_only)$term
 }
