@@ -26,5 +26,5 @@ parameters.mb_code <- function(x, terms = "fixed", scalar_only = FALSE, ...) {
 #' @export
 parameters.mb_analysis <- function(x, terms = "fixed", scalar_only = FALSE, ...) {
   check_unused(...)
-  coef(x, terms = terms, scalar_only = scalar_only)$term
+  estimates(x, terms = terms, scalar_only = scalar_only)$term
 }
