@@ -17,10 +17,12 @@ test_that("model", {
                "gen_inits must be a function")
   expect_error(model(code, gen_inits = function() list(a = 1, b = 1:2), random_effects = "c"), "gen_inits must take a single argument")
   expect_error(model(code, gen_inits = function(data) list(a = 1, b = 1:2), random_effects = "c"), "random_effects must be a named list")
-  expect_error(model(code, gen_inits = function(data) list(a = 1, b = 1:2), random_effects = list(c = "bYear")), "random effects parameters missing from code")
+  expect_error(model(code, gen_inits = function(data) list(a = 1, b = 1:2), random_effects = list(c = "bYear")), "random effects parameters missing from code parameters")
   expect_error(model(code, gen_inits = function(data) list(a = 1, b = 1:2), select_data = list(x = 1), random_effects = list(b = c("Year"))), "elements in random_effects must also be in names of select_data")
   expect_error(model(code, gen_inits = function(data) list(a = 1, b = 1:2), select_data = list(Year = 1), random_effects = list(b = c("Year"))), "random effects parameters missing from code")
   expect_error(model(code, gen_inits = function(data) list(a = 1, b = 1:2), select_data = list(Year = 1), scale = "Year", random_effects = list(b = c("Year"))), "elements in random_effects must not be in values of scale")
+  expect_is(model(code, .gen_inits, latex = c(bIntercept = "\\beta")), "tmb_model")
+  expect_error(model(code, .gen_inits, latex = c(bIntercept2 = "\\beta")), "latex parameters missing from code parameters")
 })
 
 test_that("update_model", {

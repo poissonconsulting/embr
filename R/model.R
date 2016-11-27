@@ -75,9 +75,9 @@ model.mb_code <- function(x, gen_inits, random_effects = list(), select_data = l
   check_x_in_y(center, names(select_data), y_name = "select_data", type_y = "names")
   check_x_in_y(scale, names(select_data), y_name = "select_data", type_y = "names")
 
-  if (!all(names(random_effects) %in% parameters(x, "primary"))) error("random effects parameters missing from code")
-  if (!all(unlist(drops) %in% parameters(x, "primary", scalar_only = TRUE))) error("scalar drops missing from code")
-  if (!all(names(latex) %in% parameters(x, "all"))) error("latex parameters missing from code")
+  if (!all(names(random_effects) %in% parameters(x, "primary"))) error("random effects parameters missing from code parameters")
+  if (!all(unlist(drops) %in% parameters(x, "primary", scalar_only = TRUE))) error("scalar drops parameters missing from code parameters")
+  if (!all(names(latex) %in% parameters(x, "all"))) error("latex parameters missing from code parameters")
 
   center %<>% sort()
   scale %<>% sort()
