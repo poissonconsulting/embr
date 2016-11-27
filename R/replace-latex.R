@@ -22,9 +22,10 @@ replace_latex <- function(term, latex) {
   indexes <- indexes(term)
   indexes %<>% str_replace("\\[", "_{") %>% str_replace("\\]", "}")
   term %<>% str_replace("^(\\w+)(\\[.*)", "\\1")
-  if (!all(term %in% names(latex))) error("undefined latex terms")
-  term <- latex[term]
-  term %<>% str_c(indexes)
+  bol <- term %in% names(latex)
+  if (!all(bol)) warning("terms missing from latex parameters")
+  term[bol] <- latex[term[bol]]
+  term[bol] %<>% str_c(indexes[bol])
   term
 }
 
