@@ -7,31 +7,37 @@
 
 #' @export
 analyse <- function(model, data, drop = character(0),
-                         quick = getOption("mb.quick", FALSE),
-                         quiet = getOption("mb.quiet", TRUE),
-                         beep = getOption("mb.beep", TRUE),
-                         ...) {
+                    parallel = getOption("mb.parallel", FALSE),
+                    quick = getOption("mb.quick", FALSE),
+                    quiet = getOption("mb.quiet", TRUE),
+                    beep = getOption("mb.beep", TRUE),
+                    ...) {
   UseMethod("analyse")
 }
 
 #' @export
 analyse.list <- function(model, data, drop = character(0),
+                         parallel = getOption("mb.parallel", FALSE),
                          quick = getOption("mb.quick", FALSE),
                          quiet = getOption("mb.quiet", TRUE),
                          beep = getOption("mb.beep", TRUE),
                          ...) {
   check_flag(beep)
+  check_flag(parallel)
 
   if (beep) on.exit(beepr::beep())
 
-  lapply(model, analyse, data = data, drop = drop, quick = quick, quiet = quiet, beep = FALSE, ...)
+  plyr::llply(model, analyse, data = data, drop = drop,
+              quick = quick, quiet = quiet, beep = FALSE,
+              .parallel = parallel, parallel = FALSE, ...)
 }
 
 #' @export
 analyse.mb_model <- function(model, data, drop = character(0),
-                         quick = getOption("mb.quick", FALSE),
-                         quiet = getOption("mb.quiet", TRUE),
-                         beep = getOption("mb.beep", TRUE),
-                         ...) {
+                             parallel = getOption("mb.parallel", FALSE),
+                             quick = getOption("mb.quick", FALSE),
+                             quiet = getOption("mb.quiet", TRUE),
+                             beep = getOption("mb.beep", TRUE),
+                             ...) {
   error("analyse is not defined for objects of the virtual class 'mb_model'")
 }

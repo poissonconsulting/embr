@@ -14,6 +14,7 @@ Imports:
     dplyr,
     lubridate,
     magrittr,
+    plyr,
     pryr,
     purrr,
     rescale,
