@@ -26,6 +26,6 @@ replace_latex <- function(term, latex) {
   if (!all(bol)) warning("terms missing from latex parameters")
   term[bol] <- latex[term[bol]]
   term[bol] %<>% str_c(indexes[bol])
+  term[bol] %<>% str_c("$", ., "$")
   term
 }
-
