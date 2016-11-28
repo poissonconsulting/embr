@@ -4,8 +4,7 @@
 \alias{analyse_data}
 \title{Analyse Data}
 \usage{
-analyse_data(data, model, drop = character(0),
-  parallel = getOption("parallel", FALSE), quick = getOption("mb.quick",
+analyse_data(data, model, drop = character(0), quick = getOption("mb.quick",
   FALSE), quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep",
   TRUE), ...)
 }
@@ -15,8 +14,6 @@ analyse_data(data, model, drop = character(0),
 \item{model}{The model to use for the analysis.}
 
 \item{drop}{A character vector of scalar parameters to drop (fix at 0).}
-
-\item{parallel}{A flag indicating whether to analyse multiple models using parallel backend provided by foreach.}
 
 \item{quick}{A flag indicating whether to quickly get unreliable values.}
 

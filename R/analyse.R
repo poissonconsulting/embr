@@ -7,7 +7,6 @@
 
 #' @export
 analyse <- function(model, data, drop = character(0),
-                    parallel = getOption("mb.parallel", FALSE),
                     quick = getOption("mb.quick", FALSE),
                     quiet = getOption("mb.quiet", TRUE),
                     beep = getOption("mb.beep", TRUE),
@@ -17,24 +16,20 @@ analyse <- function(model, data, drop = character(0),
 
 #' @export
 analyse.list <- function(model, data, drop = character(0),
-                         parallel = getOption("mb.parallel", FALSE),
                          quick = getOption("mb.quick", FALSE),
                          quiet = getOption("mb.quiet", TRUE),
                          beep = getOption("mb.beep", TRUE),
                          ...) {
   check_flag(beep)
-  check_flag(parallel)
 
   if (beep) on.exit(beepr::beep())
 
   plyr::llply(model, analyse, data = data, drop = drop,
-              quick = quick, quiet = quiet, beep = FALSE,
-              .parallel = parallel, parallel = FALSE, ...)
+              quick = quick, quiet = quiet, beep = FALSE, ...)
 }
 
 #' @export
 analyse.mb_model <- function(model, data, drop = character(0),
-                             parallel = getOption("mb.parallel", FALSE),
                              quick = getOption("mb.quick", FALSE),
                              quiet = getOption("mb.quiet", TRUE),
                              beep = getOption("mb.beep", TRUE),
