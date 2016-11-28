@@ -10,7 +10,7 @@
 #' @param conf_int A flag indicating whether to calculate confidence intervals.
 #' @param conf_level A number specifying the confidence level. By default 0.95.
 #' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
-#' @param parallel A flag indicating to do predictions using parallel backend provided by foreach.
+#' @param parallel A flag indicating whether to do predictions using parallel backend provided by foreach.
 #' @param quick A flag indicating whether to quickly get unreliable values.
 #' @param quiet A flag indicating whether to disable tracing information.
 #' @param beep A flag indicating whether to beep on completion of the analysis.

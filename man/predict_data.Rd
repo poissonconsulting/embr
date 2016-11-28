@@ -27,7 +27,7 @@ predict_data(data, analysis, new_expr = NULL, new_values = list(),
 
 \item{modify_new_data}{A single argument function to modify new data (in list form) immediately prior to calculating new_expr.}
 
-\item{parallel}{A flag indicating to do predictions using parallel backend provided by foreach.}
+\item{parallel}{A flag indicating whether to do predictions using parallel backend provided by foreach.}
 
 \item{quick}{A flag indicating whether to quickly get unreliable values.}
 
