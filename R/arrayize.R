@@ -6,7 +6,7 @@
 #' arrays.
 #'
 #' @param vector The vector.
-#' @param factors A named list of two or more factors.
+#' @param factors A named list of one or more factors.
 #' @return An array.
 #' @export
 arrayize <- function(vector, factors) {
@@ -33,7 +33,10 @@ arrayize <- function(vector, factors) {
     data <- data[order(data[[factor]]),,drop = FALSE]
   }
 
-  if (length(factors) == 2) {
+  if (length(factors) == 1) {
+    vector <- data$vector
+    names(vector) <- dimnames[[1]]
+  } else if (length(factors) == 2) {
     vector <- matrix(data$vector, nrow = dims[1], ncol = dims[2], dimnames = dimnames)
   } else
     vector <- array(data$vector, dim = dims, dimnames = dimnames)
@@ -52,7 +55,7 @@ arrayize <- function(vector, factors) {
 #' @return A vector.
 #' @export
 vectorize <- function(array, factors) {
-  if (!is.matrix(array) && !is.array(array)) error("array must be a matrix or array")
+  if (!is.vector(array) && !is.matrix(array) && !is.array(array)) error("array must be a vector, matrix or array")
   check_arrayize_factors(factors)
 
   dims <- vapply(factors, nlevels, 1L)

@@ -9,7 +9,7 @@ arrayize(vector, factors)
 \arguments{
 \item{vector}{The vector.}
 
-\item{factors}{A named list of two or more factors.}
+\item{factors}{A named list of one or more factors.}
 }
 \value{
 An array.
