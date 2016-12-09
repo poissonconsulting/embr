@@ -34,3 +34,31 @@ test_that("update_model", {
   model2 <- update_model(model2, center = character(0))
   expect_identical(model, model2)
 })
+
+test_that("describe", {
+  code <- mb_code(.tmb_template)
+  model <- model(code, .gen_inits)
+
+  expect_identical(describe(model), dplyr::data_frame(parameter = character(0), description = character(0)))
+
+  model <- update_model(model, description = c(bIntercept = "The intercept bIntercept intercept"))
+
+  expect_identical(describe(model), dplyr::data_frame(parameter = "bIntercept", description = "The intercept bIntercept intercept"))
+
+  expect_error(describe(model, latex = TRUE), "latex is undefined for x")
+
+  expect_identical(describe(model, quote = "`"), dplyr::data_frame(parameter = "`bIntercept`", description = "The intercept `bIntercept` intercept"))
+
+  model <- update_model(model, latex = c(bIntercept = "\\beta"))
+
+  expect_identical(describe(model, latex = TRUE), dplyr::data_frame(parameter = "$\\beta$", description = "The intercept $\\beta$ intercept"))
+
+  expect_identical(describe(model, latex = TRUE, quote = "'"), dplyr::data_frame(parameter = "'$\\beta$'", description = "The intercept '$\\beta$' intercept"))
+
+ model <- update_model(model, description = c("bIntercept[i]" = "The intercept bIntercept intercept"))
+
+  expect_identical(describe(model, latex = TRUE), dplyr::data_frame(parameter = "$\\beta_{i}$", description = "The intercept $\\beta$ intercept"))
+
+  expect_identical(describe(model, latex = TRUE, quote = "'"), dplyr::data_frame(parameter = "'$\\beta_{i}$'", description = "The intercept '$\\beta$' intercept"))
+})
+

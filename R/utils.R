@@ -75,7 +75,7 @@ scalar_nlist <- function(x) {
 }
 
 indexes <- function(x) {
-  x %<>% str_replace("^(\\w+)(\\[\\d+([,]\\d+)*\\])$", "\\2")
+  x %<>% str_replace("^(\\w+)(\\[[:alnum:]+([,][:alnum:]+)*\\])$", "\\2")
   x[!str_detect(x, "\\[")] <- ""
   x
 }
@@ -95,4 +95,8 @@ model_names <- function(x, drops) {
   x[x == str_c("base+", str_c(drops, collapse = "+"), collapse = "")] <- "full"
   names(x) <- NULL
   x
+}
+
+drop_indices <- function(x) {
+  str_replace(x, "^(\\w+)(\\[.*)", "\\1")
 }

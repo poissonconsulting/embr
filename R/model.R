@@ -13,14 +13,15 @@ model <- function(x, ...) {
 #' @export
 model.character <- function(x, gen_inits, random_effects = list(), select_data = list(),
   center = character(0), scale = character(0), modify_data = identity, niters = 3L,
-  new_expr = character(0), modify_new_data = identity, drops = list(), latex = character(0), ...) {
+  new_expr = character(0), modify_new_data = identity, drops = list(), latex = character(0),
+  description = character(0), ...) {
   x %<>% mb_code()
   check_unused(...)
   model(x, gen_inits = gen_inits,
         random_effects = random_effects, select_data = select_data,
         center = center, scale = scale, modify_data = modify_data,
         niters = niters, new_expr = new_expr, modify_new_data = modify_new_data,
-        drops = drops, latex = latex)
+        drops = drops, latex = latex, description = description)
 }
 
 #' MB Model
@@ -40,13 +41,15 @@ model.character <- function(x, gen_inits, random_effects = list(), select_data =
 #' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
 #' @param drops A list of character vector of possible scalar parameters to drop (fix at 0).
 #' @param latex A named character vector of the latex math code for each parameter.
+#' @param description A named character vector describing each parameter.
 #' @param ... Unused arguments.
 #' @return An object inherting from class mb_model.
 #' @seealso \code{\link[datacheckr]{check_data}} \code{\link[rescale]{rescale}}
 #' @export
 model.mb_code <- function(x, gen_inits, random_effects = list(), select_data = list(),
   center = character(0), scale = character(0), modify_data = identity, niters = 3L,
-  new_expr = character(0), modify_new_data = identity, drops = list(), latex = character(0), ...) {
+  new_expr = character(0), modify_new_data = identity, drops = list(), latex = character(0),
+  description = character(0), ...) {
 
   check_mb_code(x)
   check_single_arg_fun(gen_inits)
@@ -60,6 +63,7 @@ model.mb_code <- function(x, gen_inits, random_effects = list(), select_data = l
   check_scalar(niters, c(3L, 6L))
   check_drops(drops)
   check_uniquely_named_character_vector(latex)
+  check_uniquely_named_character_vector(description)
   check_unused(...)
 
   check_all_elements_class_character(random_effects)
@@ -78,6 +82,7 @@ model.mb_code <- function(x, gen_inits, random_effects = list(), select_data = l
   if (!all(names(random_effects) %in% parameters(x, "primary"))) error("random effects parameters missing from code parameters")
   if (!all(unlist(drops) %in% parameters(x, "primary", scalar_only = TRUE))) error("scalar drops parameters missing from code parameters")
   if (!all(names(latex) %in% parameters(x, "all"))) error("latex parameters missing from code parameters")
+  if (!all(names(drop_indices(description)) %in% parameters(x, "all"))) error("described parameters missing from code parameters")
 
   center %<>% sort()
   scale %<>% sort()
@@ -94,6 +99,7 @@ model.mb_code <- function(x, gen_inits, random_effects = list(), select_data = l
               modify_new_data = modify_new_data,
               drops = drops,
               latex = latex,
+              description = description,
               niters = niters)
   class(obj) <- class(x) %>% str_replace("code", "model")
   obj

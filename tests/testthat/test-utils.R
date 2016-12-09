@@ -11,6 +11,7 @@ test_that("dims", {
 
 test_that("indexes", {
   expect_identical(indexes(c("a", "b", "bYear[1,1]", "bYear[1,2,4,1]")), c("", "", "[1,1]", "[1,2,4,1]"))
+  expect_identical(indexes(c("bIntercept[i]")), "[i]")
 })
 
 test_that("is_nlist", {
