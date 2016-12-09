@@ -42,6 +42,8 @@ describe.mb_model <- function(x, latex = FALSE, quote = "", ...) {
     data$name  %<>% str_c(quote, .) %>% str_c(quote)
   }
 
+  data$org_name %<>% str_c("(?<=\\b)", .) %>% str_c("(?=\\b)")
+
   data %<>% dplyr::mutate_(replacement = ~str_replace_all(name, "\\\\", "\\\\\\\\"),
                            description = ~str_replace_all(description, org_name, replacement))
 
