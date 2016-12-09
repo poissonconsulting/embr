@@ -64,5 +64,9 @@ test_that("describe", {
   model <- update_model(model, description = c("bIntercept" = "The bbIntercept bIntercept intercept"))
 
   expect_identical(describe(model, quote = "'"), dplyr::data_frame(parameter = "'bIntercept'", description = "The bbIntercept 'bIntercept' intercept"))
+
+  model <- update_model(model, description = c("bIntercept" = "bIntercept bbIntercept bIntercept"))
+
+  expect_identical(describe(model, quote = "'"), dplyr::data_frame(parameter = "'bIntercept'", description = "'bIntercept' bbIntercept 'bIntercept'"))
 })
 
