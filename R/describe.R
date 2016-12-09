@@ -53,5 +53,5 @@ describe.mb_model <- function(x, latex = FALSE, quote = "", ...) {
 
 #' @export
 describe.mb_analysis <- function(x, latex = FALSE, quote = "", ...) {
-  describe(model(x))
+  describe(model(x, latex = latex, quote = quote, ...))
 }
