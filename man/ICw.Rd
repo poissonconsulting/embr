@@ -4,10 +4,10 @@
 \alias{ICw}
 \title{Information Criterion Weight}
 \usage{
-ICw(analyses, n = NULL)
+ICw(object, n = NULL)
 }
 \arguments{
-\item{analyses}{The list of mb_analysis objects to calculate it for.}
+\item{object}{The list of mb_analysis objects to calculate it for.}
 
 \item{n}{A count of the sample size.}
 }
