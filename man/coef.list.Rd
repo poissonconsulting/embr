@@ -27,7 +27,8 @@ or a named character vector specifying the latex math code for each parameter.}
 \item{...}{Not used.}
 }
 \value{
-A tidy tibble of the coeffcient terms.
+A tidy tibble of the coeffcient terms with the model averaged estimate, the
+Akaike's weight and the proportion of models including the term.
 }
 \description{
 Coefficients for a list of MB analyses averaged by IC weights.

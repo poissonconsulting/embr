@@ -11,7 +11,8 @@
 #' or a named character vector specifying the latex math code for each parameter.
 #' @param n A count of the sample size.
 #' @param ... Not used.
-#' @return A tidy tibble of the coeffcient terms.
+#' @return A tidy tibble of the coeffcient terms with the model averaged estimate, the
+#' Akaike's weight and the proportion of models including the term.
 #' @export
 coef.list <- function(object, terms = "fixed", scalar_only = FALSE,
                               constant_included = TRUE,
@@ -24,6 +25,6 @@ coef.list <- function(object, terms = "fixed", scalar_only = FALSE,
   coef %<>% lapply(function(x) x[c("term", "estimate")])
   coef %<>% purrr::map2_df(ICw, function(x, y) {x$ICw <- y; x})
   coef %<>% dplyr::group_by_(~term) %>% dplyr::summarise_(
-    estimate = ~sum(estimate * ICw) / nmodels, ICw = ~sum(ICw), Proportion = ~n()/nmodels) %>% dplyr::ungroup()
+    estimate = ~sum(estimate * ICw) / nmodels, weight = ~sum(ICw), proportion = ~n()/nmodels) %>% dplyr::ungroup()
   coef
 }
