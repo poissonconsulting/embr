@@ -42,6 +42,13 @@ is_nlist <- function(x) {
   return(!any(vapply(x, is.list, TRUE)))
 }
 
+sort_random_effects <- function(x) {
+  x %<>% sort_nlist()
+  check_all_elements_class_character(x)
+  x %<>% lapply(function(x) sort(x))
+  x
+}
+
 #' Sort Named List
 #'
 #' Sorts a named list by its names.

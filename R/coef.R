@@ -19,12 +19,12 @@ coef.list <- function(object, terms = "fixed", scalar_only = FALSE,
                               conf_level = 0.95, latex = FALSE, n = NULL, ...) {
 
   nmodels <- length(object)
-  ICw <- ICw(object, n = n)
+  ic <- IC(object, n = n)
   coef <- lapply(object, coef, terms = terms, scalar_only = scalar_only, constant_included = constant_included,
                  conf_level = conf_level, latex = latex)
-  coef %<>% lapply(function(x) x[c("term", "estimate")])
-  coef %<>% purrr::map2_df(ICw, function(x, y) {x$ICw <- y; x})
+  coef %<>% purrr::map2_df(ic$weight, function(x, y) {x$weight <- y; x})
   coef %<>% dplyr::group_by_(~term) %>% dplyr::summarise_(
-    estimate = ~sum(estimate * ICw) / nmodels, weight = ~sum(ICw), proportion = ~n()/nmodels) %>% dplyr::ungroup()
+    estimate = ~sum(estimate * weight), lower = ~sum(lower * weight),
+    upper = ~sum(upper * weight), weight = ~sum(weight), proportion = ~n()/nmodels) %>% dplyr::ungroup()
   coef
 }

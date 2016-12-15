@@ -153,4 +153,12 @@ check_all_elements_class_character <- function(x, x_name = substitute(x)) {
   x
 }
 
+check_all_elements_unique <- function(x, x_name = substitute(x)) {
+    if (is.name(x)) x_name %<>% deparse()
 
+  if (!length(x)) return(x)
+
+  if (any(vapply(x, anyDuplicated, TRUE)))
+    error("elements of ", x_name, "must be unique")
+  x
+}

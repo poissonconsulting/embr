@@ -13,7 +13,15 @@ IC <- function(object, n = NULL, ...) {
 #' @export
 IC.list <- function(object, n = NULL, ...) {
   if (!is.list(object)) error("object must be a list")
+
+  if (!length(object)) return(dplyr::data_frame(model = character(0), k = integer(0), ic = numeric(0),
+                                             difference = numeric(0), weight = numeric(0)))
+
   if (!all(vapply(object, is.mb_analysis, TRUE))) error("object must be a list of mb_analysis objects")
+
+  if (is.null(names(object))) names(object) <- 1:length(object)
+
+  if (anyDuplicated(names(object))) error("object must be uniquely named")
 
   class <- vapply(object, function(x) class(x)[1], "", USE.NAMES = FALSE)
   if (!all(vapply(class, identical, TRUE, class[1]))) error("all elements of object must have the same class")
@@ -21,22 +29,17 @@ IC.list <- function(object, n = NULL, ...) {
   data <- lapply(object, data_set)
   if (!all(vapply(data, identical, TRUE, data[[1]]))) error("all elements of object must have the same data")
 
-  vapply(object, IC, 1, n = NULL)
-}
+  random_effects <- lapply(object, random_effects) %>% lapply(sort_random_effects)
+  if (!all(vapply(data, identical, TRUE, data[[1]]))) error("all elements of object must have the same random effects")
 
-#' Information Criterion Weight
-#'
-#' Calculates w_i for a list of objects of class mb_analysis that return IC.
-#'
-#' @param object The list of mb_analysis objects to calculate it for.
-#' @param n A count of the sample size.
-#' @return A vector of the w_i values for each model.
-#' @export
-ICw <- function(object, n = NULL) {
-  IC <- IC(object, n = n)
-  IC <- IC - min(IC)
-  IC <- exp(-0.5 * IC)
-  IC <- IC / sum(IC)
-  IC %<>% round(2)
-  IC
+  tibble <- dplyr::data_frame(model = names(object))
+  tibble$k <- vapply(object, nterms, 1L)
+  tibble$ic <- vapply(object, IC, 1, n = n, ...)
+  tibble$difference <- tibble$ic - min(tibble$ic)
+  tibble$weight <- exp(-0.5 * tibble$difference)
+  tibble$weight <- tibble$weight / sum(tibble$weight)
+
+  tibble$difference %<>% round(1)
+  tibble$weight %<>% round(2)
+  tibble
 }
