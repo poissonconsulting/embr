@@ -7,8 +7,7 @@
 \method{model}{mb_code}(x, gen_inits, random_effects = list(),
   select_data = list(), center = character(0), scale = character(0),
   modify_data = identity, niters = 3L, new_expr = character(0),
-  modify_new_data = identity, drops = list(), latex = character(0),
-  description = character(0), ...)
+  modify_new_data = identity, drops = list(), ...)
 }
 \arguments{
 \item{x}{An object inheriting from class mb_code.}
@@ -34,10 +33,6 @@ Missing random parameters are assigned the value 0.}
 \item{modify_new_data}{A single argument function to modify new data (in list form) immediately prior to calculating new_expr.}
 
 \item{drops}{A list of character vector of possible scalar parameters to drop (fix at 0).}
-
-\item{latex}{A named character vector of the latex math code for each parameter.}
-
-\item{description}{A named character vector describing each parameter.}
 
 \item{...}{Unused arguments.}
 }

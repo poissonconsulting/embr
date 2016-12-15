@@ -7,8 +7,6 @@
 #' @param scalar_only A flag indicating whether to only return scalar terms.
 #' @param constant_included A flag indicating whether to include constant terms.
 #' @param conf_level A number specifying the confidence level. By default 0.95.
-#' @param latex A flag indicating whether to replace each term with its latex math code
-#' or a named character vector specifying the latex math code for each parameter.
 #' @param n A count of the sample size.
 #' @param ... Not used.
 #' @return A tidy tibble of the coeffcient terms with the model averaged estimate, the
@@ -16,12 +14,12 @@
 #' @export
 coef.list <- function(object, terms = "fixed", scalar_only = FALSE,
                               constant_included = TRUE,
-                              conf_level = 0.95, latex = FALSE, n = NULL, ...) {
+                              conf_level = 0.95, n = NULL, ...) {
 
   nmodels <- length(object)
   ic <- IC(object, n = n)
   coef <- lapply(object, coef, terms = terms, scalar_only = scalar_only, constant_included = constant_included,
-                 conf_level = conf_level, latex = latex)
+                 conf_level = conf_level)
   coef %<>% purrr::map2_df(ic$weight, function(x, y) {x$weight <- y; x})
   coef %<>% dplyr::group_by_(~term) %>% dplyr::summarise_(
     estimate = ~sum(estimate * weight), lower = ~sum(lower * weight),
