@@ -12,7 +12,7 @@ model <- function(x, ...) {
 
 #' @export
 model.character <- function(x, gen_inits, random_effects = list(), select_data = list(),
-  center = character(0), scale = character(0), modify_data = identity, niters = 3L,
+  center = character(0), scale = character(0), modify_data = identity, niters = 10^3,
   new_expr = character(0), modify_new_data = identity, drops = list(), ...) {
   x %<>% mb_code()
   check_unused(...)
@@ -48,7 +48,7 @@ model.character <- function(x, gen_inits, random_effects = list(), select_data =
 #' @seealso \code{\link[datacheckr]{check_data}} \code{\link[rescale]{rescale}}
 #' @export
 model.mb_code <- function(x, gen_inits = function(data) {list()}, random_effects = list(), select_data = list(),
-  center = character(0), scale = character(0), modify_data = identity, niters = 3L,
+  center = character(0), scale = character(0), modify_data = identity, niters = 10^3,
   new_expr = character(0), modify_new_data = identity, drops = list(), ...) {
 
   check_mb_code(x)
@@ -60,7 +60,8 @@ model.mb_code <- function(x, gen_inits = function(data) {list()}, random_effects
   check_single_arg_fun(modify_data)
   check_single_arg_fun(modify_new_data)
   check_vector(new_expr, "", min_length = 0, max_length = 1)
-  check_scalar(niters, c(3L, 6L))
+  check_scalar(niters, c(10^3, 10^6))
+  if (!niters %in% 10^(3:6)) error("niters must be 10^2, 10^3, 10^4, 10^5 or 10^6")
   check_drops(drops)
   check_unused(...)
 
