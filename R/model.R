@@ -25,12 +25,16 @@ model.character <- function(x, gen_inits, random_effects = list(), select_data =
 
 #' MB Model
 #'
-#' Creates TMB model.
+#' Creates MB model.
+#'
+#' For tmb models gen_inits must specify all the fixed parameters.
+#' Missing random parameters are assigned the value 0.
+#'
+#' For jmb models unspecified the initial values for each chain are drawn from the prior distributions.
 #'
 #' @param x An object inheriting from class mb_code.
 #' @param gen_inits A single argument function taking the modified data and
-#' returning a named list of initial values for all fixed parameters.
-#' Missing random parameters are assigned the value 0.
+#' returning a named list of initial values.
 #' @param random_effects A named list specifying the random effects and the associated factors.
 #' @param select_data A named list specifying the columns to select and their associated classes and values.
 #' @inheritParams rescale::rescale
@@ -43,7 +47,7 @@ model.character <- function(x, gen_inits, random_effects = list(), select_data =
 #' @return An object inherting from class mb_model.
 #' @seealso \code{\link[datacheckr]{check_data}} \code{\link[rescale]{rescale}}
 #' @export
-model.mb_code <- function(x, gen_inits, random_effects = list(), select_data = list(),
+model.mb_code <- function(x, gen_inits = function(data) {list()}, random_effects = list(), select_data = list(),
   center = character(0), scale = character(0), modify_data = identity, niters = 3L,
   new_expr = character(0), modify_new_data = identity, drops = list(), ...) {
 

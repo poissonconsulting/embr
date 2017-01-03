@@ -15,8 +15,7 @@ update_model(model, code = NULL, gen_inits = NULL, random_effects = NULL,
 \item{code}{A string of the model template or an object inheriting from class mb_code.}
 
 \item{gen_inits}{A single argument function taking the modified data and
-returning a named list of initial values for all fixed parameters.
-Missing random parameters are assigned the value 0.}
+returning a named list of initial values.}
 
 \item{random_effects}{A named list specifying the random effects and the associated factors.}
 
