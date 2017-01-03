@@ -5,9 +5,9 @@
 \title{Update MB Model}
 \usage{
 update_model(model, code = NULL, gen_inits = NULL, random_effects = NULL,
-  select_data = NULL, center = NULL, scale = NULL, modify_data = NULL,
-  niters = NULL, new_expr = NULL, modify_new_data = NULL, drops = NULL,
-  ...)
+  monitor = NULL, select_data = NULL, center = NULL, scale = NULL,
+  modify_data = NULL, niters = NULL, new_expr = NULL,
+  modify_new_data = NULL, drops = NULL, ...)
 }
 \arguments{
 \item{model}{The model to update.}
@@ -18,6 +18,8 @@ update_model(model, code = NULL, gen_inits = NULL, random_effects = NULL,
 returning a named list of initial values.}
 
 \item{random_effects}{A named list specifying the random effects and the associated factors.}
+
+\item{monitor}{A string of a regular expression specifying the parameters to monitor.}
 
 \item{select_data}{A named list specifying the columns to select and their associated classes and values.}
 

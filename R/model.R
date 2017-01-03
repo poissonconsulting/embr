@@ -11,12 +11,14 @@ model <- function(x, ...) {
 }
 
 #' @export
-model.character <- function(x, gen_inits, random_effects = list(), select_data = list(),
+model.character <- function(
+  x, gen_inits = function(data) {list()}, random_effects = list(),
+  monitor = ".*", select_data = list(),
   center = character(0), scale = character(0), modify_data = identity, niters = 10^3,
   new_expr = character(0), modify_new_data = identity, drops = list(), ...) {
   x %<>% mb_code()
   check_unused(...)
-  model(x, gen_inits = gen_inits,
+  model(x, gen_inits = gen_inits, monitor = monitor,
         random_effects = random_effects, select_data = select_data,
         center = center, scale = scale, modify_data = modify_data,
         niters = niters, new_expr = new_expr, modify_new_data = modify_new_data,
@@ -36,6 +38,7 @@ model.character <- function(x, gen_inits, random_effects = list(), select_data =
 #' @param gen_inits A single argument function taking the modified data and
 #' returning a named list of initial values.
 #' @param random_effects A named list specifying the random effects and the associated factors.
+#' @param monitor A string of a regular expression specifying the parameters to monitor.
 #' @param select_data A named list specifying the columns to select and their associated classes and values.
 #' @inheritParams rescale::rescale
 #' @param modify_data A single argument function to modify the data (in list form) immediately prior to the analysis.
@@ -47,13 +50,16 @@ model.character <- function(x, gen_inits, random_effects = list(), select_data =
 #' @return An object inherting from class mb_model.
 #' @seealso \code{\link[datacheckr]{check_data}} \code{\link[rescale]{rescale}}
 #' @export
-model.mb_code <- function(x, gen_inits = function(data) {list()}, random_effects = list(), select_data = list(),
-  center = character(0), scale = character(0), modify_data = identity, niters = 10^3,
+model.mb_code <- function(
+  x, gen_inits = function(data) {list()}, random_effects = list(), monitor = ".*",
+  select_data = list(), center = character(0), scale = character(0),
+  modify_data = identity, niters = 10^3,
   new_expr = character(0), modify_new_data = identity, drops = list(), ...) {
 
   check_mb_code(x)
   check_single_arg_fun(gen_inits)
   check_uniquely_named_list(random_effects)
+  check_string(monitor)
   check_uniquely_named_list(select_data)
   check_unique_character_vector(center)
   check_unique_character_vector(scale)
@@ -87,6 +93,7 @@ model.mb_code <- function(x, gen_inits = function(data) {list()}, random_effects
 
   obj <- list(code = x,
               gen_inits = gen_inits,
+              monitor = monitor,
               select_data = select_data,
               center = center,
               scale = scale,

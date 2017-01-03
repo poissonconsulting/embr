@@ -5,10 +5,10 @@
 \title{MB Model}
 \usage{
 \method{model}{mb_code}(x, gen_inits = function(data) {     list() },
-  random_effects = list(), select_data = list(), center = character(0),
-  scale = character(0), modify_data = identity, niters = 10^3,
-  new_expr = character(0), modify_new_data = identity, drops = list(),
-  ...)
+  random_effects = list(), monitor = ".*", select_data = list(),
+  center = character(0), scale = character(0), modify_data = identity,
+  niters = 10^3, new_expr = character(0), modify_new_data = identity,
+  drops = list(), ...)
 }
 \arguments{
 \item{x}{An object inheriting from class mb_code.}
@@ -17,6 +17,8 @@
 returning a named list of initial values.}
 
 \item{random_effects}{A named list specifying the random effects and the associated factors.}
+
+\item{monitor}{A string of a regular expression specifying the parameters to monitor.}
 
 \item{select_data}{A named list specifying the columns to select and their associated classes and values.}
 
