@@ -4,7 +4,7 @@
 \alias{convergence.mb_analysis}
 \title{Convergence}
 \usage{
-convergence.mb_analysis(x, ...)
+\method{convergence}{mb_analysis}(x, ...)
 }
 \arguments{
 \item{x}{The mb_analysis object.}
