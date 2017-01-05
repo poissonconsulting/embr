@@ -62,7 +62,9 @@ next_drop <- function(analysis, drops, conf_level) {
 
   if (!length(drop)) return(character(0))
 
-  coef <- coef(analysis, scalar_only = TRUE, conf_level = conf_level)
+  coef <- coef(analysis, fixed = TRUE)
+  # scalar only
+  coef %<>% dplyr::filter_(~!str_detect(term, "\\["))
 
   if (!all(drop %in% coef$term)) error("unrecognised fixed scalar parameter")
 

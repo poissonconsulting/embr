@@ -1,3 +1,7 @@
+all1 <- function(x) all(x == 1)
+
+allin <- function(x, y) all(x %in% y)
+
 #' Is Named List
 #'
 #' @param x The object to test.

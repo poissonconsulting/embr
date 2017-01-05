@@ -33,7 +33,7 @@ IC.list <- function(object, n = NULL, ...) {
   if (!all(vapply(data, identical, TRUE, data[[1]]))) error("all elements of object must have the same random effects")
 
   tibble <- dplyr::data_frame(model = names(object))
-  tibble$k <- vapply(object, nterms, 1L)
+  tibble$k <- vapply(object, nterms, 1L, fixed = TRUE, include_constant = FALSE)
   tibble$ic <- vapply(object, IC, 1, n = n, ...)
   tibble$difference <- tibble$ic - min(tibble$ic)
   tibble$weight <- exp(-0.5 * tibble$difference)

@@ -3,22 +3,19 @@
 #' Coefficients for a list of MB analyses averaged by IC weights.
 #'
 #' @param object The list of tmb_analysis objects.
-#' @param terms A string of the type of terms to get the coefficients for.
-#' @param scalar_only A flag indicating whether to only return scalar terms.
-#' @param constant_included A flag indicating whether to include constant terms.
+#' @param fixed A flag specifying whether fixed or random terms.
 #' @param conf_level A number specifying the confidence level. By default 0.95.
 #' @param n A count of the sample size.
 #' @param ... Not used.
 #' @return A tidy tibble of the coeffcient terms with the model averaged estimate, the
 #' Akaike's weight and the proportion of models including the term.
 #' @export
-coef.list <- function(object, terms = "fixed", scalar_only = FALSE,
-                              constant_included = TRUE,
-                              conf_level = 0.95, n = NULL, ...) {
+coef.list <- function(object, fixed = TRUE, conf_level = 0.95, n = NULL, ...) {
+  check_flag(fixed)
 
   nmodels <- length(object)
   ic <- IC(object, n = n)
-  coef <- lapply(object, coef, terms = terms, scalar_only = scalar_only, constant_included = constant_included,
+  coef <- lapply(object, coef, fixed = fixed,
                  conf_level = conf_level)
   coef %<>% purrr::map2_df(ic$weight, function(x, y) {x$weight <- y; x})
   coef %<>% dplyr::group_by_(~term) %>% dplyr::summarise_(
@@ -33,31 +30,30 @@ coef.list <- function(object, terms = "fixed", scalar_only = FALSE,
 #'
 #'  Permitted values for terms are 'fixed' and 'random'.
 #'
-#' The \code{statistic} is the z value.
+#' The \code{statistic} is mean / std.error.
 #'
 #' @param object The mb_analysis object.
-#' @param terms A string of the type of terms to get the coefficients for.
-#' @param scalar_only A flag indicating whether to only return scalar terms.
-#' @param constant_included A flag indicating whether to include constant terms.
+#' @param fixed A flag specifying whether fixed or random terms.
+#' @param include_constant A flag specifying whether to include constant terms.
 #' @param conf_level A number specifying the confidence level. By default 0.95.
 #' @param ... Not used.
 #' @return A tidy tibble of the coefficient terms.
 #' @export
-coef.mb_analysis <- function(object, terms = "fixed", scalar_only = FALSE,
-                              constant_included = TRUE,
-                              conf_level = 0.95, ...) {
-  check_vector(terms, c("^fixed$", "^random$", "^random$"), max_length = 1)
-  check_flag(scalar_only)
-  check_flag(constant_included)
+coef.mb_analysis <- function(object, fixed = TRUE, include_constant = TRUE, conf_level = 0.95, ...) {
+  check_flag(fixed)
+  check_flag(include_constant)
   check_number(conf_level, c(0.5, 0.99))
   check_unused(...)
 
-  if (is.null(object$mcmcr)) error("coef is undefined for object")
+  object %<>% as.mcmcr()
 
-  coef <- coef(object$mcmcr)
+  parameters <- parameters(object, fixed)
+  object %<>% subset(parameters = parameters)
 
-  if (!constant_included) coef %<>% dplyr::filter_(~std.error > 0)
-  if (scalar_only) coef %<>% dplyr::filter_(~!str_detect(term, "\\["))
+  object %<>% coef()
 
-  coef
+  if (!include_constant)
+    object %<>% dplyr::filter_(~lower != upper)
+
+  object
 }

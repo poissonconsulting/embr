@@ -15,11 +15,11 @@ Imports:
     graphics,
     lubridate,
     magrittr,
-    mcmcr,
+    mcmcr (>= 0.0.0.9002),
     plyr,
     pryr,
     purrr,
-    rescale,
+    rescale (>= 0.0.0.9000),
     stringr,
     tibble
 License: MIT + file LICENSE
@@ -29,6 +29,7 @@ Suggests:
     testthat,
     covr
 Remotes:
+    poissonconsulting/mcmcr
     poissonconsulting/rescale
 URL: https://github.com/poissonconsulting/mbr
 BugReports: https://github.com/poissonconsulting/mbr/issues

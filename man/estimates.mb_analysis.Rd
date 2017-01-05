@@ -4,20 +4,14 @@
 \alias{estimates.mb_analysis}
 \title{Estimates}
 \usage{
-\method{estimates}{mb_analysis}(object, terms = "fixed",
-  scalar_only = FALSE, ...)
+\method{estimates}{mb_analysis}(object, fixed = TRUE, ...)
 }
 \arguments{
 \item{object}{The mb_analysis object.}
 
-\item{terms}{A string of the type of terms to get the coefficients for.}
-
-\item{scalar_only}{A flag indicating whether to only return scalar terms.}
+\item{fixed}{A flag specifying whether fixed or random terms.}
 
 \item{...}{Not used.}
-}
-\value{
-A tidy tibble of the coefficient terms.
 }
 \description{
 estimates

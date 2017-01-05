@@ -1,14 +1,14 @@
-#' Number of fixed variable terms.
+#' Number of terms
 #'
-#' @param object The object to calculate the number of terms for.
-#' @param ... Not used.
-#' @return A count of the number of terms.
+#' @param x The object to get the nterms for
+#' @param fixed A flag specifying whether fixed or random terms.
+#' @param include_constant A flag specifying whether to include constant terms.
+#' @param ... unused
 #' @export
-nterms <- function(object, ...) {
-  UseMethod("nterms")
-}
+nterms.mb_analysis <- function(x, fixed = TRUE, include_constant = TRUE, ...) {
+  check_unused(...)
+  check_flag(fixed)
+  check_flag(include_constant)
 
-#' @export
-nterms.mb_analysis <- function(object, ...) {
-  nrow(coef(object, terms = "fixed", scalar_only = FALSE, constant_included = FALSE))
+  length(terms(x, fixed = fixed, include_constant = include_constant))
 }

@@ -3,22 +3,18 @@
 #' estimates
 #'
 #' @param object The mb_analysis object.
-#' @param terms A string of the type of terms to get the coefficients for.
-#' @param scalar_only A flag indicating whether to only return scalar terms.
+#' @param fixed A flag specifying whether fixed or random terms.
 #' @param ... Not used.
-#' @return A tidy tibble of the coefficient terms.
 #' @export
-estimates.mb_analysis <- function(object, terms = "fixed", scalar_only = FALSE, ...) {
-  check_vector(terms, c("^fixed$", "^random$", "^random$"), max_length = 1)
-
-  check_flag(scalar_only)
+estimates.mb_analysis <- function(object, fixed = TRUE, ...) {
+  check_flag(fixed)
   check_unused(...)
 
-  if (is.null(object$mcmcr)) error("estimates is undefined for object")
+  object %<>% as.mcmcr(object)
 
-  estimates <- estimates(object$mcmcr)
+  parameters <- parameters(object, fixed)
 
-  if (scalar_only) estimates %<>% lapply(function (x) {if(nterms(x) == 1) return(NULL); x})
+  object %<>% subset(parameters = parameters)
 
-  estimates
+  estimates(object)
 }

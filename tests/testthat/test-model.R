@@ -2,7 +2,7 @@ context("model")
 
 test_that("model", {
   code <- mb_code(.tmb_template)
-  model <- model(code, .gen_inits)
+  model <- model(code, gen_inits = .gen_inits)
 
   expect_s3_class(model, "tmb_model")
   expect_identical(template(model), .tmb_template)

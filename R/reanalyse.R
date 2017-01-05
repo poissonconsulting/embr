@@ -5,7 +5,9 @@
 #' @inheritParams analyse_data
 #' @param analysis An object inheriting from class mb_analysis or a list of such objects.
 #' @export
-reanalyse <- function(analysis, quick = getOption("mb.quick", FALSE),
+reanalyse <- function(analysis,
+                      parallel = getOption("mb.parallel", FALSE),
+                      quick = getOption("mb.quick", FALSE),
                       quiet = getOption("mb.quiet", TRUE),
                       beep = getOption("mb.beep", TRUE),
                       ...) {
@@ -14,6 +16,7 @@ reanalyse <- function(analysis, quick = getOption("mb.quick", FALSE),
 
 #' @export
 reanalyse.list <- function(analysis,
+                           parallel = getOption("mb.parallel", FALSE),
                            quick = getOption("mb.quick", FALSE),
                            quiet = getOption("mb.quiet", TRUE),
                            beep = getOption("mb.beep", TRUE),
@@ -27,15 +30,17 @@ reanalyse.list <- function(analysis,
 
 #' @export
 reanalyse.mb_model <- function(analysis,
-                                  quick = getOption("mb.quick", FALSE),
-                                  quiet = getOption("mb.quiet", TRUE),
-                                  beep = getOption("mb.beep", TRUE),
-                                  ...) {
+                               parallel = getOption("mb.parallel", FALSE),
+                               quick = getOption("mb.quick", FALSE),
+                               quiet = getOption("mb.quiet", TRUE),
+                               beep = getOption("mb.beep", TRUE),
+                               ...) {
   error("reanalyse is not defined for objects inheriting from class 'mb_model'")
 }
 
 #' @export
 reanalyse.mb_analysis <- function(analysis,
+                                  parallel = getOption("mb.parallel", FALSE),
                                   quick = getOption("mb.quick", FALSE),
                                   quiet = getOption("mb.quiet", TRUE),
                                   beep = getOption("mb.beep", TRUE),

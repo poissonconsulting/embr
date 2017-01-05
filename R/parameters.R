@@ -1,15 +1,3 @@
-#' Parameters
-#'
-#' Gets the parameter names for an object.
-#'
-#' @param x The object.
-#' @param terms A string indicating the type of terms to get the names for.
-#' @param scalar_only A flag indicating whether to only return scalar terms.
-#' @param ... Not used.
-#' @return A character vector of the parameter names.
-#' @export
-parameters <- function(x, terms = "fixed", scalar_only = FALSE, ...) {UseMethod("parameters")}
-
 #' @export
 parameters.character <- function(x, ...) {
   check_unused(...)
@@ -18,13 +6,22 @@ parameters.character <- function(x, ...) {
 }
 
 #' @export
-parameters.mb_code <- function(x, terms = "fixed", scalar_only = FALSE, ...) {
+parameters.mb_code <- function(x, ...) {
   check_unused(...)
   parameters(template(x))
 }
 
 #' @export
-parameters.mb_analysis <- function(x, terms = "fixed", scalar_only = FALSE, ...) {
+parameters.mb_analysis <- function(x, fixed = TRUE, ...) {
   check_unused(...)
-  estimates(x, terms = terms, scalar_only = scalar_only)$term
+
+  check_flag(fixed)
+
+  random <- names(random_effects(x))
+
+  if (!fixed) return(random)
+
+  parameters <- parameters(as.mcmcr(x))
+
+  setdiff(parameters, random)
 }
