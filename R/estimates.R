@@ -14,6 +14,8 @@ estimates.mb_analysis <- function(object, terms = "fixed", scalar_only = FALSE, 
   check_flag(scalar_only)
   check_unused(...)
 
+  if (is.null(object$mcmcr)) error("estimates is undefined for object")
+
   estimates <- estimates(object$mcmcr)
 
   if (scalar_only) estimates %<>% lapply(function (x) {if(nterms(x) == 1) return(NULL); x})

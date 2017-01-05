@@ -52,6 +52,8 @@ coef.mb_analysis <- function(object, terms = "fixed", scalar_only = FALSE,
   check_number(conf_level, c(0.5, 0.99))
   check_unused(...)
 
+  if (is.null(object$mcmcr)) error("coef is undefined for object")
+
   coef <- coef(object$mcmcr)
 
   if (!constant_included) coef %<>% dplyr::filter_(~std.error > 0)
