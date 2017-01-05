@@ -12,6 +12,7 @@ Imports:
     beepr,
     datacheckr (>= 0.1.2),
     dplyr,
+    graphics,
     lubridate,
     magrittr,
     mcmcr,
