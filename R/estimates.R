@@ -1,13 +1,22 @@
-#' Get Estimates
+#' Estimates
 #'
-#' Gets the estimates for an object as a named list.
+#' estimates
 #'
-#' @param object The object.
-#' @param terms A string indicating the type of terms to get the estimates for.
+#' @param object The mb_analysis object.
+#' @param terms A string of the type of terms to get the coefficients for.
 #' @param scalar_only A flag indicating whether to only return scalar terms.
-#' @param ...  Not used.
-#' @return The estimates as a named list.
+#' @param ... Not used.
+#' @return A tidy tibble of the coefficient terms.
 #' @export
-estimates <- function(object, terms = "fixed", scalar_only = FALSE, ...) {
-  UseMethod("estimates")
+estimates.mb_analysis <- function(object, terms = "fixed", scalar_only = FALSE, ...) {
+  check_vector(terms, c("^fixed$", "^random$", "^random$"), max_length = 1)
+
+  check_flag(scalar_only)
+  check_unused(...)
+
+  estimates <- estimates(object$mcmcr)
+
+  if (scalar_only) estimates %<>% lapply(function (x) {if(nterms(x) == 1) return(NULL); x})
+
+  estimates
 }
