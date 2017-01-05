@@ -45,9 +45,10 @@ coef.mb_analysis <- function(object, fixed = TRUE, include_constant = TRUE, conf
   check_number(conf_level, c(0.5, 0.99))
   check_unused(...)
 
+  parameters <- parameters(object, fixed)
+
   object %<>% as.mcmcr()
 
-  parameters <- parameters(object, fixed)
   object %<>% subset(parameters = parameters)
 
   object %<>% coef()
