@@ -31,7 +31,7 @@ mb_code <- function(template) {
 
   if (stringr::str_detect(template, "#include <TMB.hpp>")) {
     class <- c("tmb_code", "mb_code")
-  } else if (stringr::str_detect(template, "model[{]")) {
+  } else if (stringr::str_detect(template, "model\\s*[{]")) {
     class <- c("jmb_code", "mb_code")
   } else error("template type is unrecognised")
 
