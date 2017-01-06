@@ -86,7 +86,7 @@ predict.mb_analysis <- function(object,
   check_flag(quick)
   check_flag(quiet)
   check_flag(beep)
-  
+
 
   if (beep) on.exit(beepr::beep())
 
@@ -110,7 +110,7 @@ predict.mb_analysis <- function(object,
 
   object %<>% dplyr::select_(~estimate, ~lower, ~upper)
 
-  object %<>% dplyr::bind_rows(new_data, .)
+  object %<>% dplyr::bind_cols(new_data, .)
 
   object
 }
