@@ -13,7 +13,7 @@ drop_parameters <- function(x, parameters = character(0), ...) {UseMethod("drop_
 drop_parameters.character <- function(x, parameters = character(0), ...) {
   check_vector(parameters, "", min_length = 0)
   check_unique(parameters)
-  
+
 
   if (!length(parameters))
     return(x)
@@ -26,5 +26,18 @@ drop_parameters.character <- function(x, parameters = character(0), ...) {
   for (parameter in parameters) {
     x %<>% str_replace_all(str_c("\\s+", parameter, "\\s+"), str_c(" 0 "))
   }
+  x
+}
+
+#' @export
+drop_parameters.mb_model <- function(x, parameters = character(0), ...) {
+  check_vector(parameters, "", min_length = 0)
+  check_unique(parameters)
+
+
+  if (!length(parameters)) return(x)
+
+  x$code %<>% drop_parameters(parameters = parameters)
+  x$new_expr %<>% drop_parameters(parameters = parameters)
   x
 }

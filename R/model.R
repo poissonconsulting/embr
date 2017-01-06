@@ -16,8 +16,9 @@ model.character <- function(
   monitor = ".*", select_data = list(),
   center = character(0), scale = character(0), modify_data = identity, niters = 10^3,
   new_expr = character(0), modify_new_data = identity, drops = list(), ...) {
+
   x %<>% mb_code()
-  
+
   model(x, gen_inits = gen_inits, monitor = monitor,
         random_effects = random_effects, select_data = select_data,
         center = center, scale = scale, modify_data = modify_data,
@@ -69,7 +70,7 @@ model.mb_code <- function(
   check_scalar(niters, c(10^3, 10^6))
   if (!niters %in% 10^(3:6)) error("niters must be 10^2, 10^3, 10^4, 10^5 or 10^6")
   check_drops(drops)
-  
+
 
   check_all_elements_class_character(random_effects)
   check_x_in_y(unlist(random_effects), names(select_data),
