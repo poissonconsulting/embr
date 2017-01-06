@@ -8,11 +8,10 @@
 #' @export
 estimates.mb_analysis <- function(object, fixed = TRUE, ...) {
   check_flag(fixed)
-  
 
   parameters <- parameters(object, fixed)
 
-  object %<>% as.mcmcr(object)
+  object %<>% as.mcmcr()
 
   object %<>% subset(parameters = parameters)
 
