@@ -8,28 +8,31 @@ set.seed(99)
 
 nsite <- 6
 nyear <- 10
+nvisit <- 5
 start_year <- 2000
 
-alpha <- 1
-beta <- 0.5
-sd_site <- 0.25
-sd_site_year <- 0.125
-sd <- 0.0625
+alpha <- 0
+beta <- 1
+habitat <- 10
+log_sd_site_year <- 1
+log_sd <- 0
 
-site <- data.frame(Site = paste0("Site", 1:nsite))
-site$site_effect <- rnorm(nrow(site), sd = sd_site)
+site <- data.frame(Site = paste0("Site", 1:nsite),
+                   HabitatQuality = c("Low", "High"))
 
-site_year <- expand.grid(Site = paste0("Site", 1:nsite), Year = 1:nyear + start_year)
-site_year$site_year_effect <- rnorm(nrow(site_year), sd = sd_site_year)
+site_year <- expand.grid(Site = site$Site, Year = 1:nyear + start_year)
+site_year$site_year_effect <- rnorm(nrow(site_year), sd = exp(log_sd_site_year))
 
-data <- expand.grid(Visit = 1:3, Site = paste0("Site", 1:nsite), Year = 1:nyear + start_year)
+data <- expand.grid(Visit = 1:nvisit, Site = site$Site,
+                    Year = 1:nyear + start_year)
+
 data %<>% inner_join(site, by = "Site") %>% inner_join(site_year, by = c("Site", "Year"))
 
-data$noise <- rnorm(nrow(data), sd = sd)
+residual <- rnorm(nrow(data), sd = exp(log_sd))
 
-data %<>% mutate(Density = exp(alpha + beta * (Year - start_year) + site_effect + site_year_effect + noise))
+data %<>% mutate(Density = exp(alpha + beta * (Year - start_year) + (as.integer(HabitatQuality) - 1) * habitat + site_year_effect + residual))
 
-data %<>% select(Density, Site, Year, Visit) %>% arrange(Site, Year, Visit)
+data %<>% select(Site, HabitatQuality, Year, Visit, Density) %>% arrange(Site, Year, Visit)
 
 density99 <- data
 use_data(density99, overwrite = TRUE)

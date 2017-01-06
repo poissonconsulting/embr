@@ -4,7 +4,7 @@
 \name{density99}
 \alias{density99}
 \title{Density99}
-\format{An object of class \code{data.frame} with 180 rows and 4 columns.}
+\format{An object of class \code{data.frame} with 300 rows and 5 columns.}
 \usage{
 density99
 }
