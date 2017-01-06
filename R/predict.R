@@ -86,7 +86,7 @@ predict.mb_analysis <- function(object,
   check_flag(quick)
   check_flag(quiet)
   check_flag(beep)
-  check_unused(...)
+  
 
   if (beep) on.exit(beepr::beep())
 

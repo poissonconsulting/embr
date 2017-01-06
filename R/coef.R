@@ -43,7 +43,7 @@ coef.mb_analysis <- function(object, fixed = TRUE, include_constant = TRUE, conf
   check_flag(fixed)
   check_flag(include_constant)
   check_number(conf_level, c(0.5, 0.99))
-  check_unused(...)
+  
 
   parameters <- parameters(object, fixed)
 

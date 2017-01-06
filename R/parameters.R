@@ -1,19 +1,19 @@
 #' @export
 parameters.character <- function(x, ...) {
-  check_unused(...)
+  
   x %<>% str_extract_all("\\w+") %>% unlist() %>% unique() %>% sort()
   x
 }
 
 #' @export
 parameters.mb_code <- function(x, ...) {
-  check_unused(...)
+  
   parameters(template(x))
 }
 
 #' @export
 parameters.mb_analysis <- function(x, fixed = TRUE, ...) {
-  check_unused(...)
+  
 
   check_flag(fixed)
 

@@ -8,7 +8,7 @@
 #' @export
 estimates.mb_analysis <- function(object, fixed = TRUE, ...) {
   check_flag(fixed)
-  check_unused(...)
+  
 
   parameters <- parameters(object, fixed)
 

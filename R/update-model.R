@@ -22,7 +22,7 @@ update_model.mb_model <- function(model, code = NULL, gen_inits = NULL,
                                   niters = NULL, new_expr = NULL, modify_new_data = NULL,
                                   drops = NULL, ...) {
 
-  check_unused(...)
+  
 
   if (is.null(code)) code <- code(model)
   if (is.null(gen_inits)) gen_inits <- model$gen_inits

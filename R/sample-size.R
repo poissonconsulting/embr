@@ -12,12 +12,12 @@ sample_size <- function(object, ...) {
 
 #' @export
 sample_size.data.frame <- function(object, ...) {
-  check_unused(...)
+  
   nrow(object)
 }
 
 #' @export
 sample_size.mb_analysis <- function(object, ...) {
-  check_unused(...)
+  
   sample_size(data_set(object))
 }

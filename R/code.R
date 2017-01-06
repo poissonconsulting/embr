@@ -12,7 +12,7 @@ code <- function(object, ...) {
 
 #' @export
 code.mb_model <- function(object, ...) {
-  check_unused(...)
+  
   object$code
 }
 

@@ -12,7 +12,7 @@ data_set <- function(analysis, modify = FALSE, ...) {UseMethod("data_set")}
 #' @export
 data_set.mb_analysis <- function(analysis, modify = FALSE, ...) {
   check_flag(modify)
-  check_unused(...)
+  
 
   data <- analysis$data
 

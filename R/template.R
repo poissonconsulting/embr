@@ -23,7 +23,7 @@ template <- function(object, ...) {
 
 #' @export
 template.mb_code <- function(object, ...) {
-  check_unused(...)
+  
   object$template
 }
 

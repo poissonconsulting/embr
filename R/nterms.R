@@ -6,7 +6,7 @@
 #' @param ... unused
 #' @export
 nterms.mb_analysis <- function(x, fixed = TRUE, include_constant = TRUE, ...) {
-  check_unused(...)
+  
   check_flag(fixed)
   check_flag(include_constant)
 
