@@ -33,7 +33,7 @@ IC.list <- function(object, n = NULL, ...) {
   if (!all(vapply(data, identical, TRUE, data[[1]]))) error("all elements of object must have the same random effects")
 
   tibble <- dplyr::data_frame(model = names(object))
-  tibble$k <- vapply(object, nterms, 1L, fixed = TRUE, include_constant = FALSE)
+  tibble$k <- vapply(object, nterms, 1L, include_constant = FALSE)
   tibble$ic <- vapply(object, IC, 1, n = n, ...)
   tibble$difference <- tibble$ic - min(tibble$ic)
   tibble$weight <- exp(-0.5 * tibble$difference)
@@ -42,4 +42,33 @@ IC.list <- function(object, n = NULL, ...) {
   tibble$difference %<>% round(1)
   tibble$weight %<>% round(2)
   tibble
+}
+
+#' Akaike's Information Criteron
+#'
+#' Calculates marginal AICc for an analysis.
+#'
+#' By default the sample size is assumed to be the number of rows
+#' in the analysis data set. To override manually set n to be an integer ie n = 10L.
+#' To calculate AIC (as opposed to AICc) set n = Inf.
+#'
+#' @param object The object to calculate the AIC for.
+#' @param n A count of the sample size.
+#' @param ... Not used.
+#' @return The Akaike's Information Criteron as a number.
+#' @export
+AIC.mb_analysis <- function(object, n = NULL, ...){
+
+  k <- nterms(object, include_constant = FALSE)
+
+  if (is.null(n)) n <- sample_size(object)
+
+  if (is.infinite(n)) {
+    c <- 0
+  } else {
+    check_count(n)
+    c <- 2 * k * (k + 1) / (n - k - 1)
+  }
+
+  2 * k - 2 * logLik(object) + c
 }
