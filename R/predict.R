@@ -106,6 +106,11 @@ predict.mb_analysis <- function(object,
 
   object %<>% derive(expr = new_expr, values = data, monitor = paste0("^", term, "$"))
 
+  dims <- dims(object[[1]])
+  if (!identical(length(dims), 3L)) error("term must be a vector")
+  if (!identical(dims[3], nrow(new_data)))
+    error("term must be the same length as the number of columns in new_data")
+
   object %<>% coef(conf_level = conf_level)
 
   object %<>% dplyr::select_(~estimate, ~lower, ~upper)
