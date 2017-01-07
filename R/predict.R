@@ -104,7 +104,7 @@ predict.mb_analysis <- function(object,
 
   data %<>% numericize_factors()
 
-  object %<>% predict(expr = new_expr, values = data, monitor = paste0("^", term, "$"))
+  object %<>% derive(expr = new_expr, values = data, monitor = paste0("^", term, "$"))
 
   object %<>% coef(conf_level = conf_level)
 
