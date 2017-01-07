@@ -1,3 +1,8 @@
+aicc <- function(k, logLik, n = Inf) {
+  c <- 2 * k * (k + 1) / (n - k - 1)
+  2 * k - 2 * logLik + c
+}
+
 #' Information Criterion
 #'
 #' Calculate default information criterion.
@@ -7,11 +12,6 @@
 #' @export
 IC <- function(object, ...) {
   UseMethod("IC")
-}
-
-#' @export
-IC.default <- function(object, ...) {
-  return(NA_real_)
 }
 
 #' Information Criterion
@@ -55,9 +55,9 @@ IC.list <- function(object, n = NULL, ...) {
   tibble
 }
 
-aicc <- function(k, logLik, n = Inf) {
-  c <- 2 * k * (k + 1) / (n - k - 1)
-  2 * k - 2 * logLik + c
+#' @export
+IC.mb_analysis <- function(object, ...) {
+  return(NA_real_)
 }
 
 #' Akaike's Information Criteron

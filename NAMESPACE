@@ -2,8 +2,8 @@
 
 S3method("template<-",mb_code)
 S3method(AIC,mb_analysis)
-S3method(IC,default)
 S3method(IC,list)
+S3method(IC,mb_analysis)
 S3method(analyse,list)
 S3method(analyse,mb_model)
 S3method(as.mcmcr,mb_analysis)
