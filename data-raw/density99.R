@@ -30,7 +30,7 @@ data %<>% inner_join(site, by = "Site") %>% inner_join(site_year, by = c("Site",
 
 residual <- rnorm(nrow(data), sd = exp(log_sd))
 
-data %<>% mutate(Density = exp(alpha + beta * (Year - start_year) + (as.integer(HabitatQuality) - 1) * habitat + site_year_effect + residual))
+data %<>% mutate(Density = exp(alpha + beta * (Year - mean(Year)) + (as.integer(HabitatQuality) - 1) * habitat + site_year_effect + residual))
 
 data %<>% select(Site, HabitatQuality, Year, Visit, Density) %>% arrange(Site, Year, Visit)
 
