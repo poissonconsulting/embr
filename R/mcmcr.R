@@ -1,13 +1,13 @@
-#' Convergence
+#' RhatÎı
 #'
-#' convergence
+#' rhat
 #'
 #' @param x The mb_analysis object.
 #' @param ... Not used.
 #' @return A tidy tibble of the coefficient terms.
 #' @export
-convergence.mb_analysis <- function(x, ...) {
-  convergence(as.mcmcr(x))
+rhat.mb_analysis <- function(x, ...) {
+  rhat(as.mcmcr(x))
 }
 
 
@@ -37,11 +37,11 @@ niters.mb_analysis <- function(x, ...) {
 
 #' Is Converged
 #'
-#' @param x Object to test convergence for
+#' @param x Object to test rhat for
 #' @param rhat A number specifying the rhat threshold.
 #' @param ... Unused
 #' @export
 is_converged.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), ...) {
   check_number(rhat)
-  convergence(as.mcmcr(x)) <= rhat
+  rhat(as.mcmcr(x)) <= rhat
 }

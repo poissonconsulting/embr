@@ -7,7 +7,7 @@
 is_converged.mb_analysis(x, rhat = getOption("mb.rhat", 1.1), ...)
 }
 \arguments{
-\item{x}{Object to test convergence for}
+\item{x}{Object to test rhat for}
 
 \item{rhat}{A number specifying the rhat threshold.}
 
