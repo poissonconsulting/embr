@@ -1,4 +1,5 @@
 #' @import datacheckr
+#' @importFrom broom glance tidy
 #' @importFrom stats coef
 #' @importFrom graphics plot
 #' @importFrom magrittr %<>% %>%

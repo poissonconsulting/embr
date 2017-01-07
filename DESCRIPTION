@@ -7,6 +7,7 @@ Description: Utility functions and virtual classes shared by model builder packa
     such as tmbr.
 Depends:
     R (>= 3.3.1),
+    broom,
     mcmcr (>= 0.0.0.9004),
     stats
 Imports:
