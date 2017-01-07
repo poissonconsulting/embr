@@ -86,3 +86,23 @@ model_names <- function(x, drops) {
 drop_indices <- function(x) {
   str_replace(x, "^(\\w+)(\\[.*)", "\\1")
 }
+
+#' plapply
+#'
+#' @inheritParams base::lapply
+#' @export
+plapply <- function(X, FUN, ...) {
+  if (!is.list(X)) error("X must be a list")
+
+  if (!length(X)) return(X)
+
+  nworkers <- foreach::getDoParWorkers()
+
+  print(nworkers)
+
+  if (identical(nworkers, 1L) || length(X) > nworkers) return(lapply(X, FUN, ...))
+
+  i <- NULL
+  foreach::foreach(i = itertools::isplitIndices(n = length(X), chunks = nworkers)) %dopar%
+    FUN(X[[i]], ...)
+}

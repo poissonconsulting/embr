@@ -42,6 +42,5 @@ niters.mb_analysis <- function(x, ...) {
 #' @param ... Unused
 #' @export
 converged.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), ...) {
-  check_number(rhat)
-  rhat(as.mcmcr(x)) <= rhat
+  converged(as.mcmcr(x), rhat = rhat)
 }

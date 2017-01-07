@@ -4,7 +4,7 @@
 \alias{converged.mb_analysis}
 \title{Is Converged}
 \usage{
-converged.mb_analysis(x, rhat = getOption("mb.rhat", 1.1), ...)
+\method{converged}{mb_analysis}(x, rhat = getOption("mb.rhat", 1.1), ...)
 }
 \arguments{
 \item{x}{Object to test rhat for}
