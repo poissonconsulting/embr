@@ -1,12 +1,10 @@
 #' @export
-glance.mb_analysis <- function(x, ...) {
-
-  logLik <- log
-
+glance.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), ...) {
   dplyr::data_frame(
-    rhat = rhat(x),
+    n = sample_size(x),
+    k = nterms(x, include_constant = FALSE),
     IC = IC(x),
-    logLik = logLik(x)
+    converged = converged(x, rhat = rhat)
   )
 }
 
