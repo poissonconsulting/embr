@@ -1,13 +1,13 @@
 Package: mbr
 Title: Model Builder Utility Functions and Virtual Classes
-Version: 0.0.0.9025
-Date: 2017-01-05
+Version: 0.0.0.9026
+Date: 2017-01-07
 Authors@R: person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre"))
 Description: Utility functions and virtual classes shared by model builder packages
     such as tmbr.
 Depends:
     R (>= 3.3.1),
-    mcmcr (>= 0.0.0.9003),
+    mcmcr (>= 0.0.0.9004),
     stats
 Imports:
     beepr,

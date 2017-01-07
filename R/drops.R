@@ -68,14 +68,14 @@ next_drop <- function(analysis, drops, conf_level) {
 
   if (!all(drop %in% coef$term)) error("unrecognised fixed scalar parameter")
 
-  if (any(is.na(coef$p.value))) error("undefined p-values")
+  if (any(is.na(coef$significance))) error("undefined significances")
 
-  coef %<>% dplyr::filter_(~p.value > (1 - conf_level))
+  coef %<>% dplyr::filter_(~significance > (1 - conf_level))
   if (!nrow(coef)) return(character(0))
 
   coef %<>% dplyr::filter_(~term %in% drop)
   if (!nrow(coef)) return(character(0))
 
-  coef %<>% dplyr::arrange_(~dplyr::desc(p.value))
+  coef %<>% dplyr::arrange_(~dplyr::desc(significance))
   coef$term[1]
 }

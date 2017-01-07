@@ -30,7 +30,7 @@ coef.list <- function(object, fixed = TRUE, conf_level = 0.95, n = NULL, ...) {
 #'
 #'  Permitted values for terms are 'fixed' and 'random'.
 #'
-#' The \code{statistic} is mean / std.error.
+#' The \code{zscore} is mean / sd.
 #'
 #' @param object The mb_analysis object.
 #' @param fixed A flag specifying whether fixed or random terms.

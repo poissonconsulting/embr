@@ -27,6 +27,6 @@ Coefficients for a JAGS analysis.
 \details{
 Permitted values for terms are 'fixed' and 'random'.
 
-The \code{statistic} is mean / std.error.
+The \code{zscore} is mean / sd.
 }
 
