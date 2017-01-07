@@ -13,7 +13,7 @@ model <- function(x, ...) {
 #' @export
 model.character <- function(
   x, gen_inits = function(data) {list()}, random_effects = list(),
-  monitor = ".*", select_data = list(),
+  monitor = "^[^e]", select_data = list(),
   center = character(0), scale = character(0), modify_data = identity, niters = 10^3,
   new_expr = character(0), modify_new_data = identity, drops = list(), ...) {
 
@@ -52,7 +52,7 @@ model.character <- function(
 #' @seealso \code{\link[datacheckr]{check_data}} \code{\link[rescale]{rescale}}
 #' @export
 model.mb_code <- function(
-  x, gen_inits = function(data) {list()}, random_effects = list(), monitor = ".*",
+  x, gen_inits = function(data) {list()}, random_effects = list(), monitor = "^[^e]",
   select_data = list(), center = character(0), scale = character(0),
   modify_data = identity, niters = 10^3,
   new_expr = character(0), modify_new_data = identity, drops = list(), ...) {

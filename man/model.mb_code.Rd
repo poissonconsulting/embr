@@ -5,7 +5,7 @@
 \title{MB Model}
 \usage{
 \method{model}{mb_code}(x, gen_inits = function(data) {     list() },
-  random_effects = list(), monitor = ".*", select_data = list(),
+  random_effects = list(), monitor = "^[^e]", select_data = list(),
   center = character(0), scale = character(0), modify_data = identity,
   niters = 10^3, new_expr = character(0), modify_new_data = identity,
   drops = list(), ...)
