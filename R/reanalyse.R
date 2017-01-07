@@ -4,9 +4,11 @@
 #'
 #' @inheritParams analyse_data
 #' @param analysis An object inheriting from class mb_analysis or a list of such objects.
+#' @param rhat A number specifying the rhat threshold.
 #' @param minutes The target maximum number of minutes to spend on analysis/reanalysis.
 #' @export
 reanalyse <- function(analysis,
+                      rhat = getOption("mb.rhat", 1.1),
                       minutes = getOption("mb.minutes", 60L),
                       parallel = getOption("mb.parallel", FALSE),
                       quick = getOption("mb.quick", FALSE),
@@ -18,6 +20,7 @@ reanalyse <- function(analysis,
 
 #' @export
 reanalyse.list <- function(analysis,
+                           rhat = getOption("mb.rhat", 1.1),
                            minutes = getOption("mb.minutes", 60L),
                            parallel = getOption("mb.parallel", FALSE),
                            quick = getOption("mb.quick", FALSE),
@@ -28,11 +31,12 @@ reanalyse.list <- function(analysis,
 
   if (beep) on.exit(beepr::beep())
 
-  plyr::llply(analysis, reanalyse, minutes = minutes, quick = quick, quiet = quiet, beep = FALSE, ...)
+  plyr::llply(analysis, reanalyse, rhat = rhat, minutes = minutes, quick = quick, quiet = quiet, beep = FALSE, ...)
 }
 
 #' @export
 reanalyse.mb_model <- function(analysis,
+                               rhat = getOption("mb.rhat", 1.1),
                                minutes = getOption("mb.minutes", 60L),
                                parallel = getOption("mb.parallel", FALSE),
                                quick = getOption("mb.quick", FALSE),
@@ -44,6 +48,7 @@ reanalyse.mb_model <- function(analysis,
 
 #' @export
 reanalyse.mb_analysis <- function(analysis,
+                                  rhat = getOption("mb.rhat", 1.1),
                                   minutes = getOption("mb.minutes", 60L),
                                   parallel = getOption("mb.parallel", FALSE),
                                   quick = getOption("mb.quick", FALSE),

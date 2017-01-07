@@ -4,13 +4,16 @@
 \alias{reanalyse}
 \title{Reanalyse}
 \usage{
-reanalyse(analysis, minutes = getOption("mb.minutes", 60L),
+reanalyse(analysis, rhat = getOption("mb.rhat", 1.1),
+  minutes = getOption("mb.minutes", 60L),
   parallel = getOption("mb.parallel", FALSE), quick = getOption("mb.quick",
   FALSE), quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep",
   TRUE), ...)
 }
 \arguments{
 \item{analysis}{An object inheriting from class mb_analysis or a list of such objects.}
+
+\item{rhat}{A number specifying the rhat threshold.}
 
 \item{minutes}{The target maximum number of minutes to spend on analysis/reanalysis.}
 
