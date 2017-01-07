@@ -98,8 +98,6 @@ plapply <- function(X, FUN, ...) {
 
   nworkers <- foreach::getDoParWorkers()
 
-  print(nworkers)
-
   if (identical(nworkers, 1L) || length(X) > nworkers) return(lapply(X, FUN, ...))
 
   i <- NULL
