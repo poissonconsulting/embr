@@ -4,6 +4,7 @@ glance.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), ...) {
     n = sample_size(x),
     k = nterms(x, include_constant = FALSE),
     IC = IC(x),
+    minutes = elapsed(x),
     converged = converged(x, rhat = rhat)
   )
 }
