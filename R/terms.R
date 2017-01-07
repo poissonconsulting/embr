@@ -10,7 +10,6 @@
 terms.mb_analysis <- function(x, fixed = TRUE, include_constant = TRUE, ...) {
   check_flag(fixed)
   check_flag(include_constant)
-  
 
-  coef(x, fixed = fixed, include_constant = include_constant)$terms
+  coef(x, fixed = fixed, include_constant = include_constant)$term
 }
