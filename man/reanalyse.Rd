@@ -4,7 +4,7 @@
 \alias{reanalyse}
 \title{Reanalyse}
 \usage{
-reanalyse(analysis, duration = getOption("mb.duration", duration(1, "hours")),
+reanalyse(analysis, minutes = getOption("mb.minutes", 60L),
   parallel = getOption("mb.parallel", FALSE), quick = getOption("mb.quick",
   FALSE), quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep",
   TRUE), ...)
@@ -12,7 +12,7 @@ reanalyse(analysis, duration = getOption("mb.duration", duration(1, "hours")),
 \arguments{
 \item{analysis}{An object inheriting from class mb_analysis or a list of such objects.}
 
-\item{duration}{The target maximum amount of time to spend on analysis.}
+\item{minutes}{The target maximum number of minutes to spend on analysis/reanalysis.}
 
 \item{parallel}{A flag indicating whether to perform the analysis in parallel if possible.}
 

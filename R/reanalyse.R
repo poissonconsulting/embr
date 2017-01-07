@@ -4,10 +4,10 @@
 #'
 #' @inheritParams analyse_data
 #' @param analysis An object inheriting from class mb_analysis or a list of such objects.
-#' @param duration The target maximum amount of time to spend on analysis.
+#' @param minutes The target maximum number of minutes to spend on analysis/reanalysis.
 #' @export
 reanalyse <- function(analysis,
-                      duration = getOption("mb.duration", duration(1, "hours")),
+                      minutes = getOption("mb.minutes", 60L),
                       parallel = getOption("mb.parallel", FALSE),
                       quick = getOption("mb.quick", FALSE),
                       quiet = getOption("mb.quiet", TRUE),
@@ -18,7 +18,7 @@ reanalyse <- function(analysis,
 
 #' @export
 reanalyse.list <- function(analysis,
-                           duration = getOption("mb.duration", duration(1, "hours")),
+                           minutes = getOption("mb.minutes", 60L),
                            parallel = getOption("mb.parallel", FALSE),
                            quick = getOption("mb.quick", FALSE),
                            quiet = getOption("mb.quiet", TRUE),
@@ -28,12 +28,12 @@ reanalyse.list <- function(analysis,
 
   if (beep) on.exit(beepr::beep())
 
-  plyr::llply(analysis, reanalyse, duration = duration, quick = quick, quiet = quiet, beep = FALSE, ...)
+  plyr::llply(analysis, reanalyse, minutes = minutes, quick = quick, quiet = quiet, beep = FALSE, ...)
 }
 
 #' @export
 reanalyse.mb_model <- function(analysis,
-                               duration = getOption("mb.duration", duration(1, "hours")),
+                               minutes = getOption("mb.minutes", 60L),
                                parallel = getOption("mb.parallel", FALSE),
                                quick = getOption("mb.quick", FALSE),
                                quiet = getOption("mb.quiet", TRUE),
@@ -44,7 +44,7 @@ reanalyse.mb_model <- function(analysis,
 
 #' @export
 reanalyse.mb_analysis <- function(analysis,
-                                  duration = getOption("mb.duration", duration(1, "hours")),
+                                  minutes = getOption("mb.minutes", 60L),
                                   parallel = getOption("mb.parallel", FALSE),
                                   quick = getOption("mb.quick", FALSE),
                                   quiet = getOption("mb.quiet", TRUE),
