@@ -3,19 +3,30 @@
 #' Calculate default information criterion.
 #'
 #' @param object The object to calculate it for.
-#' @param n A count of the sample size.
 #' @param ... Not used.
 #' @export
-IC <- function(object, n = NULL, ...) {
+IC <- function(object, ...) {
   UseMethod("IC")
 }
 
+#' @export
+IC.default <- function(object, ...) {
+  return(NA_real_)
+}
+
+#' Information Criterion
+#'
+#' Calculate default information criterion.
+#'
+#' @param object The object to calculate it for.
+#' @param n A count of the sample size.
+#' @param ... Unused.
 #' @export
 IC.list <- function(object, n = NULL, ...) {
   if (!is.list(object)) error("object must be a list")
 
   if (!length(object)) return(dplyr::data_frame(model = character(0), k = integer(0), ic = numeric(0),
-                                             difference = numeric(0), weight = numeric(0)))
+                                                difference = numeric(0), weight = numeric(0)))
 
   if (!all(vapply(object, is.mb_analysis, TRUE))) error("object must be a list of mb_analysis objects")
 
@@ -44,6 +55,11 @@ IC.list <- function(object, n = NULL, ...) {
   tibble
 }
 
+aicc <- function(k, logLik, n = Inf) {
+  c <- 2 * k * (k + 1) / (n - k - 1)
+  2 * k - 2 * logLik + c
+}
+
 #' Akaike's Information Criteron
 #'
 #' Calculates marginal AICc for an analysis.
@@ -63,12 +79,5 @@ AIC.mb_analysis <- function(object, n = NULL, ...){
 
   if (is.null(n)) n <- sample_size(object)
 
-  if (is.infinite(n)) {
-    c <- 0
-  } else {
-    check_count(n)
-    c <- 2 * k * (k + 1) / (n - k - 1)
-  }
-
-  2 * k - 2 * logLik(object) + c
+  aicc(n = n, k = nterms, logLik = logLik(object))
 }
