@@ -7,7 +7,11 @@
 \method{plot}{mb_analysis}(x, fixed = TRUE, ...)
 }
 \arguments{
+\item{x}{The analysis object to plot}
+
 \item{fixed}{A flag specifying whether fixed or random terms.}
+
+\item{...}{Unused.}
 }
 \description{
 Plot Analysis
