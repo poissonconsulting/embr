@@ -104,7 +104,7 @@ predict.mb_analysis <- function(object,
 
   data %<>% numericize_factors()
 
-  object %<>% derive(expr = new_expr, values = data, monitor = paste0("^", term, "$"))
+  object %<>% predict(expr = new_expr, values = data, monitor = paste0("^", term, "$"))
 
   dims <- dims(object[[1]])
   if (!identical(length(dims), 3L)) error("term must be a vector")

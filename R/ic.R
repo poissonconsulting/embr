@@ -74,10 +74,9 @@ IC.mb_analysis <- function(object, ...) {
 #' @return The Akaike's Information Criteron as a number.
 #' @export
 AIC.mb_analysis <- function(object, n = NULL, ...){
-
   k <- nterms(object, include_constant = FALSE)
 
   if (is.null(n)) n <- sample_size(object)
 
-  aicc(n = n, k = nterms, logLik = logLik(object))
+  aicc(n = n, k = k, logLik = logLik(object))
 }
