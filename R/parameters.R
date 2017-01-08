@@ -17,6 +17,8 @@ parameters.mb_analysis <- function(x, fixed = TRUE, ...) {
 
   random <- names(random_effects(x))
 
+  if (is.null(random)) random <- character(0)
+
   if (!fixed) return(random)
 
   parameters <- parameters(as.mcmcr(x))
