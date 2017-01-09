@@ -14,10 +14,10 @@ coef.list <- function(object, fixed = TRUE, conf_level = 0.95, n = NULL, ...) {
   check_flag(fixed)
 
   nmodels <- length(object)
-  ic <- IC(object, n = n)
+  maicc <- mAICc(object, n = n)
   coef <- lapply(object, coef, fixed = fixed,
                  conf_level = conf_level)
-  coef %<>% purrr::map2_df(ic$weight, function(x, y) {x$weight <- y; x})
+  coef %<>% purrr::map2_df(maicc$weight, function(x, y) {x$weight <- y; x})
   coef %<>% dplyr::group_by_(~term) %>% dplyr::summarise_(
     estimate = ~sum(estimate * weight), lower = ~sum(lower * weight),
     upper = ~sum(upper * weight), weight = ~sum(weight), proportion = ~n()/nmodels) %>% dplyr::ungroup()
@@ -43,7 +43,7 @@ coef.mb_analysis <- function(object, fixed = TRUE, include_constant = TRUE, conf
   check_flag(fixed)
   check_flag(include_constant)
   check_number(conf_level, c(0.5, 0.99))
-  
+
 
   parameters <- parameters(object, fixed)
 

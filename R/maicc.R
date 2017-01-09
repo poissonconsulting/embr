@@ -1,28 +1,27 @@
-aicc <- function(k, logLik, n = Inf) {
-  c <- 2 * k * (k + 1) / (n - k - 1)
-  2 * k - 2 * logLik + c
-}
-
-#' Information Criterion
+#' Akaike's Information Criteron
 #'
-#' Calculate default information criterion.
+#' Calculates marginal AICc for an analysis.
 #'
-#' @param object The object to calculate it for.
+#' By default the sample size is assumed to be the number of rows
+#' in the analysis data set. To override manually set n to be an integer ie n = 10L.
+#' To calculate mAIC (as opposed to mAICc) set n = Inf.
+#'
+#' @param object The object to calculate the AIC for.
 #' @param ... Not used.
+#' @return The Akaike's Information Criteron as a number.
 #' @export
-IC <- function(object, ...) {
-  UseMethod("IC")
+mAICc <- function(object, ...) {
+  UseMethod("mAICc")
 }
 
-#' Information Criterion
-#'
-#' Calculate default information criterion.
-#'
-#' @param object The object to calculate it for.
-#' @param n A count of the sample size.
-#' @param ... Unused.
 #' @export
-IC.list <- function(object, n = NULL, ...) {
+mAICc.numeric <- function(object, nterms, n = Inf, ...) {
+  c <- 2 * nterms * (nterms + 1) / (n - nterms - 1)
+  2 * nterms - 2 * object + c
+}
+
+#' @export
+mAICc.list <- function(object, n = NULL, ...) {
   if (!is.list(object)) error("object must be a list")
 
   if (!length(object)) return(dplyr::data_frame(model = character(0), k = integer(0), ic = numeric(0),
@@ -45,7 +44,7 @@ IC.list <- function(object, n = NULL, ...) {
 
   tibble <- dplyr::data_frame(model = names(object))
   tibble$k <- vapply(object, nterms, 1L, include_constant = FALSE)
-  tibble$ic <- vapply(object, IC, 1, n = n, ...)
+  tibble$ic <- vapply(object, mAICc, 1, n = n, ...)
   tibble$difference <- tibble$ic - min(tibble$ic)
   tibble$weight <- exp(-0.5 * tibble$difference)
   tibble$weight <- tibble$weight / sum(tibble$weight)
@@ -56,27 +55,6 @@ IC.list <- function(object, n = NULL, ...) {
 }
 
 #' @export
-IC.mb_analysis <- function(object, ...) {
+mAICc.mb_analysis <- function(object, n = NULL, ...) {
   return(NA_real_)
-}
-
-#' Akaike's Information Criteron
-#'
-#' Calculates marginal AICc for an analysis.
-#'
-#' By default the sample size is assumed to be the number of rows
-#' in the analysis data set. To override manually set n to be an integer ie n = 10L.
-#' To calculate AIC (as opposed to AICc) set n = Inf.
-#'
-#' @param object The object to calculate the AIC for.
-#' @param n A count of the sample size.
-#' @param ... Not used.
-#' @return The Akaike's Information Criteron as a number.
-#' @export
-AIC.mb_analysis <- function(object, n = NULL, ...){
-  k <- nterms(object, include_constant = FALSE)
-
-  if (is.null(n)) n <- sample_size(object)
-
-  aicc(n = n, k = k, logLik = logLik(object))
 }
