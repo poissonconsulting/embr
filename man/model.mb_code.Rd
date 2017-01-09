@@ -5,7 +5,7 @@
 \title{MB Model}
 \usage{
 \method{model}{mb_code}(x, gen_inits = function(data) {     list() },
-  random_effects = list(), fixed = "^[^e]", report = character(0),
+  random_effects = list(), fixed = "^[^e]", derived = character(0),
   select_data = list(), center = character(0), scale = character(0),
   modify_data = identity, niters = 10^3, new_expr = character(0),
   modify_new_data = identity, drops = list(), ...)
@@ -20,7 +20,7 @@ returning a named list of initial values.}
 
 \item{fixed}{A string of a regular expression specifying the fixed parameters to monitor.}
 
-\item{report}{A string of a regular expression specifying the derived parameters to monitor.}
+\item{derived}{A string of a regular expression specifying the derived parameters to monitor.}
 
 \item{select_data}{A named list specifying the columns to select and their associated classes and values.}
 
