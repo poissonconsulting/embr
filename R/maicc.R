@@ -56,5 +56,7 @@ mAICc.list <- function(object, n = NULL, ...) {
 
 #' @export
 mAICc.mb_analysis <- function(object, n = NULL, ...) {
-  return(NA_real_)
+  nterms <- nterms(object, include_constant = FALSE)
+  n <- sample_size(object)
+  mAICc(logLik(object), nterms = nterms, n = n)
 }
