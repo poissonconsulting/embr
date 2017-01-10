@@ -45,7 +45,7 @@ AICc.list <- function(object, n = NULL, ...) {
   tibble <- dplyr::data_frame(model = names(object))
   tibble$K <- vapply(object, nterms, 1L, include_constant = FALSE)
   tibble$AICc <- vapply(object, AICc, 1, n = n, ...)
-  tibble$DeltaAICc <- tibble$ic - min(tibble$ic)
+  tibble$DeltaAICc <- tibble$AICc - min(tibble$AICc)
   tibble$AICcWt <- exp(-0.5 * tibble$DeltaAICc)
   tibble$AICcWt <- tibble$AICcWt / sum(tibble$AICcWt)
 
