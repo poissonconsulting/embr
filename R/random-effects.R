@@ -10,12 +10,10 @@ random_effects <- function(object, ...) {UseMethod("random_effects")}
 
 #' @export
 random_effects.mb_model <- function(object, ...) {
-  
   object$random_effects
 }
 
 #' @export
 random_effects.mb_analysis <- function(object, ...) {
-  
   random_effects(model(object))
 }
