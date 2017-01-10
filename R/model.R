@@ -97,13 +97,11 @@ model.mb_code <- function(
   check_x_in_y(center, names(select_data), y_name = "select_data", type_y = "names")
   check_x_in_y(scale, names(select_data), y_name = "select_data", type_y = "names")
 
-  parameters <- parameters(x)
-
-  if (!all(names(random_effects) %in% parameters))
+  if (!all(names(random_effects) %in% parameters(x, "random")))
     error("random effects parameters missing from code parameters")
-  if (!all(derived %in% parameters))
+  if (!all(derived %in% parameters(x, "derived")))
     error("derived parameters missing from code parameters")
-  if (!all(unlist(drops) %in% parameters))
+  if (!all(unlist(drops) %in% parameters(x, "fixed")))
     error("drops parameters missing from code parameters")
 
   center %<>% sort()
