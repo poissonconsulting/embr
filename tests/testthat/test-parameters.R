@@ -11,4 +11,6 @@ test_that("parameters", {
                          "residual", "x", "y", "Year")))
   expect_identical(parameters(c("b", "a")), sort(c("a", "b")))
   expect_identical(parameters(""), character(0))
+
+
 })
