@@ -42,7 +42,6 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
   check_flag(include_constant)
   check_number(conf_level, c(0.5, 0.99))
 
-
   parameters <- parameters(object, param_type)
 
   object %<>% as.mcmcr()

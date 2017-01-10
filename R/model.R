@@ -78,30 +78,39 @@ model.mb_code <- function(
   check_x_in_y(unlist(random_effects), names(select_data),
                x_name = "random_effects", y_name = "select_data",
                type_x = "elements", type_y = "names")
-
   check_x_not_in_y(names(random_effects), names(select_data),
                x_name = "random_effects", y_name = "select_data",
                type_x = "names", type_y = "names")
-
   check_x_not_in_y(derived, names(select_data),
                    x_name = "derived", y_name = "select_data", type_y = "names")
-
+  check_x_not_in_y(names(random_effects), derived,
+                   x_name = "random_effects", y_name = "derived", type_x = "names")
   check_x_not_in_y(unlist(random_effects), center, x_name = "random_effects",
                    type_x = "elements")
   check_x_not_in_y(unlist(random_effects), scale, x_name = "random_effects",
+                   type_x = "elements")
+  check_x_not_in_y(derived, center, x_name = "random_effects",
+                   type_x = "elements")
+  check_x_not_in_y(derived, scale, x_name = "random_effects",
                    type_x = "elements")
 
   check_x_in_y(center, names(select_data), y_name = "select_data", type_y = "names")
   check_x_in_y(scale, names(select_data), y_name = "select_data", type_y = "names")
 
-  if (!all(names(random_effects) %in% parameters(x)))
+  if (!all(names(random_effects) %in% parameters(x, param_type = "random")))
     error("random effects parameters missing from code parameters")
-  if (!all(derived %in% parameters(x)))
+  if (!all(derived %in% parameters(x, param_type = "derived")))
     error("derived parameters missing from code parameters")
-  if (length(intersect(names(random_effects), derived)))
-    error("random effects parameters in derived")
-  if (!all(unlist(drops) %in% parameters(x)))
-    error("scalar drops parameters missing from code parameters")
+
+  named <- unique(c(names(random_effects), derived))
+
+  regexp <- parameters(x, param_type = "fixed")
+  regexp %<>% setdiff(named)
+  regexp <- regexp[str_match(regexp, fixed)]
+  if (!length(regexp)) error("fixed parameters missing from code parameters")
+
+  if (!all(unlist(drops) %in% regexp))
+    error("scalar drops parameters missing from fixed code parameters")
 
   center %<>% sort()
   scale %<>% sort()

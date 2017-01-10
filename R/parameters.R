@@ -17,7 +17,7 @@ parameters.mb_analysis <- function(x, param_type = "fixed", ...) {
   if (is.null(random)) random <- character(0)
   derived <- x$model$derived
 
-  if (identical(param_type, "fixed")) return(random)
+  if (identical(param_type, "random")) return(random)
   if (identical(param_type, "derived")) return(derived)
 
   parameters <- parameters(as.mcmcr(x))
