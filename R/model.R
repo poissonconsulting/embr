@@ -97,12 +97,26 @@ model.mb_code <- function(
   check_x_in_y(center, names(select_data), y_name = "select_data", type_y = "names")
   check_x_in_y(scale, names(select_data), y_name = "select_data", type_y = "names")
 
-  if (!all(names(random_effects) %in% parameters(x, "random")))
-    error("random effects parameters missing from code parameters")
-  if (!all(derived %in% parameters(x, "derived")))
+  parameters_fixed <- unique(c(parameters("fixed", scalar = TRUE),
+                               parameters("fixed", scalar = FALSE)))
+
+  parameters_derived <- unique(c(parameters("derived", scalar = TRUE),
+                               parameters("derived", scalar = FALSE)))
+
+  parameters_random <- unique(c(parameters("random", scalar = FALSE)))
+  # cannot test random as scalar as not always possible to separate
+
+  if (!any(str_detect(parameters_fixed, fixed)))
+    error("fixed does not match any code parameters")
+
+  if (!all(unlist(drops) %in% parameters(x, "fixed", scalar = TRUE)))
+    error("drops parameters missing from scalar code parameters")
+
+  if (!all(derived %in% parameters_derived))
     error("derived parameters missing from code parameters")
-  if (!all(unlist(drops) %in% parameters(x, "fixed")))
-    error("drops parameters missing from code parameters")
+
+  if (!all(names(random_effects) %in% parameters_random))
+    error("random effects parameters missing from code parameters")
 
   center %<>% sort()
   scale %<>% sort()
