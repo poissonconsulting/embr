@@ -1,22 +1,20 @@
 #' Coef TMB Analyses
 #'
-#' Coefficients for a list of MB analyses averaged by IC weights.
+#' Coefficients for fixed parameters from a list of ML based
+#' MB analyses averaged by AICc weights.
 #'
 #' @param object The list of tmb_analysis objects.
-#' @param param_type A flag specifying whether 'fixed', 'random' or 'derived' terms.
 #' @param conf_level A number specifying the confidence level. By default 0.95.
 #' @param n A count of the sample size.
 #' @param ... Not used.
 #' @return A tidy tibble of the coeffcient terms with the model averaged estimate, the
 #' Akaike's weight and the proportion of models including the term.
 #' @export
-coef.list <- function(object, param_type = "fixed", conf_level = 0.95, n = NULL, ...) {
-  check_scalar(param_type, c("fixed", "random", "derived"))
-
+coef.list <- function(object, conf_level = 0.95, n = NULL, ...) {
   nmodels <- length(object)
   aicc <- AICc(object, n = n)
-  coef <- lapply(object, coef, param_type = param_type,
-                 conf_level = conf_level)
+  coef <- lapply(object, coef, conf_level = conf_level)
+
   coef %<>% purrr::map2_df(aicc$AICcWt, function(x, y) {x$AICcWt <- y; x})
   coef %<>% dplyr::group_by_(~term) %>% dplyr::summarise_(
     estimate = ~sum(estimate * AICcWt), lower = ~sum(lower * AICcWt),
