@@ -4,28 +4,28 @@
 #'
 #' By default the sample size is assumed to be the number of rows
 #' in the analysis data set. To override manually set n to be an integer ie n = 10L.
-#' To calculate mAIC (as opposed to mAICc) set n = Inf.
+#' To calculate AIC (as opposed to AICc) set n = Inf.
 #'
 #' @param object The object to calculate the AIC for.
 #' @param ... Not used.
 #' @return The Akaike's Information Criteron as a number.
 #' @export
-mAICc <- function(object, ...) {
-  UseMethod("mAICc")
+AICc <- function(object, ...) {
+  UseMethod("AICc")
 }
 
 #' @export
-mAICc.numeric <- function(object, nterms, n = Inf, ...) {
-  c <- 2 * nterms * (nterms + 1) / (n - nterms - 1)
-  2 * nterms - 2 * object + c
+AICc.numeric <- function(object, K, n = Inf, ...) {
+  c <- 2 * K * (K + 1) / (n - K - 1)
+  2 * K - 2 * object + c
 }
 
 #' @export
-mAICc.list <- function(object, n = NULL, ...) {
+AICc.list <- function(object, n = NULL, ...) {
   if (!is.list(object)) error("object must be a list")
 
-  if (!length(object)) return(dplyr::data_frame(model = character(0), k = integer(0), ic = numeric(0),
-                                                difference = numeric(0), weight = numeric(0)))
+  if (!length(object)) return(dplyr::data_frame(model = character(0), K = integer(0), AICc = numeric(0),
+                                                DeltaAICc = numeric(0), AICcWt = numeric(0)))
 
   if (!all(vapply(object, is.mb_analysis, TRUE))) error("object must be a list of mb_analysis objects")
 
@@ -43,20 +43,20 @@ mAICc.list <- function(object, n = NULL, ...) {
   if (!all(vapply(data, identical, TRUE, data[[1]]))) error("all elements of object must have the same random effects")
 
   tibble <- dplyr::data_frame(model = names(object))
-  tibble$k <- vapply(object, nterms, 1L, include_constant = FALSE)
-  tibble$ic <- vapply(object, mAICc, 1, n = n, ...)
-  tibble$difference <- tibble$ic - min(tibble$ic)
-  tibble$weight <- exp(-0.5 * tibble$difference)
-  tibble$weight <- tibble$weight / sum(tibble$weight)
+  tibble$K <- vapply(object, nterms, 1L, include_constant = FALSE)
+  tibble$AICc <- vapply(object, AICc, 1, n = n, ...)
+  tibble$DeltaAICc <- tibble$ic - min(tibble$ic)
+  tibble$AICcWt <- exp(-0.5 * tibble$DeltaAICc)
+  tibble$AICcWt <- tibble$AICcWt / sum(tibble$AICcWt)
 
-  tibble$difference %<>% round(1)
-  tibble$weight %<>% round(2)
+  tibble$DeltaAICc %<>% round(1)
+  tibble$AICcWt %<>% round(2)
   tibble
 }
 
 #' @export
-mAICc.mb_analysis <- function(object, n = NULL, ...) {
-  nterms <- nterms(object, include_constant = FALSE)
+AICc.mb_analysis <- function(object, n = NULL, ...) {
+  K <- nterms(object, include_constant = FALSE)
   n <- sample_size(object)
-  mAICc(logLik(object), nterms = nterms, n = n)
+  AICc(logLik(object), K = K, n = n)
 }

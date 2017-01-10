@@ -14,13 +14,13 @@ coef.list <- function(object, param_type = "fixed", conf_level = 0.95, n = NULL,
   check_scalar(param_type, c("fixed", "random", "derived"))
 
   nmodels <- length(object)
-  maicc <- mAICc(object, n = n)
+  aicc <- AICc(object, n = n)
   coef <- lapply(object, coef, param_type = param_type,
                  conf_level = conf_level)
-  coef %<>% purrr::map2_df(maicc$weight, function(x, y) {x$weight <- y; x})
+  coef %<>% purrr::map2_df(aicc$AICcWt, function(x, y) {x$AICcWt <- y; x})
   coef %<>% dplyr::group_by_(~term) %>% dplyr::summarise_(
-    estimate = ~sum(estimate * weight), lower = ~sum(lower * weight),
-    upper = ~sum(upper * weight), weight = ~sum(weight), proportion = ~n()/nmodels) %>% dplyr::ungroup()
+    estimate = ~sum(estimate * AICcWt), lower = ~sum(lower * AICcWt),
+    upper = ~sum(upper * AICcWt), AICcWt = ~min(sum(AICcWt), 1.00), proportion = ~n()/nmodels) %>% dplyr::ungroup()
   coef
 }
 
