@@ -87,20 +87,24 @@ drop_indices <- function(x) {
   str_replace(x, "^(\\w+)(\\[.*)", "\\1")
 }
 
-#' plapply
+#' Parallel lapply
+#'
+#' Applys function FUN to list X in parallel if at least as many workers as elements.
 #'
 #' @inheritParams base::lapply
+#' @param .parallel A flag indicating whether to perform the FUN
+#' to each element of X in parallel if possible.
 #' @export
-plapply <- function(X, FUN, ...) {
+plapply <- function(X, FUN, .parallel = TRUE, ...) {
   if (!is.list(X)) error("X must be a list")
 
   if (!length(X)) return(X)
 
   nworkers <- foreach::getDoParWorkers()
 
-  if (identical(nworkers, 1L) || length(X) > nworkers) return(lapply(X, FUN, ...))
-
   i <- NULL
-  foreach::foreach(i = itertools::isplitIndices(n = length(X), chunks = nworkers)) %dopar%
-    FUN(X[[i]], ...)
+  if (!.parallel || length(X) > nworkers) {
+    return(foreach::foreach(i = 1:length(X)) %do% FUN(X[[i]], ...))
+  }
+  foreach::foreach(i = 1:length(X)) %dopar% FUN(X[[i]], ...)
 }

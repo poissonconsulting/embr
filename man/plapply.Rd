@@ -2,9 +2,9 @@
 % Please edit documentation in R/utils.R
 \name{plapply}
 \alias{plapply}
-\title{plapply}
+\title{Parallel lapply}
 \usage{
-plapply(X, FUN, ...)
+plapply(X, FUN, .parallel = TRUE, ...)
 }
 \arguments{
 \item{X}{a vector (atomic or list) or an \code{\link{expression}}
@@ -15,9 +15,12 @@ plapply(X, FUN, ...)
     see \sQuote{Details}.  In the case of functions like
     \code{+}, \code{\%*\%}, the function name must be backquoted or quoted.}
 
+\item{.parallel}{A flag indicating whether to perform the FUN
+to each element of X in parallel if possible.}
+
 \item{...}{optional arguments to \code{FUN}.}
 }
 \description{
-plapply
+Applys function FUN to list X in parallel if at least as many workers as elements.
 }
 
