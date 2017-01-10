@@ -97,20 +97,14 @@ model.mb_code <- function(
   check_x_in_y(center, names(select_data), y_name = "select_data", type_y = "names")
   check_x_in_y(scale, names(select_data), y_name = "select_data", type_y = "names")
 
-  if (!all(names(random_effects) %in% parameters(x, param_type = "random")))
+  parameters <- parameters(x)
+
+  if (!all(names(random_effects) %in% parameters))
     error("random effects parameters missing from code parameters")
-  if (!all(derived %in% parameters(x, param_type = "derived")))
+  if (!all(derived %in% parameters))
     error("derived parameters missing from code parameters")
-
-  named <- unique(c(names(random_effects), derived))
-
-  regexp <- parameters(x, param_type = "fixed")
-  regexp %<>% setdiff(named)
-  regexp <- regexp[str_match(regexp, fixed)]
-  if (!length(regexp)) error("fixed parameters missing from code parameters")
-
-  if (!all(unlist(drops) %in% regexp))
-    error("scalar drops parameters missing from fixed code parameters")
+  if (!all(unlist(drops) %in% parameters))
+    error("drops parameters missing from code parameters")
 
   center %<>% sort()
   scale %<>% sort()
