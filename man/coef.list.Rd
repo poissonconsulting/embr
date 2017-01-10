@@ -20,6 +20,7 @@ A tidy tibble of the coeffcient terms with the model averaged estimate, the
 Akaike's weight and the proportion of models including the term.
 }
 \description{
-Coefficients fixed parameters from a list of MB analyses averaged by IC weights.
+Coefficients for fixed parameters from a list of ML based
+MB analyses averaged by AICc weights.
 }
 
