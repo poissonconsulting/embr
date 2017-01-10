@@ -74,11 +74,17 @@ model.mb_code <- function(
   if (!niters %in% 10^(3:6)) error("niters must be 10^2, 10^3, 10^4, 10^5 or 10^6")
   check_drops(drops)
 
-
   check_all_elements_class_character(random_effects)
   check_x_in_y(unlist(random_effects), names(select_data),
                x_name = "random_effects", y_name = "select_data",
                type_x = "elements", type_y = "names")
+
+  check_x_not_in_y(names(random_effects), names(select_data),
+               x_name = "random_effects", y_name = "select_data",
+               type_x = "names", type_y = "names")
+
+  check_x_not_in_y(derived, names(select_data),
+                   x_name = "derived", y_name = "select_data", type_y = "names")
 
   check_x_not_in_y(unlist(random_effects), center, x_name = "random_effects",
                    type_x = "elements")
@@ -88,8 +94,14 @@ model.mb_code <- function(
   check_x_in_y(center, names(select_data), y_name = "select_data", type_y = "names")
   check_x_in_y(scale, names(select_data), y_name = "select_data", type_y = "names")
 
-  if (!all(names(random_effects) %in% parameters(x))) error("random effects parameters missing from code parameters")
-  if (!all(unlist(drops) %in% parameters(x))) error("scalar drops parameters missing from code parameters")
+  if (!all(names(random_effects) %in% parameters(x)))
+    error("random effects parameters missing from code parameters")
+  if (!all(derived %in% parameters(x)))
+    error("derived parameters missing from code parameters")
+  if (length(intersect(names(random_effects), derived)))
+    error("random effects parameters in derived")
+  if (!all(unlist(drops) %in% parameters(x)))
+    error("scalar drops parameters missing from code parameters")
 
   center %<>% sort()
   scale %<>% sort()
