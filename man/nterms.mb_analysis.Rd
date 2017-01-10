@@ -4,12 +4,13 @@
 \alias{nterms.mb_analysis}
 \title{Number of terms}
 \usage{
-\method{nterms}{mb_analysis}(x, fixed = TRUE, include_constant = TRUE, ...)
+\method{nterms}{mb_analysis}(x, param_type = "fixed",
+  include_constant = TRUE, ...)
 }
 \arguments{
 \item{x}{The object to get the nterms for}
 
-\item{fixed}{A flag specifying whether fixed or random terms.}
+\item{param_type}{A flag specifying whether 'fixed', 'random' or 'derived' terms.}
 
 \item{include_constant}{A flag specifying whether to include constant terms.}
 

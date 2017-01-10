@@ -4,13 +4,13 @@
 \alias{coef.mb_analysis}
 \title{Coef JAGS Analysis}
 \usage{
-\method{coef}{mb_analysis}(object, fixed = TRUE, include_constant = TRUE,
-  conf_level = 0.95, ...)
+\method{coef}{mb_analysis}(object, param_type = "fixed",
+  include_constant = TRUE, conf_level = 0.95, ...)
 }
 \arguments{
 \item{object}{The mb_analysis object.}
 
-\item{fixed}{A flag specifying whether fixed or random terms.}
+\item{param_type}{A flag specifying whether 'fixed', 'random' or 'derived' terms.}
 
 \item{include_constant}{A flag specifying whether to include constant terms.}
 
@@ -25,8 +25,6 @@ A tidy tibble of the coefficient terms.
 Coefficients for a JAGS analysis.
 }
 \details{
-Permitted values for terms are 'fixed' and 'random'.
-
 The \code{zscore} is mean / sd.
 }
 

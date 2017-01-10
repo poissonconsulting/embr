@@ -4,12 +4,12 @@
 \alias{plot.mb_analysis}
 \title{Plot Analysis}
 \usage{
-\method{plot}{mb_analysis}(x, fixed = TRUE, ...)
+\method{plot}{mb_analysis}(x, param_type = "fixed", ...)
 }
 \arguments{
 \item{x}{The analysis object to plot}
 
-\item{fixed}{A flag specifying whether fixed or random terms.}
+\item{param_type}{A flag specifying whether 'fixed', 'random' or 'derived' terms.}
 
 \item{...}{Unused.}
 }

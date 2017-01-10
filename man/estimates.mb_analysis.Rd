@@ -4,12 +4,12 @@
 \alias{estimates.mb_analysis}
 \title{Estimates}
 \usage{
-\method{estimates}{mb_analysis}(object, fixed = TRUE, ...)
+\method{estimates}{mb_analysis}(object, param_type = "fixed", ...)
 }
 \arguments{
 \item{object}{The mb_analysis object.}
 
-\item{fixed}{A flag specifying whether fixed or random terms.}
+\item{param_type}{A flag specifying whether 'fixed', 'random' or 'derived' terms.}
 
 \item{...}{Not used.}
 }

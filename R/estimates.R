@@ -3,13 +3,13 @@
 #' estimates
 #'
 #' @param object The mb_analysis object.
-#' @param fixed A flag specifying whether fixed or random terms.
+#' @param param_type A flag specifying whether 'fixed', 'random' or 'derived' terms.
 #' @param ... Not used.
 #' @export
-estimates.mb_analysis <- function(object, fixed = TRUE, ...) {
-  check_flag(fixed)
+estimates.mb_analysis <- function(object, param_type = "fixed", ...) {
+  check_scalar(param_type, c("fixed", "random", "derived"))
 
-  parameters <- parameters(object, fixed)
+  parameters <- parameters(object, param_type)
 
   object %<>% as.mcmcr()
 

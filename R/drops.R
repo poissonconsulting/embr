@@ -62,7 +62,7 @@ next_drop <- function(analysis, drops, conf_level) {
 
   if (!length(drop)) return(character(0))
 
-  coef <- coef(analysis, fixed = TRUE)
+  coef <- coef(analysis)
   # scalar only
   coef %<>% dplyr::filter_(~!str_detect(term, "\\["))
 

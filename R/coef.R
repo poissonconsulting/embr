@@ -3,19 +3,19 @@
 #' Coefficients for a list of MB analyses averaged by IC weights.
 #'
 #' @param object The list of tmb_analysis objects.
-#' @param fixed A flag specifying whether fixed or random terms.
+#' @param param_type A flag specifying whether 'fixed', 'random' or 'derived' terms.
 #' @param conf_level A number specifying the confidence level. By default 0.95.
 #' @param n A count of the sample size.
 #' @param ... Not used.
 #' @return A tidy tibble of the coeffcient terms with the model averaged estimate, the
 #' Akaike's weight and the proportion of models including the term.
 #' @export
-coef.list <- function(object, fixed = TRUE, conf_level = 0.95, n = NULL, ...) {
-  check_flag(fixed)
+coef.list <- function(object, param_type = "fixed", conf_level = 0.95, n = NULL, ...) {
+  check_scalar(param_type, c("fixed", "random", "derived"))
 
   nmodels <- length(object)
   maicc <- mAICc(object, n = n)
-  coef <- lapply(object, coef, fixed = fixed,
+  coef <- lapply(object, coef, param_type = param_type,
                  conf_level = conf_level)
   coef %<>% purrr::map2_df(maicc$weight, function(x, y) {x$weight <- y; x})
   coef %<>% dplyr::group_by_(~term) %>% dplyr::summarise_(
@@ -28,24 +28,22 @@ coef.list <- function(object, fixed = TRUE, conf_level = 0.95, n = NULL, ...) {
 #'
 #' Coefficients for a JAGS analysis.
 #'
-#'  Permitted values for terms are 'fixed' and 'random'.
-#'
 #' The \code{zscore} is mean / sd.
 #'
 #' @param object The mb_analysis object.
-#' @param fixed A flag specifying whether fixed or random terms.
+#' @param param_type A flag specifying whether 'fixed', 'random' or 'derived' terms.
 #' @param include_constant A flag specifying whether to include constant terms.
 #' @param conf_level A number specifying the confidence level. By default 0.95.
 #' @param ... Not used.
 #' @return A tidy tibble of the coefficient terms.
 #' @export
-coef.mb_analysis <- function(object, fixed = TRUE, include_constant = TRUE, conf_level = 0.95, ...) {
-  check_flag(fixed)
+coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = 0.95, ...) {
+  check_scalar(param_type, c("fixed", "random", "derived"))
   check_flag(include_constant)
   check_number(conf_level, c(0.5, 0.99))
 
 
-  parameters <- parameters(object, fixed)
+  parameters <- parameters(object, param_type)
 
   object %<>% as.mcmcr()
 

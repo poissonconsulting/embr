@@ -4,12 +4,13 @@
 \alias{terms.mb_analysis}
 \title{Terms}
 \usage{
-\method{terms}{mb_analysis}(x, fixed = TRUE, include_constant = TRUE, ...)
+\method{terms}{mb_analysis}(x, param_type = "fixed",
+  include_constant = TRUE, ...)
 }
 \arguments{
 \item{x}{The mb_analysis object.}
 
-\item{fixed}{A flag specifying whether fixed or random terms.}
+\item{param_type}{A flag specifying whether 'fixed', 'random' or 'derived' terms.}
 
 \item{include_constant}{A flag specifying whether to include constant terms.}
 
