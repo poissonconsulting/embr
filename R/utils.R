@@ -1,5 +1,10 @@
 all1 <- function(x) all(x == 1)
 
+dprint <- function(x) {
+  cat(deparse(substitute(x)), ": ", sep = "")
+  print(x)
+}
+
 allin <- function(x, y) all(x %in% y)
 
 #' Is Named List
