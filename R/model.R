@@ -97,13 +97,13 @@ model.mb_code <- function(
   check_x_in_y(center, names(select_data), y_name = "select_data", type_y = "names")
   check_x_in_y(scale, names(select_data), y_name = "select_data", type_y = "names")
 
-  parameters_fixed <- unique(c(parameters("fixed", scalar = TRUE),
-                               parameters("fixed", scalar = FALSE)))
+  parameters_fixed <- unique(c(parameters(x,"fixed", scalar = TRUE),
+                               parameters(x, "fixed", scalar = FALSE)))
 
-  parameters_derived <- unique(c(parameters("derived", scalar = TRUE),
-                               parameters("derived", scalar = FALSE)))
+  parameters_derived <- unique(c(parameters(x, "derived", scalar = TRUE),
+                               parameters(x, "derived", scalar = FALSE)))
 
-  parameters_random <- unique(c(parameters("random", scalar = FALSE)))
+  parameters_random <- unique(c(parameters(x, "random", scalar = FALSE)))
   # cannot test random as scalar as not always possible to separate
 
   if (!any(str_detect(parameters_fixed, fixed)))
