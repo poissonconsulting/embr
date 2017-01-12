@@ -116,3 +116,11 @@ plapply <- function(X, FUN, .parallel = TRUE, ...) {
   }
   foreach::foreach(i = 1:length(X)) %dopar% FUN(X[[i]], ...)
 }
+
+rank_terms <- function(x) {
+  check_vector(x, "")
+#  parameter <-
+#  index <-
+#
+}
+
