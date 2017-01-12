@@ -4,10 +4,15 @@
 \alias{coef.list}
 \title{Coef TMB Analyses}
 \usage{
-\method{coef}{list}(object, conf_level = 0.95, n = NULL, ...)
+\method{coef}{list}(object, param_type = "fixed", include_constant = TRUE,
+  conf_level = 0.95, n = NULL, ...)
 }
 \arguments{
 \item{object}{The list of tmb_analysis objects.}
+
+\item{param_type}{A flag specifying whether 'fixed', 'random' or 'derived' terms.}
+
+\item{include_constant}{A flag specifying whether to include constant terms.}
 
 \item{conf_level}{A number specifying the confidence level. By default 0.95.}
 
