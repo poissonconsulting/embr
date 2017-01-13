@@ -1,17 +1,3 @@
-check_arrayize_factors <- function(factors) {
-  check_uniquely_named_list(factors)
-  if (!length(factors)) error("factors must be at least of length 1")
-  if ("vector" %in% names(factors)) error("factors must not be named 'vector'")
-
-  lengths <- vapply(factors, length, 1L)
-  if (!all(lengths == lengths[1])) error("factors must be the same length")
-
-  if (!all(vapply(factors, is.factor, 1L)))
-    error("factors must be factors")
-
-  factors
-}
-
 check_drops <- function(drops) {
   if (!is.list(drops)) error("drops must be a list")
   if (!length(drops)) return(drops)
