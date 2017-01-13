@@ -21,7 +21,7 @@ coef.list <- function(object, param_type = "fixed", include_constant = TRUE, con
   coef %<>% dplyr::group_by_(~term) %>% dplyr::summarise_(
     estimate = ~sum(estimate * AICcWt), lower = ~sum(lower * AICcWt),
     upper = ~sum(upper * AICcWt), AICcWt = ~min(sum(AICcWt), 1.00), proportion = ~n()/nmodels) %>% dplyr::ungroup()
-#  coef <- coef[rank_terms(coef$term),]
+  coef <- coef[order(as.term(coef$term)),]
   coef
 }
 

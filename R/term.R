@@ -47,6 +47,7 @@ parameter.term <- function(x, ...) {
 
 #' @export
 rep.term <- function(x, times, ...) {
+  x %<>% as.character()
   x %<>% rep(times)
   as.term(x)
 }
@@ -75,10 +76,16 @@ dims_term <- function(x, ...) {
   purrr::map2_lgl(e1, e2, greater_than_term)
 }
 
+#' @export
+`[.term` <- function(x, i) {
+  x %<>% as.character()
+  x <- x[i]
+  as.term(x)
+}
+
 greater_than_term <- function(e1, e2) {
   e1 %<>% as.term()
   e2 %<>% as.term()
-
   e1_parm <- parameter(e1)
   e2_parm <- parameter(e2)
   if (e1_parm != e2_parm) return(e1_parm > e2_parm)
@@ -86,13 +93,14 @@ greater_than_term <- function(e1, e2) {
   e1 <- dims_term(e1)[[1]]
   e2 <- dims_term(e2)[[1]]
 
-  if (length(e1) != length(e2)) return(e1 > e2)
+  if (length(e1) != length(e2)) return(length(e1) > length(e2))
 
   equal <- e1 == e2
 
   if (all(equal)) return(FALSE)
 
-  greaterthan <- !equal & e1 > e2
-  greaterthan <- which(greaterthan)
-  greaterthan[length(greaterthan)]
+  which <- which(!equal)
+  which <- which[length(which)]
+
+  e1[which] > e2[which]
 }

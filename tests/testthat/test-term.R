@@ -12,6 +12,7 @@ test_that("term", {
   expect_identical(dims_term(x2), list(10L, 2L, c(2L,2L), c(1L,1L), c(2L,1L), c(1L,2L), 10L, 1L))
   expect_identical(x2 > x2, rep(FALSE, length(x2)))
 
-#  expect_identical(sort(x2),
+  expect_identical(sort(x2), as.term(c("parm[10]", "parm[1,1]", "parm[2,1]", "parm[1,2]",
+                               "parm[2,2]", "parm3", "parm3[2]", "parm3[10]")))
 })
 
