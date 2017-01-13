@@ -1,34 +1,62 @@
+#' Coerce object vector to term vector.
+#'
+#' @param x The object to coerce
+#' @param ... Unused.
+#' @export
 as.term <- function(x, ...) {
   UseMethod("as.term")
 }
 
+#' Parameter
+#'
+#' @param x The object to get the parameter(s) for.
+#' @param ... Unused.
+#' @export
 parameter <- function(x, ...) {
   UseMethod("parameter")
 }
 
+#' Coerce character vector to term vector
+#'
+#' @param x The character vector to coerce
+#' @param ... Unused.
+#' @export
 as.term.character <- function(x, ...) {
   class(x) <- c("term", "character")
   x
 }
 
+#' @export
 as.character.term <- function(x, ...) {
   class(x) <- "character"
   x
 }
 
+#' Test whether an object is a term.
+#' @param x The object to test.
+#' @param ... Unused.
+#' @export
 is.term <- function(x, ...) {
   inherits(x, "term")
 }
 
+#' @export
 parameter.term <- function(x, ...) {
   str_replace(x, "^(\\w+)(.*)", "\\1")
 }
 
+#' @export
 rep.term <- function(x, times, ...) {
   x %<>% rep(times)
   as.term(x)
 }
 
+#' Get dims for term object
+#'
+#' @param x The object.
+#' @param ... Unused
+#' @return A list of the dims.
+#' @export
 dims_term <- function(x, ...) {
   x %<>% str_replace("^(\\w+)(.*)", "\\2") %>%
     str_replace("^(\\[)(.*)(\\])$", "\\2") %>%
@@ -39,6 +67,7 @@ dims_term <- function(x, ...) {
   x
 }
 
+#' @export
 `>.term` <- function(e1, e2) {
   if (identical(length(e1), 1L)) e1 %<>% rep(length(e2))
   if (identical(length(e2), 1L)) e2 %<>% rep(length(e1))
