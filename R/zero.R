@@ -17,3 +17,5 @@ zero_random_effects <- function(mcmcr, data, random_effects) {
   class(mcmcr) <- "mcmcr"
   mcmcr
 }
+
+fct <-
