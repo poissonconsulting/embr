@@ -13,5 +13,5 @@ after_success:
 
 notifications:
   slack: poissonconsulting:BKjfn7jsVh8zXTu2rq7BEQEb
-    on_success: always
-    on_failure: always
+    on_success: change
+    on_failure: change
