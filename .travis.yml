@@ -1,9 +1,6 @@
 language: R
+sudo: true
 cache: packages
-
-r:
-  - release
-  - devel
 
 r_packages:
   - covr
