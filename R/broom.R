@@ -1,10 +1,9 @@
 #' @export
-glance.mb_analysis <- function(x, n = NULL, rhat = getOption("mb.rhat", 1.1), ...) {
+glance.mb_analysis <- function(x, n = NULL, ...) {
   dplyr::data_frame(
     n = sample_size(x),
     K = nterms(x, include_constant = FALSE),
-    minutes = elapsed(x),
-    converged = converged(x, rhat = rhat)
+    minutes = elapsed(x)
   )
 }
 
