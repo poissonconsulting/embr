@@ -19,7 +19,6 @@ Imports:
     graphics,
     lubridate,
     magrittr,
-    plyr,
     pryr,
     purrr,
     rescale (>= 0.0.0.9000),

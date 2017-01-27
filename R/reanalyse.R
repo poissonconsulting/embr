@@ -31,7 +31,7 @@ reanalyse.list <- function(analysis,
 
   if (beep) on.exit(beepr::beep())
 
-  plyr::llply(analysis, reanalyse, rhat = rhat, minutes = minutes, quick = quick, quiet = quiet, beep = FALSE, ...)
+  purrr::map(analysis, reanalyse, rhat = rhat, minutes = minutes, quick = quick, quiet = quiet, beep = FALSE, ...)
 }
 
 #' @export

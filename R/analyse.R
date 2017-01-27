@@ -49,7 +49,7 @@ analyse.list <- function(model, data, drop = character(0),
 
   if (beep) on.exit(beepr::beep())
 
-  plyr::llply(model, analyse, data = data, drop = drop, parallel = parallel,
+  purrr::map(model, analyse, data = data, drop = drop, parallel = parallel,
               quick = quick, quiet = quiet, beep = FALSE, ...)
 }
 
