@@ -18,6 +18,12 @@ reanalyse <- function(analysis,
   UseMethod("reanalyse")
 }
 
+reanalyse_list <- function(analysis, rhat, minutes, parallel, quick, quiet, beep, ...) {
+  cat("Model:", names(analysis), "\n")
+  analysis <- reanalyse(analysis[[1]], rhat = rhat, minutes = minutes, quick = quick, quiet = quiet, beep = FALSE, ...)
+  list(analysis)
+}
+
 #' @export
 reanalyse.list <- function(analysis,
                            rhat = getOption("mb.rhat", 1.1),
@@ -31,7 +37,16 @@ reanalyse.list <- function(analysis,
 
   if (beep) on.exit(beepr::beep())
 
-  purrr::map(analysis, reanalyse, rhat = rhat, minutes = minutes, quick = quick, quiet = quiet, beep = FALSE, ...)
+  if (!length(analysis)) return(analysis)
+
+  names <- names(analysis)
+  if (is.null(names)) {
+    names(analysis) <- 1:length(analysis)
+  }
+
+  analysis %<>% purrr::lmap(reanalyse_list, rhat = rhat, minutes = minutes, quick = quick, quiet = quiet, beep = FALSE, ...)
+  names(analysis) <- names
+  analysis
 }
 
 #' @export

@@ -38,6 +38,13 @@ analyse <- function(model, data, drop = character(0),
   UseMethod("analyse")
 }
 
+analyse_list <- function(model, data, drop, parallel, quick, quiet, beep, ...) {
+  cat("Model:", names(model), "\n")
+  analysis <- analyse(model[[1]], data = data, drop = drop, parallel = parallel,
+            quick = quick, quiet = quiet, beep = beep, ...)
+  list(analysis)
+}
+
 #' @export
 analyse.list <- function(model, data, drop = character(0),
                          parallel = getOption("mb.parallel", FALSE),
@@ -49,8 +56,18 @@ analyse.list <- function(model, data, drop = character(0),
 
   if (beep) on.exit(beepr::beep())
 
-  purrr::map(model, analyse, data = data, drop = drop, parallel = parallel,
+  if (!length(model)) return(model)
+
+  names <- names(model)
+  if (is.null(names)) {
+    names(model) <- 1:length(model)
+  }
+
+  analyses <- purrr::lmap(model, analyse_list, data = data, drop = drop, parallel = parallel,
               quick = quick, quiet = quiet, beep = FALSE, ...)
+
+  names(analyses) <- names
+  analyses
 }
 
 #' @export
