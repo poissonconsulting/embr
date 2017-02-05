@@ -17,4 +17,3 @@ A count of the sample size.
 \description{
 Get sample size.
 }
-

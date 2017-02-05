@@ -17,4 +17,3 @@ The random effects as a sorted named list.
 \description{
 Gets the random effects definitions for an object inheriting from class mb_model or mb_analysis.
 }
-

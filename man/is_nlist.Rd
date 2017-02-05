@@ -22,4 +22,3 @@ is_nlist(list(1))
 is_nlist(list(x = 1))
 is_nlist(list(x = list(y = 2)))
 }
-

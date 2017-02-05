@@ -22,4 +22,3 @@ By default the sample size is assumed to be the number of rows
 in the analysis data set. To override manually set n to be an integer ie n = 10L.
 To calculate AIC (as opposed to AICc) set n = Inf.
 }
-

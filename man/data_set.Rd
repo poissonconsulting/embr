@@ -19,4 +19,3 @@ The data set as a tibble.
 \description{
 Gets the data set for an object inheriting from class mb_analysis.
 }
-

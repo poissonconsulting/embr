@@ -27,4 +27,3 @@ Coefficients for a JAGS analysis.
 \details{
 The \code{zscore} is mean / sd.
 }
-

@@ -19,4 +19,3 @@
 \description{
 Number of terms
 }
-

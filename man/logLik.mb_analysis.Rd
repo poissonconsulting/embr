@@ -14,4 +14,3 @@
 \description{
 Log-Likelihood for a MB analysis.
 }
-

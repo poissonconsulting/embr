@@ -17,4 +17,3 @@ The object or throws an informative error.
 \description{
 Check MB Model
 }
-

@@ -17,4 +17,3 @@ A tidy tibble of the coefficient terms.
 \description{
 rhat
 }
-

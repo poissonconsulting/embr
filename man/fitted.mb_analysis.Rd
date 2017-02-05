@@ -20,4 +20,3 @@ Extract fitted values for a MB analysis.
 \details{
 The new_expr in the model must include the term 'fit'.
 }
-

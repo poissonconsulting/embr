@@ -17,4 +17,3 @@ An object inheriting from class mb_code.
 \description{
 Gets the MB code for an object.
 }
-

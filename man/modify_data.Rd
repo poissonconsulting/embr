@@ -17,4 +17,3 @@ The modified data in list form.
 \description{
 Modifies a data frame to the form it will be passed to the analysis code.
 }
-

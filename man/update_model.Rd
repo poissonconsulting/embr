@@ -47,4 +47,3 @@ An object inheriting from class mb_model.
 \description{
 Updates an object inherting from class mb_model.
 }
-

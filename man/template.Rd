@@ -17,4 +17,3 @@ The template model code as a string.
 \description{
 Gets the template string for an object.
 }
-

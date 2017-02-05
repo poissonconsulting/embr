@@ -20,4 +20,3 @@ Extract residual values for an MB analysis.
 \details{
 The new_expr in the model must include the term 'residual'.
 }
-

@@ -17,4 +17,3 @@ A list of objects inheriting from class mb_model.
 \description{
 Make All Models
 }
-

@@ -28,4 +28,3 @@ Akaike's weight and the proportion of models including the term.
 Coefficients for fixed parameters from a list of ML based
 MB analyses averaged by AICc weights.
 }
-

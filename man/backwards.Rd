@@ -41,4 +41,3 @@ If a list element consists of two or more strings then the earlier strings
 are only available to drop after the later strings have been eliminated.
 This allows polynomial dependencies to be respected.
 }
-

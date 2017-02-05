@@ -17,4 +17,3 @@ The original object or throws an informative error.
 \description{
 Check Uniquely Named List
 }
-

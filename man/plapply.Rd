@@ -23,4 +23,3 @@ to each element of X in parallel if possible.}
 \description{
 Applys function FUN to list X in parallel if at least as many workers as elements.
 }
-

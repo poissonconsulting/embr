@@ -38,4 +38,3 @@ predict_data(data, analysis, new_expr = NULL, new_values = list(),
 \description{
 Calculate predictions.
 }
-

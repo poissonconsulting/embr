@@ -14,4 +14,3 @@ elapsed(x, ...)
 \description{
 Get elapsed time in minutes.
 }
-

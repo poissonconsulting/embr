@@ -17,4 +17,3 @@ A count.
 \description{
 Total Number of MCMC simulations generated.
 }
-

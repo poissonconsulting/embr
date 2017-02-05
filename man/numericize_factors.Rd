@@ -15,4 +15,3 @@ The list with factors converted to integers.
 \description{
 Numericize Factors
 }
-

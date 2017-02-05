@@ -29,4 +29,3 @@ analyse_data(data, model, drop = character(0),
 \description{
 Analyse data using an object inheriting from class mb_model.
 }
-

@@ -29,4 +29,3 @@ analyse(model, data, drop = character(0),
 \description{
 Analyse a data set and model.
 }
-

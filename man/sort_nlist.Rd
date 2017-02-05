@@ -18,4 +18,3 @@ Sorts a named list by its names.
 \examples{
 sort_nlist(list(y = 2, x = 1, a = 10))
 }
-

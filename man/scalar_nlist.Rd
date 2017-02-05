@@ -18,4 +18,3 @@ Filters a named list so only scalar elements remain.wiby its names.
 \examples{
 scalar_nlist(list(y = 2, x = 1, a = c(10,1)))
 }
-

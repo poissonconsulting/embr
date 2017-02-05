@@ -55,4 +55,3 @@ For jmb models unspecified the initial values for each chain are drawn from the 
 \seealso{
 \code{\link[datacheckr]{check_data}} \code{\link[rescale]{rescale}}
 }
-

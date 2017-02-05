@@ -19,4 +19,3 @@ The updated object.
 \description{
 Drops named scalar fixed parameters from an object by fixing them at 0.
 }
-

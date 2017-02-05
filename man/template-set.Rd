@@ -14,4 +14,3 @@ template(object) <- value
 \description{
 Sets the template for an object.
 }
-

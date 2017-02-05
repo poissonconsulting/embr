@@ -17,4 +17,3 @@ An object inheriting from class mb_model.
 \description{
 Creates or retrieves an object inherting from class mb_model.
 }
-

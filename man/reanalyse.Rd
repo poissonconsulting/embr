@@ -30,4 +30,3 @@ reanalyse(analysis, rhat = getOption("mb.rhat", 1.1),
 \description{
 Reanalyse an analysis.
 }
-
