@@ -79,32 +79,18 @@ predict.mb_analysis <- function(object,
                                 quiet = getOption("mb.quiet", TRUE),
                                 beep = getOption("mb.beep", FALSE),
                                 ...) {
-  check_data2(new_data)
-  check_uniquely_named_list(new_values)
   check_number(conf_level, c(0.5, 0.99))
-  check_flag(parallel)
-  check_flag(quick)
-  check_flag(quiet)
   check_flag(beep)
-
 
   if (beep) on.exit(beepr::beep())
 
-  model <- model(object)
+  term %<>% str_c("^", ., "$")
 
-  if (is.null(new_expr)) new_expr <- model$new_expr
-  check_string(new_expr)
-
-  data <- mbr::modify_new_data(new_data, data2 = data_set(object), model = model,
-                               modify_new_data = modify_new_data)
-
-  object %<>% as.mcmcr()
-
-  object %<>% zero_random_effects(data, model$random_effects)
-
-  data %<>% numericize_factors()
-
-  object %<>% derive(expr = new_expr, values = data, monitor = paste0("^", term, "$"), quick = quick)
+  object %<>% derive(new_data = new_data, new_expr = new_expr,
+                     new_values = new_values, term = term,
+                     modify_new_data = modify_new_data,
+                     parallel = parallel, quick = quick, quiet = quiet,
+                     beep = FALSE, ...)
 
   dims <- dims(object[[1]])
   if (!identical(length(dims), 3L)) error("term must be a vector")
@@ -119,4 +105,3 @@ predict.mb_analysis <- function(object,
 
   object
 }
-
