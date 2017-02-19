@@ -39,5 +39,6 @@ drop_parameters.mb_model <- function(x, parameters = character(0), ...) {
 
   x$code %<>% drop_parameters(parameters = parameters)
   x$new_expr %<>% drop_parameters(parameters = parameters)
+  x$drops <- list()
   x
 }
