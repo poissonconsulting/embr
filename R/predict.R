@@ -99,7 +99,7 @@ predict.mb_analysis <- function(object,
 
   object %<>% coef(conf_level = conf_level)
 
-  object %<>% dplyr::select_(~estimate, ~lower, ~upper)
+  object %<>% dplyr::select_(~estimate, ~sd, ~zscore, ~lower, ~upper, ~pvalue)
 
   object %<>% dplyr::bind_cols(new_data, .)
 
