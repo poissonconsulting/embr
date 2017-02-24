@@ -1,0 +1,24 @@
+context("mb-null-analysis")
+
+test_that("mb_null_analysis", {
+  analysis <- list(data = datasets::mtcars)
+  class(analysis) <- c("mb_null_analysis", "mb_analysis")
+
+  coef <- coef(analysis)
+  expect_is(coef, "tbl")
+  expect_identical(colnames(coef), c("term", "estimate", "sd", "zscore", "lower", "upper", "pvalue"))
+  expect_identical(nrow(coef), 0L)
+
+  glance <- glance(analysis)
+  expect_is(glance, "tbl")
+  expect_identical(colnames(glance), c("n", "K", "minutes", "converged"))
+  expect_identical(nrow(glance), 1L)
+
+  tidy <- tidy(analysis)
+  expect_is(tidy, "tbl")
+  expect_identical(colnames(tidy), c("term", "estimate", "std.error", "statistic", "p.value"))
+  expect_identical(nrow(tidy), 0L)
+
+  expect_identical(logLik(analysis), NA_real_)
+  expect_identical(AICc(analysis), NA_real_)
+})

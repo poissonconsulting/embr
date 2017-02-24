@@ -57,3 +57,14 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
 
   object
 }
+
+#' @export
+coef.mb_null_analysis <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = 0.95, ...) {
+  check_scalar(param_type, c("fixed", "random", "derived"))
+  check_flag(include_constant)
+  check_number(conf_level, c(0.5, 0.99))
+
+  dplyr::data_frame(term = as.term(character(0)), estimate = numeric(0), sd = numeric(0),
+                           zscore = numeric(0), lower = numeric(0),
+                           upper = numeric(0), pvalue = numeric(0))
+}

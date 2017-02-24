@@ -60,3 +60,8 @@ AICc.mb_analysis <- function(object, n = NULL, ...) {
   n <- sample_size(object)
   AICc(logLik(object), K = K, n = n)
 }
+
+#' @export
+AICc.mb_null_analysis <- function(object, n = NULL, ...) {
+  NA_real_
+}

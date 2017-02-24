@@ -12,12 +12,10 @@ sample_size <- function(object, ...) {
 
 #' @export
 sample_size.data.frame <- function(object, ...) {
-  
   nrow(object)
 }
 
 #' @export
 sample_size.mb_analysis <- function(object, ...) {
-  
   sample_size(data_set(object))
 }

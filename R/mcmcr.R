@@ -45,6 +45,11 @@ converged.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), ...) {
   converged(as.mcmcr(x), rhat = rhat)
 }
 
+#' @export
+converged.mb_null_analysis <- function(x, ...) {
+  FALSE
+}
+
 #' Derive
 #'
 #' Calculate derived parameters.

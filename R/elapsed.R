@@ -13,3 +13,8 @@ elapsed <- function(x, ...) {
 elapsed.mb_analysis <- function(x, ...) {
   as.integer(round(as.integer(x$duration) / 60))
 }
+
+#' @export
+elapsed.mb_null_analysis <- function(x, ...) {
+  0L
+}
