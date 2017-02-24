@@ -22,13 +22,13 @@ coef.list <- function(object, param_type = "fixed", include_constant = TRUE, con
   nmodels <- length(coef)
   if (!nmodels) {
     return(dplyr::data_frame(term = as.term(character(0)), estimate = numeric(0),
-                      lower = numeric(0), upper = numeric(0), AICcWt = numeric(0), proportion = numeric(0)))
+                      lower = numeric(0), upper = numeric(0), AICcWt = numeric(0), nmodels = integer(0), proportion = numeric(0)))
   }
 
   coef %<>% purrr::map2_df(aicc$AICcWt, function(x, y) {x$AICcWt <- y; x})
   coef %<>% dplyr::group_by_(~term) %>% dplyr::summarise_(
     estimate = ~sum(estimate * AICcWt), lower = ~sum(lower * AICcWt),
-    upper = ~sum(upper * AICcWt), AICcWt = ~min(sum(AICcWt), 1.00), proportion = ~n()/nmodels) %>% dplyr::ungroup()
+    upper = ~sum(upper * AICcWt), AICcWt = ~min(sum(AICcWt), 1.00), nmodels = ~nmodels, proportion = ~n()/nmodels) %>% dplyr::ungroup()
   coef$term %<>% as.term()
   coef <- coef[order(coef$term),]
   coef
