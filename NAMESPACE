@@ -3,7 +3,6 @@
 S3method("template<-",mb_code)
 S3method(AICc,list)
 S3method(AICc,mb_analysis)
-S3method(AICc,mb_null_analysis)
 S3method(AICc,numeric)
 S3method(analyse,list)
 S3method(analyse,mb_model)

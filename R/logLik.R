@@ -17,5 +17,5 @@ logLik.mb_analysis <- function(object, ...) {
 #' @param ... unused.
 #' @export
 logLik.mb_null_analysis <- function(object, ...) {
-  NA_real_
+  -Inf
 }

@@ -33,9 +33,6 @@ AICc.list <- function(object, n = NULL, ...) {
 
   if (anyDuplicated(names(object))) error("object must be uniquely named")
 
-  class <- vapply(object, function(x) class(x)[1], "", USE.NAMES = FALSE)
-  if (!all(vapply(class, identical, TRUE, class[1]))) error("all elements of object must have the same class")
-
   data <- lapply(object, data_set)
   if (!all(vapply(data, identical, TRUE, data[[1]]))) error("all elements of object must have the same data")
 
@@ -45,6 +42,7 @@ AICc.list <- function(object, n = NULL, ...) {
   tibble <- dplyr::data_frame(model = names(object))
   tibble$K <- vapply(object, nterms, 1L, include_constant = FALSE)
   tibble$AICc <- vapply(object, AICc, 1, n = n, ...)
+
   tibble$DeltaAICc <- tibble$AICc - min(tibble$AICc)
   tibble$AICcWt <- exp(-0.5 * tibble$DeltaAICc)
   tibble$AICcWt <- tibble$AICcWt / sum(tibble$AICcWt)
@@ -59,9 +57,4 @@ AICc.mb_analysis <- function(object, n = NULL, ...) {
   K <- nterms(object, include_constant = FALSE)
   n <- sample_size(object)
   AICc(logLik(object), K = K, n = n)
-}
-
-#' @export
-AICc.mb_null_analysis <- function(object, n = NULL, ...) {
-  NA_real_
 }

@@ -13,9 +13,17 @@
 #' Akaike's weight and the proportion of models including the term.
 #' @export
 coef.list <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = 0.95, n = NULL, ...) {
-  nmodels <- length(object)
   aicc <- AICc(object, n = n)
   coef <- lapply(object, coef, param_type = param_type, include_constant = include_constant, conf_level = conf_level)
+
+  coef <- coef[is.finite(aicc$AICc)]
+  aicc <- aicc[is.finite(aicc$AICc),,drop = FALSE]
+
+  nmodels <- length(coef)
+  if (!nmodels) {
+    return(dplyr::data_frame(term = as.term(character(0)), estimate = numeric(0),
+                      lower = numeric(0), upper = numeric(0), AICcWt = numeric(0), proportion = numeric(0)))
+  }
 
   coef %<>% purrr::map2_df(aicc$AICcWt, function(x, y) {x$AICcWt <- y; x})
   coef %<>% dplyr::group_by_(~term) %>% dplyr::summarise_(

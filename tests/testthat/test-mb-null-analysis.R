@@ -19,6 +19,6 @@ test_that("mb_null_analysis", {
   expect_identical(colnames(tidy), c("term", "estimate", "std.error", "statistic", "p.value"))
   expect_identical(nrow(tidy), 0L)
 
-  expect_identical(logLik(analysis), NA_real_)
-  expect_identical(AICc(analysis), NA_real_)
+  expect_identical(logLik(analysis), -Inf)
+  expect_identical(AICc(analysis), Inf)
 })
