@@ -56,9 +56,8 @@ converged.mb_null_analysis <- function(x, ...) {
 #'
 #' @param object An object inheriting from class mb_analysis.
 #' @param new_data The data frame to calculate the predictions for.
-#' @param include_data A flag indicating whether to return an object of class mcmcr_data.
 #' @inheritParams predict_data
-#' @return A object of class mcmcr or if data = TRUE of class mcmcr_data.
+#' @return A object of class mcmcr.
 #' @export
 derive.mb_analysis <- function(object,
                                new_data = data_set(object),
@@ -66,7 +65,6 @@ derive.mb_analysis <- function(object,
                                new_values = list(),
                                term = "prediction",
                                modify_new_data = NULL,
-                               include_data = FALSE,
                                parallel = getOption("mb.parallel", FALSE),
                                quick = getOption("mb.quick", FALSE),
                                quiet = getOption("mb.quiet", TRUE),
@@ -74,13 +72,10 @@ derive.mb_analysis <- function(object,
                                ...) {
   check_data2(new_data)
   check_uniquely_named_list(new_values)
-  check_flag(include_data)
   check_flag(parallel)
   check_flag(quick)
   check_flag(quiet)
   check_flag(beep)
-
-  if (include_data) check_string(term)
 
   model <- model(object)
 
@@ -101,6 +96,35 @@ derive.mb_analysis <- function(object,
 
   object %<>% derive(expr = new_expr, values = data, monitor = term, quick = quick)
 
-  if (include_data) object %<>% mcmcr_data(new_data)
+  object
+}
+
+#' Derive Data
+#'
+#' Calculate derived parameters.
+#'
+#' @param object An object inheriting from class mb_analysis.
+#' @param new_data The data frame to calculate the predictions for.
+#' @inheritParams predict_data
+#' @return A object of class mcmcr_data.
+#' @export
+derive_data <- function(object,
+                        new_data = data_set(object),
+                        new_expr = NULL,
+                        new_values = list(),
+                        term = "prediction",
+                        modify_new_data = NULL,
+                        parallel = getOption("mb.parallel", FALSE),
+                        quick = getOption("mb.quick", FALSE),
+                        quiet = getOption("mb.quiet", TRUE),
+                        beep = getOption("mb.beep", FALSE),
+                        ...) {
+  check_string(term)
+
+  object %<>% derive(new_data = new_data, new_expr = new_expr, new_values = new_values,
+                     term = term, modify_new_data = modify_new_data, parallel = parallel,
+                     quick = quick, quiet = quiet, beep = beep, ...)
+
+  object %<>% mcmcr_data(new_data)
   object
 }
