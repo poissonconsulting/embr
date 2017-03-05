@@ -6,7 +6,7 @@
 \usage{
 \method{derive}{mb_analysis}(object, new_data = data_set(object),
   new_expr = NULL, new_values = list(), term = "prediction",
-  modify_new_data = NULL, data = FALSE,
+  modify_new_data = NULL, include_data = FALSE,
   parallel = getOption("mb.parallel", FALSE), quick = getOption("mb.quick",
   FALSE), quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep",
   FALSE), ...)
@@ -24,7 +24,7 @@
 
 \item{modify_new_data}{A single argument function to modify new data (in list form) immediately prior to calculating new_expr.}
 
-\item{data}{A flag indicating whether to return an object of class mcmcr_data.}
+\item{include_data}{A flag indicating whether to return an object of class mcmcr_data.}
 
 \item{parallel}{A flag indicating whether to do predictions using parallel backend provided by foreach.}
 

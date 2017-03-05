@@ -56,7 +56,7 @@ converged.mb_null_analysis <- function(x, ...) {
 #'
 #' @param object An object inheriting from class mb_analysis.
 #' @param new_data The data frame to calculate the predictions for.
-#' @param data A flag indicating whether to return an object of class mcmcr_data.
+#' @param include_data A flag indicating whether to return an object of class mcmcr_data.
 #' @inheritParams predict_data
 #' @return A object of class mcmcr or if data = TRUE of class mcmcr_data.
 #' @export
@@ -66,7 +66,7 @@ derive.mb_analysis <- function(object,
                                new_values = list(),
                                term = "prediction",
                                modify_new_data = NULL,
-                               data = FALSE,
+                               include_data = FALSE,
                                parallel = getOption("mb.parallel", FALSE),
                                quick = getOption("mb.quick", FALSE),
                                quiet = getOption("mb.quiet", TRUE),
@@ -74,13 +74,13 @@ derive.mb_analysis <- function(object,
                                ...) {
   check_data2(new_data)
   check_uniquely_named_list(new_values)
-  check_flag(data)
+  check_flag(include_data)
   check_flag(parallel)
   check_flag(quick)
   check_flag(quiet)
   check_flag(beep)
 
-  if (data) check_string(term)
+  if (include_data) check_string(term)
 
   model <- model(object)
 
@@ -101,6 +101,6 @@ derive.mb_analysis <- function(object,
 
   object %<>% derive(expr = new_expr, values = data, monitor = term, quick = quick)
 
-  if (data) object %<>% mcmcr_data(new_data)
+  if (include_data) object %<>% mcmcr_data(new_data)
   object
 }
