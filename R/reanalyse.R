@@ -2,7 +2,7 @@
 #'
 #' Reanalyse an analysis.
 #'
-#' @inheritParams analyse_data
+#' @inheritParams analyse
 #' @param analysis An object inheriting from class mb_analysis or a list of such objects.
 #' @param rhat A number specifying the rhat threshold.
 #' @param minutes The target maximum number of minutes to spend on analysis/reanalysis.

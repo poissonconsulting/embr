@@ -37,6 +37,7 @@ residuals.mb_analysis <- function(object, ...) {
 #' @param term A string of the term in new_expr.
 #' @param conf_level A number specifying the confidence level. By default 0.95.
 #' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
+#' @param base_data A data frame specifying the base data conditions for predicting effect size.
 #' @param parallel A flag indicating whether to do predictions using parallel backend provided by foreach.
 #' @param quick A flag indicating whether to quickly get unreliable values.
 #' @param quiet A flag indicating whether to disable tracing information.
@@ -47,6 +48,7 @@ predict_data <- function(data, analysis, new_expr = NULL, new_values = list(),
                          term = "prediction",
                          conf_level = 0.95,
                          modify_new_data = NULL,
+                         base_data = NULL,
                          parallel = getOption("mb.parallel", FALSE),
                          quick = getOption("mb.quick", FALSE),
                          quiet = getOption("mb.quiet", TRUE),
@@ -55,6 +57,7 @@ predict_data <- function(data, analysis, new_expr = NULL, new_values = list(),
   check_mb_analysis(analysis)
   predict(analysis, new_data = data, new_expr = new_expr, new_values = new_values,
           term = term, conf_level = conf_level, modify_new_data = modify_new_data,
+          base_data = base_data,
           parallel = parallel,
           quick = quick, quiet = quiet, beep = beep, ...)
 }

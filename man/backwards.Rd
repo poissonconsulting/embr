@@ -10,7 +10,7 @@ backwards(model, data, drops = list(), conf_level = 0.95,
   TRUE), ...)
 }
 \arguments{
-\item{model}{The model to use for the analysis.}
+\item{model}{An object inheriting from class mb_model or a list of such objects.}
 
 \item{data}{The data frame to analyse.}
 

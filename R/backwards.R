@@ -8,7 +8,7 @@
 #' are only available to drop after the later strings have been eliminated.
 #' This allows polynomial dependencies to be respected.
 #'
-#' @inheritParams analyse_data
+#' @inheritParams analyse
 #' @param drops A list of character vectors specifying the scalar parameters to consider.
 #' @param conf_level A number specifying the confidence level. By default 0.95.
 #' @param parallel A flag indicating whether to perform the analysis in parallel if possible.
