@@ -56,7 +56,15 @@ converged.mb_null_analysis <- function(x, ...) {
 #'
 #' @param object An object inheriting from class mb_analysis.
 #' @param new_data The data frame to calculate the predictions for.
-#' @inheritParams predict_data
+#' @param new_expr A string of R code specifying the predictive relationship.
+#' @param new_values A named list of new or replacement values to pass to new_expr.
+#' @param term A string of the term in new_expr.
+#' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
+#' @param parallel A flag indicating whether to do predictions using parallel backend provided by foreach.
+#' @param quick A flag indicating whether to quickly get unreliable values.
+#' @param quiet A flag indicating whether to disable tracing information.
+#' @param beep A flag indicating whether to beep on completion of the analysis.
+#' @param ...  Additional arguments.
 #' @return A object of class mcmcr.
 #' @export
 derive.mb_analysis <- function(object,
@@ -105,8 +113,15 @@ derive.mb_analysis <- function(object,
 #'
 #' @param object An object inheriting from class mb_analysis.
 #' @param new_data The data frame to calculate the predictions for.
-#' @inheritParams predict_data
-#' @return A object of class mcmcr_data.
+#' @param new_expr A string of R code specifying the predictive relationship.
+#' @param new_values A named list of new or replacement values to pass to new_expr.
+#' @param term A string of the term in new_expr.
+#' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
+#' @param parallel A flag indicating whether to do predictions using parallel backend provided by foreach.
+#' @param quick A flag indicating whether to quickly get unreliable values.
+#' @param quiet A flag indicating whether to disable tracing information.
+#' @param beep A flag indicating whether to beep on completion of the analysis.
+#' @param ...  Additional arguments.#' @return A object of class mcmcr_data.
 #' @export
 derive_data <- function(object,
                         new_data = data_set(object),

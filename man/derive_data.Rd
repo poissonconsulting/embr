@@ -31,10 +31,7 @@ derive_data(object, new_data = data_set(object), new_expr = NULL,
 
 \item{beep}{A flag indicating whether to beep on completion of the analysis.}
 
-\item{...}{Additional arguments.}
-}
-\value{
-A object of class mcmcr_data.
+\item{...}{Additional arguments.#' @return A object of class mcmcr_data.}
 }
 \description{
 Calculate derived parameters.
