@@ -6,9 +6,10 @@
 \usage{
 \method{derive}{mb_analysis}(object, new_data = data_set(object),
   new_expr = NULL, new_values = list(), term = "prediction",
-  modify_new_data = NULL, parallel = getOption("mb.parallel", FALSE),
-  quick = getOption("mb.quick", FALSE), quiet = getOption("mb.quiet", TRUE),
-  beep = getOption("mb.beep", FALSE), ...)
+  modify_new_data = NULL, data = FALSE,
+  parallel = getOption("mb.parallel", FALSE), quick = getOption("mb.quick",
+  FALSE), quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep",
+  FALSE), ...)
 }
 \arguments{
 \item{object}{An object inheriting from class mb_analysis.}
@@ -23,6 +24,8 @@
 
 \item{modify_new_data}{A single argument function to modify new data (in list form) immediately prior to calculating new_expr.}
 
+\item{data}{A flag indicating whether to return an object of class mcmcr_data.}
+
 \item{parallel}{A flag indicating whether to do predictions using parallel backend provided by foreach.}
 
 \item{quick}{A flag indicating whether to quickly get unreliable values.}
@@ -34,7 +37,7 @@
 \item{...}{Additional arguments.}
 }
 \value{
-A count of the number of iterations.
+A object of class mcmcr or if data = TRUE of class mcmcr_data.
 }
 \description{
 Calculate derived parameters.

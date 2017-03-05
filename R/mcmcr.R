@@ -56,8 +56,9 @@ converged.mb_null_analysis <- function(x, ...) {
 #'
 #' @param object An object inheriting from class mb_analysis.
 #' @param new_data The data frame to calculate the predictions for.
+#' @param data A flag indicating whether to return an object of class mcmcr_data.
 #' @inheritParams predict_data
-#' @return A count of the number of iterations.
+#' @return A object of class mcmcr or if data = TRUE of class mcmcr_data.
 #' @export
 derive.mb_analysis <- function(object,
                                new_data = data_set(object),
@@ -65,6 +66,7 @@ derive.mb_analysis <- function(object,
                                new_values = list(),
                                term = "prediction",
                                modify_new_data = NULL,
+                               data = FALSE,
                                parallel = getOption("mb.parallel", FALSE),
                                quick = getOption("mb.quick", FALSE),
                                quiet = getOption("mb.quiet", TRUE),
@@ -72,17 +74,20 @@ derive.mb_analysis <- function(object,
                                ...) {
   check_data2(new_data)
   check_uniquely_named_list(new_values)
+  check_flag(data)
   check_flag(parallel)
   check_flag(quick)
   check_flag(quiet)
   check_flag(beep)
 
-  if (beep) on.exit(beepr::beep())
+  if (data) check_string(term)
 
   model <- model(object)
 
   if (is.null(new_expr)) new_expr <- model$new_expr
   check_string(new_expr)
+
+  if (beep) on.exit(beepr::beep())
 
   data <- mbr::modify_new_data(new_data, data2 = data_set(object), model = model,
                                modify_new_data = modify_new_data)
@@ -95,5 +100,7 @@ derive.mb_analysis <- function(object,
   data %<>% c(new_values)
 
   object %<>% derive(expr = new_expr, values = data, monitor = term, quick = quick)
+
+  if (data) object %<>% mcmcr_data(new_data)
   object
 }
