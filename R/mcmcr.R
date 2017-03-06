@@ -123,6 +123,8 @@ derive.mb_analysis <- function(object,
 
   if (beep) on.exit(beepr::beep())
 
+  nrow <- nrow(new_data)
+
   new_data %<>% derive_fun(object, new_data = ., new_expr = new_expr,
                       new_values = new_values, term = term,
                       modify_new_data = modify_new_data,
@@ -137,7 +139,11 @@ derive.mb_analysis <- function(object,
                            parallel = parallel, quick = quick,
                            quiet = quiet, beep = FALSE, ...)
 
-  object <- combine_values(new_data, ref_data, fun = function(x) diff(x) / x[2])
+  ref_data %<>% rep(nrow)
+
+  ref_data %<>% purrr::reduce(bind_terms)
+
+  object <- combine_values(new_data, ref_data, fun = function(x) {(x[1] - x[2]) / x[2]})
   object
 }
 
