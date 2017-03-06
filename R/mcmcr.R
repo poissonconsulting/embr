@@ -86,7 +86,6 @@ derive_fun <- function(object,
   data %<>% c(new_values)
 
   object %<>% derive(expr = new_expr, values = data, monitor = term, quick = quick)
-
   object
 }
 

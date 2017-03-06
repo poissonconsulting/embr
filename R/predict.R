@@ -71,6 +71,7 @@ predict.mb_analysis <- function(object,
                      beep = FALSE, ...)
 
   object %<>% coef(conf_level = conf_level)
+  object %<>% dplyr::select_(~-term)
 
   object
 }
