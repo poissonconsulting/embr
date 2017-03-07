@@ -141,7 +141,11 @@ derive.mb_analysis <- function(object,
 
   ref_data %<>% rep(nrow)
 
-  ref_data %<>% purrr::reduce(bind_terms)
+  ref_data %<>% purrr::reduce(bind_samples, along = 1)
+
+  ref_data %<>% list()
+  names(ref_data) <- names(new_data)
+  class(ref_data) <- "mcmcr"
 
   object <- combine_values(new_data, ref_data, fun = function(x) {(x[1] - x[2]) / x[2]})
   object
