@@ -17,6 +17,7 @@ Imports:
     dplyr,
     foreach,
     graphics,
+    itertools,
     lubridate,
     magrittr,
     pryr,

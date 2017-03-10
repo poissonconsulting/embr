@@ -111,12 +111,15 @@ plapply <- function(X, FUN, .parallel = TRUE, ...) {
   nworkers <- foreach::getDoParWorkers()
 
   i <- NULL
-  if (!.parallel || length(X) > nworkers) {
+  if (!.parallel || nworkers == 1 || length(X) == 1) {
     return(foreach::foreach(i = 1:length(X)) %do% FUN(X[[i]], ...))
   }
-  foreach::foreach(i = 1:length(X)) %dopar% FUN(X[[i]], ...)
+  if (length(X) > nworkers) {
+    return(foreach::foreach(i = 1:length(X)) %dopar% FUN(X[[i]], ...))
+  }
+  foreach::foreach(i = itertools::isplitIndices(n = length(X), chunks = nworkers)) %dopar%
+    FUN(X[[i]], ...)
 }
-
 
 #' Power
 #'
