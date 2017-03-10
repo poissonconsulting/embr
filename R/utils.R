@@ -97,11 +97,11 @@ drop_indices <- function(x) {
 
 #' Parallel lapply
 #'
-#' Applys function FUN to list X in parallel if at least as many workers as elements.
+#' Applys function FUN to list X possibly in parallel.
 #'
 #' @inheritParams base::lapply
 #' @param .parallel A flag indicating whether to perform the FUN
-#' to each element of X in parallel if possible.
+#' to each element of X in parallel.
 #' @export
 plapply <- function(X, FUN, .parallel = TRUE, ...) {
   if (!is.list(X)) error("X must be a list")
@@ -115,10 +115,47 @@ plapply <- function(X, FUN, .parallel = TRUE, ...) {
     return(foreach::foreach(i = 1:length(X)) %do% FUN(X[[i]], ...))
   }
   if (length(X) > nworkers) {
-    return(foreach::foreach(i = 1:length(X)) %dopar% FUN(X[[i]], ...))
+    return(foreach::foreach(i = 1:length(X)) %dorng% FUN(X[[i]], ...))
   }
-  foreach::foreach(i = itertools::isplitIndices(n = length(X), chunks = nworkers)) %dopar%
+  foreach::foreach(i = itertools::isplitIndices(n = length(X), chunks = nworkers)) %dorng%
     FUN(X[[i]], ...)
+}
+
+#' Parallel lapply on chunks
+#'
+#' Applys function FUN to entire list X or possibly on chunks of X in parallel.
+#'
+#' @inheritParams base::lapply
+#' @param .parallel A flag indicating whether to analyse chunks in parallel.
+#' @export
+plapply_chunks <- function(X, FUN, .parallel = TRUE, ...) {
+    if (!is.list(X)) error("X must be a list")
+
+  if (!length(X)) return(X)
+
+  nworkers <- foreach::getDoParWorkers()
+
+  if (!.parallel || nworkers == 1 || length(X) == 1) {
+    return(FUN(X, ...))
+  }
+
+  names <- names(X)
+  indices <- parallel::splitIndices(length(X), nworkers)
+  print(X)
+  print(indices)
+  X <- plyr::llply(indices, function(i, x) x[i], x = X)
+  print("ou")
+  print(X)
+  X %<>% plapply(FUN = FUN, .parallel = TRUE, ...)
+  print("after")
+  print(X)
+  print(length(X))
+  print(lapply(X, length))
+  X %<>% unlist(recursive = FALSE)
+  print(X)
+  print(length(X))
+  names(X) <- names
+  X
 }
 
 #' Power

@@ -1,7 +1,8 @@
 #' @import datacheckr mcmcr stringr
 #' @importFrom broom glance tidy
 #' @importFrom doParallel registerDoParallel
-#' @importFrom foreach %do% %dopar%
+#' @importFrom doRNG %dorng%
+#' @importFrom foreach %do%
 #' @importFrom stats coef
 #' @importFrom graphics plot
 #' @importFrom magrittr %<>% %>%
