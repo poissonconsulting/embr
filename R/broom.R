@@ -3,7 +3,7 @@ glance.mb_analysis <- function(x, n = NULL, ...) {
   dplyr::data_frame(
     n = sample_size(x),
     K = nterms(x, include_constant = FALSE),
-    minutes = elapsed(x),
+    duration = elapsed(x),
     converged = converged(x)
   )
 }

@@ -8,6 +8,7 @@ Description: Utility functions and virtual classes shared by model builder packa
 Depends:
     R (>= 3.3.1),
     broom,
+    lubridate,
     mcmcr (>= 0.0.0.9004),
     stats
 Imports:
@@ -19,7 +20,6 @@ Imports:
     foreach,
     graphics,
     itertools,
-    lubridate,
     magrittr,
     parallel,
     plyr,

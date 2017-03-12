@@ -5,7 +5,7 @@
 \title{Reanalyse}
 \usage{
 reanalyse(analysis, rhat = getOption("mb.rhat", 1.1),
-  minutes = getOption("mb.minutes", 10L),
+  duration = getOption("mb.duration", dminutes(10)),
   parallel = getOption("mb.parallel", FALSE), quick = getOption("mb.quick",
   FALSE), quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep",
   TRUE), ...)
@@ -15,7 +15,7 @@ reanalyse(analysis, rhat = getOption("mb.rhat", 1.1),
 
 \item{rhat}{A number specifying the rhat threshold.}
 
-\item{minutes}{The target maximum number of minutes to spend on analysis/reanalysis.}
+\item{duration}{The maximum total time to spend on analysis/reanalysis.}
 
 \item{parallel}{A flag indicating whether to perform the analysis in parallel if possible.}
 

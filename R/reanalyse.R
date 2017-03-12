@@ -5,11 +5,11 @@
 #' @inheritParams analyse
 #' @param analysis An object inheriting from class mb_analysis or a list of such objects.
 #' @param rhat A number specifying the rhat threshold.
-#' @param minutes The target maximum number of minutes to spend on analysis/reanalysis.
+#' @param duration The maximum total time to spend on analysis/reanalysis.
 #' @export
 reanalyse <- function(analysis,
                       rhat = getOption("mb.rhat", 1.1),
-                      minutes = getOption("mb.minutes", 10L),
+                      duration = getOption("mb.duration", dminutes(10)),
                       parallel = getOption("mb.parallel", FALSE),
                       quick = getOption("mb.quick", FALSE),
                       quiet = getOption("mb.quiet", TRUE),
@@ -18,16 +18,16 @@ reanalyse <- function(analysis,
   UseMethod("reanalyse")
 }
 
-reanalyse_list <- function(analysis, rhat, minutes, parallel, quick, quiet, beep, ...) {
+reanalyse_list <- function(analysis, rhat, duration, parallel, quick, quiet, beep, ...) {
   cat("Model:", names(analysis), "\n")
-  analysis <- reanalyse(analysis[[1]], rhat = rhat, minutes = minutes, quick = quick, quiet = quiet, beep = FALSE, ...)
+  analysis <- reanalyse(analysis[[1]], rhat = rhat, duration = duration, quick = quick, quiet = quiet, beep = FALSE, ...)
   list(analysis)
 }
 
 #' @export
 reanalyse.list <- function(analysis,
                            rhat = getOption("mb.rhat", 1.1),
-                           minutes = getOption("mb.minutes", 10L),
+                           duration = getOption("mb.duration", dminutes(10)),
                            parallel = getOption("mb.parallel", FALSE),
                            quick = getOption("mb.quick", FALSE),
                            quiet = getOption("mb.quiet", TRUE),
@@ -44,7 +44,8 @@ reanalyse.list <- function(analysis,
     names(analysis) <- 1:length(analysis)
   }
 
-  analysis %<>% purrr::lmap(reanalyse_list, rhat = rhat, minutes = minutes, quick = quick, quiet = quiet, beep = FALSE, ...)
+  analysis %<>% purrr::lmap(reanalyse_list, rhat = rhat, duration = duration,
+                            quick = quick, quiet = quiet, beep = FALSE, ...)
   names(analysis) <- names
   analysis
 }
@@ -52,7 +53,7 @@ reanalyse.list <- function(analysis,
 #' @export
 reanalyse.mb_model <- function(analysis,
                                rhat = getOption("mb.rhat", 1.1),
-                               minutes = getOption("mb.minutes", 10L),
+                               duration = getOption("mb.duration", dminutes(10)),
                                parallel = getOption("mb.parallel", FALSE),
                                quick = getOption("mb.quick", FALSE),
                                quiet = getOption("mb.quiet", TRUE),
@@ -64,7 +65,7 @@ reanalyse.mb_model <- function(analysis,
 #' @export
 reanalyse.mb_analysis <- function(analysis,
                                   rhat = getOption("mb.rhat", 1.1),
-                                  minutes = getOption("mb.minutes", 10L),
+                                  duration = getOption("mb.duration", dminutes(10)),
                                   parallel = getOption("mb.parallel", FALSE),
                                   quick = getOption("mb.quick", FALSE),
                                   quiet = getOption("mb.quiet", TRUE),

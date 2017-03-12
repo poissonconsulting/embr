@@ -12,5 +12,5 @@ elapsed(x, ...)
 \item{...}{Not used.}
 }
 \description{
-Get elapsed time in minutes.
+Get elapsed duration.
 }

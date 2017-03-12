@@ -1,6 +1,6 @@
 #' Elapsed
 #'
-#' Get elapsed time in minutes.
+#' Get elapsed duration.
 #'
 #' @param x The object to calculate it for.
 #' @param ... Not used.
@@ -11,10 +11,10 @@ elapsed <- function(x, ...) {
 
 #' @export
 elapsed.mb_analysis <- function(x, ...) {
-  as.integer(round(as.integer(x$duration) / 60))
+  x$duration
 }
 
 #' @export
 elapsed.mb_null_analysis <- function(x, ...) {
-  0L
+  lubridate::dseconds(0)
 }
