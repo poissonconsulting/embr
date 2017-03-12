@@ -2,7 +2,7 @@
 #' @importFrom broom glance tidy
 #' @importFrom doParallel registerDoParallel
 #' @importFrom doRNG %dorng%
-#' @importFrom foreach %do%
+#' @importFrom foreach %do% %dopar%
 #' @importFrom stats coef
 #' @importFrom graphics plot
 #' @importFrom lubridate dminutes
