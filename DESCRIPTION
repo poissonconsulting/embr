@@ -8,6 +8,7 @@ Description: Utility functions and virtual classes shared by model builder packa
 Depends:
     R (>= 3.3.1),
     broom,
+    doRNG,
     lubridate (>= 1.6.0.9009),
     mcmcr (>= 0.0.0.9004),
     stats
@@ -15,7 +16,6 @@ Imports:
     beepr,
     datacheckr (>= 0.1.2),
     doParallel,
-    doRNG,
     dplyr,
     foreach,
     graphics,
