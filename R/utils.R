@@ -95,32 +95,6 @@ drop_indices <- function(x) {
   str_replace(x, "^(\\w+)(\\[.*)", "\\1")
 }
 
-#' Parallel lapply
-#'
-#' Applys function FUN to list X possibly in parallel.
-#'
-#' @inheritParams base::lapply
-#' @param .parallel A flag indicating whether to perform the FUN
-#' to each element of X in parallel.
-#' @export
-plapply <- function(X, FUN, .parallel = TRUE, ...) {
-  if (!is.list(X)) error("X must be a list")
-
-  if (!length(X)) return(X)
-
-  nworkers <- foreach::getDoParWorkers()
-
-  i <- NULL
-  if (!.parallel || nworkers == 1 || length(X) == 1) {
-    return(foreach::foreach(i = 1:length(X)) %do% FUN(X[[i]], ...))
-  }
-  if (length(X) > nworkers) {
-    return(foreach::foreach(i = 1:length(X)) %dorng% FUN(X[[i]], ...))
-  }
-  foreach::foreach(i = itertools::isplitIndices(n = length(X), chunks = nworkers)) %dorng%
-    FUN(X[[i]], ...)
-}
-
 #' Power
 #'
 #' R equivalent to the C++  function.

@@ -1,25 +1,21 @@
 Package: mbr
 Title: Model Builder Utility Functions and Virtual Classes
-Version: 0.0.0.9035
-Date: 2017-03-12
+Version: 0.0.0.9036
+Date: 2017-03-16
 Authors@R: person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre"))
 Description: Utility functions and virtual classes shared by model builder packages
     such as tmbr.
 Depends:
     R (>= 3.3.1),
     broom,
-    doRNG,
     lubridate (>= 1.6.0.9009),
     mcmcr (>= 0.0.0.9004),
     stats
 Imports:
     beepr,
     datacheckr (>= 0.1.2),
-    doParallel,
     dplyr,
-    foreach,
     graphics,
-    itertools,
     magrittr,
     parallel,
     plyr,
