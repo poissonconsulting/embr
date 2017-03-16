@@ -2,7 +2,7 @@ zero_random_effects <- function(mcmcr, data, random_effects) {
   stopifnot(all(names(random_effects) %in% parameters(mcmcr)))
   stopifnot(all(unlist(random_effects) %in% names(data)))
 
-  data %<>% lapply(as.numeric)
+  data %<>% llply(as.numeric)
   data <- data[unique(unlist(random_effects))]
   data <- data[vapply(data, all1, TRUE)]
   data <- names(data)

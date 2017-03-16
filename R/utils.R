@@ -32,7 +32,7 @@ is_nlist <- function(x) {
 sort_random_effects <- function(x) {
   x %<>% sort_nlist()
   check_all_elements_class_character(x)
-  x %<>% lapply(function(x) sort(x))
+  x %<>% llply(function(x) sort(x))
   x
 }
 
@@ -81,9 +81,9 @@ remainder <- function(x, y) {
 model_names <- function(x, drops) {
   drops %<>% full_drop()
   stopifnot(all(unique(unlist((x))) %in% drops))
-  x %<>% lapply(remainder, drops)
+  x %<>% llply(remainder, drops)
   x[vapply(x, length, 1L) == 0] <- "base"
-  x %<>% lapply(str_c, collapse = "+") %>% unlist()
+  x %<>% llply(str_c, collapse = "+") %>% unlist()
   x %<>% vapply(function(x) str_c("base+", x, collapse = ""), "")
   x[x == "base+base"] <- "base"
   x[x == str_c("base+", str_c(drops, collapse = "+"), collapse = "")] <- "full"

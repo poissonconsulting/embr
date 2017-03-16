@@ -33,10 +33,10 @@ AICc.list <- function(object, n = NULL, ...) {
 
   if (anyDuplicated(names(object))) error("object must be uniquely named")
 
-  data <- lapply(object, data_set)
+  data <- llply(object, data_set)
   if (!all(vapply(data, identical, TRUE, data[[1]]))) error("all elements of object must have the same data")
 
-  random_effects <- lapply(object, random_effects) %>% lapply(sort_random_effects)
+  random_effects <- llply(object, random_effects) %>% llply(sort_random_effects)
   if (!all(vapply(data, identical, TRUE, data[[1]]))) error("all elements of object must have the same random effects")
 
   tibble <- dplyr::data_frame(model = names(object))

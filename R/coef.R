@@ -14,7 +14,7 @@
 #' @export
 coef.list <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = 0.95, n = NULL, ...) {
   aicc <- AICc(object, n = n)
-  coef <- lapply(object, coef, param_type = param_type, include_constant = include_constant, conf_level = conf_level)
+  coef <- llply(object, coef, param_type = param_type, include_constant = include_constant, conf_level = conf_level)
 
   coef <- coef[is.finite(aicc$AICc)]
   aicc <- aicc[is.finite(aicc$AICc),,drop = FALSE]
