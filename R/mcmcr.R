@@ -1,4 +1,4 @@
-#' RhatÎı
+#' Rhat
 #'
 #' rhat
 #'
@@ -56,24 +56,20 @@ derive_fun <- function(object,
                        new_values = list(),
                        term = "prediction",
                        modify_new_data = NULL,
-                       parallel = getOption("mb.parallel", FALSE),
-                       quick = getOption("mb.quick", FALSE),
-                       quiet = getOption("mb.quiet", TRUE),
-                       beep = getOption("mb.beep", FALSE),
+                       parallel,
+                       quick,
+                       quiet,
                        ...) {
   check_data2(new_data)
   check_uniquely_named_list(new_values)
   check_flag(parallel)
   check_flag(quick)
   check_flag(quiet)
-  check_flag(beep)
 
   model <- model(object)
 
   if (is.null(new_expr)) new_expr <- model$new_expr
   check_string(new_expr)
-
-  if (beep) on.exit(beepr::beep())
 
   data <- mbr::modify_new_data(new_data, data2 = data_set(object), model = model,
                                modify_new_data = modify_new_data)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/mcmcr.R
 \name{rhat.mb_analysis}
 \alias{rhat.mb_analysis}
-\title{RhatÎı}
+\title{Rhat}
 \usage{
 \method{rhat}{mb_analysis}(x, ...)
 }
