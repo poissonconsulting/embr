@@ -85,7 +85,8 @@ derive_fun <- function(object,
   data %<>% numericize_factors()
   data %<>% c(new_values)
 
-  object %<>% derive(expr = new_expr, values = data, monitor = term, quick = quick)
+  object %<>% derive(expr = new_expr, values = data, monitor = term,
+                     parallel = parallel, quick = quick)
   object
 }
 
