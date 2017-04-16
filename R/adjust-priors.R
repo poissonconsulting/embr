@@ -22,15 +22,6 @@ adjust_priors.character <- function(object, multiplier = 2, ...) {
 }
 
 #' @export
-adjust_priors.list <- function(object, multiplier = 2, ...) {
-  if (!length(object)) return(object)
-
-  object %<>% purrr::map(adjust_priors, multiplier = multiplier, ...)
-
-  object
-}
-
-#' @export
 adjust_priors.mb_model <- function(object, multiplier = 2, ...) {
   code <- code(object)
   code %<>% adjust_priors(multiplier = multiplier)
