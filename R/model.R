@@ -50,7 +50,7 @@ model.character <- function(
 #' @param drops A list of character vector of possible scalar parameters to drop (fix at 0).
 #' @param ... Unused arguments.
 #' @return An object inherting from class mb_model.
-#' @seealso \code{\link[datacheckr]{check_data}} \code{\link[rescale]{rescale}}
+#' @seealso \code{\link[datacheckr]{check_data2}} \code{\link[rescale]{rescale}}
 #' @export
 model.mb_code <- function(
   x, gen_inits = function(data) {list()}, random_effects = list(), fixed = "^[^e]",

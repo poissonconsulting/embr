@@ -21,9 +21,21 @@ AICc.numeric <- function(object, K, n = Inf, ...) {
 }
 
 #' @export
-AICc.list <- function(object, n = NULL, ...) {
-  if (!is.list(object)) error("object must be a list")
+AICc.mb_analysis <- function(object, n = NULL, ...) {
+  K <- nterms(object, include_constant = FALSE)
+  n <- sample_size(object)
+  AICc(logLik(object), K = K, n = n)
+}
 
+#' @export
+AICc.list <- function(object, n = NULL, ...) {
+  .Deprecated()
+  class(object) <- "mb_analyses"
+  AICc(object, n = n, ...)
+}
+
+#' @export
+AICc.mb_analyses <- function(object, n = NULL, ...) {
   if (!length(object)) return(dplyr::data_frame(model = character(0), K = integer(0), AICc = numeric(0),
                                                 DeltaAICc = numeric(0), AICcWt = numeric(0)))
 
@@ -50,11 +62,4 @@ AICc.list <- function(object, n = NULL, ...) {
   tibble$DeltaAICc %<>% round(1)
   tibble$AICcWt %<>% round(2)
   tibble
-}
-
-#' @export
-AICc.mb_analysis <- function(object, n = NULL, ...) {
-  K <- nterms(object, include_constant = FALSE)
-  n <- sample_size(object)
-  AICc(logLik(object), K = K, n = n)
 }
