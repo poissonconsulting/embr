@@ -38,6 +38,7 @@ analyse_priors.mb_analysis <- function(analysis, multipliers = c(0.5, 2),
   models %<>% purrr::map2(multipliers, adjust_priors, ...)
 
   names(models) <- multipliers
+  models %<>% models()
 
   analysis$priors <- analyse(models, data = data_set(analysis), parallel = parallel,
                       quick = quick, quiet = quiet, beep = FALSE)

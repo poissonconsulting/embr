@@ -56,7 +56,7 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
 #' Akaike's weight and the proportion of models including the term.
 #' @export
 coef.list <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = 0.95, n = NULL, ...) {
-  .Deprecated()
+  .Deprecated("coef.mb_analyses")
   class(object) <- "mb_analyses"
   coef(object, param_type = param_type, include_constant = include_constant,
        conf_level = conf_level, n = n, ...)
@@ -76,7 +76,7 @@ coef.list <- function(object, param_type = "fixed", include_constant = TRUE, con
 #' @return A tidy tibble of the coeffcient terms with the model averaged estimate, the
 #' Akaike's weight and the proportion of models including the term.
 #' @export
-coef.mb_models <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = 0.95, n = NULL, ...) {
+coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = 0.95, n = NULL, ...) {
   aicc <- AICc(object, n = n)
   coef <- llply(object, coef, param_type = param_type, include_constant = include_constant, conf_level = conf_level)
 

@@ -22,14 +22,14 @@ adjust_priors.character <- function(object, multiplier = 2, ...) {
 }
 
 #' @export
+adjust_priors.mb_code <- function(object, multiplier = 2, ...) {
+  error("adjust is not defined for objects of the virtual class 'mb_code'")
+}
+
+#' @export
 adjust_priors.mb_model <- function(object, multiplier = 2, ...) {
   code <- code(object)
   code %<>% adjust_priors(multiplier = multiplier)
   object %<>% update_model(code = code)
   object
-}
-
-#' @export
-adjust_priors.mb_code <- function(object, multiplier = 2, ...) {
-  error("adjust is not defined for objects of the virtual class 'mb_code'")
 }

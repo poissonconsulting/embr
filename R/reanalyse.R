@@ -33,6 +33,33 @@ reanalyse.list <- function(analysis,
                            quiet = getOption("mb.quiet", TRUE),
                            beep = getOption("mb.beep", TRUE),
                            ...) {
+  .Deprecated("reanalyse.mb_analyses")
+  class(analysis) <- "mb_analyses"
+  reanalyse(analysis, rhat = rhat, duration = duration, parallel = parallel,
+            quick = quick, quiet = quiet, beep = beep, ...)
+}
+
+#' @export
+reanalyse.mb_analysis <- function(analysis,
+                                  rhat = getOption("mb.rhat", 1.1),
+                                  duration = getOption("mb.duration", dminutes(10)),
+                                  parallel = getOption("mb.parallel", FALSE),
+                                  quick = getOption("mb.quick", FALSE),
+                                  quiet = getOption("mb.quiet", TRUE),
+                                  beep = getOption("mb.beep", TRUE),
+                                  ...) {
+  error("reanalyse is not defined for objects of the virtual class 'mb_analysis'")
+}
+
+#' @export
+reanalyse.mb_analyses <- function(analysis,
+                                  rhat = getOption("mb.rhat", 1.1),
+                                  duration = getOption("mb.duration", dminutes(10)),
+                                  parallel = getOption("mb.parallel", FALSE),
+                                  quick = getOption("mb.quick", FALSE),
+                                  quiet = getOption("mb.quiet", TRUE),
+                                  beep = getOption("mb.beep", TRUE),
+                                  ...) {
   check_flag(beep)
 
   if (beep) on.exit(beepr::beep())
@@ -48,28 +75,4 @@ reanalyse.list <- function(analysis,
                             quick = quick, quiet = quiet, beep = FALSE, ...)
   names(analysis) <- names
   analysis
-}
-
-#' @export
-reanalyse.mb_model <- function(analysis,
-                               rhat = getOption("mb.rhat", 1.1),
-                               duration = getOption("mb.duration", dminutes(10)),
-                               parallel = getOption("mb.parallel", FALSE),
-                               quick = getOption("mb.quick", FALSE),
-                               quiet = getOption("mb.quiet", TRUE),
-                               beep = getOption("mb.beep", TRUE),
-                               ...) {
-  error("reanalyse is not defined for objects inheriting from class 'mb_model'")
-}
-
-#' @export
-reanalyse.mb_analysis <- function(analysis,
-                                  rhat = getOption("mb.rhat", 1.1),
-                                  duration = getOption("mb.duration", dminutes(10)),
-                                  parallel = getOption("mb.parallel", FALSE),
-                                  quick = getOption("mb.quick", FALSE),
-                                  quiet = getOption("mb.quiet", TRUE),
-                                  beep = getOption("mb.beep", TRUE),
-                                  ...) {
-  error("reanalyse is not defined for objects of the virtual class 'mb_analysis'")
 }

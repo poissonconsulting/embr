@@ -34,7 +34,7 @@ analyse.list <- function(model, data, drop = character(0),
                          quiet = getOption("mb.quiet", TRUE),
                          beep = getOption("mb.beep", TRUE),
                          ...) {
-  .Deprecated()
+  .Deprecated("analyse.mb_models")
   models <- models(model)
   analyse(models, data = data, drop = character(0), parallel = parallel,
           quick = quick, quiet = quiet, beep = beep, ...)

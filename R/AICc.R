@@ -29,7 +29,7 @@ AICc.mb_analysis <- function(object, n = NULL, ...) {
 
 #' @export
 AICc.list <- function(object, n = NULL, ...) {
-  .Deprecated()
+  .Deprecated("AICc.mb_analyses")
   class(object) <- "mb_analyses"
   AICc(object, n = n, ...)
 }
