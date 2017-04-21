@@ -9,7 +9,7 @@ Depends:
     R (>= 3.3.1),
     broom,
     lubridate (>= 1.6.0.9009),
-    mcmcr (>= 0.0.0.9004),
+    mcmcr (>= 0.0.0.9009),
     stats
 Imports:
     beepr,
@@ -21,7 +21,7 @@ Imports:
     plyr,
     pryr,
     purrr,
-    rescale (>= 0.0.0.9000),
+    rescale (>= 0.0.0.9002),
     stringr,
     tibble
 License: MIT + file LICENSE

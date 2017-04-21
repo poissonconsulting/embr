@@ -1,52 +1,41 @@
-#' Rhat
-#'
-#' rhat
-#'
-#' @param x The mb_analysis object.
-#' @param ... Not used.
-#' @return A tidy tibble of the coefficient terms.
 #' @export
 rhat.mb_analysis <- function(x, ...) {
   rhat(as.mcmcr(x))
 }
 
+#' @export
+cross_rhat.mb_analysis <- function(x, x2, ...) {
+  cross_rhat(as.mcmcr(x), as.mcmcr(x2))
+}
 
-#' Number of chains
-#'
-#' nchains
-#'
-#' @param x The mb_analysis object.
-#' @param ... Not used.
-#' @return A count of the number of chains.
 #' @export
 nchains.mb_analysis <- function(x, ...) {
   nchains(as.mcmcr(x))
 }
 
-#' Number of iterations
-#'
-#' niters
-#'
-#' @param x The mb_analysis object.
-#' @param ... Not used.
-#' @return A count of the number of iterations.
 #' @export
 niters.mb_analysis <- function(x, ...) {
   niters(as.mcmcr(x))
 }
 
-#' Is Converged
-#'
-#' @param x Object to test rhat for
-#' @param rhat A number specifying the rhat threshold.
-#' @param ... Unused
 #' @export
 converged.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), ...) {
   converged(as.mcmcr(x), rhat = rhat)
 }
 
 #' @export
-converged.mb_null_analysis <- function(x, ...) {
+cross_converged.mb_analysis <- function(x, x2, rhat = getOption("mb.rhat", 1.1), ...) {
+  if (!is.mb_analysis(x2)) error("x2 must be an mb_analysis object")
+  if (is.mb_null_analysis(x2)) return(FALSE)
+  cross_converged(as.mcmcr(x), as.mcmcr(x2), rhat = rhat)
+}
+
+#' @export
+converged.mb_null_analysis <- function(x, ...) FALSE
+
+#' @export
+cross_converged.mb_null_analysis <- function(x, x2, rhat = getOption("mb.rhat", 1.1), ...) {
+  if (!is.mb_analysis(x2)) error("x2 must be an mb_analysis object")
   FALSE
 }
 

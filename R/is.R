@@ -31,6 +31,17 @@ is.mb_analysis <- function(x) {
   inherits(x, "mb_analysis")
 }
 
+#' Is MB Null Analysis?
+#'
+#' Tests whether x is an object of class 'mb_null_analysis'
+#'
+#' @param x The object to test.
+#' @return A flag indicating whether the test was positive.
+#' @export
+is.mb_null_analysis <- function(x) {
+  inherits(x, "mb_null_analysis")
+}
+
 #' Is MB Analyses?
 #'
 #' Tests whether x is an object of class 'mb_analyses'
