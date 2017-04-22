@@ -79,18 +79,7 @@ derive_fun <- function(object,
 #'
 #' Calculate derived parameters.
 #'
-#' @param object An object inheriting from class mb_analysis.
-#' @param new_data The data frame to calculate the predictions for.
-#' @param new_expr A string of R code specifying the predictive relationship.
-#' @param new_values A named list of new or replacement values to pass to new_expr.
-#' @param term A string of the term in new_expr.
-#' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
-#' @param ref_data A data frame with 1 row indicating the reference values for calculating the effects size.
-#' @param parallel A flag indicating whether to do predictions using parallel backend provided by foreach.
-#' @param quick A flag indicating whether to quickly get unreliable values.
-#' @param quiet A flag indicating whether to disable tracing information.
-#' @param beep A flag indicating whether to beep on completion of the analysis.
-#' @param ...  Additional arguments.
+#' @inheritParams derive_data
 #' @return A object of class mcmcr.
 #' @export
 derive.mb_analysis <- function(object,
@@ -99,15 +88,20 @@ derive.mb_analysis <- function(object,
                                new_values = list(),
                                term = "prediction",
                                modify_new_data = NULL,
-                               ref_data = NULL,
+                               ref_data = FALSE,
                                parallel = getOption("mb.parallel", FALSE),
                                quick = getOption("mb.quick", FALSE),
                                quiet = getOption("mb.quiet", TRUE),
                                beep = getOption("mb.beep", FALSE),
                                ...) {
   check_flag(beep)
+  checkor(check_data2(new_data), check_vector(new_data, "", min_length = 1))
+  checkor(check_flag(ref_data), check_data2(ref_data))
 
   if (beep) on.exit(beepr::beep())
+
+  if (is.character(new_data))
+    new_data %<>% newdata::new_data(data_set(object), .)
 
   nrow <- nrow(new_data)
 
@@ -117,7 +111,10 @@ derive.mb_analysis <- function(object,
                       parallel = parallel, quick = quick,
                       quiet = quiet, beep = FALSE, ...)
 
-  if (is.null(ref_data)) return(new_data)
+  if (identical(FALSE)) return(new_data)
+
+  if (identical(ref_data, TRUE))
+    ref_data <- data_set(object) %>% newdata::new_data()
 
   ref_data %<>% derive_fun(object, new_data = ., new_expr = new_expr,
                            new_values = new_values, term = term,
@@ -147,7 +144,7 @@ derive.mb_analysis <- function(object,
 #' @param new_values A named list of new or replacement values to pass to new_expr.
 #' @param term A string of the term in new_expr.
 #' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
-#' @param ref_data A data frame with 1 row indicating the reference values for calculating the effects size.
+#' @param ref_data A flag or a data frame with 1 row indicating the reference values for calculating the effects size.
 #' @param parallel A flag indicating whether to do predictions using parallel backend provided by foreach.
 #' @param quick A flag indicating whether to quickly get unreliable values.
 #' @param quiet A flag indicating whether to disable tracing information.
@@ -160,7 +157,7 @@ derive_data <- function(object,
                         new_values = list(),
                         term = "prediction",
                         modify_new_data = NULL,
-                        ref_data = NULL,
+                        ref_data = FALSE,
                         parallel = getOption("mb.parallel", FALSE),
                         quick = getOption("mb.quick", FALSE),
                         quiet = getOption("mb.quiet", TRUE),

@@ -6,7 +6,7 @@
 \usage{
 derive_data(object, new_data = data_set(object), new_expr = NULL,
   new_values = list(), term = "prediction", modify_new_data = NULL,
-  ref_data = NULL, parallel = getOption("mb.parallel", FALSE),
+  ref_data = FALSE, parallel = getOption("mb.parallel", FALSE),
   quick = getOption("mb.quick", FALSE), quiet = getOption("mb.quiet", TRUE),
   beep = getOption("mb.beep", FALSE), ...)
 }
@@ -23,7 +23,7 @@ derive_data(object, new_data = data_set(object), new_expr = NULL,
 
 \item{modify_new_data}{A single argument function to modify new data (in list form) immediately prior to calculating new_expr.}
 
-\item{ref_data}{A data frame with 1 row indicating the reference values for calculating the effects size.}
+\item{ref_data}{A flag or a data frame with 1 row indicating the reference values for calculating the effects size.}
 
 \item{parallel}{A flag indicating whether to do predictions using parallel backend provided by foreach.}
 

@@ -26,23 +26,10 @@ residuals.mb_analysis <- function(object, ...) {
   predict(object, new_data = data_set(object), term = "residual")
 }
 
-#' Predict Data
-#'
 #' Predict
 #'
-#' @param object An object inheriting from class mb_analysis.
-#' @param new_data The data frame to calculate the predictions for.
-#' @param new_expr A string of R code specifying the predictive relationship.
-#' @param new_values A named list of new or replacement values to pass to new_expr.
-#' @param term A string of the term in new_expr.
+#' @inheritParams derive_data
 #' @param conf_level A number specifying the confidence level. By default 0.95.
-#' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
-#' @param ref_data A data frame with 1 row indicating the reference values for calculating the effects size.
-#' @param parallel A flag indicating whether to do predictions using parallel backend provided by foreach.
-#' @param quick A flag indicating whether to quickly get unreliable values.
-#' @param quiet A flag indicating whether to disable tracing information.
-#' @param beep A flag indicating whether to beep on completion of the analysis.
-#' @param ...  Additional arguments.
 #' @export
 predict.mb_analysis <- function(object,
                                 new_data = data_set(object),
@@ -51,7 +38,7 @@ predict.mb_analysis <- function(object,
                                 term = "prediction",
                                 conf_level = 0.95,
                                 modify_new_data = NULL,
-                                ref_data = NULL,
+                                ref_data = FALSE,
                                 parallel = getOption("mb.parallel", FALSE),
                                 quick = getOption("mb.quick", FALSE),
                                 quiet = getOption("mb.quiet", TRUE),
