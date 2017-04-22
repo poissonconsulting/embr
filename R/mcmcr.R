@@ -111,7 +111,7 @@ derive.mb_analysis <- function(object,
                       parallel = parallel, quick = quick,
                       quiet = quiet, beep = FALSE, ...)
 
-  if (identical(FALSE)) return(new_data)
+  if (identical(ref_data, FALSE)) return(new_data)
 
   if (identical(ref_data, TRUE))
     ref_data <- data_set(object) %>% newdata::new_data()
@@ -164,6 +164,10 @@ derive_data <- function(object,
                         beep = getOption("mb.beep", FALSE),
                         ...) {
   check_string(term)
+  checkor(check_data2(new_data), check_vector(new_data, "", min_length = 1))
+
+  if (is.character(new_data))
+    new_data %<>% newdata::new_data(data_set(object), .)
 
   object %<>% derive(new_data = new_data, new_expr = new_expr, new_values = new_values,
                      term = term, modify_new_data = modify_new_data,
