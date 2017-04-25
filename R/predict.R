@@ -103,9 +103,10 @@ predict.lmb_analysis <- function(object,
     as.data.frame() %>%
     dplyr::rename_(estimate = ~fit, lower = ~lwr, upper = ~upr) %>%
     dplyr::mutate_(sd = ~pred$se.fit,
-                  zscore = ~estimate/sd)
+                  zscore = ~estimate/sd,
+                  pvalue = ~ pnorm(-abs(zscore)) * 2)
 
-  prediction %<>% dplyr::select_(~estimate, ~sd, ~zscore, ~lower, ~upper) # ~pvalue
+  prediction %<>% dplyr::select_(~estimate, ~sd, ~zscore, ~lower, ~upper, ~pvalue)
 
   prediction %<>% dplyr::bind_cols(new_data, .)
   prediction

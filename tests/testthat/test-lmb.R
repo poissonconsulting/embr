@@ -23,17 +23,17 @@ test_that("lmb", {
                                         "feedmeatmeal", "feedsoybean", "feedsunflower")))
 
   prediction <- predict(analysis)
-  expect_identical(colnames(prediction), c("weight", "feed", "estimate", "sd", "zscore", "lower", "upper"))
+  expect_identical(colnames(prediction), c("weight", "feed", "estimate", "sd", "zscore", "lower", "upper", "pvalue"))
   expect_identical(nrow(prediction), nrow(chickwts))
 
   expect_identical(prediction, fitted(analysis))
 
   prediction <- predict(analysis, new_data = "feed")
-  expect_identical(colnames(prediction), c("weight", "feed", "estimate", "sd", "zscore", "lower", "upper"))
+  expect_identical(colnames(prediction), c("weight", "feed", "estimate", "sd", "zscore", "lower", "upper", "pvalue"))
   expect_identical(nrow(prediction), nlevels(chickwts$feed))
 
   prediction <- predict(analysis, new_data = character(0))
-  expect_identical(colnames(prediction), c("weight", "feed", "estimate", "sd", "zscore", "lower", "upper"))
+  expect_identical(colnames(prediction), c("weight", "feed", "estimate", "sd", "zscore", "lower", "upper", "pvalue"))
   expect_identical(nrow(prediction), 1L)
 })
 
