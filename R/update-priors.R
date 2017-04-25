@@ -40,10 +40,7 @@ update_priors.mb_model <- function(object, multiplier = c(0.5, 2), ...) {
   if (any(multiplier <= 0)) error("multiplier(s) must be greater than 0")
   if (length(multiplier) == 1) return(update_priors_model(multiplier, object))
   models <- lapply(multiplier, update_priors_model, object)
-  names(models) <- stringr::str_c("Multiplier:", multiplier)
-  print(models)
-  print(class(models))
-  print(names(models))
+  names(models) <- stringr::str_c("Priors * ", multiplier)
   models(models)
 }
 
@@ -53,9 +50,9 @@ update_priors.mb_analysis <- function(
   parallel = getOption("mb.parallel", FALSE), quick = getOption("mb.quick", FALSE),
   quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep", TRUE), ...) {
 
-  model <- model(object) %>%
-    update_priors(multiplier = multiplier) %>%
-    analyse(data = data_set(object), drop = drop, parallel = parallel,
+  model <- model(object)
+  model %<>% update_priors(multiplier = multiplier)
+  model %<>% analyse(data = data_set(object), drop = drop, parallel = parallel,
             quick = quick, quiet = quiet, beep = beep)
   model
 }
