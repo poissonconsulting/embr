@@ -24,7 +24,9 @@ knitr::opts_chunk$set(
 
 `mbr` (pronounced MBR) is an R package of utility functions and virtual classes for the model builder family of R packages.
 
-Currently there are packages which implement the functionality for JAGS ([jmbr](https://github.com/poissonconsulting/jmbr)) and TMB ([tmbr](https://github.com/poissonconsulting/tmbr))
+Currently there are packages which implement the functionality for JAGS ([jmbr](https://github.com/poissonconsulting/jmbr)) and TMB ([tmbr](https://github.com/poissonconsulting/tmbr)).
+
+`mbr` implements some basic functionality using `lm`.
 
 ## Demonstration
 
@@ -47,12 +49,14 @@ coef(analysis)
 ```
 
 ```{r, message = FALSE}
-#year <- predict(analysis, new_data = "Year")
+year <- predict(analysis, new_data = "Year")
 
-#ggplot(data = year, aes(x = Year, y = estimate)) +
-#  geom_point(data = bauw::peregrine, aes(y = Pairs)) +
-#  geom_line() +
-#  expand_limits(y = 0)
+ggplot(data = year, aes(x = Year, y = estimate)) +
+  geom_point(data = bauw::peregrine, aes(y = Pairs)) +
+  geom_line() +
+  geom_line(aes(y = lower), linetype = "dotted") +
+  geom_line(aes(y = upper), linetype = "dotted") +
+  expand_limits(y = 0)
 ```
 
 ## Installation

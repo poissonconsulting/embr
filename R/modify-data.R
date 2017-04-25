@@ -32,18 +32,21 @@ select_data <- function(data, select_data, center, scale, random_effects) {
 #' Selects and rescales data.
 #'
 #' @param data The data to modify.
+#' @param data2 The base data.
 #' @param model An object inheriting from class mb_model.
 #' @return The modified data in list form.
 #' @export
-select_rescale_data <- function(data, model) {
+select_rescale_data <- function(data, model, data2 = data) {
   check_data1(data)
+  check_data1(data2)
   check_mb_model(model)
   data %<>% select_data(model$select_data, model$center, model$scale, model$random_effects)
+  data2 %<>% select_data(model$select_data, model$center, model$scale, model$random_effects)
 
   if (!identical(model$center, character(0)) || !identical(model$scale, character(0)))  {
-    data %<>% rescale::rescale(data2 = data, center = model$center, scale = model$scale)
-  } else if(length(model$select_data))
-    data %<>% rescale::rescale_c(data2 = data, colnames = names(model$select_data))
+    data %<>% rescale::rescale(data2 = data2, center = model$center, scale = model$scale)
+  } else if (length(model$select_data))
+    data %<>% rescale::rescale_c(data2 = data2, colnames = names(model$select_data))
   data
 }
 
@@ -86,11 +89,7 @@ modify_new_data <- function(data, data2, model, modify_new_data = NULL) {
   if (is.null(modify_new_data)) modify_new_data <- model$modify_new_data
   check_single_arg_fun(modify_new_data)
 
-  data %<>% select_data(model$select_data, model$center, model$scale, model$random_effects)
-  if (!identical(model$center, character(0)) || !identical(model$scale, character(0)))  {
-    data %<>% rescale::rescale(data2 = data2, center = model$center, scale = model$scale)
-  } else
-    data %<>% rescale::rescale_c(data2 = data2, colnames = names(model$select_data))
+  data %<>% select_rescale_data(model, data2 = data2)
 
   data %<>% as.list()
   data %<>% numericize_logicals()

@@ -4,12 +4,14 @@
 \alias{select_rescale_data}
 \title{Select and Rescale Data}
 \usage{
-select_rescale_data(data, model)
+select_rescale_data(data, model, data2 = data)
 }
 \arguments{
 \item{data}{The data to modify.}
 
 \item{model}{An object inheriting from class mb_model.}
+
+\item{data2}{The base data.}
 }
 \value{
 The modified data in list form.

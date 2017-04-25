@@ -26,6 +26,8 @@ test_that("lmb", {
   expect_identical(colnames(prediction), c("weight", "feed", "estimate", "sd", "zscore", "lower", "upper", "pvalue"))
   expect_identical(nrow(prediction), nrow(chickwts))
 
+  expect_equal(prediction[,colnames(chickwts)], chickwts)
+
   expect_identical(prediction, fitted(analysis))
 
   prediction <- predict(analysis, new_data = "feed")

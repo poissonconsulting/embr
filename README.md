@@ -32,7 +32,7 @@ analysis <- analyse(model, data = bauw::peregrine)
 #> # A tibble: 1 × 5
 #>       n     K    logLik     AICc            duration
 #>   <int> <int>     <dbl>    <dbl>      <S4: Duration>
-#> 1    40     4 -145.5861 300.3151 0.0137059688568115s
+#> 1    40     4 -145.5861 300.3151 0.0126180648803711s
 
 coef(analysis)
 #> # A tibble: 4 × 7
@@ -46,13 +46,17 @@ coef(analysis)
 ```
 
 ``` r
-#year <- predict(analysis, new_data = "Year")
+year <- predict(analysis, new_data = "Year")
 
-#ggplot(data = year, aes(x = Year, y = estimate)) +
-#  geom_point(data = bauw::peregrine, aes(y = Pairs)) +
-#  geom_line() +
-#  expand_limits(y = 0)
+ggplot(data = year, aes(x = Year, y = estimate)) +
+  geom_point(data = bauw::peregrine, aes(y = Pairs)) +
+  geom_line() +
+  geom_line(aes(y = lower), linetype = "dotted") +
+  geom_line(aes(y = upper), linetype = "dotted") +
+  expand_limits(y = 0)
 ```
+
+![](tools/README-unnamed-chunk-4-1.png)
 
 Installation
 ------------

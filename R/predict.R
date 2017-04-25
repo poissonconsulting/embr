@@ -38,6 +38,18 @@ residuals.mb_analysis <- function(object, ...) {
   predict(object, new_data = data_set(object), term = "residual")
 }
 
+#' Residuals
+#'
+#' Extract residual values for an LMB analysis.
+#'
+#' @param object The MB analysis object.
+#' @param ... Unused.
+#' @return The analysis data set with the residual values.
+#' @export
+residuals.lmb_analysis <- function(object, ...) {
+  .NotYetImplemented()
+}
+
 #' Predict
 #'
 #' @inheritParams derive_data
@@ -96,7 +108,9 @@ predict.lmb_analysis <- function(object,
   if (is.character(new_data))
     new_data %<>% newdata::new_data(data_set(object), .)
 
-  pred <- predict(object$lm, newdata = new_data, se.fit = TRUE,
+  data <- select_rescale_data(new_data, model(object), data2 = data_set(object))
+
+  pred <- predict(object$lm, newdata = data, se.fit = TRUE,
                   interval = "confidence", level = conf_level)
 
   prediction <- pred$fit %<>%
