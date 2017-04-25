@@ -74,5 +74,6 @@ reanalyse.mb_analyses <- function(analysis,
   analysis %<>% purrr::lmap(reanalyse_list, rhat = rhat, duration = duration,
                             quick = quick, quiet = quiet, beep = FALSE, ...)
   names(analysis) <- names
+  class(analysis) <- "mb_analyses"
   analysis
 }
