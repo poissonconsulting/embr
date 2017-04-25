@@ -19,12 +19,11 @@ models.list <- function(x, ...) {
     error("all elements in x must inherit from 'mb_model'")
 
   classes <- purrr::map(x, class)
-  if (all(purrr::map_lgl(classes, identity, class[[1]])))
+  if (!all(purrr::map_lgl(classes, identical, classes[[1]])))
     error("all models in x must have the same class")
 
-  object <- list(models = x)
-  class(object) <- "mb_models"
-  object
+  class(x) <- "mb_models"
+  x
 }
 
 #' @export

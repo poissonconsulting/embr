@@ -64,3 +64,27 @@ test_that("update_model", {
   model2 <- update_model(model2, select_data = list())
   expect_equal(model, model2)
 })
+
+test_that("models", {
+  model <- model("weight ~ 1")
+  model2 <- model("weight ~ feed")
+
+  models <- list(full = model, base = model2)
+  models <- models(models)
+  expect_is(models, "mb_models")
+  expect_identical(length(models), 2L)
+  expect_identical(names(models), c("full", "base"))
+
+  analyses <- analyse(models, data = datasets::chickwts, beep = FALSE)
+  expect_is(analyses, "mb_analyses")
+  coef <- coef(analyses)
+  expect_identical(coef$term, as.term(c("(Intercept)", "feedhorsebean", "feedlinseed",
+                                        "feedmeatmeal", "feedsoybean", "feedsunflower")))
+  expect_identical(coef$proportion, c(1.0, rep(0.5, 5)))
+
+  aic <- AICc(analyses)
+  expect_identical(colnames(aic), c("model", "K", "AICc", "DeltaAICc", "AICcWt"))
+  expect_identical(aic$model, c("full", "base"))
+  expect_equal(aic$AICc, c(821.3269, 777.1873), tolerance = 10^-6)
+})
+
