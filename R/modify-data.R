@@ -21,6 +21,7 @@ select_data <- function(data, select_data, center, scale, random_effects) {
     return(data)
   }
 
+  names(select_data) %<>% rescale::get_rescaler_colnames()
   check_data2(data, select_data)
   data <- data[names(select_data)]
   data
@@ -38,7 +39,11 @@ modify_data <- function(data, model) {
   check_data1(data)
   check_mb_model(model)
   data %<>% select_data(model$select_data, model$center, model$scale, model$random_effects)
-  data %<>% rescale::rescale(data2 = data, center = model$center, scale = model$scale)
+
+  if (!identical(model$center, character(0)) || !identical(model$scale, character(0)))  {
+    data %<>% rescale::rescale(data2 = data, center = model$center, scale = model$scale)
+  } else
+    data %<>% rescale::rescale_c(data2 = data, colnames = names(model$select_data))
   data %<>% as.list()
   data %<>% numericize_logicals()
   data %<>% numericize_dates()
@@ -64,10 +69,14 @@ modify_new_data <- function(data, data2, model, modify_new_data = NULL) {
   check_mb_model(model)
 
   if (is.null(modify_new_data)) modify_new_data <- model$modify_new_data
-    check_single_arg_fun(modify_new_data)
+  check_single_arg_fun(modify_new_data)
 
   data %<>% select_data(model$select_data, model$center, model$scale, model$random_effects)
-  data %<>% rescale::rescale(data2 = data2, center = model$center, scale = model$scale)
+  if (!identical(model$center, character(0)) || !identical(model$scale, character(0)))  {
+    data %<>% rescale::rescale(data2 = data2, center = model$center, scale = model$scale)
+  } else
+    data %<>% rescale::rescale_c(data2 = data2, colnames = names(model$select_data))
+
   data %<>% as.list()
   data %<>% numericize_logicals()
   data %<>% numericize_dates()

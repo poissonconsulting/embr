@@ -41,7 +41,7 @@ model.character <- function(
 #' @param random_effects A named list specifying the random effects and the associated factors.
 #' @param fixed A string of a regular expression specifying the fixed parameters to monitor.
 #' @param derived A string of a regular expression specifying the derived parameters to monitor.
-#' @param select_data A named list specifying the columns to select and their associated classes and values.
+#' @param select_data A named list specifying the columns to select and their associated classes and values as well as transformations and scaling options.
 #' @inheritParams rescale::rescale
 #' @param modify_data A single argument function to modify the data (in list form) immediately prior to the analysis.
 #' @param niters A count between 3 and 6 specifying the order of the number of iterations.
@@ -50,7 +50,7 @@ model.character <- function(
 #' @param drops A list of character vector of possible scalar parameters to drop (fix at 0).
 #' @param ... Unused arguments.
 #' @return An object inherting from class mb_model.
-#' @seealso \code{\link[datacheckr]{check_data2}} \code{\link[rescale]{rescale}}
+#' @seealso \code{\link[datacheckr]{check_data2}} \code{\link[rescale]{rescale_c}}
 #' @export
 model.mb_code <- function(
   x, gen_inits = function(data) {list()}, random_effects = list(), fixed = "^[^e]",
@@ -65,6 +65,7 @@ model.mb_code <- function(
   check_string(fixed)
   check_unique_character_vector(derived)
   check_uniquely_named_list(select_data)
+  check_valid_rescalers(names(select_data))
   check_unique_character_vector(center)
   check_unique_character_vector(scale)
   check_single_arg_fun(modify_data)
@@ -74,14 +75,25 @@ model.mb_code <- function(
   if (!niters %in% 10^(3:6)) error("niters must be 10^2, 10^3, 10^4, 10^5 or 10^6")
   check_drops(drops)
 
+  select_colnames <- rescale::get_rescaler_colnames(names(select_data))
+  if(!length(select_colnames)) select_colnames <- NULL
+
+  if (!identical(center, character(0)) || !identical(scale, character(0))) {
+    if (!identical(names(select_data), select_colnames))
+      error("scaling (and transforms) should be specified with select_data or center/scale not both")
+
+    warning("arguments center and scale are deprecated; please use select_data instead.",
+            call. = FALSE)
+  }
+
   check_all_elements_class_character(random_effects)
-  check_x_in_y(unlist(random_effects), names(select_data),
+  check_x_in_y(unlist(random_effects), select_colnames,
                x_name = "random_effects", y_name = "select_data",
                type_x = "elements", type_y = "names")
-  check_x_not_in_y(names(random_effects), names(select_data),
+  check_x_not_in_y(names(random_effects), select_colnames,
                x_name = "random_effects", y_name = "select_data",
                type_x = "names", type_y = "names")
-  check_x_not_in_y(derived, names(select_data),
+  check_x_not_in_y(derived, select_colnames,
                    x_name = "derived", y_name = "select_data", type_y = "names")
   check_x_not_in_y(names(random_effects), derived,
                    x_name = "random_effects", y_name = "derived", type_x = "names")
@@ -94,8 +106,8 @@ model.mb_code <- function(
   check_x_not_in_y(derived, scale, x_name = "random_effects",
                    type_x = "elements")
 
-  check_x_in_y(center, names(select_data), y_name = "select_data", type_y = "names")
-  check_x_in_y(scale, names(select_data), y_name = "select_data", type_y = "names")
+  check_x_in_y(center, select_colnames, y_name = "select_data", type_y = "names")
+  check_x_in_y(scale, select_colnames, y_name = "select_data", type_y = "names")
 
   parameters_fixed <- unique(c(parameters(x,"fixed", scalar = TRUE),
                                parameters(x, "fixed", scalar = FALSE)))

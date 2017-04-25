@@ -22,7 +22,7 @@ returning a named list of initial values.}
 
 \item{derived}{A string of a regular expression specifying the derived parameters to monitor.}
 
-\item{select_data}{A named list specifying the columns to select and their associated classes and values.}
+\item{select_data}{A named list specifying the columns to select and their associated classes and values as well as transformations and scaling options.}
 
 \item{center}{A character vector of the columns to center.}
 
@@ -53,5 +53,5 @@ Missing random parameters are assigned the value 0.
 For jmb models unspecified the initial values for each chain are drawn from the prior distributions.
 }
 \seealso{
-\code{\link[datacheckr]{check_data2}} \code{\link[rescale]{rescale}}
+\code{\link[datacheckr]{check_data2}} \code{\link[rescale]{rescale_c}}
 }

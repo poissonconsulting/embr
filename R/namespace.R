@@ -5,6 +5,6 @@
 #' @importFrom lubridate dminutes
 #' @importFrom magrittr %<>% %>%
 #' @importFrom plyr llply
-#' @importFrom rescale rescale
+#' @importFrom rescale check_valid_rescalers
 #' @importFrom stats fitted logLik predict terms
 NULL

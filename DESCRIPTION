@@ -1,7 +1,7 @@
 Package: mbr
 Title: Model Builder Utility Functions and Virtual Classes
-Version: 0.0.0.9039
-Date: 2017-04-21
+Version: 0.0.0.9040
+Date: 2017-04-24
 Authors@R: person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre"))
 Description: Utility functions and virtual classes shared by model builder packages
     such as tmbr.
@@ -22,7 +22,7 @@ Imports:
     plyr,
     pryr,
     purrr,
-    rescale (>= 0.0.0.9002),
+    rescale (>= 0.0.0.9003),
     stringr,
     tibble
 License: MIT + file LICENSE
