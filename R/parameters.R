@@ -41,3 +41,12 @@ parameters.mb_analysis <- function(x, param_type = "fixed", ...) {
   parameters
 }
 
+#' @export
+parameters.tmb_code <- function(x, param_type = "fixed", scalar = TRUE, ...) {
+  check_scalar(param_type, c("fixed", "random", "derived"))
+  check_flag(scalar)
+
+  x %<>% template() %>% str_replace_all(" ", "")
+
+  .NotYetImplemented()
+}

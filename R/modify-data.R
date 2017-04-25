@@ -27,6 +27,26 @@ select_data <- function(data, select_data, center, scale, random_effects) {
   data
 }
 
+#' Select and Rescale Data
+#'
+#' Selects and rescales data.
+#'
+#' @param data The data to modify.
+#' @param model An object inheriting from class mb_model.
+#' @return The modified data in list form.
+#' @export
+select_rescale_data <- function(data, model) {
+  check_data1(data)
+  check_mb_model(model)
+  data %<>% select_data(model$select_data, model$center, model$scale, model$random_effects)
+
+  if (!identical(model$center, character(0)) || !identical(model$scale, character(0)))  {
+    data %<>% rescale::rescale(data2 = data, center = model$center, scale = model$scale)
+  } else if(length(model$select_data))
+    data %<>% rescale::rescale_c(data2 = data, colnames = names(model$select_data))
+  data
+}
+
 #' Modify Data
 #'
 #' Modifies a data frame to the form it will be passed to the analysis code.
@@ -38,12 +58,7 @@ select_data <- function(data, select_data, center, scale, random_effects) {
 modify_data <- function(data, model) {
   check_data1(data)
   check_mb_model(model)
-  data %<>% select_data(model$select_data, model$center, model$scale, model$random_effects)
-
-  if (!identical(model$center, character(0)) || !identical(model$scale, character(0)))  {
-    data %<>% rescale::rescale(data2 = data, center = model$center, scale = model$scale)
-  } else
-    data %<>% rescale::rescale_c(data2 = data, colnames = names(model$select_data))
+  data %<>% select_rescale_data(model)
   data %<>% as.list()
   data %<>% numericize_logicals()
   data %<>% numericize_dates()

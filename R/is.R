@@ -52,3 +52,39 @@ is.mb_null_analysis <- function(x) {
 is.mb_analyses <- function(x) {
   inherits(x, "mb_analyses")
 }
+
+#' Is a LMB Code
+#'
+#' Tests whether x is an object of class 'lmb_code'
+#'
+#' @param x The object to test.
+#'
+#' @return A flag indicating whether the test was positive.
+#' @export
+is.lmb_code <- function(x) {
+  inherits(x, "lmb_code")
+}
+
+#' Is a LMB Model
+#'
+#' Tests whether x is an object of class 'lmb_model'
+#'
+#' @param x The object to test.
+#'
+#' @return A flag indicating whether the test was positive.
+#' @export
+is.lmb_model <- function(x) {
+  inherits(x, "lmb_model")
+}
+
+#' Is a LMB Analysis
+#'
+#' Tests whether x is an object of class 'lmb_analysis'
+#'
+#' @param x The object to test.
+#'
+#' @return A flag indicating whether the test was positive.
+#' @export
+is.lmb_analysis <- function(x) {
+  inherits(x, "lmb_analysis")
+}

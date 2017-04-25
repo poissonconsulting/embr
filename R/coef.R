@@ -98,3 +98,48 @@ coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TR
   coef
 }
 
+#' Coef TMB Analysis
+#'
+#' Coefficients for a TMB analysis.
+#'
+#' The (95\%) \code{lower} and \code{upper} confidence intervals are
+#' the \code{estimate} +/- 1.96 * \code{std.error}.
+#'
+#' @param object The mb_analysis object.
+#' @param param_type A flag specifying whether 'fixed', 'random' or 'derived' terms.
+#' @param include_constant A flag specifying whether to include constant terms.
+#' @param conf_level A number specifying the confidence level. By default 0.95.
+#' @param ... Not used.
+#' @return A tidy tibble of the coefficient terms.
+#' @export
+coef.lmb_analysis <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = 0.95, ...) {
+
+  check_scalar(param_type, c("fixed", "random", "derived"))
+  check_flag(include_constant)
+  check_number(conf_level, c(0.5, 0.99))
+
+  if (!identical(param_type, "fixed")) error("param_type not yet implemented")
+
+  lm <- object$lm
+
+  coef <- summary(lm)$coefficients %>%
+    as.data.frame()
+
+  coef$term <- as.term(rownames(coef))
+  coef %<>% dplyr::select_(~term, estimate = ~Estimate,
+                   sd = ~`Std. Error`, zscore = ~`t value`,
+                   pvalue = ~`Pr(>|t|)`) %>%
+    dplyr::mutate_(zscore = ~estimate/sd)
+
+  confint <- stats::confint(lm, level = conf_level) %>%
+    as.data.frame()
+
+  colnames(confint) <- c("lower", "upper")
+  confint$term <- as.term(rownames(confint))
+
+  coef %<>% dplyr::inner_join(confint, by = "term")
+
+  coef %<>% dplyr::select_(~term, ~estimate, ~sd, ~zscore, ~lower, ~upper, ~pvalue)
+  coef %<>% dplyr::as.tbl()
+  coef
+}

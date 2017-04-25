@@ -9,6 +9,17 @@ glance.mb_analysis <- function(x, n = NULL, ...) {
 }
 
 #' @export
+glance.lmb_analysis <- function(x, n = NULL, ...) {
+  dplyr::data_frame(
+    n = sample_size(x),
+    K = nterms(x, include_constant = FALSE),
+    logLik = logLik(x),
+    AICc = AICc(x, n = n),
+    duration = elapsed(x)
+  )
+}
+
+#' @export
 tidy.mb_analysis <- function(x, conf.int = FALSE, conf.level = 0.95, ...) {
   coef <- coef(x, conf_level = conf.level)
 

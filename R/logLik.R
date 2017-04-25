@@ -19,3 +19,15 @@ logLik.mb_analysis <- function(object, ...) {
 logLik.mb_null_analysis <- function(object, ...) {
   -Inf
 }
+
+#' Log-Likelihood
+#'
+#' Log-Likelihood for a LM analysis.
+#'
+#' @param object The lm_analysis object.
+#' @param ... unused.
+#' @export
+logLik.lmb_analysis <- function(object, ...) {
+  logLik <- logLik(object$lm)
+  as.numeric(logLik)
+}

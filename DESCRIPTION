@@ -24,7 +24,8 @@ Imports:
     purrr,
     rescale (>= 0.0.0.9003),
     stringr,
-    tibble
+    tibble,
+    timer
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

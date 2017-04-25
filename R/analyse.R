@@ -73,3 +73,51 @@ analyse.mb_models <- function(model, data, drop = character(0),
   class(analyses) <- "mb_analyses"
   analyses
 }
+
+lmb_analysis <- function(data, model, quiet) {
+  timer <- timer::Timer$new()
+  timer$start()
+
+  obj <- list(model = model, data = data)
+  class(obj) <- c("lmb_analysis", "mb_analysis")
+
+  on.exit(print(glance(obj)))
+
+  data %<>% select_rescale_data(model)
+
+  lm <- stats::lm(template(model), data = data)
+
+  obj$lm <- lm
+  obj$ngens <- 1L
+  obj$duration <- timer$elapsed()
+
+  obj
+}
+
+#' @export
+analyse.lmb_model <- function(model, data, drop = character(0),
+                              parallel = getOption("mb.parallel", FALSE),
+                              quick = getOption("mb.quick", FALSE),
+                              quiet = getOption("mb.quiet", TRUE),
+                              beep = getOption("mb.beep", TRUE),
+                              ...) {
+  if (is.data.frame(data)) {
+    check_data2(data)
+  } else if (is.list(data)) {
+    llply(data, check_data2)
+  } else error("data must be a data.frame or a list of data.frames")
+
+  check_vector(drop, "", min_length = 0)
+  check_flag(parallel)
+  check_flag(quick)
+  check_flag(quiet)
+  check_flag(beep)
+
+  if (beep) on.exit(beepr::beep())
+
+  model %<>% drop_parameters(parameters = drop)
+
+  if (is.data.frame(data))
+    return(lmb_analysis(data = data, model = model, quiet = quiet))
+  llply(data, lmb_analysis, model = model, quiet = quiet, .parallel = parallel)
+}

@@ -42,3 +42,10 @@ drop_parameters.mb_model <- function(x, parameters = character(0), ...) {
   x$drops <- list()
   x
 }
+
+#' @export
+drop_parameters.lmb_code <- function(x, parameters = character(0), ...) {
+  .NotYetImplemented()
+  x
+}
+
