@@ -42,8 +42,6 @@ update_priors.mb_model <- function(object, multiplier = c(0.5, 2), ...) {
   models <- lapply(multiplier, update_priors_model, object)
   names(models) <- stringr::str_c("Priors * ", multiplier)
 
-  print(class(models))
-  print(names(models))
   models(models)
 }
 
