@@ -26,33 +26,7 @@ model.character <- function(
         drops = drops)
 }
 
-#' MB Model
-#'
-#' Creates MB model.
-#'
-#' For tmb models gen_inits must specify all the fixed parameters.
-#' Missing random parameters are assigned the value 0.
-#'
-#' For jmb models unspecified the initial values for each chain are drawn from the prior distributions.
-#'
-#' @param x An object inheriting from class mb_code.
-#' @param gen_inits A single argument function taking the modified data and
-#' returning a named list of initial values.
-#' @param random_effects A named list specifying the random effects and the associated factors.
-#' @param fixed A string of a regular expression specifying the fixed parameters to monitor.
-#' @param derived A string of a regular expression specifying the derived parameters to monitor.
-#' @param select_data A named list specifying the columns to select and their associated classes and values as well as transformations and scaling options.
-#' @inheritParams rescale::rescale
-#' @param modify_data A single argument function to modify the data (in list form) immediately prior to the analysis.
-#' @param niters A count between 3 and 6 specifying the order of the number of iterations.
-#' @param new_expr A string of R code specifying the predictive relationships.
-#' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
-#' @param drops A list of character vector of possible scalar parameters to drop (fix at 0).
-#' @param ... Unused arguments.
-#' @return An object inherting from class mb_model.
-#' @seealso \code{\link[datacheckr]{check_data2}} \code{\link[rescale]{rescale_c}}
-#' @export
-model.mb_code <- function(
+model_mb_code <- function(
   x, gen_inits = function(data) {list()}, random_effects = list(), fixed = "^[^e]",
   derived = character(0),
   select_data = list(), center = character(0), scale = character(0),
@@ -91,8 +65,8 @@ model.mb_code <- function(
                x_name = "random_effects", y_name = "select_data",
                type_x = "elements", type_y = "names")
   check_x_not_in_y(names(random_effects), select_colnames,
-               x_name = "random_effects", y_name = "select_data",
-               type_x = "names", type_y = "names")
+                   x_name = "random_effects", y_name = "select_data",
+                   type_x = "names", type_y = "names")
   check_x_not_in_y(derived, select_colnames,
                    x_name = "derived", y_name = "select_data", type_y = "names")
   check_x_not_in_y(names(random_effects), derived,
@@ -113,7 +87,7 @@ model.mb_code <- function(
                                parameters(x, "fixed", scalar = FALSE)))
 
   parameters_derived <- unique(c(parameters(x, "derived", scalar = TRUE),
-                               parameters(x, "derived", scalar = FALSE)))
+                                 parameters(x, "derived", scalar = FALSE)))
 
   parameters_random <- unique(c(parameters(x, "random", scalar = FALSE)))
   # cannot test random as scalar as not always possible to separate
@@ -151,7 +125,66 @@ model.mb_code <- function(
   obj
 }
 
+#' MB Model
+#'
+#' Creates MB model.
+#'
+#' For tmb models gen_inits must specify all the fixed parameters.
+#' Missing random parameters are assigned the value 0.
+#'
+#' For jmb models unspecified the initial values for each chain are drawn from the prior distributions.
+#'
+#' @param x An object inheriting from class mb_code.
+#' @param gen_inits A single argument function taking the modified data and
+#' returning a named list of initial values.
+#' @param random_effects A named list specifying the random effects and the associated factors.
+#' @param fixed A string of a regular expression specifying the fixed parameters to monitor.
+#' @param derived A string of a regular expression specifying the derived parameters to monitor.
+#' @param select_data A named list specifying the columns to select and their associated classes and values as well as transformations and scaling options.
+#' @inheritParams rescale::rescale
+#' @param modify_data A single argument function to modify the data (in list form) immediately prior to the analysis.
+#' @param niters A count between 3 and 6 specifying the order of the number of iterations.
+#' @param new_expr A string of R code specifying the predictive relationships.
+#' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
+#' @param drops A list of character vector of possible scalar parameters to drop (fix at 0).
+#' @param ... Unused arguments.
+#' @return An object inherting from class mb_model.
+#' @seealso \code{\link[datacheckr]{check_data2}} \code{\link[rescale]{rescale_c}}
+#' @export
+model.mb_code <- function(
+  x, gen_inits = function(data) {list()}, random_effects = list(), fixed = "^[^e]",
+  derived = character(0),
+  select_data = list(), center = character(0), scale = character(0),
+  modify_data = identity, niters = 10^3,
+  new_expr = character(0), modify_new_data = identity, drops = list(), ...) {
+
+  model_mb_code(x = x, gen_inits = gen_inits, random_effects = random_effects,
+                fixed = fixed, derived = derived, select_data = select_data,
+                center = center, scale = scale, modify_data = modify_data,
+                niters = niters, new_expr = new_expr, modify_new_data = modify_new_data,
+                drops = drops)
+}
+
 #' @export
 model.mb_analysis <- function(x, ...) {
   x$model
+}
+
+#' MB Model
+#'
+#' Creates MB model.
+#'
+#' For tmb models gen_inits must specify all the fixed parameters.
+#' Missing random parameters are assigned the value 0.
+#'
+#' For jmb models unspecified the initial values for each chain are drawn from the prior distributions.
+#'
+#' @param x An object inheriting from class mb_code.
+#' @param select_data A named list specifying the columns to select and their associated classes.
+#' @param ... Unused arguments.
+#' @return An object inherting from class lmb_model.
+#' @seealso \code{\link[datacheckr]{check_data2}} \code{\link[rescale]{rescale_c}}
+#' @export
+model.lmb_code <- function(x, select_data = list(), ...) {
+  model_mb_code(x = x, select_data = select_data)
 }

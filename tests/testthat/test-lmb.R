@@ -21,7 +21,22 @@ test_that("lmb", {
 
   expect_identical(coef$term, as.term(c("(Intercept)", "feedhorsebean", "feedlinseed",
                                         "feedmeatmeal", "feedsoybean", "feedsunflower")))
+
+  prediction <- predict(analysis)
+  expect_identical(colnames(prediction), c("weight", "feed", "estimate", "sd", "zscore", "lower", "upper"))
+  expect_identical(nrow(prediction), nrow(chickwts))
+
+  expect_identical(prediction, fitted(analysis))
+
+  prediction <- predict(analysis, new_data = "feed")
+  expect_identical(colnames(prediction), c("weight", "feed", "estimate", "sd", "zscore", "lower", "upper"))
+  expect_identical(nrow(prediction), nlevels(chickwts$feed))
+
+  prediction <- predict(analysis, new_data = character(0))
+  expect_identical(colnames(prediction), c("weight", "feed", "estimate", "sd", "zscore", "lower", "upper"))
+  expect_identical(nrow(prediction), 1L)
 })
+
 test_that("model", {
   template <- "Count ~ 1"
   code <- mb_code(template)
@@ -45,6 +60,5 @@ test_that("update_model", {
   model2 <- update_model(model, select_data = list("Count" = 1))
   expect_false(identical(model, model2))
   model2 <- update_model(model2, select_data = list())
-  expect_identical(model, model2)
+  expect_equal(model, model2)
 })
-

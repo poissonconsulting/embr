@@ -8,7 +8,7 @@ output: github_document
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
-  fig.path = "README-"
+  fig.path = "tools/README-"
 )
 ```
 
@@ -25,6 +25,35 @@ knitr::opts_chunk$set(
 `mbr` (pronounced MBR) is an R package of utility functions and virtual classes for the model builder family of R packages.
 
 Currently there are packages which implement the functionality for JAGS ([jmbr](https://github.com/poissonconsulting/jmbr)) and TMB ([tmbr](https://github.com/poissonconsulting/tmbr))
+
+## Demonstration
+
+```{r, message = FALSE}
+library(magrittr)
+library(ggplot2)
+library(mbr)
+```
+
+```{r}
+model <- model("Pairs ~ poly(Year, 3)")
+
+model %<>% update_model(
+  select_data = list("Pairs" = integer(), "Year*" = integer())
+)
+
+analysis <- analyse(model, data = bauw::peregrine)
+
+coef(analysis)
+```
+
+```{r, message = FALSE}
+#year <- predict(analysis, new_data = "Year")
+
+#ggplot(data = year, aes(x = Year, y = estimate)) +
+#  geom_point(data = bauw::peregrine, aes(y = Pairs)) +
+#  geom_line() +
+#  expand_limits(y = 0)
+```
 
 ## Installation
 
