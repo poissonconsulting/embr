@@ -13,6 +13,7 @@ models <- function(x, ...) {
 #' @export
 models.list <- function(x, ...) {
   check_uniquely_named_list(x)
+  if (!length(x)) error("x must be length 1 or greater")
 
   if (!all(purrr::map_lgl(x, is.mb_model)))
     error("all elements in x must inherit from 'mb_model'")

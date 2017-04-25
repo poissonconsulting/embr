@@ -16,8 +16,6 @@ update_priors <- function(object, multiplier = 2, ...) {
 
 #' @export
 update_priors.character <- function(object, multiplier = 2, ...) {
-  check_number(multiplier)
-  if (multiplier <= 0) error("multiplier must be greater than 0")
   object %<>% code(object)
   object %<>% update_priors(multiplier = multiplier, ...)
   template(object)
@@ -28,12 +26,36 @@ update_priors.mb_code <- function(object, multiplier = 2, ...) {
   error("adjust is not defined for objects of the virtual class 'mb_code'")
 }
 
-#' @export
-update_priors.mb_model <- function(object, multiplier = 2, ...) {
-  check_number(multiplier)
-  if (multiplier <= 0) error("multiplier must be greater than 0")
+update_priors_model <- function(multiplier, object) {
   code <- code(object)
   code %<>% update_priors(multiplier = multiplier)
   object %<>% update_model(code = code)
   object
+}
+
+#' @export
+update_priors.mb_model <- function(object, multiplier = c(0.5, 2), ...) {
+  check_vector(multiplier, 1)
+  check_unique(multiplier)
+  if (any(multiplier <= 0)) error("multiplier(s) must be greater than 0")
+  if (length(multiplier) == 1) return(update_priors_model(multiplier, object))
+  models <- lapply(multiplier, update_priors_model, object)
+  names(models) <- stringr::str_c("Multiplier:", multiplier)
+  print(models)
+  print(class(models))
+  print(names(models))
+  models(models)
+}
+
+#' @export
+update_priors.mb_analysis <- function(
+  object, multiplier = c(0.5, 2), drop = character(0),
+  parallel = getOption("mb.parallel", FALSE), quick = getOption("mb.quick", FALSE),
+  quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep", TRUE), ...) {
+
+  model <- model(object) %>%
+    update_priors(multiplier = multiplier) %>%
+    analyse(data = data_set(object), drop = drop, parallel = parallel,
+            quick = quick, quiet = quiet, beep = beep)
+  model
 }

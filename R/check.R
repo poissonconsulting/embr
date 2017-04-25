@@ -112,9 +112,10 @@ check_uniquely_named_character_vector <- function(x, x_name = substitute(x)) {
 check_uniquely_named_list <- function(x, x_name = substitute(x)) {
   if (is.name(x)) x_name %<>% deparse()
 
-  if (!is_nlist(x))
-    error(x_name, " must be a named list")
-  check_unique(names(x), x_name = x_name)
+  if (!is.list(x)) error(x_name, " must be a list")
+  if (!length(x)) return(x)
+  if (is.null(names(x))) error(x_name, " must be a named list")
+  if (anyDuplicated(names(x))) error(x_name, " must be a uniquely named list")
   x
 }
 
