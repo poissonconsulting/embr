@@ -95,7 +95,7 @@ derive.mb_analysis <- function(object,
                                beep = getOption("mb.beep", FALSE),
                                ...) {
   check_flag(beep)
-  checkor(check_data2(new_data), check_vector(new_data, ""))
+  checkor(check_data2(new_data), check_vector(new_data, "", min_length = 0))
   checkor(check_flag(ref_data), check_data2(ref_data))
 
   if (beep) on.exit(beepr::beep())
@@ -164,7 +164,7 @@ derive_data <- function(object,
                         beep = getOption("mb.beep", FALSE),
                         ...) {
   check_string(term)
-  checkor(check_data2(new_data), check_vector(new_data, ""))
+  checkor(check_data2(new_data), check_vector(new_data, "", min_length = 0))
 
   if (is.character(new_data))
     new_data %<>% newdata::new_data(data_set(object), .)
