@@ -33,7 +33,7 @@ mb_code <- function(template) {
     class <- c("tmb_code", "mb_code")
   } else if (stringr::str_detect(template, "model\\s*[{]")) {
     class <- c("jmb_code", "mb_code")
-  } else if (stringr::str_detect(template, "^\\s*\\w+\\s*~")) {
+  } else if (stringr::str_detect(template, "^[^{]+~")) {
     class <- c("lmb_code", "mb_code")
   } else error("template type is unrecognised")
 
