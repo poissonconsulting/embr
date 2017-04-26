@@ -65,6 +65,21 @@ plot_residuals.default <- function(x, name, residuals, ...) {
   invisible(gp)
 }
 
+#' @export
+plot_residuals.factor <- function(x, name, residuals, ...) {
+  data <- dplyr::data_frame(x, residuals)
+  data %<>% dplyr::filter(!is.na(x), !is.na(residuals))
+
+  if (length(unique(data$x)) <= 1) return(invisible(NULL))
+
+  gp <- ggplot_residuals(data, name) +
+    ggplot2::geom_jitter(alpha = 1/3, width = 0.20) +
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust = 1))
+
+  print(gp)
+  invisible(gp)
+}
+
 is_multiple_values <- function(x) {
   length(unique(x[!is.na(x)])) > 1
 }
