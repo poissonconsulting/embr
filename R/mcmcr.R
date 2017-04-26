@@ -4,11 +4,6 @@ rhat.mb_analysis <- function(x, ...) {
 }
 
 #' @export
-cross_rhat.mb_analysis <- function(x, x2, ...) {
-  cross_rhat(as.mcmcr(x), as.mcmcr(x2))
-}
-
-#' @export
 nchains.mb_analysis <- function(x, ...) {
   nchains(as.mcmcr(x))
 }
@@ -24,20 +19,7 @@ converged.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), ...) {
 }
 
 #' @export
-cross_converged.mb_analysis <- function(x, x2, rhat = getOption("mb.rhat", 1.1), ...) {
-  if (!is.mb_analysis(x2)) error("x2 must be an mb_analysis object")
-  if (is.mb_null_analysis(x2)) return(FALSE)
-  cross_converged(as.mcmcr(x), as.mcmcr(x2), rhat = rhat)
-}
-
-#' @export
 converged.mb_null_analysis <- function(x, ...) FALSE
-
-#' @export
-cross_converged.mb_null_analysis <- function(x, x2, rhat = getOption("mb.rhat", 1.1), ...) {
-  if (!is.mb_analysis(x2)) error("x2 must be an mb_analysis object")
-  FALSE
-}
 
 derive_fun <- function(object,
                        new_data = data_set(object),
