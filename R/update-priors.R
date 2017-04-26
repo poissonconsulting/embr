@@ -41,7 +41,7 @@ update_priors.mb_model <- function(object, multiplier = c(0.5, 2), ...) {
   if (length(multiplier) == 1) return(update_priors_model(multiplier, object))
   models <- lapply(multiplier, update_priors_model, object)
   names(models) <- stringr::str_c("Multiplier = ", multiplier)
-  models(models)
+  as.models(models)
 }
 
 #' @export

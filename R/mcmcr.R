@@ -4,6 +4,11 @@ rhat.mb_analysis <- function(x, ...) {
 }
 
 #' @export
+rhat.mb_analyses <- function(x, ...) {
+  rhat(as.mcmcrs(x))
+}
+
+#' @export
 nchains.mb_analysis <- function(x, ...) {
   nchains(as.mcmcr(x))
 }
@@ -16,6 +21,11 @@ niters.mb_analysis <- function(x, ...) {
 #' @export
 converged.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), ...) {
   converged(as.mcmcr(x), rhat = rhat)
+}
+
+#' @export
+converged.mb_analyses <- function(x, rhat = getOption("mb.rhat", 1.1), ...) {
+  converged(as.mcmcrs(x), rhat = rhat)
 }
 
 #' @export

@@ -43,7 +43,7 @@ AICc.mb_analyses <- function(object, n = NULL, ...) {
 
   if (is.null(names(object))) names(object) <- 1:length(object)
 
-  if (anyDuplicated(names(object))) error("object must be uniquely named")
+  if (anyDuplicated(names(object))) error("objects must be uniquely named")
 
   data <- llply(object, data_set)
   if (!all(vapply(data, identical, TRUE, data[[1]]))) error("all elements of object must have the same data")
