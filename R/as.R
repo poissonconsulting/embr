@@ -47,7 +47,12 @@ as.models.list <- function(x, ...) {
 
   if (length(x)) {
     if (!all(purrr::map_lgl(x, is.mb_model)))
-      error("all elements in x must inherit from 'mb_model'")
+      error("all elements must inherit from 'mb_model'")
+
+    class <- purrr::map(x, class)
+    if (!identical(length(unique(class)), 1L))
+      error("all model objects must have the same class")
+
   }
   class(x) <- "mb_models"
   x
@@ -76,10 +81,10 @@ as.analyses.list <- function(x, ...) {
 
   if (length(x)) {
     if (!all(purrr::map_lgl(x, is.mb_analysis)))
-      error("all objects in x must inherit from 'mb_analysis'")
+      error("all objects must inherit from 'mb_analysis'")
     data <- purrr::map(x, data_set)
     if (!identical(length(unique(data)), 1L))
-      error("all analysis objects in x must have the same data")
+      error("all analysis objects must have the same data")
   }
   class(x) <- "mb_analyses"
   x
