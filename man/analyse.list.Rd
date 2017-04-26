@@ -4,9 +4,8 @@
 \alias{analyse.list}
 \title{Analyse}
 \usage{
-\method{analyse}{list}(x, data, drop = character(0),
-  parallel = getOption("mb.parallel", FALSE), quick = getOption("mb.quick",
-  FALSE), quiet = getOption("mb.quiet", TRUE),
+\method{analyse}{list}(x, data, parallel = getOption("mb.parallel", FALSE),
+  quick = getOption("mb.quick", FALSE), quiet = getOption("mb.quiet", TRUE),
   glance = getOption("mb.glance", TRUE), beep = getOption("mb.beep", TRUE),
   ...)
 }
@@ -14,8 +13,6 @@
 \item{x}{An object inheriting from class mb_model or a list of such objects.}
 
 \item{data}{The data frame to analyse.}
-
-\item{drop}{A character vector of scalar parameters to drop (fix at 0).}
 
 \item{parallel}{A flag indicating whether to perform the analysis in parallel if possible.}
 

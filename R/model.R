@@ -139,7 +139,7 @@ model_mb_code <- function(
 #' returning a named list of initial values.
 #' @param random_effects A named list specifying the random effects and the associated factors.
 #' @param fixed A string of a regular expression specifying the fixed parameters to monitor.
-#' @param derived A string of a regular expression specifying the derived parameters to monitor.
+#' @param derived A character vector of the derived parameters to monitor.
 #' @param select_data A named list specifying the columns to select and their associated classes and values as well as transformations and scaling options.
 #' @inheritParams rescale::rescale
 #' @param modify_data A single argument function to modify the data (in list form) immediately prior to the analysis.

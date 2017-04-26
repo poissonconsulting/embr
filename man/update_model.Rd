@@ -21,7 +21,7 @@ returning a named list of initial values.}
 
 \item{fixed}{A string of a regular expression specifying the fixed parameters to monitor.}
 
-\item{derived}{A string of a regular expression specifying the derived parameters to monitor.}
+\item{derived}{A character vector of the derived parameters to monitor.}
 
 \item{select_data}{A named list specifying the columns to select and their associated classes and values as well as transformations and scaling options.}
 

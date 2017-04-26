@@ -46,13 +46,13 @@ update_priors.mb_model <- function(object, multiplier = c(0.5, 2), ...) {
 
 #' @export
 update_priors.mb_analysis <- function(
-  object, multiplier = c(0.5, 2), drop = character(0),
+  object, multiplier = c(0.5, 2),
   parallel = getOption("mb.parallel", FALSE), quick = getOption("mb.quick", FALSE),
   quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep", TRUE), ...) {
 
   model <- model(object)
   model %<>% update_priors(multiplier = multiplier)
-  model %<>% analyse(data = data_set(object), drop = drop, parallel = parallel,
+  model %<>% analyse(data = data_set(object), parallel = parallel,
             quick = quick, quiet = quiet, beep = beep)
   model
 }

@@ -7,9 +7,9 @@ analyse <- function(x, ...) {
   UseMethod("analyse")
 }
 
-analyse_list <- function(x, data, drop, parallel, quick, quiet, glance, beep, ...) {
+analyse_list <- function(x, data, parallel, quick, quiet, glance, beep, ...) {
   if (glance) cat("Model:", names(x), "\n")
-  analysis <- analyse(x[[1]], data = data, drop = drop, parallel = parallel,
+  analysis <- analyse(x[[1]], data = data, parallel = parallel,
                       quick = quick, quiet = quiet, glance = glance, beep = beep, ...)
   list(analysis)
 }
@@ -18,7 +18,6 @@ analyse_list <- function(x, data, drop, parallel, quick, quiet, glance, beep, ..
 #'
 #' @param x An object inheriting from class mb_model or a list of such objects.
 #' @param data The data frame to analyse.
-#' @param drop A character vector of scalar parameters to drop (fix at 0).
 #' @param parallel A flag indicating whether to perform the analysis in parallel if possible.
 #' @param quick A flag indicating whether to quickly get unreliable values.
 #' @param quiet A flag indicating whether to disable tracing information.
@@ -26,7 +25,7 @@ analyse_list <- function(x, data, drop, parallel, quick, quiet, glance, beep, ..
 #' @param beep A flag indicating whether to beep on completion of the analysis.
 #' @param ...  Additional arguments.
 #' @export
-analyse.list <- function(x, data, drop = character(0),
+analyse.list <- function(x, data,
                          parallel = getOption("mb.parallel", FALSE),
                          quick = getOption("mb.quick", FALSE),
                          quiet = getOption("mb.quiet", TRUE),
@@ -35,7 +34,7 @@ analyse.list <- function(x, data, drop = character(0),
                          ...) {
   .Deprecated("analyse.mb_models")
   models <- as.models(x)
-  analyse(models, data = data, drop = character(0), parallel = parallel,
+  analyse(models, data = data, parallel = parallel,
           quick = quick, quiet = quiet, glance = glance, beep = beep, ...)
 }
 
@@ -67,7 +66,6 @@ analyse.character <- function(x, data, select_data = list(),
 #'
 #' @param x An object inheriting from class mb_model or a list of such objects.
 #' @param data The data frame to analyse.
-#' @param drop A character vector of scalar parameters to drop (fix at 0).
 #' @param parallel A flag indicating whether to perform the analysis in parallel if possible.
 #' @param quick A flag indicating whether to quickly get unreliable values.
 #' @param quiet A flag indicating whether to disable tracing information.
@@ -75,7 +73,7 @@ analyse.character <- function(x, data, select_data = list(),
 #' @param beep A flag indicating whether to beep on completion of the analysis.
 #' @param ...  Additional arguments.
 #' @export
-analyse.mb_model <- function(x, data, drop = character(0),
+analyse.mb_model <- function(x, data,
                              parallel = getOption("mb.parallel", FALSE),
                              quick = getOption("mb.quick", FALSE),
                              quiet = getOption("mb.quiet", TRUE),
@@ -110,7 +108,6 @@ analyse.mb_models <- function(x, data,
   if (is.null(names)) names(x) <- 1:length(x)
 
   analyses <- purrr::lmap(x, analyse_list, data = data, parallel = parallel,
-                          drop = character(0),
                           quick = quick, quiet = quiet, glance = glance, beep = FALSE, ...)
 
   names(analyses) <- names

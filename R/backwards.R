@@ -34,6 +34,8 @@ backwards.mb_model <- function(model, data, drops = list(), conf_level = 0.95,
                                quiet = getOption("mb.quiet", TRUE),
                                beep = getOption("mb.beep", TRUE), ...) {
 
+  .NotYetImplemented()
+
   check_flag(beep)
   if (beep) on.exit(beepr::beep(2))
 
@@ -56,7 +58,8 @@ backwards.mb_model <- function(model, data, drops = list(), conf_level = 0.95,
     to_drop %<>% c(next_drop)
     dropped %<>% c(to_drop)
 
-    analysis <- analyse(model, data, drop = to_drop, parallel = parallel, quick = quick, quiet = quiet, beep = beep)
+    analysis <- analyse(model, data, drop = to_drop, parallel = parallel,
+                        quick = quick, quiet = quiet, beep = beep)
     analyses %<>% c(list(analysis))
 
     next_drop <- next_drop(analysis, drops, conf_level = conf_level)
