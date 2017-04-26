@@ -8,10 +8,15 @@
 #' are only available to drop after the later strings have been eliminated.
 #' This allows polynomial dependencies to be respected.
 #'
-#' @inheritParams analyse
+#' @param model An object.
+#' @param data Data.
 #' @param drops A list of character vectors specifying the scalar parameters to consider.
 #' @param conf_level A number specifying the confidence level. By default 0.95.
+#' @param quick A flag indicating whether to quickly get unreliable values.
+#' @param quiet A flag indicating whether to disable tracing information.
+#' @param beep A flag indicating whether to beep on completion of the analysis.
 #' @param parallel A flag indicating whether to perform the analysis in parallel if possible.
+#' @param ... Unused.
 #' @return A list of the analyses.
 #' @export
 backwards <- function(model, data, drops = list(), conf_level = 0.95,

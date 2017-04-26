@@ -4,28 +4,13 @@
 \alias{analyse}
 \title{Analyse}
 \usage{
-analyse(model, data, drop = character(0),
-  parallel = getOption("mb.parallel", FALSE), quick = getOption("mb.quick",
-  FALSE), quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep",
-  TRUE), ...)
+analyse(x, ...)
 }
 \arguments{
-\item{model}{An object inheriting from class mb_model or a list of such objects.}
-
-\item{data}{The data frame to analyse.}
-
-\item{drop}{A character vector of scalar parameters to drop (fix at 0).}
-
-\item{parallel}{A flag indicating whether to perform the analysis in parallel if possible.}
-
-\item{quick}{A flag indicating whether to quickly get unreliable values.}
-
-\item{quiet}{A flag indicating whether to disable tracing information.}
-
-\item{beep}{A flag indicating whether to beep on completion of the analysis.}
+\item{x}{The object to analyse.}
 
 \item{...}{Additional arguments.}
 }
 \description{
-Analyse a data set and model.
+Analyse
 }

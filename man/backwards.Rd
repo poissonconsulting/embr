@@ -10,9 +10,9 @@ backwards(model, data, drops = list(), conf_level = 0.95,
   TRUE), ...)
 }
 \arguments{
-\item{model}{An object inheriting from class mb_model or a list of such objects.}
+\item{model}{An object.}
 
-\item{data}{The data frame to analyse.}
+\item{data}{Data.}
 
 \item{drops}{A list of character vectors specifying the scalar parameters to consider.}
 
@@ -26,7 +26,7 @@ backwards(model, data, drops = list(), conf_level = 0.95,
 
 \item{beep}{A flag indicating whether to beep on completion of the analysis.}
 
-\item{...}{Additional arguments.}
+\item{...}{Unused.}
 }
 \value{
 A list of the analyses.

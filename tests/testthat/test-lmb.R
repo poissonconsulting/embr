@@ -5,6 +5,7 @@ test_that("lmb", {
   model <- model("weight ~ feed")
   expect_is(model, "lmb_model")
   analysis <- analyse(model, data = datasets::chickwts, beep = FALSE)
+
   expect_is(analysis, "lmb_analysis")
   glance <- glance(analysis)
 
@@ -52,6 +53,11 @@ test_that("model", {
   expect_error(model(code, select_data = 1))
   expect_s3_class(model(code, select_data = list(Count = 1L)), "lmb_model")
   expect_s3_class(model(code, select_data = list("Count*" = 1L)), "lmb_model")
+})
+
+test_that("analyse.character", {
+  analysis <- analyse("weight ~ feed", data = datasets::chickwts)
+  expect_is(analysis, "lmb_analysis")
 })
 
 test_that("update_model", {
