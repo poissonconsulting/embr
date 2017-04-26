@@ -9,6 +9,12 @@ test_that("dims", {
   expect_identical(dims(factor(c(0,NA))), 2L)
 })
 
+test_that("response_lm", {
+  expect_identical(response_lm(" x ~ y "), "x")
+  expect_identical(response_lm(" x / y ~ y "), "x/y")
+  expect_identical(response_lm("log( c ) ~ y "), "log(c)")
+})
+
 test_that("indexes", {
   expect_identical(indexes(c("a", "b", "bYear[1,1]", "bYear[1,2,4,1]")), c("", "", "[1,1]", "[1,2,4,1]"))
   expect_identical(indexes(c("bIntercept[i]")), "[i]")
