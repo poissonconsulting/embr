@@ -22,6 +22,7 @@ residuals.mb_analysis <- function(object, ...) {
 #' @export
 residuals.lmb_analysis <- function(object, ...) {
   data <- data_set(object)
+  fitted <- fitte(object)
   data$estimate <- residuals(object$lm, type = "working")
   data
 }
