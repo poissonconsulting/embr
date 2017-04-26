@@ -65,9 +65,8 @@ plot_residuals.default <- function(x, name, residuals, ...) {
   invisible(gp)
 }
 
-#' @export
-plot_residuals.character <- function(x, name, residuals, ...) {
-  invisible(NULL)
+is_multiple_values <- function(x) {
+  length(unique(x[!is.na(x)])) > 1
 }
 
 #' @export
@@ -75,11 +74,14 @@ plot_residuals.mb_analysis <- function(x, ...) {
   residuals <- residuals(x)
   variables <- dplyr::select_(residuals, ~-estimate, ~-sd, ~-zscore,
                               ~-lower, ~-upper, ~-pvalue)
+
   residuals <- residuals$estimate
-  names <- colnames(variables)
-  names %<>% sort()
-  variables <- variables[,names, drop = FALSE]
-  plots <- purrr::map2(variables, names, plot_residuals, residuals = residuals) %>%
+
+  variables %<>% dplyr::select(order(names(.))) %>%
+    purrr::discard(is.character) %>%
+    purrr::keep(is_multiple_values)
+
+  plots <- purrr::map2(variables, names(variables), plot_residuals, residuals = residuals) %>%
     purrr::discard(is.null)
   invisible(plots)
 }
