@@ -107,3 +107,8 @@ drop_indices <- function(x) {
 pow <- function(x, n) {
   x^n
 }
+
+response_lm <- function(x) {
+  if (!is.character(x)) x %<>% template()
+  stringr::str_replace(x, "\\s+~.*", "") %>% str_replace_all("\\s{1,}", "")
+}
