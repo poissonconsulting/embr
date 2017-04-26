@@ -110,6 +110,7 @@ analyse.mb_models <- function(x, data,
   if (is.null(names)) names(x) <- 1:length(x)
 
   analyses <- purrr::lmap(x, analyse_list, data = data, parallel = parallel,
+                          drop = character(0),
                           quick = quick, quiet = quiet, glance = glance, beep = FALSE, ...)
 
   names(analyses) <- names

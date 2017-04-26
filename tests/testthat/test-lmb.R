@@ -113,3 +113,14 @@ test_that("models", {
   expect_identical(aic$model, c("full", "base"))
   expect_equal(aic$AICc, c(821.3269, 777.1873), tolerance = 10^-6)
 })
+
+test_that("analyse models", {
+  model <- model("weight ~ 1")
+  models <- add_models(model, model)
+  analyses <- analyse(models, data = datasets::chickwts, glance = FALSE, beep = FALSE)
+
+  expect_is(analyses, "mb_analyses")
+  expect_identical(length(analyses), 2L)
+})
+
+
