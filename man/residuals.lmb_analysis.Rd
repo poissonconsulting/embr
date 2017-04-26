@@ -12,8 +12,8 @@
 \item{...}{Unused.}
 }
 \value{
-The analysis data set with the residual values.
+The analysis data set with the standardised residual values.
 }
 \description{
-Extract residual values for an LMB analysis.
+Extract standardised (pearson) residual values for an LMB analysis.
 }
