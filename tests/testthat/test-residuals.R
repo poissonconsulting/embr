@@ -16,4 +16,9 @@ test_that("lmb", {
   plots <- plot_residuals(analysis)
   expect_identical(names(plots), c("feed", "weight"))
   expect_is(plots[[1]], "ggplot")
+
+  analyses <- analyse_residuals(analysis)
+  expect_identical(analyses$model, c("weight", "feed", "null"))
+  expect_identical(names(analyses), c("model", "K", "AICc", "DeltaAICc"))
+  expect_equal(analyses$AICc, c(-4322.5945, 777.1873, 821.3269))
 })

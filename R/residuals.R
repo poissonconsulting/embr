@@ -100,3 +100,30 @@ plot_residuals.mb_analysis <- function(x, ...) {
     purrr::discard(is.null)
   invisible(plots)
 }
+
+#' Analyse Residuals
+#'
+#' @param x The mb_analysis object to analyse the residuals for.
+#' @export
+analyse_residuals <- function(x) {
+  residuals <- residuals(x)
+  data <- dplyr::select_(residuals, ~-estimate, ~-sd, ~-zscore, ~-lower, ~-upper, ~-pvalue)
+
+  data %<>% dplyr::select(order(names(.))) %>%
+    purrr::discard(is.character) %>%
+    purrr::keep(is_multiple_values)
+
+  models <- stringr::str_c("residual ~ ", names(data)) %>% c("residual ~ 1", .) %>%
+    purrr::map(model) %>%
+    as.models()
+
+  names(models) <- c("null", names(data))
+  data$residual <- residuals$estimate
+
+  analyses <- analyse(models, data = data, glance = FALSE, beep = FALSE)
+  aic <- AICc(analyses) %>%
+    dplyr::select_(~model, ~K, ~AICc) %>%
+    dplyr::mutate(DeltaAICc = AICc - dplyr::first(AICc)) %>%
+    dplyr::arrange_(~AICc)
+  aic
+}
