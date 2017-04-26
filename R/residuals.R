@@ -23,9 +23,9 @@ residuals.mb_analysis <- function(object, ...) {
 #' @return The analysis data set with the residual values.
 #' @export
 residuals.lmb_analysis <- function(object, ...) {
-  data <- data_set(object)
-  residuals <- fitted(object)
+  residuals <- data_set(object)
   residuals$estimate <- residuals(object$lm)
+  residuals$sd <- summary(object$lm)$sigma
   residuals %<>% dplyr::mutate_(zscore = ~estimate/sd,
                                lower = ~estimate + sd * qnorm(0.025),
                                upper = ~estimate + sd * qnorm(0.975),
