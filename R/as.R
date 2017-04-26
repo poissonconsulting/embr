@@ -77,7 +77,7 @@ as.analyses.list <- function(x, ...) {
   if (length(x)) {
     if (!all(purrr::map_lgl(x, is.mb_analysis)))
       error("all objects in x must inherit from 'mb_analysis'")
-    data <- purrr::map_df(x, data_set)
+    data <- purrr::map(x, data_set)
     if (!identical(length(unique(data)), 1L))
       error("all analysis objects in x must have the same data")
   }

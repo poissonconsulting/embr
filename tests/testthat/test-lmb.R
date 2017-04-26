@@ -71,6 +71,26 @@ test_that("update_model", {
   expect_equal(model, model2)
 })
 
+test_that("add_models", {
+  model <- model("Count ~ 1")
+  models <- add_models(model, model)
+  expect_is(models, "mb_models")
+  expect_identical(length(models), 2L)
+  models <- add_models(models, models)
+  expect_is(models, "mb_models")
+  expect_identical(length(models), 4L)
+})
+
+test_that("add_analyses", {
+  analysis <- analyse("weight ~ 1", data = datasets::chickwts)
+  analyses <- add_analyses(analysis, analysis)
+  expect_is(analyses, "mb_analyses")
+  expect_identical(length(analyses), 2L)
+  analyses <- add_analyses(analyses, analyses)
+  expect_is(analyses, "mb_analyses")
+  expect_identical(length(analyses), 4L)
+})
+
 test_that("models", {
   model <- model("weight ~ 1")
   model2 <- model("weight ~ feed")

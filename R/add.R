@@ -21,5 +21,5 @@ add_analyses <- function(x, x2) {
   if (is.mb_analysis(x)) x %<>% list()
   if (is.mb_analysis(x2)) x2 %<>% list()
   x %<>% c(x2)
-  as.models(x)
+  as.analyses(x)
 }
