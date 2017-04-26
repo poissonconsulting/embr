@@ -116,8 +116,6 @@ lmb_analysis <- function(data, model, quiet) {
   obj <- list(model = model, data = data)
   class(obj) <- c("lmb_analysis", "mb_analysis")
 
-  on.exit(print(glance(obj)))
-
   data %<>% select_rescale_data(model)
 
   lm <- stats::lm(template(model), data = data)
