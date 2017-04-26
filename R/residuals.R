@@ -14,17 +14,23 @@ residuals.mb_analysis <- function(object, ...) {
 
 #' Residuals
 #'
-#' Extract standardised (pearson) residual values for an LMB analysis.
+#' Extract residual values for an LMB analysis.
+#'
+#' To standardize just divide estimate by sd.
 #'
 #' @param object The MB analysis object.
 #' @param ... Unused.
-#' @return The analysis data set with the standardised residual values.
+#' @return The analysis data set with the residual values.
 #' @export
 residuals.lmb_analysis <- function(object, ...) {
   data <- data_set(object)
-  fitted <- fitte(object)
-  data$estimate <- residuals(object$lm, type = "working")
-  data
+  residuals <- fitted(object)
+  residuals$estimate <- residuals(object$lm)
+  residuals %<>% dplyr::mutate_(zscore = ~estimate/sd,
+                               lower = ~estimate + sd * qnorm(0.025),
+                               upper = ~estimate + sd * qnorm(0.975),
+                               pvalue = ~pnorm(-abs(zscore)) * 2)
+  residuals
 }
 
 plot_residuals <- function(x) {
