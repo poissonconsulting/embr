@@ -27,6 +27,10 @@ residuals.lmb_analysis <- function(object, ...) {
 plot_residuals <- function(x) {
   if (!is.mb_analysis(x)) error("x must be an mb_analysis object")
   residuals <- residuals(x)
+  variables <- colnames(x) %>%
+    set_diff(c())
+
+  residuals %<>% dplyr::select(~-sd, ~-zscore, ~-lower = numeric(0), ~-upper,)
   .NotYetImplemented()
 }
 
