@@ -4,7 +4,7 @@ test_that("lmb", {
 
   model <- model("weight ~ feed")
   expect_is(model, "lmb_model")
-  analysis <- analyse(model, data = datasets::chickwts, beep = FALSE)
+  analysis <- analyse(model, data = datasets::chickwts, glance = FALSE, beep = FALSE)
 
   expect_is(analysis, "lmb_analysis")
   glance <- glance(analysis)
@@ -56,7 +56,8 @@ test_that("model", {
 })
 
 test_that("analyse.character", {
-  analysis <- analyse("weight ~ feed", data = datasets::chickwts)
+  analysis <- analyse("weight ~ feed", data = datasets::chickwts,
+                      glance = FALSE, beep = FALSE)
   expect_is(analysis, "lmb_analysis")
 })
 
@@ -82,7 +83,7 @@ test_that("add_models", {
 })
 
 test_that("add_analyses", {
-  analysis <- analyse("weight ~ 1", data = datasets::chickwts)
+  analysis <- analyse("weight ~ 1", data = datasets::chickwts, beep = FALSE, glance = FALSE)
   analyses <- add_analyses(analysis, analysis)
   expect_is(analyses, "mb_analyses")
   expect_identical(length(analyses), 2L)
@@ -100,7 +101,7 @@ test_that("models", {
   expect_identical(length(models), 2L)
   expect_identical(names(models), c("full", "base"))
 
-  analyses <- analyse(models, data = datasets::chickwts, beep = FALSE)
+  analyses <- analyse(models, data = datasets::chickwts, beep = FALSE, glance = FALSE)
   expect_is(analyses, "mb_analyses")
   coef <- coef(analyses)
   expect_identical(coef$term, as.term(c("(Intercept)", "feedhorsebean", "feedlinseed",

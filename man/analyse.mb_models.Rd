@@ -6,8 +6,8 @@
 \usage{
 \method{analyse}{mb_models}(x, data, parallel = getOption("mb.parallel",
   FALSE), quick = getOption("mb.quick", FALSE),
-  quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep", TRUE),
-  ...)
+  quiet = getOption("mb.quiet", TRUE), glance = getOption("mb.glance",
+  TRUE), beep = getOption("mb.beep", TRUE), ...)
 }
 \arguments{
 \item{x}{An object inheriting from class mb_model or a list of such objects.}
@@ -19,6 +19,8 @@
 \item{quick}{A flag indicating whether to quickly get unreliable values.}
 
 \item{quiet}{A flag indicating whether to disable tracing information.}
+
+\item{glance}{A flag indicating whether to print a model summary.}
 
 \item{beep}{A flag indicating whether to beep on completion of the analysis.}
 
