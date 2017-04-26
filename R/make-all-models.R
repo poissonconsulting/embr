@@ -16,6 +16,5 @@ make_all_models <- function(model, drops = list()) {
   models <- rep(list(model), length(drops))
   models %<>% purrr::map2(drops, drop_parameters)
   names(models) <- names(drops)
-  class(models) <- "mb_models"
-  models
+  models(models)
 }

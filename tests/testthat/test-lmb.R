@@ -69,8 +69,7 @@ test_that("models", {
   model <- model("weight ~ 1")
   model2 <- model("weight ~ feed")
 
-  models <- list(full = model, base = model2)
-  models <- models(models)
+  models <- models(full = model, base = model2)
   expect_is(models, "mb_models")
   expect_identical(length(models), 2L)
   expect_identical(names(models), c("full", "base"))
@@ -87,4 +86,3 @@ test_that("models", {
   expect_identical(aic$model, c("full", "base"))
   expect_equal(aic$AICc, c(821.3269, 777.1873), tolerance = 10^-6)
 })
-

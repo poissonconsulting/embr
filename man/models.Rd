@@ -4,16 +4,14 @@
 \alias{models}
 \title{MB Models}
 \usage{
-models(x, ...)
+models(...)
 }
 \arguments{
-\item{x}{The object.}
-
-\item{...}{Additional arguments.}
+\item{...}{Named objects.}
 }
 \value{
 An object inheriting from class mb_models.
 }
 \description{
-Creates or retrieves an object inherting from class mb_models.
+Creates an object inherting from class mb_models.
 }

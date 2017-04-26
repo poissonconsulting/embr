@@ -36,7 +36,18 @@ as.models.mb_model <- function(x, ...) {
 
 #' @export
 as.models.list <- function(x, ...) {
-  models(list)
+  check_uniquely_named_list(x)
+  if (!length(x)) error("x must be length 1 or greater")
+
+  if (!all(purrr::map_lgl(x, is.mb_model)))
+    error("all elements in x must inherit from 'mb_model'")
+
+  classes <- purrr::map(x, class)
+  if (!all(purrr::map_lgl(classes, identical, classes[[1]])))
+    error("all models in x must have the same class")
+
+  class(x) <- "mb_models"
+  x
 }
 
 #' @export
@@ -46,5 +57,6 @@ as.models.mb_analysis <- function(x, ...) {
 
 #' @export
 as.models.mb_analyses <- function(x, ...) {
-  models(x)
+  x %<>% purrr::map(model)
+  as.models(x)
 }
