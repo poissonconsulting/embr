@@ -57,7 +57,7 @@ plot_residuals.default <- function(x, name, residuals, ...) {
   data <- dplyr::data_frame(x, residuals)
   data %<>% dplyr::filter(!is.na(x), !is.na(residuals))
 
-  if (length(unique(data$x)) <= 1) invisible(NULL)
+  if (length(unique(data$x)) <= 1) return(invisible(NULL))
 
   gp <- ggplot_residuals(data, name) +
     ggplot2::geom_point(alpha = 1/3)
@@ -71,7 +71,7 @@ plot_residuals.character <- function(x, name, residuals, ...) {
 }
 
 #' @export
-plot_residuals.mb_analysis <- function(x) {
+plot_residuals.mb_analysis <- function(x, ...) {
   residuals <- residuals(x)
   variables <- dplyr::select_(residuals, ~-estimate, ~-sd, ~-zscore,
                               ~-lower, ~-upper, ~-pvalue)
@@ -79,5 +79,7 @@ plot_residuals.mb_analysis <- function(x) {
   names <- colnames(variables)
   names %<>% sort()
   variables <- variables[,names, drop = FALSE]
-  invisible(purrr::map2(variables, names, plot_residuals, residuals = residuals))
+  plots <- purrr::map2(variables, names, plot_residuals, residuals = residuals) %>%
+    purrr::discard(is.null)
+  invisible(plots)
 }
