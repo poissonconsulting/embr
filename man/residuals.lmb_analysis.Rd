@@ -18,5 +18,5 @@ The analysis data set with the residual values.
 Extract residual values for an LMB analysis.
 }
 \details{
-To standardize just divide estimate by sd.
+The zscores are the standardized residuals.
 }

@@ -8,4 +8,8 @@ test_that("lmb", {
   expect_identical(nrow(residuals), nrow(datasets::chickwts))
   expect_identical(colnames(residuals), c("weight", "feed", "estimate", "sd",
                                           "zscore", "lower", "upper", "pvalue" ))
+
+  plots <- plot_residuals(analysis)
+  expect_identical(names(plots), c("feed", "weight"))
+  expect_is(plots[[1]], "ggplot")
 })

@@ -16,7 +16,7 @@ residuals.mb_analysis <- function(object, ...) {
 #'
 #' Extract residual values for an LMB analysis.
 #'
-#' To standardize just divide estimate by sd.
+#' The zscores are the standardized residuals.
 #'
 #' @param object The MB analysis object.
 #' @param ... Unused.
@@ -27,19 +27,57 @@ residuals.lmb_analysis <- function(object, ...) {
   residuals$estimate <- residuals(object$lm)
   residuals$sd <- summary(object$lm)$sigma
   residuals %<>% dplyr::mutate_(zscore = ~estimate/sd,
-                               lower = ~estimate + sd * qnorm(0.025),
-                               upper = ~estimate + sd * qnorm(0.975),
-                               pvalue = ~pnorm(-abs(zscore)) * 2)
+                                lower = ~estimate + sd * qnorm(0.025),
+                                upper = ~estimate + sd * qnorm(0.975),
+                                pvalue = ~pnorm(-abs(zscore)) * 2)
   residuals
 }
 
-plot_residuals <- function(x) {
-  if (!is.mb_analysis(x)) error("x must be an mb_analysis object")
-  residuals <- residuals(x)
-  variables <- colnames(x) %>%
-    set_diff(c("estimate", "sd", "zscore", "lower", "upper", "pvalue"))
-
-  residuals %<>% dplyr::select(~-sd, ~-zscore, ~-lower, ~-upper,)
-  .NotYetImplemented()
+#' Plot Residuals
+#'
+#' @param x The object to plot the residuals for.
+#' @param ... Unused.
+#' @export
+plot_residuals <- function(x, ...) {
+  UseMethod("plot_residuals")
 }
 
+ggplot_residuals <- function(data, name) {
+  gp <- ggplot2::ggplot(data = data) +
+    ggplot2::aes_string(x = "x", y = "residuals") +
+    ggplot2::geom_hline(yintercept = 0) +
+    ggplot2::expand_limits(y = 0) +
+    ggplot2::xlab(name) +
+    ggplot2::ylab("residual")
+  gp
+}
+
+#' @export
+plot_residuals.default <- function(x, name, residuals, ...) {
+  data <- dplyr::data_frame(x, residuals)
+  data %<>% dplyr::filter(!is.na(x), !is.na(residuals))
+
+  if (length(unique(data$x)) <= 1) invisible(NULL)
+
+  gp <- ggplot_residuals(data, name) +
+    ggplot2::geom_point(alpha = 1/3)
+  print(gp)
+  invisible(gp)
+}
+
+#' @export
+plot_residuals.character <- function(x, name, residuals, ...) {
+  invisible(NULL)
+}
+
+#' @export
+plot_residuals.mb_analysis <- function(x) {
+  residuals <- residuals(x)
+  variables <- dplyr::select_(residuals, ~-estimate, ~-sd, ~-zscore,
+                              ~-lower, ~-upper, ~-pvalue)
+  residuals <- residuals$estimate
+  names <- colnames(variables)
+  names %<>% sort()
+  variables <- variables[,names, drop = FALSE]
+  invisible(purrr::map2(variables, names, plot_residuals, residuals = residuals))
+}
