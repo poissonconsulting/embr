@@ -25,7 +25,7 @@ Imports:
     rescale (>= 0.0.0.9003),
     stringr,
     tibble,
-    timer
+    timer (>= 0.0.1)
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
@@ -34,8 +34,11 @@ Suggests:
     covr
 Remotes:
     hadley/lubridate,
+    poissonconsulting/datacheckr,
     poissonconsulting/mcmcr,
-    poissonconsulting/rescale
+    poissonconsulting/newdata,
+    poissonconsulting/rescale,
+    poissonconsulting/timer
 URL: https://github.com/poissonconsulting/mbr
 BugReports: https://github.com/poissonconsulting/mbr/issues
 RoxygenNote: 6.0.1
