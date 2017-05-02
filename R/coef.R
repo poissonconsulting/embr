@@ -89,7 +89,7 @@ coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TR
                              lower = numeric(0), upper = numeric(0), nmodels = integer(0), proportion = numeric(0), AICcWt = numeric(0)))
   }
 
-  coef %<>% purrr::map2_df(aicc$AICcWt, function(x, y) {x$AICcWt <- y; x})
+  suppressWarnings(coef %<>% purrr::map2_df(aicc$AICcWt, function(x, y) {x$AICcWt <- y; x}))
   coef %<>% dplyr::group_by_(~term) %>% dplyr::summarise_(
     estimate = ~sum(estimate * AICcWt), lower = ~sum(lower * AICcWt),
     upper = ~sum(upper * AICcWt), nmodels = ~nmodels, proportion = ~n()/nmodels, AICcWt = ~min(sum(AICcWt), 1.00)) %>% dplyr::ungroup()
