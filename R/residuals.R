@@ -61,8 +61,7 @@ plot_residuals.default <- function(x, name, residuals, ...) {
 
   gp <- ggplot_residuals(data, name) +
     ggplot2::geom_point(alpha = 1/3)
-  print(gp)
-  invisible(gp)
+  gp
 }
 
 #' @export
@@ -75,9 +74,7 @@ plot_residuals.factor <- function(x, name, residuals, ...) {
   gp <- ggplot_residuals(data, name) +
     ggplot2::geom_jitter(alpha = 1/3, width = 0.20) +
     ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust = 1))
-
-  print(gp)
-  invisible(gp)
+  gp
 }
 
 is_multiple_values <- function(x) {
@@ -98,7 +95,7 @@ plot_residuals.mb_analysis <- function(x, ...) {
 
   plots <- purrr::map2(variables, names(variables), plot_residuals, residuals = residuals) %>%
     purrr::discard(is.null)
-  invisible(plots)
+  plots
 }
 
 #' Analyse Residuals

@@ -17,9 +17,7 @@ test_that("lmb", {
   expect_identical(names(analyses), c("model", "K", "AICc", "DeltaAICc"))
   expect_equal(analyses$AICc, c(724.5233, 765.9327, 777.1873), tolerance = 10^-5)
 
-  # trouble is creates a pdf...
-  # plots <- plot_residuals(analysis)
-  # expect_identical(names(plots), c("feed", "weight"))
-  # expect_is(plots[[1]], "ggplot")
-  #
+  plots <- plot_residuals(analysis)
+  expect_identical(names(plots), c("feed", "weight"))
+  expect_is(plots[[1]], "ggplot")
 })
