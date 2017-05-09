@@ -42,6 +42,15 @@ plot_residuals <- function(x, ...) {
   UseMethod("plot_residuals")
 }
 
+ggplot_residuals_histogram <- function(data, name) {
+  gp <- ggplot2::ggplot(data = data) +
+    ggplot2::aes_string(x = "residuals") +
+    suppressWarnings(ggplot2::geom_histogram()) +
+    ggplot2::expand_limits(x = 0) +
+    ggplot2::xlab("residual")
+  gp
+}
+
 ggplot_residuals <- function(data, name) {
   gp <- ggplot2::ggplot(data = data) +
     ggplot2::aes_string(x = "x", y = "residuals") +
@@ -84,8 +93,10 @@ is_multiple_values <- function(x) {
 #' @export
 plot_residuals.mb_analysis <- function(x, ...) {
   residuals <- residuals(x)
+  fit <- fitted(x)
   variables <- dplyr::select_(residuals, ~-estimate, ~-sd, ~-zscore,
                               ~-lower, ~-upper, ~-pvalue)
+  variables$fit <- fit$estimate
 
   residuals <- residuals$estimate
 
