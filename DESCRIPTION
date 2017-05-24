@@ -1,7 +1,7 @@
 Package: mbr
 Title: Model Builder Utility Functions and Virtual Classes
-Version: 0.0.0.9041
-Date: 2017-05-02
+Version: 0.0.0.9042
+Date: 2017-05-24
 Authors@R: person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre"))
 Description: Utility functions and virtual classes shared by model builder packages
     such as tmbr.
@@ -34,7 +34,7 @@ Suggests:
     testthat,
     covr
 Remotes:
-    hadley/lubridate,
+    tidyverse/lubridate,
     poissonconsulting/datacheckr,
     poissonconsulting/mcmcr,
     poissonconsulting/newdata,
