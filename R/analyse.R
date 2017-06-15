@@ -110,8 +110,18 @@ analyse.mb_models <- function(x, data,
   analyses <- purrr::lmap(x, analyse_list, data = data, parallel = parallel,
                           quick = quick, quiet = quiet, glance = glance, beep = FALSE, ...)
 
-  names(analyses) <- names
-  class(analyses) <- "mb_analyses"
+  as_mb_analyses <- function(x, names) {
+    names(x) <- names
+    class(x) <- "mb_analyses"
+    x
+  }
+
+  if (is.data.frame(data)) {
+    analyses %<>% as_mb_analyses(names = names)
+    return(analyses)
+  }
+  analyses %<>% purrr::transpose()
+  analyses %<>% purrr::map(as_mb_analyses, names = names)
   analyses
 }
 
@@ -159,5 +169,5 @@ analyse.lmb_model <- function(x, data,
 
   if (is.data.frame(data))
     return(lmb_analysis(data = data, model = x, quiet = quiet, glance = glance))
-  purrr::map(data, lmb_analysis, model = x, quiet = quiet, glance = glance, .parallel = parallel)
+  purrr::map(data, lmb_analysis, model = x, quiet = quiet, glance = glance)
 }

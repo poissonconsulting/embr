@@ -121,6 +121,12 @@ test_that("analyse models", {
 
   expect_is(analyses, "mb_analyses")
   expect_identical(length(analyses), 2L)
+
+  analyses <- analyse(models, data = list(datasets::chickwts, datasets::chickwts),
+                      glance = FALSE, beep = FALSE)
+
+  expect_is(analyses, "list")
+  expect_identical(length(analyses), 2L)
+  expect_is(analyses[[1]], "mb_analyses")
+  expect_identical(length(analyses[[1]]), 2L)
 })
-
-
