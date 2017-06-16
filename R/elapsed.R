@@ -11,7 +11,7 @@ elapsed <- function(x, ...) {
 
 #' @export
 elapsed.mb_analysis <- function(x, ...) {
-  x$duration
+  round(x$duration, 1)
 }
 
 #' @export
