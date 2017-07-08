@@ -124,6 +124,8 @@ coef.lmb_analysis <- function(object, param_type = "fixed", include_constant = T
     coef %<>%
       purrr::map_df(coef_arg2to1, object = object, include_constant = include_constant,
                  conf_level = conf_level, ...)
+    coef$term %<>% as.term()
+    coef <- coef[order(coef$term),]
     return(coef)
   }
 
@@ -152,9 +154,9 @@ coef.lmb_analysis <- function(object, param_type = "fixed", include_constant = T
   colnames(confint) <- c("lower", "upper")
   confint$term <- as.term(rownames(confint))
 
-  coef %<>% dplyr::inner_join(confint, by = "term")
-
-  coef %<>% dplyr::select_(~term, ~estimate, ~sd, ~zscore, ~lower, ~upper, ~pvalue)
-  coef %<>% dplyr::as.tbl()
+  coef %<>% dplyr::inner_join(confint, by = "term") %>%
+    dplyr::select_(~term, ~estimate, ~sd, ~zscore, ~lower, ~upper, ~pvalue) %>%
+    dplyr::arrange_(~term) %>%
+    dplyr::as.tbl()
   coef
 }

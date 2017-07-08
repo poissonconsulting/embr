@@ -1,6 +1,10 @@
 #' @export
 parameters.character <- function(x, ...) {
-  x %<>% str_extract_all("\\w+") %>% unlist() %>% unique() %>% sort()
+  x %<>%
+    str_extract_all("\\w+") %>%
+    unlist() %>%
+    unique() %>%
+    sort()
   x
 }
 
@@ -19,7 +23,8 @@ parameters.mb_model <- function(x, param_type = "fixed", ...) {
 
     parameters %<>%
       purrr::map(parameters_arg2to1, x = x, ...) %>%
-      unlist()
+      unlist() %>%
+      sort()
 
     return(parameters)
   }
@@ -30,9 +35,9 @@ parameters.mb_model <- function(x, param_type = "fixed", ...) {
   if (identical(param_type, "random")) {
     random <- names(random_effects(x))
     if (is.null(random)) random <- character(0)
-    return(random)
+    return(sort(random))
   }
-  x$derived
+  sort(x$derived)
 }
 
 #' @export
@@ -45,7 +50,8 @@ parameters.mb_analysis <- function(x, param_type = "fixed", ...) {
 
     parameters %<>%
       purrr::map(parameters_arg2to1, x = x, ...) %>%
-      unlist()
+      unlist() %>%
+      sort()
 
     return(parameters)
   }
@@ -59,6 +65,10 @@ parameters.mb_analysis <- function(x, param_type = "fixed", ...) {
 
   parameters <- parameters(as.mcmcr(x))
 
-  parameters %<>% setdiff(random) %>% setdiff(derived)
+  parameters %<>%
+    setdiff(random) %>%
+    setdiff(derived) %>%
+    sort()
+
   parameters
 }
