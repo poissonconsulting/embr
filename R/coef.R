@@ -117,6 +117,16 @@ coef.lmb_analysis <- function(object, param_type = "fixed", include_constant = T
   check_flag(include_constant)
   check_number(conf_level, c(0.5, 0.99))
 
+  if (param_type %in% c("primary", "all")) {
+    coef <- c("fixed", "random")
+    if (param_type == "all") coef %<>% c("derived")
+
+    coef %<>%
+      purrr::map_df(coef_arg2to1, object = object, include_constant = include_constant,
+                 conf_level = conf_level, ...)
+    return(coef)
+  }
+
   # random and derived parameters are not defined for lm models
   if (param_type %in% c("random", "derived")) {
     return(dplyr::data_frame(
@@ -124,7 +134,6 @@ coef.lmb_analysis <- function(object, param_type = "fixed", include_constant = T
       zscore = numeric(0), lower = numeric(0),
       upper = numeric(0), pvalue = numeric(0)))
   }
-
 
   lm <- object$lm
 
