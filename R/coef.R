@@ -156,7 +156,7 @@ coef.lmb_analysis <- function(object, param_type = "fixed", include_constant = T
 
   coef %<>% dplyr::inner_join(confint, by = "term") %>%
     dplyr::select_(~term, ~estimate, ~sd, ~zscore, ~lower, ~upper, ~pvalue) %>%
-    dplyr::arrange_(~term) %>%
     dplyr::as.tbl()
+  coef <- coef[order(coef$term),]
   coef
 }
