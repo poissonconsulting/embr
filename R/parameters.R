@@ -30,7 +30,7 @@ parameters.mb_model <- function(x, param_type = "fixed", ...) {
   }
 
   if (identical(param_type, "fixed"))
-    .NotYetImplemented()
+    error("parameters.mb_model cannot be implemented for 'fixed' parameter types (as fixed parameters and data are indistinguishable)")
 
   if (identical(param_type, "random")) {
     random <- names(random_effects(x))
