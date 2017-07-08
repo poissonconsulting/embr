@@ -18,7 +18,7 @@ check_model_parameters(x, fixed, random, derived, drops)
 \item{drops}{NULL or a character vector of the parameters to drop.}
 }
 \value{
-If passes all checks, an invisible copy of x. Otherwise throws an informative error.
+The possibly updated derived parameters.
 }
 \description{
 Check Model Parameters

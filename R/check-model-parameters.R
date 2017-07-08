@@ -1,11 +1,11 @@
 #' Check Model Parameters
 #'
-#' @inheritParams model.mb_code
 #' @param x The model code to check.
+#' @param fixed A string of a regular expression specifying the fixed parameters to monitor.
 #' @param random NULL or a character vector of the random effects.
 #' @param derived NULL or a character vector of the derived parameters.
 #' @param drops NULL or a character vector of the parameters to drop.
-#' @return If passes all checks, an invisible copy of x. Otherwise throws an informative error.
+#' @return The possibly updated derived parameters.
 #' @export
 check_model_parameters <- function(x, fixed, random, derived, drops) {
   UseMethod("check_model_parameters")
@@ -30,5 +30,5 @@ check_model_parameters.mb_code <- function(x, fixed, random, derived, drops) {
   if (length(drops) && !all(unlist(drops) %in% parameters(x, param_type = "fixed", scalar_only = TRUE)))
     error("drops parameters missing from fixed scalar code parameters")
 
-  invisible(x)
+  derived
 }

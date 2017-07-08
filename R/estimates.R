@@ -3,12 +3,10 @@
 #' estimates
 #'
 #' @param object The mb_analysis object.
-#' @param param_type A flag specifying whether 'fixed', 'random' or 'derived' terms.
+#' @param param_type A string indicating the type of terms to get the names for.
 #' @param ... Not used.
 #' @export
 estimates.mb_analysis <- function(object, param_type = "fixed", ...) {
-  check_scalar(param_type, c("fixed", "random", "derived"))
-
   parameters <- parameters(object, param_type)
 
   object %>%

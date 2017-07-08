@@ -9,7 +9,7 @@
 \arguments{
 \item{x}{The analysis object to plot}
 
-\item{param_type}{A flag specifying whether 'fixed', 'random' or 'derived' terms.}
+\item{param_type}{A string indicating the type of terms to get the names for.}
 
 \item{...}{Unused.}
 }
