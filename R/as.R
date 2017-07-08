@@ -27,8 +27,18 @@ as.analyses <- function(x, ...) {
 
 #' @export
 as.mcmcr.mb_analysis <- function(x, ...) {
-  if (is.null(x$mcmcr)) error("as.mcmcr is undefined for x")
-  x$mcmcr
+  if (!is.null(x$mcmcr)) return(x$mcmcr)
+
+  x %<>%
+    coef("all") %>%
+    dplyr::select_(~term, ~estimate) %>%
+    dplyr::mutate_(parameter = ~str_replace(term, "^(\\w+)(.*)", "\\1")) %>%
+    plyr::dlply(~parameter, lmcmcarray)
+
+  class(x) <- "mcmcr"
+
+  x %<>% sort()
+  x
 }
 
 #' @export

@@ -60,6 +60,25 @@ sort_nlist <- function(x) {
   x[order(names(x))]
 }
 
+lmcmcarray <- function(x) {
+  nrow <- nrow(x)
+
+  if (identical(nrow, 1L)) {
+    dims <- 1L
+  } else {
+    dims <- str_replace(x$term[nrow], "^(\\w+)(.*)", "\\2") %>% str_replace("^(\\[)(.*)(\\])$", "\\2")
+    dims %<>% str_split(",", simplify = FALSE) %>% unlist()
+    dims %<>% as.integer()
+  }
+
+  dims %<>% c(1L, 1L, .)
+
+  samples <- array(x$estimate, dim = dims)
+  class(samples) <- "mcmcarray"
+
+  samples
+}
+
 #' Scalar Named List
 #'
 #' Filters a named list so only scalar elements remain.wiby its names.

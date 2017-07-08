@@ -9,7 +9,7 @@
 estimates.mb_analysis <- function(object, param_type = "fixed", ...) {
   parameters <- parameters(object, param_type)
 
-  object %>%
+  object %<>%
     as.mcmcr() %>%
     subset(parameters = parameters)
 

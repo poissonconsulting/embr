@@ -23,6 +23,19 @@ test_that("lmb", {
   expect_identical(coef$term, as.term(c("(Intercept)", "feedhorsebean", "feedlinseed",
                                         "feedmeatmeal", "feedsoybean", "feedsunflower")))
 
+  mcmcr <- as.mcmcr(analysis)
+  expect_is(mcmcr, "mcmcr")
+  expect_identical(nchains(mcmcr), 1L)
+  expect_identical(niters(mcmcr), 1L)
+  expect_identical(length(mcmcr), 6L)
+  expect_identical(names(mcmcr), c(
+    "(Intercept)", "feedhorsebean", "feedlinseed", "feedmeatmeal", "feedsoybean", "feedsunflower"))
+
+  estimates <- estimates(analysis)
+  expect_identical(length(estimates), 6L)
+  expect_identical(names(estimates), c(
+    "(Intercept)", "feedhorsebean", "feedlinseed", "feedmeatmeal", "feedsoybean", "feedsunflower"))
+
   prediction <- predict(analysis)
   expect_identical(colnames(prediction), c("weight", "feed", "estimate", "sd", "zscore", "lower", "upper", "pvalue"))
   expect_identical(nrow(prediction), nrow(chickwts))
