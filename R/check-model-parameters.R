@@ -2,9 +2,9 @@
 #'
 #' @inheritParams model.mb_code
 #' @param x The model code to check.
-#' @param random NULL or A character vector of the random effects.
-#' @param derived A character vector of the derived parameters.
-#' @param drops A character vector of the parameters to drop.
+#' @param random NULL or a character vector of the random effects.
+#' @param derived NULL or a character vector of the derived parameters.
+#' @param drops NULL or a character vector of the parameters to drop.
 #' @return If passes all checks, an invisible copy of x. Otherwise throws an informative error.
 #' @export
 check_model_parameters <- function(x, fixed, random, derived, drops) {

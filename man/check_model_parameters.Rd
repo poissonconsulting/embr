@@ -11,11 +11,11 @@ check_model_parameters(x, fixed, random, derived, drops)
 
 \item{fixed}{A string of a regular expression specifying the fixed parameters to monitor.}
 
-\item{random}{A character vector of the random effects.}
+\item{random}{NULL or a character vector of the random effects.}
 
-\item{derived}{A character vector of the derived parameters.}
+\item{derived}{NULL or a character vector of the derived parameters.}
 
-\item{drops}{A character vector of the parameters to drop.}
+\item{drops}{NULL or a character vector of the parameters to drop.}
 }
 \value{
 If passes all checks, an invisible copy of x. Otherwise throws an informative error.
