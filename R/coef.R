@@ -30,11 +30,10 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
 
   parameters <- parameters(object, param_type)
 
-  object %<>% as.mcmcr()
-
-  object %<>% subset(parameters = parameters)
-
-  object %<>% coef()
+  object %<>%
+    as.mcmcr() %>%
+    subset(parameters = parameters) %>%
+    coef()
 
   if (!include_constant) object %<>% dplyr::filter_(~lower != upper)
 
