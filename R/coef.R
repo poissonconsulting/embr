@@ -1,10 +1,11 @@
 #' @export
 coef.mb_null_analysis <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = 0.95, ...) {
-  check_scalar(param_type, c("fixed", "random", "derived"))
+  check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
   check_flag(include_constant)
   check_number(conf_level, c(0.5, 0.99))
 
-  dplyr::data_frame(term = as.term(character(0)), estimate = numeric(0), sd = numeric(0),
+  dplyr::data_frame(term = as.term(character(0)),
+                    estimate = numeric(0), sd = numeric(0),
                     zscore = numeric(0), lower = numeric(0),
                     upper = numeric(0), pvalue = numeric(0))
 }
@@ -23,7 +24,7 @@ coef.mb_null_analysis <- function(object, param_type = "fixed", include_constant
 #' @return A tidy tibble of the coefficient terms.
 #' @export
 coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = 0.95, ...) {
-  check_scalar(param_type, c("fixed", "random", "derived"))
+  check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
   check_flag(include_constant)
   check_number(conf_level, c(0.5, 0.99))
 
@@ -35,8 +36,7 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
 
   object %<>% coef()
 
-  if (!include_constant)
-    object %<>% dplyr::filter_(~lower != upper)
+  if (!include_constant) object %<>% dplyr::filter_(~lower != upper)
 
   object
 }
@@ -98,9 +98,9 @@ coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TR
   coef
 }
 
-#' Coef TMB Analysis
+#' Coef LMB Analysis
 #'
-#' Coefficients for a TMB analysis.
+#' Coefficients for a LMB analysis.
 #'
 #' The (95\%) \code{lower} and \code{upper} confidence intervals are
 #' the \code{estimate} +/- 1.96 * \code{std.error}.
@@ -113,12 +113,18 @@ coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TR
 #' @return A tidy tibble of the coefficient terms.
 #' @export
 coef.lmb_analysis <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = 0.95, ...) {
-
-  check_scalar(param_type, c("fixed", "random", "derived"))
+  check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
   check_flag(include_constant)
   check_number(conf_level, c(0.5, 0.99))
 
-  if (!identical(param_type, "fixed")) error("param_type not yet implemented")
+  # random and derived parameters are not defined for lm models
+  if (param_type %in% c("random", "derived")) {
+    return(dplyr::data_frame(
+      term = as.term(character(0)), estimate = numeric(0), sd = numeric(0),
+      zscore = numeric(0), lower = numeric(0),
+      upper = numeric(0), pvalue = numeric(0)))
+  }
+
 
   lm <- object$lm
 
@@ -127,8 +133,8 @@ coef.lmb_analysis <- function(object, param_type = "fixed", include_constant = T
 
   coef$term <- as.term(rownames(coef))
   coef %<>% dplyr::select_(~term, estimate = ~Estimate,
-                   sd = ~`Std. Error`, zscore = ~`t value`,
-                   pvalue = ~`Pr(>|t|)`) %>%
+                           sd = ~`Std. Error`, zscore = ~`t value`,
+                           pvalue = ~`Pr(>|t|)`) %>%
     dplyr::mutate_(zscore = ~estimate/sd)
 
   confint <- stats::confint(lm, level = conf_level) %>%

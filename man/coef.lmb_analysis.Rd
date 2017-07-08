@@ -2,7 +2,7 @@
 % Please edit documentation in R/coef.R
 \name{coef.lmb_analysis}
 \alias{coef.lmb_analysis}
-\title{Coef TMB Analysis}
+\title{Coef LMB Analysis}
 \usage{
 \method{coef}{lmb_analysis}(object, param_type = "fixed",
   include_constant = TRUE, conf_level = 0.95, ...)
@@ -22,7 +22,7 @@
 A tidy tibble of the coefficient terms.
 }
 \description{
-Coefficients for a TMB analysis.
+Coefficients for a LMB analysis.
 }
 \details{
 The (95\%) \code{lower} and \code{upper} confidence intervals are

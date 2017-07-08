@@ -11,7 +11,12 @@ parameters.mb_code <- function(x, ...) {
 
 #' @export
 parameters.mb_model <- function(x, param_type = "fixed", ...) {
-  check_scalar(param_type, c("fixed", "random", "derived"))
+  check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
+
+  if (param_type == "primary") {
+    return(purrr::map_df(c("fixed", "random"), parameters, ...))
+  } else if (param_type == "all")
+    return(purrr::map_df(c("fixed", "random", "derived"), parameters, ...))
 
   if (identical(param_type, "fixed"))
     error("fixed parameters are not defined for mb_models")
@@ -26,7 +31,12 @@ parameters.mb_model <- function(x, param_type = "fixed", ...) {
 
 #' @export
 parameters.mb_analysis <- function(x, param_type = "fixed", ...) {
-  check_scalar(param_type, c("fixed", "random", "derived"))
+  check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
+
+  if (param_type == "primary") {
+    return(purrr::map_chr(c("fixed", "random"), parameters, ...))
+  } else if (param_type == "all")
+    return(purrr::map_chr(c("fixed", "random", "derived"), parameters, ...))
 
   random <- names(random_effects(x))
   if (is.null(random)) random <- character(0)
