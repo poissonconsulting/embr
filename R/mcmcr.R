@@ -20,12 +20,14 @@ niters.mb_analysis <- function(x, ...) {
 
 #' @export
 converged.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), ...) {
-  converged(as.mcmcr(x), rhat = rhat)
+  x %<>% as.mcmcr(x)
+  if (nchains(x) < 2L) return(NA)
+  converged(x, rhat = rhat)
 }
 
 #' @export
 converged.mb_analyses <- function(x, rhat = getOption("mb.rhat", 1.1), ...) {
-  converged(as.mcmcrs(x), rhat = rhat)
+  all(vapply(x, converged, TRUE, rhat = rhat))
 }
 
 #' @export

@@ -104,7 +104,6 @@ predict.lmb_analysis <- function(object,
 #'
 #' @inheritParams derive_data
 #' @param conf_level A number specifying the confidence level. By default 0.95.
-#' @param n A count of the sample size.
 #' @export
 predict.mb_analyses <- function(object,
                                 new_data = data_set(object),
@@ -114,7 +113,6 @@ predict.mb_analyses <- function(object,
                                 conf_level = 0.95,
                                 modify_new_data = NULL,
                                 ref_data = FALSE,
-                                n = NULL,
                                 parallel = getOption("mb.parallel", FALSE),
                                 quick = getOption("mb.quick", FALSE),
                                 quiet = getOption("mb.quiet", TRUE),
@@ -125,14 +123,14 @@ predict.mb_analyses <- function(object,
 
   if (beep) on.exit(beepr::beep())
 
-  aicc <- AICc(object, n = n)
+  ic <- IC(object)
 
   prediction <- llply(object, predict, new_data = new_data, new_expr = new_expr,
                       new_values = new_values, term = term, conf_level = conf_level,
                       modify_new_data = modify_new_data, ref_data = ref_data,
                       parallel = parallel, quick = quick, quiet = quiet, beep = FALSE)
 
-  if (!any(is.finite(aicc$AICc))) {
+  if (!any(is.finite(ic$IC))) {
     prediction <- prediction[[1]] %<>%
       dplyr::mutate_(estimate = ~NA_real_,
                      sd = ~NA_real_,
@@ -147,10 +145,10 @@ predict.mb_analyses <- function(object,
   new_data <- prediction[[1]] %>%
    dplyr::select_(~-estimate, ~-sd, ~-zscore, ~-lower, ~-upper, ~-pvalue)
 
-  prediction <- prediction[is.finite(aicc$AICc)]
-  aicc <- aicc[is.finite(aicc$AICc),,drop = FALSE]
+  prediction <- prediction[is.finite(ic$IC)]
+  ic <- ic[is.finite(ic$IC),,drop = FALSE]
 
-  prediction %<>% purrr::map2(aicc$AICcWt, function(x, y) {x$AICcWt <- y; x})
+  prediction %<>% purrr::map2(ic$ICWt, function(x, y) {x$ICWt <- y; x})
 
   prediction %<>% purrr::map_df(function(x) {x$.row <- 1:nrow(x); x})
 
@@ -158,9 +156,9 @@ predict.mb_analyses <- function(object,
     dplyr::bind_rows(.id = ".model") %>%
     dplyr::group_by_(~.row) %>%
     dplyr::summarise_(
-      estimate = ~sum(estimate * AICcWt),
-      lower = ~sum(lower * AICcWt),
-      upper = ~sum(upper * AICcWt)) %>%
+      estimate = ~sum(estimate * ICWt),
+      lower = ~sum(lower * ICWt),
+      upper = ~sum(upper * ICWt)) %>%
     dplyr::ungroup() %>%
     dplyr::mutate_(sd = ~NA_real_,
                    zscore = ~NA_real_,

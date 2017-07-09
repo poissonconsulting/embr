@@ -5,7 +5,7 @@
 \title{Coef List}
 \usage{
 \method{coef}{list}(object, param_type = "fixed", include_constant = TRUE,
-  conf_level = 0.95, n = NULL, ...)
+  conf_level = 0.95, ...)
 }
 \arguments{
 \item{object}{A list of mb_analysis objects.}
@@ -16,15 +16,13 @@
 
 \item{conf_level}{A number specifying the confidence level. By default 0.95.}
 
-\item{n}{A count of the sample size.}
-
 \item{...}{Not used.}
 }
 \value{
 A tidy tibble of the coeffcient terms with the model averaged estimate, the
-Akaike's weight and the proportion of models including the term.
+weight and the proportion of models including the term.
 }
 \description{
-Coefficients for fixed parameters from an ML based
-MB analyses averaged by AICc weights.
+Coefficients for fixed parameters from
+MB analyses averaged by IC weights.
 }

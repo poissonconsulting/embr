@@ -14,8 +14,8 @@ test_that("lmb", {
                                           "zscore", "lower", "upper", "pvalue" ))
   analyses <- analyse_residuals(analysis)
   expect_identical(analyses$model, c("weight", "null", "feed"))
-  expect_identical(names(analyses), c("model", "K", "AICc", "DeltaAICc"))
-  expect_equal(analyses$AICc, c(724.5233, 765.9327, 777.1873), tolerance = 10^-5)
+  expect_identical(names(analyses), c("model", "K", "IC", "DeltaIC"))
+  expect_equal(analyses$IC, c(724.5233, 765.9327, 777.1873), tolerance = 10^-5)
 
   plots <- plot_residuals(analysis)
   expect_identical(names(plots), c("feed", "fit", "weight"))

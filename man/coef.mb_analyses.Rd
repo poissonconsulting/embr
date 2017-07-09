@@ -5,7 +5,7 @@
 \title{Coef TMB Analyses}
 \usage{
 \method{coef}{mb_analyses}(object, param_type = "fixed",
-  include_constant = TRUE, conf_level = 0.95, n = NULL, ...)
+  include_constant = TRUE, conf_level = 0.95, ...)
 }
 \arguments{
 \item{object}{The mb_analyses object.}
@@ -16,8 +16,6 @@
 
 \item{conf_level}{A number specifying the confidence level. By default 0.95.}
 
-\item{n}{A count of the sample size.}
-
 \item{...}{Not used.}
 }
 \value{
@@ -26,5 +24,5 @@ Akaike's weight and the proportion of models including the term.
 }
 \description{
 Coefficients for fixed parameters from an ML based
-MB analyses averaged by AICc weights.
+MB analyses averaged by IC weights.
 }

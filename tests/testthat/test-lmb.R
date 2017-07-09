@@ -10,7 +10,7 @@ test_that("lmb", {
   glance <- glance(analysis)
 
   expect_is(glance, "tbl")
-  expect_identical(colnames(glance), c("n", "K", "logLik", "AICc", "duration"))
+  expect_identical(colnames(glance), c("n", "K", "logLik", "IC", "duration", "converged"))
   expect_equal(glance$logLik, -381.9374, tolerance = 0.0000001)
   expect_identical(glance$n, 71L)
   expect_identical(glance$K, 6L)
@@ -121,10 +121,10 @@ test_that("models", {
                                         "feedmeatmeal", "feedsoybean", "feedsunflower")))
   expect_identical(coef$proportion, c(1.0, rep(0.5, 5)))
 
-  aic <- AICc(analyses)
-  expect_identical(colnames(aic), c("model", "K", "AICc", "DeltaAICc", "AICcWt"))
-  expect_identical(aic$model, c("full", "base"))
-  expect_equal(aic$AICc, c(821.3269, 777.1873), tolerance = 10^-6)
+  ic <- IC(analyses)
+  expect_identical(colnames(ic), c("model", "K", "IC", "DeltaIC", "ICWt"))
+  expect_identical(ic$model, c("full", "base"))
+  expect_equal(ic$IC, c(821.3269, 777.1873), tolerance = 10^-6)
 })
 
 test_that("analyse models", {

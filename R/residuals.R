@@ -129,9 +129,9 @@ analyse_residuals <- function(x) {
   data$residual <- residuals$estimate
 
   analyses <- analyse(models, data = data, glance = FALSE, beep = FALSE)
-  aic <- AICc(analyses) %>%
-    dplyr::select_(~model, ~K, ~AICc) %>%
-    dplyr::mutate(DeltaAICc = AICc - dplyr::first(AICc)) %>%
-    dplyr::arrange_(~AICc)
-  aic
+  ic <- IC(analyses) %>%
+    dplyr::select_(~model, ~K, ~IC) %>%
+    dplyr::mutate(DeltaIC = IC - dplyr::first(IC)) %>%
+    dplyr::arrange_(~IC)
+  ic
 }

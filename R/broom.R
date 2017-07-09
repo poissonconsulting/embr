@@ -1,21 +1,16 @@
 #' @export
 glance.mb_analysis <- function(x, n = NULL, ...) {
-  dplyr::data_frame(
-    n = sample_size(x),
-    K = nterms(x, include_constant = FALSE),
-    duration = elapsed(x),
-    converged = converged(x)
-  )
-}
+  checkor(check_null(n), check_count(n))
 
-#' @export
-glance.lmb_analysis <- function(x, n = NULL, ...) {
+  if (is.null(n)) n <- sample_size(x)
+
   dplyr::data_frame(
-    n = sample_size(x),
+    n = n,
     K = nterms(x, include_constant = FALSE),
     logLik = logLik(x),
-    AICc = AICc(x, n = n),
-    duration = elapsed(x)
+    IC = IC(x, n = n),
+    duration = elapsed(x),
+    converged = converged(x)
   )
 }
 

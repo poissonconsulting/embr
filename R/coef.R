@@ -42,56 +42,55 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
 
 #' Coef List
 #'
-#' Coefficients for fixed parameters from an ML based
-#' MB analyses averaged by AICc weights.
+#' Coefficients for fixed parameters from
+#' MB analyses averaged by IC weights.
 #'
 #' @param object A list of mb_analysis objects.
 #' @param param_type A flag specifying whether 'fixed', 'random' or 'derived' terms.
 #' @param include_constant A flag specifying whether to include constant terms.
 #' @param conf_level A number specifying the confidence level. By default 0.95.
-#' @param n A count of the sample size.
 #' @param ... Not used.
 #' @return A tidy tibble of the coeffcient terms with the model averaged estimate, the
-#' Akaike's weight and the proportion of models including the term.
+#' weight and the proportion of models including the term.
 #' @export
-coef.list <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = 0.95, n = NULL, ...) {
+coef.list <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = 0.95, ...) {
   .Deprecated("coef.mb_analyses")
   class(object) <- "mb_analyses"
   coef(object, param_type = param_type, include_constant = include_constant,
-       conf_level = conf_level, n = n, ...)
+       conf_level = conf_level, ...)
 }
 
 #' Coef TMB Analyses
 #'
 #' Coefficients for fixed parameters from an ML based
-#' MB analyses averaged by AICc weights.
+#' MB analyses averaged by IC weights.
 #'
 #' @param object The mb_analyses object.
 #' @param param_type A flag specifying whether 'fixed', 'random' or 'derived' terms.
 #' @param include_constant A flag specifying whether to include constant terms.
 #' @param conf_level A number specifying the confidence level. By default 0.95.
-#' @param n A count of the sample size.
 #' @param ... Not used.
 #' @return A tidy tibble of the coeffcient terms with the model averaged estimate, the
 #' Akaike's weight and the proportion of models including the term.
 #' @export
-coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = 0.95, n = NULL, ...) {
-  aicc <- AICc(object, n = n)
+coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = 0.95, ...) {
+  ic <- IC(object)
   coef <- llply(object, coef, param_type = param_type, include_constant = include_constant, conf_level = conf_level)
 
-  coef <- coef[is.finite(aicc$AICc)]
-  aicc <- aicc[is.finite(aicc$AICc),,drop = FALSE]
+  coef <- coef[is.finite(ic$IC)]
+  ic <- ic[is.finite(ic$IC),,drop = FALSE]
 
   nmodels <- length(coef)
   if (!nmodels) {
     return(dplyr::data_frame(term = as.term(character(0)), estimate = numeric(0),
-                             lower = numeric(0), upper = numeric(0), nmodels = integer(0), proportion = numeric(0), AICcWt = numeric(0)))
+                             lower = numeric(0), upper = numeric(0), nmodels = integer(0), proportion = numeric(0), ICWt = numeric(0)))
   }
 
-  suppressWarnings(coef %<>% purrr::map2_df(aicc$AICcWt, function(x, y) {x$AICcWt <- y; x}))
+  suppressWarnings(coef %<>% purrr::map2_df(ic$ICWt, function(x, y) {x$ICWt <- y; x}))
   coef %<>% dplyr::group_by_(~term) %>% dplyr::summarise_(
-    estimate = ~sum(estimate * AICcWt), lower = ~sum(lower * AICcWt),
-    upper = ~sum(upper * AICcWt), nmodels = ~nmodels, proportion = ~n()/nmodels, AICcWt = ~min(sum(AICcWt), 1.00)) %>% dplyr::ungroup()
+    estimate = ~sum(estimate * ICWt), lower = ~sum(lower * ICWt),
+    upper = ~sum(upper * ICWt), nmodels = ~nmodels, proportion = ~n()/nmodels, ICWt = ~min(sum(ICWt), 1.00)) %>%
+    dplyr::ungroup()
   coef$term %<>% as.term()
   coef <- coef[order(coef$term),]
   coef

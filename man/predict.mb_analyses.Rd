@@ -6,7 +6,7 @@
 \usage{
 \method{predict}{mb_analyses}(object, new_data = data_set(object),
   new_expr = NULL, new_values = list(), term = "prediction",
-  conf_level = 0.95, modify_new_data = NULL, ref_data = FALSE, n = NULL,
+  conf_level = 0.95, modify_new_data = NULL, ref_data = FALSE,
   parallel = getOption("mb.parallel", FALSE), quick = getOption("mb.quick",
   FALSE), quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep",
   FALSE), ...)
@@ -27,8 +27,6 @@
 \item{modify_new_data}{A single argument function to modify new data (in list form) immediately prior to calculating new_expr.}
 
 \item{ref_data}{A flag or a data frame with 1 row indicating the reference values for calculating the effects size.}
-
-\item{n}{A count of the sample size.}
 
 \item{parallel}{A flag indicating whether to do predictions using parallel backend provided by foreach.}
 

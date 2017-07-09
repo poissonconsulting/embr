@@ -11,7 +11,7 @@ test_that("mb_null_analysis", {
 
   glance <- glance(analysis)
   expect_is(glance, "tbl")
-  expect_identical(colnames(glance), c("n", "K", "duration", "converged"))
+  expect_identical(colnames(glance), c("n", "K", "logLik", "IC", "duration", "converged"))
   expect_identical(nrow(glance), 1L)
 
   tidy <- tidy(analysis)
@@ -20,5 +20,5 @@ test_that("mb_null_analysis", {
   expect_identical(nrow(tidy), 0L)
 
   expect_identical(logLik(analysis), -Inf)
-  expect_identical(AICc(analysis), Inf)
+  expect_identical(IC(analysis), Inf)
 })
