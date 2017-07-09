@@ -6,10 +6,10 @@
 \usage{
 \method{predict}{mb_analysis}(object, new_data = data_set(object),
   new_expr = NULL, new_values = list(), term = "prediction",
-  conf_level = 0.95, modify_new_data = NULL, ref_data = FALSE,
-  parallel = getOption("mb.parallel", FALSE), quick = getOption("mb.quick",
-  FALSE), quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep",
-  FALSE), ...)
+  marginal = NULL, conf_level = 0.95, modify_new_data = NULL,
+  ref_data = FALSE, parallel = getOption("mb.parallel", FALSE),
+  quick = getOption("mb.quick", FALSE), quiet = getOption("mb.quiet", TRUE),
+  beep = getOption("mb.beep", FALSE), ...)
 }
 \arguments{
 \item{object}{An object inheriting from class mb_analysis.}
@@ -21,6 +21,8 @@
 \item{new_values}{A named list of new or replacement values to pass to new_expr.}
 
 \item{term}{A string of the term in new_expr.}
+
+\item{marginal}{A string specifying the parameter set at its estimated and lower and upper values while fixing the remaining parameters at their estimated values.}
 
 \item{conf_level}{A number specifying the confidence level. By default 0.95.}
 

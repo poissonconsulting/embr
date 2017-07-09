@@ -18,6 +18,7 @@ test_that("lmb", {
 
   coef <- coef(analysis)
   expect_is(coef, "tbl")
+  expect_is(coef, "mb_analysis_coef")
   expect_identical(colnames(coef), c("term", "estimate", "sd", "zscore", "lower", "upper", "pvalue"))
 
   expect_identical(coef$term, as.term(c("(Intercept)", "feedhorsebean", "feedlinseed",
@@ -117,6 +118,7 @@ test_that("models", {
   analyses <- analyse(models, data = datasets::chickwts, beep = FALSE, glance = FALSE)
   expect_is(analyses, "mb_analyses")
   coef <- coef(analyses)
+  expect_is(coef, "mb_analyses_coef")
   expect_identical(coef$term, as.term(c("(Intercept)", "feedhorsebean", "feedlinseed",
                                         "feedmeatmeal", "feedsoybean", "feedsunflower")))
   expect_identical(coef$proportion, c(1.0, rep(0.5, 5)))

@@ -28,12 +28,14 @@ fitted.lmb_analysis <- function(object, ...) {
 #'
 #' @inheritParams derive_data
 #' @param conf_level A number specifying the confidence level. By default 0.95.
+#' @param marginal A string specifying the parameter set at its estimated and lower and upper values while fixing the remaining parameters at their estimated values.
 #' @export
 predict.mb_analysis <- function(object,
                                 new_data = data_set(object),
                                 new_expr = NULL,
                                 new_values = list(),
                                 term = "prediction",
+                                marginal = NULL,
                                 conf_level = 0.95,
                                 modify_new_data = NULL,
                                 ref_data = FALSE,
@@ -42,10 +44,18 @@ predict.mb_analysis <- function(object,
                                 quiet = getOption("mb.quiet", TRUE),
                                 beep = getOption("mb.beep", FALSE),
                                 ...) {
+  checkor(check_null(marginal), check_string(marginal))
   check_number(conf_level, c(0.5, 0.99))
   check_flag(beep)
 
   if (beep) on.exit(beepr::beep())
+
+  if (!is.null(marginal)) {
+    if (!marginal %in% parameters(object, "primary")) error("marginal not in primary parameters")
+
+    estimates <- coef(object, param_type = "all", conf_level = conf_level)
+
+  }
 
   term %<>% str_c("^", ., "$")
 

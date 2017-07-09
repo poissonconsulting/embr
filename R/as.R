@@ -25,6 +25,8 @@ as.analyses <- function(x, ...) {
   UseMethod("as.analyses")
 }
 
+
+
 #' @export
 as.mcmcr.mb_analysis <- function(x, ...) {
   if (!is.null(x$mcmcr)) return(x$mcmcr)

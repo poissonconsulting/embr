@@ -4,10 +4,13 @@ coef.mb_null_analysis <- function(object, param_type = "fixed", include_constant
   check_flag(include_constant)
   check_number(conf_level, c(0.5, 0.99))
 
-  dplyr::data_frame(term = as.term(character(0)),
-                    estimate = numeric(0), sd = numeric(0),
-                    zscore = numeric(0), lower = numeric(0),
-                    upper = numeric(0), pvalue = numeric(0))
+  coef <- dplyr::data_frame(term = as.term(character(0)),
+                            estimate = numeric(0), sd = numeric(0),
+                            zscore = numeric(0), lower = numeric(0),
+                            upper = numeric(0), pvalue = numeric(0))
+
+  class(coef) %<>% c("mb_analysis_coef", .)
+  coef
 }
 
 #' Coef JAGS Analysis
@@ -30,14 +33,14 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
 
   parameters <- parameters(object, param_type)
 
-  object %<>%
-    as.mcmcr() %>%
+  coef <- as.mcmcr(object) %>%
     subset(parameters = parameters) %>%
     coef()
 
-  if (!include_constant) object %<>% dplyr::filter_(~lower != upper)
+  if (!include_constant) coef %<>% dplyr::filter_(~lower != upper)
 
-  object
+  class(coef) %<>% c("mb_analysis_coef", .)
+  coef
 }
 
 #' Coef List
@@ -82,8 +85,12 @@ coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TR
 
   nmodels <- length(coef)
   if (!nmodels) {
-    return(dplyr::data_frame(term = as.term(character(0)), estimate = numeric(0),
-                             lower = numeric(0), upper = numeric(0), nmodels = integer(0), proportion = numeric(0), ICWt = numeric(0)))
+    coef <- dplyr::data_frame(
+      term = as.term(character(0)), estimate = numeric(0),
+      lower = numeric(0), upper = numeric(0), nmodels = integer(0),
+      proportion = numeric(0), ICWt = numeric(0))
+    class(coef) %<>% c("mb_analyses_coef", .)
+    return(coef)
   }
 
   suppressWarnings(coef %<>% purrr::map2_df(ic$ICWt, function(x, y) {x$ICWt <- y; x}))
@@ -93,6 +100,7 @@ coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TR
     dplyr::ungroup()
   coef$term %<>% as.term()
   coef <- coef[order(coef$term),]
+  class(coef) %<>% c("mb_analyses_coef", .)
   coef
 }
 
@@ -121,18 +129,21 @@ coef.lmb_analysis <- function(object, param_type = "fixed", include_constant = T
 
     coef %<>%
       purrr::map_df(coef_arg2to1, object = object, include_constant = include_constant,
-                 conf_level = conf_level, ...)
+                    conf_level = conf_level, ...)
     coef$term %<>% as.term()
     coef <- coef[order(coef$term),]
+    class(coef) %<>% c("mb_analysis_coef", .)
     return(coef)
   }
 
-  # random and derived parameters are not defined for lm models
+  # random and derived parameters cannot occur in lm models
   if (param_type %in% c("random", "derived")) {
-    return(dplyr::data_frame(
+    coef <- dplyr::data_frame(
       term = as.term(character(0)), estimate = numeric(0), sd = numeric(0),
       zscore = numeric(0), lower = numeric(0),
-      upper = numeric(0), pvalue = numeric(0)))
+      upper = numeric(0), pvalue = numeric(0))
+    class(coef) %<>% c("mb_analysis_coef", .)
+    return(coef)
   }
 
   lm <- object$lm
@@ -156,5 +167,6 @@ coef.lmb_analysis <- function(object, param_type = "fixed", include_constant = T
     dplyr::select_(~term, ~estimate, ~sd, ~zscore, ~lower, ~upper, ~pvalue) %>%
     dplyr::as.tbl()
   coef <- coef[order(coef$term),]
+  class(coef) %<>% c("mb_analysis_coef", .)
   coef
 }
