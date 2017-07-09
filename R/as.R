@@ -25,14 +25,9 @@ as.analyses <- function(x, ...) {
   UseMethod("as.analyses")
 }
 
-
-
 #' @export
-as.mcmcr.mb_analysis <- function(x, ...) {
-  if (!is.null(x$mcmcr)) return(x$mcmcr)
-
+as.mcmcr.mb_analysis_coef <- function(x, ...) {
   x %<>%
-    coef("all") %>%
     dplyr::select_(~term, ~estimate) %>%
     dplyr::mutate_(parameter = ~str_replace(term, "^(\\w+)(.*)", "\\1")) %>%
     plyr::dlply(~parameter, lmcmcarray)
@@ -40,6 +35,16 @@ as.mcmcr.mb_analysis <- function(x, ...) {
   class(x) <- "mcmcr"
 
   x %<>% sort()
+  x
+}
+
+#' @export
+as.mcmcr.mb_analysis <- function(x, ...) {
+  if (!is.null(x$mcmcr)) return(x$mcmcr)
+
+  x %<>%
+    coef("all") %>%
+    as.mcmcr()
   x
 }
 
