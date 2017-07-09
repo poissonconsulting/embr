@@ -28,7 +28,7 @@ fitted.lmb_analysis <- function(object, ...) {
 #'
 #' @inheritParams derive_data
 #' @param conf_level A number specifying the confidence level. By default 0.95.
-#' @param marginal A string specifying the parameter set at its estimated and lower and upper values while fixing the remaining parameters at their estimated values.
+#' @param marginal A string specifying the parameter to set at its estimated and lower and upper values while fixing the remaining parameters at their estimated values.
 #' @export
 predict.mb_analysis <- function(object,
                                 new_data = data_set(object),
@@ -51,10 +51,24 @@ predict.mb_analysis <- function(object,
   if (beep) on.exit(beepr::beep())
 
   if (!is.null(marginal)) {
-    if (!marginal %in% parameters(object, "primary")) error("marginal not in primary parameters")
+    if (!marginal %in% parameters(object, "all")) error("marginal not in parameters")
 
-    estimates <- coef(object, param_type = "all", conf_level = conf_level)
+    coef <- coef(object, param_type = "all", conf_level = conf_level)
+    object$mcmcr <- as.mcmcr(coef)
+    objects <- list(estimate = object, lower = object, upper = object)
 
+    coef$estimate <- coef$lower
+    objects$lower$mcmcr[marginal] <- as.mcmcr(coef)[marginal]
+    coef$estimate <- coef$upper
+    objects$upper$mcmcr[marginal] <- as.mcmcr(coef)[marginal]
+
+    objects %<>% purrr::map(predict, new_data = new_data, new_expr = new_expr, new_values = new_values,
+                           term = term, modify_new_data = modify_new_data, ref_data = ref_data,
+                           parallel = parallel, quick = quick, quiet = quiet, beep = FALSE, ...)
+
+    objects$estimate$lower <- objects$lower$estimate
+    objects$estimate$upper <- objects$upper$estimate
+    return(objects$estimate)
   }
 
   term %<>% str_c("^", ., "$")
@@ -113,6 +127,7 @@ predict.lmb_analysis <- function(object,
 #' Predict
 #'
 #' @inheritParams derive_data
+#' @param marginal A string specifying the parameter to set at its estimated and lower and upper values while fixing the remaining parameters at their estimated values.
 #' @param conf_level A number specifying the confidence level. By default 0.95.
 #' @export
 predict.mb_analyses <- function(object,
@@ -120,6 +135,7 @@ predict.mb_analyses <- function(object,
                                 new_expr = NULL,
                                 new_values = list(),
                                 term = "prediction",
+                                marginal = NULL,
                                 conf_level = 0.95,
                                 modify_new_data = NULL,
                                 ref_data = FALSE,
@@ -128,7 +144,6 @@ predict.mb_analyses <- function(object,
                                 quiet = getOption("mb.quiet", TRUE),
                                 beep = getOption("mb.beep", FALSE),
                                 ...) {
-  check_number(conf_level, c(0.5, 0.99))
   check_flag(beep)
 
   if (beep) on.exit(beepr::beep())
@@ -136,7 +151,7 @@ predict.mb_analyses <- function(object,
   ic <- IC(object)
 
   prediction <- llply(object, predict, new_data = new_data, new_expr = new_expr,
-                      new_values = new_values, term = term, conf_level = conf_level,
+                      new_values = new_values, term = term, marginal = marginal, conf_level = conf_level,
                       modify_new_data = modify_new_data, ref_data = ref_data,
                       parallel = parallel, quick = quick, quiet = quiet, beep = FALSE)
 

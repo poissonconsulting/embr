@@ -22,7 +22,7 @@
 
 \item{term}{A string of the term in new_expr.}
 
-\item{marginal}{A string specifying the parameter set at its estimated and lower and upper values while fixing the remaining parameters at their estimated values.}
+\item{marginal}{A string specifying the parameter to set at its estimated and lower and upper values while fixing the remaining parameters at their estimated values.}
 
 \item{conf_level}{A number specifying the confidence level. By default 0.95.}
 
