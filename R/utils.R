@@ -66,11 +66,12 @@ lmcmcarray <- function(x) {
   if (identical(nrow, 1L)) {
     dims <- 1L
   } else {
-    dims <- str_replace(x$term[nrow], "^(\\w+)(.*)", "\\2") %>% str_replace("^(\\[)(.*)(\\])$", "\\2")
-    dims %<>% str_split(",", simplify = FALSE) %>% unlist()
-    dims %<>% as.integer()
+    dims <- str_replace(x$term[nrow], "^(\\w+)(.*)", "\\2") %>%
+      str_replace("^(\\[)(.*)(\\])$", "\\2") %>%
+      str_split(",", simplify = FALSE) %>%
+      unlist() %>%
+      as.integer()
   }
-
   dims %<>% c(1L, 1L, .)
 
   samples <- array(x$estimate, dim = dims)
