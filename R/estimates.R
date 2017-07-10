@@ -7,7 +7,7 @@
 #' @param ... Not used.
 #' @export
 estimates.mb_analysis <- function(object, param_type = "fixed", ...) {
-  parameters <- parameters(object, param_type)
+  parameters <- parameters(object, param_type = param_type)
 
   object %<>%
     as.mcmcr() %>%

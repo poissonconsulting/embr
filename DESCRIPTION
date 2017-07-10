@@ -1,6 +1,6 @@
 Package: mbr
 Title: Model Builder Utility Functions and Virtual Classes
-Version: 0.0.0.9053
+Version: 0.0.0.9054
 Date: 2017-07-09
 Authors@R: person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre"))
 Description: Utility functions and virtual classes shared by model builder packages
@@ -9,7 +9,7 @@ Depends:
     R (>= 3.3.1),
     broom,
     lubridate (>= 1.6.0.9009),
-    mcmcr (>= 0.0.0.9010),
+    mcmcr (>= 0.0.0.9015),
     stats
 Imports:
     beepr,

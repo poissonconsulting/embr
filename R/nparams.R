@@ -8,11 +8,11 @@
 #' @param ... Not used.
 #' @return A integer of the number of parameters.
 #' @export
-nparams <- function(x, param_type = "fixed", scalar_only = FALSE, ...) {
+nparams <- function(x, param_type = "all", scalar_only = FALSE, ...) {
   UseMethod("nparams")
 }
 
 #' @export
-nparams.default <- function(x, param_type = "fixed", scalar_only = FALSE, ...) {
+nparams.default <- function(x, param_type = "all", scalar_only = FALSE, ...) {
   length(parameters(x, param_type = param_type, scalar_only = scalar_only))
 }

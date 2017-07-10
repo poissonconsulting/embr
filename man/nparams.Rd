@@ -4,7 +4,7 @@
 \alias{nparams}
 \title{Number of parameters}
 \usage{
-nparams(x, param_type = "fixed", scalar_only = FALSE, ...)
+nparams(x, param_type = "all", scalar_only = FALSE, ...)
 }
 \arguments{
 \item{x}{The object.}
