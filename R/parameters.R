@@ -22,7 +22,7 @@ parameters.character <- function(x, param_type = "all", scalar_only = FALSE, ...
 
 #' @export
 parameters.mb_code <- function(x, param_type = "all", scalar_only = FALSE, ...) {
-  parameters(template(x, param_type = param_type, scalar_only = scalar_only, ...))
+  parameters(template(x), param_type = param_type, scalar_only = scalar_only)
 }
 
 #' @export
@@ -38,7 +38,7 @@ parameters.mb_model <- function(x, param_type = "all", scalar_only = FALSE, ...)
     if (param_type == "all") parameters %<>% c("derived")
 
     parameters %<>%
-      purrr::map(parameters_arg2to1, x = x, scalar_only = scalar_only, ...) %>%
+      purrr::map(parameters_arg2to1, x = x, scalar_only = scalar_only) %>%
       unlist() %>%
       sort()
 
@@ -52,11 +52,11 @@ parameters.mb_model <- function(x, param_type = "all", scalar_only = FALSE, ...)
 
   if (param_type == "random") return(random)
 
-  derived <- x$model$derived %>%
+  derived <- x$derived %>%
     sort()
   if (param_type == "derived") return(derived)
 
-  parameters <- parameters(code(x), param_type == "all", scalar_only = scalar_only)
+  parameters <- parameters(code(x), param_type = "all", scalar_only = scalar_only)
 
   parameters %<>%
     setdiff(random) %>%
@@ -76,7 +76,7 @@ parameters.mb_analysis <- function(x, param_type = "all", scalar_only = FALSE, .
     if (param_type == "all") parameters %<>% c("derived")
 
     parameters %<>%
-      purrr::map(parameters_arg2to1, x = x, scalar_only = scalar_only, ...) %>%
+      purrr::map(parameters_arg2to1, x = x, scalar_only = scalar_only) %>%
       unlist() %>%
       sort()
 

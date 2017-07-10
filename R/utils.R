@@ -8,8 +8,8 @@ dprint <- function(x, note = NULL, do = getOption("dprint.do", TRUE)) {
   print(x)
 }
 
-parameters_arg2to1 <- function(param_type, x, scalar_only, ...) {
-  parameters(x = x, param_type = param_type, scalar_only = scalar_only, ...)
+parameters_arg2to1 <- function(param_type, x, scalar_only) {
+  parameters(x = x, param_type = param_type, scalar_only = scalar_only)
 }
 
 coef_arg2to1 <- function(param_type, object, include_constant, conf_level, ...) {
