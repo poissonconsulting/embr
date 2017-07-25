@@ -10,7 +10,7 @@ Introduction
 
 `mbr` (pronounced MBR) is an R package of utility functions and virtual classes for the model builder family of R packages.
 
-Currently there are packages which implement the functionality for JAGS ([jmbr](https://github.com/poissonconsulting/jmbr)) and TMB ([tmbr](https://github.com/poissonconsulting/tmbr))
+Currently there are packages which implement the functionality for JAGS ([jmbr](https://github.com/poissonconsulting/jmbr)), STAN ([smbr](https://github.com/poissonconsulting/smbr)) and TMB ([tmbr](https://github.com/poissonconsulting/tmbr)).
 
 Demonstration
 -------------
