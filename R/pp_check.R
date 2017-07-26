@@ -1,15 +1,5 @@
 #' Posterior predictive checks for an MB analysis
 #'
-#' S3 generic with simple default method. The intent is to provide a generic so
-#' authors of other \R packages who wish to provide interfaces to the functions
-#' in \pkg{bayesplot} will be encouraged to include \code{pp_check} methods in
-#' their package, preserving the same naming conventions for posterior
-#' predictive checking across many \R packages for Bayesian inference. This is
-#' for the convenience of both users and developers. See the \strong{Details}
-#' and \strong{Examples} sections, below, and the package vignettes for examples
-#' of defining \code{pp_check} methods.
-#'
-#' @export
 #' @param analysis The mb_analysis object.
 #' @param y Character naming response to compare with posterior predictions.
 #' @param nrep Integer number of posterior predictive replicates. Defaults to 100.
@@ -18,7 +8,7 @@
 #'
 #' @return A list of \code{y} and \code{nrep} posterior predictions the same length as \code{y}.
 #'
-#' @seealso pp_check
+#' @seealso \link{pp_check}
 #'
 #' @export
 
