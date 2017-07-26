@@ -11,7 +11,6 @@
 #' @seealso \link{pp_check}
 #'
 #' @export
-
 pp_check.mb_analysis <- function(analysis, y, nrep = 100L, plot = TRUE, ...) {
 
   # Extract new_expr and data_set from mb_analysis object

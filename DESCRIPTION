@@ -7,12 +7,12 @@ Description: Utility functions and virtual classes shared by model builder packa
     such as tmbr.
 Depends:
     R (>= 3.3.1),
+    bayesplot (> 1.0.0),
     broom,
     lubridate (>= 1.6.0.9009),
     mcmcr (>= 0.0.0.9015),
     stats
 Imports:
-    bayesplot (> 1.0.0),
     beepr,
     datacheckr (>= 0.2.0.9002),
     dplyr,
