@@ -12,6 +12,7 @@ Depends:
     mcmcr (>= 0.0.0.9015),
     stats
 Imports:
+    bayesplot (> 1.0.0),
     beepr,
     datacheckr (>= 0.2.0.9002),
     dplyr,
