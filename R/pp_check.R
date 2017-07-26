@@ -18,7 +18,7 @@ pp_check.mb_analysis <- function(object, y, nrep = 100L, plot = TRUE, ...) {
   expr <- object$model$new_expr
   values <- data_set(object) %>% modify_data(model) %>% llply(as.numeric)
   chains <- nchains(object)
-  iters <- object$ngens
+  iters <- object$model$niters
   monitor <- "prediction"
   variables_expr <- all.vars(parse(text = expr))
 
@@ -55,7 +55,7 @@ pp_check.mb_analysis <- function(object, y, nrep = 100L, plot = TRUE, ...) {
     prediction[, i] <- within(x, eval(expr)) %>% use_series(prediction)
   }
 
-  if (plot) bayesplot::ppc_dens_overlay(values[[y]], t(as.matrix(prediction)), ...)
+  if (plot) print(bayesplot::ppc_dens_overlay(values[[y]], t(as.matrix(prediction)), ...))
 
   prediction %<>% as.list()
   prediction[[y]] <- values[[y]]
