@@ -4,10 +4,10 @@
 \alias{pp_check.mb_analysis}
 \title{Posterior predictive checks for an MB analysis}
 \usage{
-\method{pp_check}{mb_analysis}(analysis, y, nrep = 100L, plot = TRUE, ...)
+\method{pp_check}{mb_analysis}(object, y, nrep = 100L, plot = TRUE, ...)
 }
 \arguments{
-\item{analysis}{The mb_analysis object.}
+\item{object}{The mb_analysis object.}
 
 \item{y}{Character naming response to compare with posterior predictions.}
 
