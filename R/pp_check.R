@@ -55,7 +55,7 @@ pp_check.mb_analysis <- function(analysis, y, nrep = 100L, plot = TRUE, ...) {
     prediction[, i] <- within(x, eval(expr)) %>% use_series(prediction)
   }
 
-  if (plot) bayesplot::ppc_dens_overlay(values[[y]], prediction, ...)
+  if (plot) bayesplot::ppc_dens_overlay(values[[y]], t(as.matrix(prediction)), ...)
 
   prediction %<>% as.list()
   prediction[[y]] <- values[[y]]
