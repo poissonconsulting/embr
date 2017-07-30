@@ -6,6 +6,7 @@
 #' @param ... unused.
 #' @export
 logLik.mb_analysis <- function(object, ...) {
+  if (!is.null(object$logLik)) return(object$logLik)
   NA_real_
 }
 
