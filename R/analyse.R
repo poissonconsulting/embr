@@ -134,11 +134,20 @@ lmb_analysis <- function(data, model, glance, quiet) {
 
   if (glance) on.exit(print(glance(obj)))
 
-  data %<>% select_rescale_data(model)
+  data %<>% modify_data(model = model)
 
-  lm <- stats::lm(template(model), data = data)
+  inits <- model$gen_inits(data)
 
-  obj$lm <- lm
+  template <- template(model)
+
+  template %<>% str_c("template <- ", .)
+
+  eval(parse(text = template))
+
+ # ml <- stats::nlm(template, p = inits, data = data)
+
+#  obj$ml <- ml
+
   obj$ngens <- 1L
   obj$duration <- timer$elapsed()
 

@@ -37,6 +37,20 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
     subset(parameters = parameters) %>%
     coef()
 
+  if (niters(object) == 1) {
+    sd <- as.mcmcr(object$sd) %>%
+      subset(parameters = parameters) %>%
+      coef()
+
+    coef$sd <- sd$estimate
+
+    coef %<>% dplyr::mutate_(
+      zscore = ~estimate/sd,
+      lower = ~estimate + sd * qnorm((1 - conf_level) / 2),
+      upper = ~estimate + sd * qnorm((1 - conf_level) / 2 + conf_level),
+      pvalue = ~2*pnorm(-abs(zscore)))
+  }
+
   if (!include_constant) coef %<>% dplyr::filter_(~lower != upper)
 
   class(coef) %<>% c("mb_analysis_coef", .)
@@ -101,72 +115,5 @@ coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TR
   coef$term %<>% as.term()
   coef <- coef[order(coef$term),]
   class(coef) %<>% c("mb_analyses_coef", .)
-  coef
-}
-
-#' Coef LMB Analysis
-#'
-#' Coefficients for a LMB analysis.
-#'
-#' The (95\%) \code{lower} and \code{upper} confidence intervals are
-#' the \code{estimate} +/- 1.96 * \code{std.error}.
-#'
-#' @param object The mb_analysis object.
-#' @param param_type A flag specifying whether 'fixed', 'random' or 'derived' terms.
-#' @param include_constant A flag specifying whether to include constant terms.
-#' @param conf_level A number specifying the confidence level. By default 0.95.
-#' @param ... Not used.
-#' @return A tidy tibble of the coefficient terms.
-#' @export
-coef.lmb_analysis <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = 0.95, ...) {
-  check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
-  check_flag(include_constant)
-  check_number(conf_level, c(0.5, 0.99))
-
-  if (param_type %in% c("primary", "all")) {
-    coef <- c("fixed", "random")
-    if (param_type == "all") coef %<>% c("derived")
-
-    coef %<>%
-      purrr::map_df(coef_arg2to1, object = object, include_constant = include_constant,
-                    conf_level = conf_level, ...)
-    coef$term %<>% as.term()
-    coef <- coef[order(coef$term),]
-    class(coef) %<>% c("mb_analysis_coef", .)
-    return(coef)
-  }
-
-  # random and derived parameters cannot occur in lm models
-  if (param_type %in% c("random", "derived")) {
-    coef <- dplyr::data_frame(
-      term = as.term(character(0)), estimate = numeric(0), sd = numeric(0),
-      zscore = numeric(0), lower = numeric(0),
-      upper = numeric(0), pvalue = numeric(0))
-    class(coef) %<>% c("mb_analysis_coef", .)
-    return(coef)
-  }
-
-  lm <- object$lm
-
-  coef <- summary(lm)$coefficients %>%
-    as.data.frame()
-
-  coef$term <- as.term(rownames(coef))
-  coef %<>% dplyr::select_(~term, estimate = ~Estimate,
-                           sd = ~`Std. Error`, zscore = ~`t value`,
-                           pvalue = ~`Pr(>|t|)`) %>%
-    dplyr::mutate_(zscore = ~estimate/sd)
-
-  confint <- stats::confint(lm, level = conf_level) %>%
-    as.data.frame()
-
-  colnames(confint) <- c("lower", "upper")
-  confint$term <- as.term(rownames(confint))
-
-  coef %<>% dplyr::inner_join(confint, by = "term") %>%
-    dplyr::select_(~term, ~estimate, ~sd, ~zscore, ~lower, ~upper, ~pvalue) %>%
-    dplyr::as.tbl()
-  coef <- coef[order(coef$term),]
-  class(coef) %<>% c("mb_analysis_coef", .)
   coef
 }

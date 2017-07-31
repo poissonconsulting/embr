@@ -12,18 +12,6 @@ fitted.mb_analysis <- function(object, ...) {
   predict(object, new_data = data_set(object), term = "fit")
 }
 
-#' Fitted Values
-#'
-#' Extract fitted values for a LMB analysis.
-#'
-#' @param object The LMB analysis object.
-#' @param ... Unused.
-#' @return The analysis data set with the fitted values.
-#' @export
-fitted.lmb_analysis <- function(object, ...) {
-  predict(object, new_data = data_set(object))
-}
-
 #' Predict
 #'
 #' @inheritParams derive_data
@@ -59,45 +47,6 @@ predict.mb_analysis <- function(object,
   object %<>% dplyr::select_(~-term)
 
   object
-}
-
-#' Predict
-#'
-#' @inheritParams derive_data
-#' @param conf_level A number specifying the confidence level. By default 0.95.
-#' @export
-predict.lmb_analysis <- function(object,
-                                 new_data = data_set(object),
-                                 conf_level = 0.95,
-                                 quiet = getOption("mb.quiet", TRUE),
-                                 beep = getOption("mb.beep", FALSE),
-                                 ...) {
-  check_number(conf_level, c(0.5, 0.99))
-  check_flag(beep)
-
-  if (beep) on.exit(beepr::beep())
-
-  checkor(check_data2(new_data), check_vector(new_data, "", min_length = 0))
-
-  if (is.character(new_data))
-    new_data %<>% newdata::new_data(data_set(object), .)
-
-  data <- select_rescale_data(new_data, model(object), data2 = data_set(object))
-
-  pred <- predict(object$lm, newdata = data, se.fit = TRUE,
-                  interval = "confidence", level = conf_level)
-
-  prediction <- pred$fit %<>%
-    as.data.frame() %>%
-    dplyr::rename_(estimate = ~fit, lower = ~lwr, upper = ~upr) %>%
-    dplyr::mutate_(sd = ~pred$se.fit,
-                   zscore = ~estimate/sd,
-                   pvalue = ~ pnorm(-abs(zscore)) * 2)
-
-  prediction %<>% dplyr::select_(~estimate, ~sd, ~zscore, ~lower, ~upper, ~pvalue)
-
-  prediction %<>% dplyr::bind_cols(new_data, .)
-  prediction
 }
 
 #' Predict

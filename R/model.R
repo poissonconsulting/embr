@@ -151,22 +151,3 @@ model.mb_code <- function(
 model.mb_analysis <- function(x, ...) {
   x$model
 }
-
-#' MB Model
-#'
-#' Creates MB model.
-#'
-#' For tmb models gen_inits must specify all the fixed parameters.
-#' Missing random parameters are assigned the value 0.
-#'
-#' For jmb models unspecified the initial values for each chain are drawn from the prior distributions.
-#'
-#' @param x An object inheriting from class mb_code.
-#' @param select_data A named list specifying the columns to select and their associated classes.
-#' @param ... Unused arguments.
-#' @return An object inherting from class lmb_model.
-#' @seealso \code{\link[datacheckr]{check_data2}} \code{\link[rescale]{rescale_c}}
-#' @export
-model.lmb_code <- function(x, select_data = list(), ...) {
-  model_mb_code(x = x, select_data = select_data)
-}

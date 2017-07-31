@@ -12,27 +12,6 @@ residuals.mb_analysis <- function(object, ...) {
   predict(object, new_data = data_set(object), term = "residual")
 }
 
-#' Residuals
-#'
-#' Extract residual values for an LMB analysis.
-#'
-#' The zscores are the standardized residuals.
-#'
-#' @param object The MB analysis object.
-#' @param ... Unused.
-#' @return The analysis data set with the residual values.
-#' @export
-residuals.lmb_analysis <- function(object, ...) {
-  residuals <- data_set(object)
-  residuals$estimate <- residuals(object$lm)
-  residuals$sd <- summary(object$lm)$sigma
-  residuals %<>% dplyr::mutate_(zscore = ~estimate/sd,
-                                lower = ~estimate + sd * qnorm(0.025),
-                                upper = ~estimate + sd * qnorm(0.975),
-                                pvalue = ~pnorm(-abs(zscore)) * 2)
-  residuals
-}
-
 #' Plot Residuals
 #'
 #' @param x The object to plot the residuals for.
