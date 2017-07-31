@@ -33,6 +33,15 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
 
   parameters <- parameters(object, param_type)
 
+  if (!length(parameters)) {
+    coef <- dplyr::data_frame(term = as.term(character(0)),
+                              estimate = numeric(0), sd = numeric(0),
+                              zscore = numeric(0), lower = numeric(0),
+                              upper = numeric(0), pvalue = numeric(0))
+    class(coef) %<>% c("mb_analysis_coef", .)
+    return(coef)
+  }
+
   coef <- as.mcmcr(object) %>%
     subset(parameters = parameters) %>%
     coef()
