@@ -35,7 +35,6 @@ Suggests:
     testthat,
     covr
 Remotes:
-    tidyverse/lubridate,
     poissonconsulting/datacheckr,
     poissonconsulting/mcmcr,
     poissonconsulting/newdata,

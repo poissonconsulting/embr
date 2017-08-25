@@ -28,7 +28,7 @@ rm_comments <- function(object, ...) {
 #' @export
 rm_comments.character <- function(object, comment_string = "#", ...) {
   check_string(comment_string)
-  pattern <- paste0(comment_string, "[^\n]*(?=($|[\n]))")
+  pattern <- paste0("\\s*", comment_string, "[^\n]*(?=($|[\n]))")
   gsub(pattern, "", object, perl = TRUE)
 }
 
