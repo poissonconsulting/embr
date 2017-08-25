@@ -22,6 +22,7 @@ parameters.character <- function(x, param_type = "all", scalar_only = FALSE, ...
 
 #' @export
 parameters.mb_code <- function(x, param_type = "all", scalar_only = FALSE, ...) {
+  x %<>% rm_comments()
   parameters(template(x), param_type = param_type, scalar_only = scalar_only)
 }
 
