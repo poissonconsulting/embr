@@ -9,7 +9,7 @@ Depends:
     R (>= 3.3.1),
     bayesplot (> 1.0.0),
     broom,
-    lubridate (>= 1.6.0.9009),
+    lubridate,
     mcmcr (>= 0.0.0.9016),
     stats
 Imports:
