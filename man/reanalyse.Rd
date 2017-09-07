@@ -28,7 +28,7 @@ reanalyse(analysis, rhat = getOption("mb.rhat", 1.1),
 
 \item{beep}{A flag indicating whether to beep on completion of the analysis.}
 
-\item{...}{Unused.}
+\item{...}{Additional arguments.}
 }
 \description{
 Reanalyse an analysis.

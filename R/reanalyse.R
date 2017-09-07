@@ -10,7 +10,7 @@
 #' @param analysis An object inheriting from class mb_analysis or a list of such objects.
 #' @param rhat A number specifying the rhat threshold.
 #' @param duration The maximum total time to spend on analysis/reanalysis.
-#' @param ... Unused.
+#' @param ... Additional arguments.
 #' @export
 reanalyse <- function(analysis,
                       rhat = getOption("mb.rhat", 1.1),
