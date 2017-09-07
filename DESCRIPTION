@@ -5,6 +5,8 @@ Date: 2017-09-07
 Authors@R: person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre"))
 Description: Utility functions and virtual classes shared by model builder packages
     such as tmbr, jmbr and smbr.
+URL: https://github.com/poissonconsulting/mbr
+BugReports: https://github.com/poissonconsulting/mbr/issues
 Depends:
     R (>= 3.3.1),
     broom,
@@ -39,6 +41,4 @@ Remotes:
     poissonconsulting/newdata,
     poissonconsulting/rescale,
     poissonconsulting/timer
-URL: https://github.com/poissonconsulting/mbr
-BugReports: https://github.com/poissonconsulting/mbr/issues
 RoxygenNote: 6.0.1

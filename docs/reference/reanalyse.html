@@ -90,8 +90,9 @@
     <pre class="usage"><span class='fu'>reanalyse</span>(<span class='no'>analysis</span>, <span class='kw'>rhat</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.rhat"</span>, <span class='fl'>1.1</span>),
   <span class='kw'>duration</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.duration"</span>, <span class='fu'>dminutes</span>(<span class='fl'>10</span>)),
   <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.parallel"</span>, <span class='fl'>FALSE</span>), <span class='kw'>quick</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.quick"</span>,
-  <span class='fl'>FALSE</span>), <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.quiet"</span>, <span class='fl'>TRUE</span>), <span class='kw'>beep</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.beep"</span>,
-  <span class='fl'>TRUE</span>), <span class='no'>...</span>)</pre>
+  <span class='fl'>FALSE</span>), <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.quiet"</span>, <span class='fl'>TRUE</span>),
+  <span class='kw'>glance</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.glance"</span>, <span class='fl'>TRUE</span>), <span class='kw'>beep</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.beep"</span>, <span class='fl'>TRUE</span>),
+  <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -119,6 +120,10 @@
     <tr>
       <th>quiet</th>
       <td><p>A flag indicating whether to disable tracing information.</p></td>
+    </tr>
+    <tr>
+      <th>glance</th>
+      <td><p>A flag indicating whether to print summary of model.</p></td>
     </tr>
     <tr>
       <th>beep</th>

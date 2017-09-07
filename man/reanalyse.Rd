@@ -7,8 +7,9 @@
 reanalyse(analysis, rhat = getOption("mb.rhat", 1.1),
   duration = getOption("mb.duration", dminutes(10)),
   parallel = getOption("mb.parallel", FALSE), quick = getOption("mb.quick",
-  FALSE), quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep",
-  TRUE), ...)
+  FALSE), quiet = getOption("mb.quiet", TRUE),
+  glance = getOption("mb.glance", TRUE), beep = getOption("mb.beep", TRUE),
+  ...)
 }
 \arguments{
 \item{analysis}{An object inheriting from class mb_analysis or a list of such objects.}
@@ -22,6 +23,8 @@ reanalyse(analysis, rhat = getOption("mb.rhat", 1.1),
 \item{quick}{A flag indicating whether to quickly get unreliable values.}
 
 \item{quiet}{A flag indicating whether to disable tracing information.}
+
+\item{glance}{A flag indicating whether to print summary of model.}
 
 \item{beep}{A flag indicating whether to beep on completion of the analysis.}
 
