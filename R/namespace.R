@@ -1,5 +1,4 @@
 #' @import datacheckr mcmcr stringr
-#' @importFrom bayesplot pp_check ppc_dens_overlay
 #' @importFrom broom glance tidy
 #' @importFrom stats coef
 #' @importFrom graphics plot

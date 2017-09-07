@@ -7,7 +7,6 @@ Description: Utility functions and virtual classes shared by model builder packa
     such as tmbr, jmbr and smbr.
 Depends:
     R (>= 3.3.1),
-    bayesplot (> 1.0.0),
     broom,
     lubridate,
     mcmcr (>= 0.0.0.9016),
