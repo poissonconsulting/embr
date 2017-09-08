@@ -16,11 +16,6 @@ numericize_logicals <- function(data) {
   data
 }
 
-#' Numericize Factors
-#'
-#' @param data A list.
-#' @return The list with factors converted to integers.
-#' @export
 numericize_factors <- function(data) {
   if (!is.list(data)) error("data must be a list")
   if (!length(data)) return(data)

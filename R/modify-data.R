@@ -56,20 +56,24 @@ select_rescale_data <- function(data, model, data2 = data) {
 #'
 #' @param data The data to modify.
 #' @param model An object inheriting from class mb_model.
+#' @param numericize_factors A flag indicating whether to convert factors to integer.
 #' @return The modified data in list form.
 #' @export
-modify_data <- function(data, model) {
+modify_data <- function(data, model, numericize_factors = FALSE) {
   check_data1(data)
   check_mb_model(model)
   if (any(c("nObs", "Obs") %in% colnames(data)))
      error("Obs and nObs are reserved column names")
 
   nobs <- nrow(data)
-  data %<>% select_rescale_data(model)
-  data %<>% as.list()
-  data %<>% numericize_logicals()
-  data %<>% numericize_dates()
-  data %<>% add_nfactors()
+
+  data %<>%
+    select_rescale_data(model) %>%
+    as.list() %>%
+    numericize_logicals() %>%
+    numericize_dates() %>%
+    add_nfactors()
+  if (numericize_factors) data %<>% numericize_factors()
   data$nObs <- nobs
   data %<>% model$modify_data()
   data

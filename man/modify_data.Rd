@@ -4,12 +4,14 @@
 \alias{modify_data}
 \title{Modify Data}
 \usage{
-modify_data(data, model)
+modify_data(data, model, numericize_factors = FALSE)
 }
 \arguments{
 \item{data}{The data to modify.}
 
 \item{model}{An object inheriting from class mb_model.}
+
+\item{numericize_factors}{A flag indicating whether to convert factors to integer.}
 }
 \value{
 The modified data in list form.
