@@ -4,12 +4,14 @@
 \alias{data_set}
 \title{Data Set}
 \usage{
-data_set(analysis, modify = FALSE, ...)
+data_set(analysis, modify = FALSE, numericize_factors = FALSE, ...)
 }
 \arguments{
 \item{analysis}{The object.}
 
 \item{modify}{A flag indicating whether to modify the data.}
+
+\item{numericize_factors}{A flag indicating whether to convert factors to integers if modifying the data.}
 
 \item{...}{Unused.}
 }

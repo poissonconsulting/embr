@@ -87,7 +87,7 @@
     <p>Gets the data set for an object inheriting from class mb_analysis.</p>
     
 
-    <pre class="usage"><span class='fu'>data_set</span>(<span class='no'>analysis</span>, <span class='kw'>modify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>data_set</span>(<span class='no'>analysis</span>, <span class='kw'>modify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>numericize_factors</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -99,6 +99,10 @@
     <tr>
       <th>modify</th>
       <td><p>A flag indicating whether to modify the data.</p></td>
+    </tr>
+    <tr>
+      <th>numericize_factors</th>
+      <td><p>A flag indicating whether to convert factors to integers if modifying the data.</p></td>
     </tr>
     <tr>
       <th>...</th>
