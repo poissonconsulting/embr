@@ -61,11 +61,16 @@ select_rescale_data <- function(data, model, data2 = data) {
 modify_data <- function(data, model) {
   check_data1(data)
   check_mb_model(model)
+  if (any(c("nObs", "Obs") %in% colnames(data)))
+     error("Obs and nObs are reserved column names")
+
+  nobs <- nrow(data)
   data %<>% select_rescale_data(model)
   data %<>% as.list()
   data %<>% numericize_logicals()
   data %<>% numericize_dates()
   data %<>% add_nfactors()
+  data$nObs <- nobs
   data %<>% model$modify_data()
   data
 }

@@ -15,6 +15,11 @@ glance.mb_analysis <- function(x, n = NULL, ...) {
 }
 
 #' @export
+glance.mb_analyses <- function(x, ...) {
+  lapply(x, glance)
+}
+
+#' @export
 tidy.mb_analysis <- function(x, conf.int = FALSE, conf.level = 0.95, ...) {
   coef <- coef(x, conf_level = conf.level)
 
