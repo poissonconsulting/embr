@@ -4,15 +4,18 @@
 \alias{analyse.mb_model}
 \title{Analyse}
 \usage{
-\method{analyse}{mb_model}(x, data, parallel = getOption("mb.parallel",
-  FALSE), quick = getOption("mb.quick", FALSE),
-  quiet = getOption("mb.quiet", TRUE), glance = getOption("mb.glance",
-  TRUE), beep = getOption("mb.beep", TRUE), ...)
+\method{analyse}{mb_model}(x, data, seed = NA,
+  parallel = getOption("mb.parallel", FALSE), quick = getOption("mb.quick",
+  FALSE), quiet = getOption("mb.quiet", TRUE),
+  glance = getOption("mb.glance", TRUE), beep = getOption("mb.beep", TRUE),
+  ...)
 }
 \arguments{
 \item{x}{An object inheriting from class mb_model or a list of such objects.}
 
 \item{data}{The data frame to analyse.}
+
+\item{seed}{An integer of the random seed. If \code{as.integer} produces \code{NA} the seed is generated randomly.}
 
 \item{parallel}{A flag indicating whether to perform the analysis in parallel if possible.}
 

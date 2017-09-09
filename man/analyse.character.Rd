@@ -4,7 +4,7 @@
 \alias{analyse.character}
 \title{Analyse}
 \usage{
-\method{analyse}{character}(x, data, select_data = list(),
+\method{analyse}{character}(x, data, seed = NA, select_data = list(),
   parallel = getOption("mb.parallel", FALSE), quick = getOption("mb.quick",
   FALSE), quiet = getOption("mb.quiet", TRUE),
   glance = getOption("mb.glance", TRUE), beep = getOption("mb.beep", TRUE),
@@ -14,6 +14,8 @@
 \item{x}{An object inheriting from class mb_model or a list of such objects.}
 
 \item{data}{The data frame to analyse.}
+
+\item{seed}{An integer of the random seed. If \code{as.integer} produces \code{NA} the seed is generated randomly.}
 
 \item{select_data}{A named list specifying the columns to select and their associated classes and values as well as transformations and scaling options.}
 

@@ -7,9 +7,9 @@ analyse <- function(x, ...) {
   UseMethod("analyse")
 }
 
-analyse_list <- function(x, data, parallel, quick, quiet, glance, beep, ...) {
+analyse_list <- function(x, data, seed, parallel, quick, quiet, glance, beep, ...) {
   if (glance) cat("Model:", names(x), "\n")
-  analysis <- analyse(x[[1]], data = data, parallel = parallel,
+  analysis <- analyse(x[[1]], data = data, seed = seed, parallel = parallel,
                       quick = quick, quiet = quiet, glance = glance, beep = beep, ...)
   list(analysis)
 }
@@ -18,6 +18,7 @@ analyse_list <- function(x, data, parallel, quick, quiet, glance, beep, ...) {
 #'
 #' @param x An object inheriting from class mb_model or a list of such objects.
 #' @param data The data frame to analyse.
+#' @param seed An integer of the random seed. If \code{as.integer} produces \code{NA} the seed is generated randomly.
 #' @param parallel A flag indicating whether to perform the analysis in parallel if possible.
 #' @param quick A flag indicating whether to quickly get unreliable values.
 #' @param quiet A flag indicating whether to disable tracing information.
@@ -26,6 +27,7 @@ analyse_list <- function(x, data, parallel, quick, quiet, glance, beep, ...) {
 #' @param ...  Additional arguments.
 #' @export
 analyse.list <- function(x, data,
+                         seed = NA,
                          parallel = getOption("mb.parallel", FALSE),
                          quick = getOption("mb.quick", FALSE),
                          quiet = getOption("mb.quiet", TRUE),
@@ -34,7 +36,7 @@ analyse.list <- function(x, data,
                          ...) {
   .Deprecated("analyse.mb_models")
   models <- as.models(x)
-  analyse(models, data = data, parallel = parallel,
+  analyse(models, data = data, seed = seed, parallel = parallel,
           quick = quick, quiet = quiet, glance = glance, beep = beep, ...)
 }
 
@@ -43,6 +45,7 @@ analyse.list <- function(x, data,
 #' @param x An object inheriting from class mb_model or a list of such objects.
 #' @param data The data frame to analyse.
 #' @param select_data A named list specifying the columns to select and their associated classes and values as well as transformations and scaling options.
+#' @param seed An integer of the random seed. If \code{as.integer} produces \code{NA} the seed is generated randomly.
 #' @param parallel A flag indicating whether to perform the analysis in parallel if possible.
 #' @param quick A flag indicating whether to quickly get unreliable values.
 #' @param quiet A flag indicating whether to disable tracing information.
@@ -50,7 +53,8 @@ analyse.list <- function(x, data,
 #' @param beep A flag indicating whether to beep on completion of the analysis.
 #' @param ...  Additional arguments.
 #' @export
-analyse.character <- function(x, data, select_data = list(),
+analyse.character <- function(x, data, seed = NA,
+                              select_data = list(),
                               parallel = getOption("mb.parallel", FALSE),
                               quick = getOption("mb.quick", FALSE),
                               quiet = getOption("mb.quiet", TRUE),
@@ -58,7 +62,8 @@ analyse.character <- function(x, data, select_data = list(),
                               beep = getOption("mb.beep", TRUE),
                               ...) {
   x %<>% model(select_data = select_data)
-  analyse(x, data = data, parallel = parallel, quick = quick, quiet = quiet,
+  analyse(x, data = data, seed = seed,
+          parallel = parallel, quick = quick, quiet = quiet,
           glance = glance, beep = beep)
 }
 
@@ -66,6 +71,7 @@ analyse.character <- function(x, data, select_data = list(),
 #'
 #' @param x An object inheriting from class mb_model or a list of such objects.
 #' @param data The data frame to analyse.
+#' @param seed An integer of the random seed. If \code{as.integer} produces \code{NA} the seed is generated randomly.
 #' @param parallel A flag indicating whether to perform the analysis in parallel if possible.
 #' @param quick A flag indicating whether to quickly get unreliable values.
 #' @param quiet A flag indicating whether to disable tracing information.
@@ -74,6 +80,7 @@ analyse.character <- function(x, data, select_data = list(),
 #' @param ...  Additional arguments.
 #' @export
 analyse.mb_model <- function(x, data,
+                             seed = NA,
                              parallel = getOption("mb.parallel", FALSE),
                              quick = getOption("mb.quick", FALSE),
                              quiet = getOption("mb.quiet", TRUE),
@@ -87,6 +94,7 @@ analyse.mb_model <- function(x, data,
 #'
 #' @param x An object inheriting from class mb_model or a list of such objects.
 #' @param data The data frame to analyse.
+#' @param seed An integer of the random seed. If \code{as.integer} produces \code{NA} the seed is generated randomly.
 #' @param parallel A flag indicating whether to perform the analysis in parallel if possible.
 #' @param quick A flag indicating whether to quickly get unreliable values.
 #' @param quiet A flag indicating whether to disable tracing information.
@@ -94,7 +102,7 @@ analyse.mb_model <- function(x, data,
 #' @param beep A flag indicating whether to beep on completion of the analysis.
 #' @param ...  Additional arguments.
 #' @export
-analyse.mb_models <- function(x, data,
+analyse.mb_models <- function(x, data, seed = NA,
                               parallel = getOption("mb.parallel", FALSE),
                               quick = getOption("mb.quick", FALSE),
                               quiet = getOption("mb.quiet", TRUE),
@@ -107,7 +115,8 @@ analyse.mb_models <- function(x, data,
   names <- names(x)
   if (is.null(names)) names(x) <- 1:length(x)
 
-  analyses <- purrr::lmap(x, analyse_list, data = data, parallel = parallel,
+  analyses <- purrr::lmap(x, analyse_list, data = data, seed = seed,
+                          parallel = parallel,
                           quick = quick, quiet = quiet, glance = glance, beep = FALSE, ...)
 
   as_mb_analyses <- function(x, names) {
@@ -123,60 +132,4 @@ analyse.mb_models <- function(x, data,
   analyses %<>% purrr::transpose()
   analyses %<>% purrr::map(as_mb_analyses, names = names)
   analyses
-}
-
-lmb_analysis <- function(data, model, glance, quiet) {
-  timer <- timer::Timer$new()
-  timer$start()
-
-  obj <- list(model = model, data = data)
-  class(obj) <- c("lmb_analysis", "mb_analysis")
-
-  if (glance) on.exit(print(glance(obj)))
-
-  data %<>% modify_data(model = model)
-
-  inits <- model$gen_inits(data)
-
-  template <- template(model)
-
-  template %<>% str_c("template <- ", .)
-
-  eval(parse(text = template))
-
- # ml <- stats::nlm(template, p = inits, data = data)
-
-#  obj$ml <- ml
-
-  obj$ngens <- 1L
-  obj$duration <- timer$elapsed()
-
-  obj
-}
-
-#' @export
-analyse.lmb_model <- function(x, data,
-                              parallel = getOption("mb.parallel", FALSE),
-                              quick = getOption("mb.quick", FALSE),
-                              quiet = getOption("mb.quiet", TRUE),
-                              glance = getOption("mb.glance", TRUE),
-                              beep = getOption("mb.beep", TRUE),
-                              ...) {
-  if (is.data.frame(data)) {
-    check_data2(data)
-  } else if (is.list(data)) {
-    llply(data, check_data2)
-  } else error("data must be a data.frame or a list of data.frames")
-
-  check_flag(parallel)
-  check_flag(quick)
-  check_flag(glance)
-  check_flag(quiet)
-  check_flag(beep)
-
-  if (beep) on.exit(beepr::beep())
-
-  if (is.data.frame(data))
-    return(lmb_analysis(data = data, model = x, quiet = quiet, glance = glance))
-  purrr::map(data, lmb_analysis, model = x, quiet = quiet, glance = glance)
 }

@@ -88,8 +88,9 @@
     
 
     <pre class="usage"><span class='co'># S3 method for list</span>
-<span class='fu'><a href='analyse.html'>analyse</a></span>(<span class='no'>x</span>, <span class='no'>data</span>, <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.parallel"</span>, <span class='fl'>FALSE</span>),
-  <span class='kw'>quick</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.quick"</span>, <span class='fl'>FALSE</span>), <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.quiet"</span>, <span class='fl'>TRUE</span>),
+<span class='fu'><a href='analyse.html'>analyse</a></span>(<span class='no'>x</span>, <span class='no'>data</span>, <span class='kw'>seed</span> <span class='kw'>=</span> <span class='fl'>NA</span>,
+  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.parallel"</span>, <span class='fl'>FALSE</span>), <span class='kw'>quick</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.quick"</span>,
+  <span class='fl'>FALSE</span>), <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.quiet"</span>, <span class='fl'>TRUE</span>),
   <span class='kw'>glance</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.glance"</span>, <span class='fl'>TRUE</span>), <span class='kw'>beep</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.beep"</span>, <span class='fl'>TRUE</span>),
   <span class='no'>...</span>)</pre>
     
@@ -103,6 +104,10 @@
     <tr>
       <th>data</th>
       <td><p>The data frame to analyse.</p></td>
+    </tr>
+    <tr>
+      <th>seed</th>
+      <td><p>An integer of the random seed. If <code>as.integer</code> produces <code>NA</code> the seed is generated randomly.</p></td>
     </tr>
     <tr>
       <th>parallel</th>
