@@ -13,7 +13,8 @@ model <- function(x, ...) {
 #' @export
 model.character <- function(
   x, gen_inits = function(data) {list()}, random_effects = list(),
-  fixed = "^[^e]", derived = character(0), select_data = list(),
+  fixed = getOption("mb.fixed", "^[^e]"),
+  derived = character(0), select_data = list(),
   center = character(0), scale = character(0), modify_data = identity, niters = 10^3,
   new_expr = character(0), modify_new_data = identity, drops = list(), ...) {
 
@@ -27,7 +28,8 @@ model.character <- function(
 }
 
 model_mb_code <- function(
-  x, gen_inits = function(data) {list()}, random_effects = list(), fixed = "^[^e]",
+  x, gen_inits = function(data) {list()}, random_effects = list(),
+  fixed = getOption("mb.fixed", "^[^e]"),
   derived = character(0),
   select_data = list(), center = character(0), scale = character(0),
   modify_data = identity, niters = 10^3,
@@ -134,7 +136,8 @@ model_mb_code <- function(
 #' @seealso \code{\link[datacheckr]{check_data2}} \code{\link[rescale]{rescale_c}}
 #' @export
 model.mb_code <- function(
-  x, gen_inits = function(data) {list()}, random_effects = list(), fixed = "^[^e]",
+  x, gen_inits = function(data) {list()}, random_effects = list(),
+  fixed = getOption("mb.fixed", "^[^e]"),
   derived = character(0),
   select_data = list(), center = character(0), scale = character(0),
   modify_data = identity, niters = 10^3,
