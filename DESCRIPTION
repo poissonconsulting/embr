@@ -5,6 +5,7 @@ Date: 2017-09-09
 Authors@R: person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre"))
 Description: Utility functions and virtual classes shared by model builder packages
     such as tmbr, jmbr and smbr.
+License: MIT + file LICENSE
 URL: https://github.com/poissonconsulting/mbr
 BugReports: https://github.com/poissonconsulting/mbr/issues
 Depends:
@@ -29,9 +30,6 @@ Imports:
     stringr,
     tibble,
     timer (>= 0.0.1)
-License: MIT + file LICENSE
-Encoding: UTF-8
-LazyData: true
 Suggests:
     testthat,
     covr
@@ -41,4 +39,6 @@ Remotes:
     poissonconsulting/newdata,
     poissonconsulting/rescale,
     poissonconsulting/timer
+Encoding: UTF-8
+LazyData: true
 RoxygenNote: 6.0.1
