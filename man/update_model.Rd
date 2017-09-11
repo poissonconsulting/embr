@@ -31,7 +31,7 @@ returning a named list of initial values.}
 
 \item{modify_data}{A single argument function to modify the data (in list form) immediately prior to the analysis.}
 
-\item{niters}{A count between 3 and 6 specifying the order of the number of iterations.}
+\item{niters}{A number specifying the number of iterations to sample for each chain. Must be 10^3, 10^4, 10^5 or 10^6.}
 
 \item{new_expr}{A string of R code specifying the predictive relationships.}
 

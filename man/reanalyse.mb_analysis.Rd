@@ -17,7 +17,7 @@
 
 \item{rhat}{A number specifying the rhat threshold.}
 
-\item{nreanalyses}{A count between 1 and 7 specifying the maximum number of reanalyses.}
+\item{nreanalyses}{A count between 1 and 6 specifying the maximum number of reanalyses.}
 
 \item{duration}{The maximum total time to spend on analysis/reanalysis.}
 

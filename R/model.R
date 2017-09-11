@@ -127,7 +127,7 @@ model_mb_code <- function(
 #' @param select_data A named list specifying the columns to select and their associated classes and values as well as transformations and scaling options.
 #' @inheritParams rescale::rescale
 #' @param modify_data A single argument function to modify the data (in list form) immediately prior to the analysis.
-#' @param niters A count between 3 and 6 specifying the order of the number of iterations.
+#' @param niters A number specifying the number of iterations to sample for each chain. Must be 10^3, 10^4, 10^5 or 10^6.
 #' @param new_expr A string of R code specifying the predictive relationships.
 #' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
 #' @param drops A list of character vector of possible scalar parameters to drop (fix at 0).
