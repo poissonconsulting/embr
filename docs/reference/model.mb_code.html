@@ -91,7 +91,7 @@
 <span class='fu'><a href='model.html'>model</a></span>(<span class='no'>x</span>, <span class='kw'>gen_inits</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>data</span>) {     <span class='fu'>list</span>() },
   <span class='kw'>random_effects</span> <span class='kw'>=</span> <span class='fu'>list</span>(), <span class='kw'>fixed</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.fixed"</span>, <span class='st'>"^[^e]"</span>),
   <span class='kw'>derived</span> <span class='kw'>=</span> <span class='fu'>character</span>(<span class='fl'>0</span>), <span class='kw'>select_data</span> <span class='kw'>=</span> <span class='fu'>list</span>(), <span class='kw'>center</span> <span class='kw'>=</span> <span class='fu'>character</span>(<span class='fl'>0</span>),
-  <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fu'>character</span>(<span class='fl'>0</span>), <span class='kw'>modify_data</span> <span class='kw'>=</span> <span class='no'>identity</span>, <span class='kw'>niters</span> <span class='kw'>=</span> <span class='fl'>10</span>^<span class='fl'>3</span>,
+  <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fu'>character</span>(<span class='fl'>0</span>), <span class='kw'>modify_data</span> <span class='kw'>=</span> <span class='no'>identity</span>, <span class='kw'>ngens</span> <span class='kw'>=</span> <span class='fl'>10</span>^<span class='fl'>3</span>,
   <span class='kw'>new_expr</span> <span class='kw'>=</span> <span class='fu'>character</span>(<span class='fl'>0</span>), <span class='kw'>modify_new_data</span> <span class='kw'>=</span> <span class='no'>identity</span>, <span class='kw'>drops</span> <span class='kw'>=</span> <span class='fu'>list</span>(),
   <span class='no'>...</span>)</pre>
     
@@ -136,8 +136,8 @@ returning a named list of initial values.</p></td>
       <td><p>A single argument function to modify the data (in list form) immediately prior to the analysis.</p></td>
     </tr>
     <tr>
-      <th>niters</th>
-      <td><p>A number specifying the number of iterations to sample for each chain. Must be 10^3, 10^4, 10^5 or 10^6.</p></td>
+      <th>ngens</th>
+      <td><p>A number specifying the number of iterations to generate for each chain. Must be 10^3, 10^4, 10^5, 10^6 ol 10^7.</p></td>
     </tr>
     <tr>
       <th>new_expr</th>

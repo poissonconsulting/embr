@@ -7,7 +7,7 @@
 \method{model}{mb_code}(x, gen_inits = function(data) {     list() },
   random_effects = list(), fixed = getOption("mb.fixed", "^[^e]"),
   derived = character(0), select_data = list(), center = character(0),
-  scale = character(0), modify_data = identity, niters = 10^3,
+  scale = character(0), modify_data = identity, ngens = 10^3,
   new_expr = character(0), modify_new_data = identity, drops = list(),
   ...)
 }
@@ -31,7 +31,7 @@ returning a named list of initial values.}
 
 \item{modify_data}{A single argument function to modify the data (in list form) immediately prior to the analysis.}
 
-\item{niters}{A number specifying the number of iterations to sample for each chain. Must be 10^3, 10^4, 10^5 or 10^6.}
+\item{ngens}{A number specifying the number of iterations to generate for each chain. Must be 10^3, 10^4, 10^5, 10^6 ol 10^7.}
 
 \item{new_expr}{A string of R code specifying the predictive relationships.}
 

@@ -9,6 +9,11 @@ ngens <- function(x, ...) {
 }
 
 #' @export
+ngens.mb_model <- function(x, ...) {
+  as.integer(x$ngens)
+}
+
+#' @export
 ngens.mb_analysis <- function(x, ...) {
   as.integer(x$ngens)
 }

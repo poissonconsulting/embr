@@ -15,7 +15,7 @@ model.character <- function(
   x, gen_inits = function(data) {list()}, random_effects = list(),
   fixed = getOption("mb.fixed", "^[^e]"),
   derived = character(0), select_data = list(),
-  center = character(0), scale = character(0), modify_data = identity, niters = 10^3,
+  center = character(0), scale = character(0), modify_data = identity, ngens = 10^3,
   new_expr = character(0), modify_new_data = identity, drops = list(), ...) {
 
   x %<>% mb_code()
@@ -23,7 +23,7 @@ model.character <- function(
   model(x, gen_inits = gen_inits, fixed = fixed, derived = derived,
         random_effects = random_effects, select_data = select_data,
         center = center, scale = scale, modify_data = modify_data,
-        niters = niters, new_expr = new_expr, modify_new_data = modify_new_data,
+        ngens = ngens, new_expr = new_expr, modify_new_data = modify_new_data,
         drops = drops)
 }
 
@@ -32,7 +32,7 @@ model_mb_code <- function(
   fixed = getOption("mb.fixed", "^[^e]"),
   derived = character(0),
   select_data = list(), center = character(0), scale = character(0),
-  modify_data = identity, niters = 10^3,
+  modify_data = identity, ngens,
   new_expr = character(0), modify_new_data = identity, drops = list(), ...) {
 
   check_mb_code(x)
@@ -47,8 +47,8 @@ model_mb_code <- function(
   check_single_arg_fun(modify_data)
   check_single_arg_fun(modify_new_data)
   check_vector(new_expr, "", min_length = 0, max_length = 1)
-  check_scalar(niters, c(10^3, 10^6))
-  if (!niters %in% 10^(3:6)) error("niters must be 10^2, 10^3, 10^4, 10^5 or 10^6")
+  check_scalar(ngens, c(10^3, 10^6))
+  if (!ngens %in% 10^(3:7)) error("ngens must be 10^3, 10^4, 10^5, 10^6 or 10^7")
   check_drops(drops)
 
   select_colnames <- rescale::get_rescaler_colnames(names(select_data))
@@ -104,7 +104,7 @@ model_mb_code <- function(
               new_expr = new_expr,
               modify_new_data = modify_new_data,
               drops = drops,
-              niters = niters)
+              ngens = ngens)
   class(obj) <- class(x) %>% str_replace("code", "model")
   obj
 }
@@ -127,7 +127,7 @@ model_mb_code <- function(
 #' @param select_data A named list specifying the columns to select and their associated classes and values as well as transformations and scaling options.
 #' @inheritParams rescale::rescale
 #' @param modify_data A single argument function to modify the data (in list form) immediately prior to the analysis.
-#' @param niters A number specifying the number of iterations to sample for each chain. Must be 10^3, 10^4, 10^5 or 10^6.
+#' @param ngens A number specifying the number of iterations to generate for each chain. Must be 10^3, 10^4, 10^5, 10^6 ol 10^7.
 #' @param new_expr A string of R code specifying the predictive relationships.
 #' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
 #' @param drops A list of character vector of possible scalar parameters to drop (fix at 0).
@@ -140,13 +140,13 @@ model.mb_code <- function(
   fixed = getOption("mb.fixed", "^[^e]"),
   derived = character(0),
   select_data = list(), center = character(0), scale = character(0),
-  modify_data = identity, niters = 10^3,
+  modify_data = identity, ngens = 10^3,
   new_expr = character(0), modify_new_data = identity, drops = list(), ...) {
 
   model_mb_code(x = x, gen_inits = gen_inits, random_effects = random_effects,
                 fixed = fixed, derived = derived, select_data = select_data,
                 center = center, scale = scale, modify_data = modify_data,
-                niters = niters, new_expr = new_expr, modify_new_data = modify_new_data,
+                ngens = ngens, new_expr = new_expr, modify_new_data = modify_new_data,
                 drops = drops)
 }
 
