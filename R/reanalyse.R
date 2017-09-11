@@ -2,38 +2,38 @@
 #'
 #' Reanalyse an analysis.
 #'
+#' @param object The object to reanalyse.
+#' @param ... Additional arguments.
+#' @export
+reanalyse <- function(object, ...) {
+  UseMethod("reanalyse")
+}
+
+reanalyse_list <- function(object, rhat, nreanalyses, duration, parallel, quick, quiet, glance, beep, ...) {
+  cat("Model:", names(object), "\n")
+  object <- reanalyse(object[[1]], rhat = rhat, nreanalyses = nreanalyses,
+                      duration = duration, quick = quick, quiet = quiet,
+                      glance = glance, beep = FALSE, ...)
+  list(object)
+}
+
+#' Reanalyse List
+#'
+#' @param object The object to reanalyse.
+#' @param rhat A number specifying the rhat threshold.
+#' @param nreanalyses A count between 1 and 6 specifying the maximum number of reanalyses.
+#' @param duration The maximum total time to spend on analysis/reanalysis.
 #' @param quick A flag indicating whether to quickly get unreliable values.
 #' @param quiet A flag indicating whether to disable tracing information.
 #' @param glance A flag indicating whether to print summary of model.
 #' @param beep A flag indicating whether to beep on completion of the analysis.
 #' @param parallel A flag indicating whether to perform the analysis in parallel if possible.
-#' @param analysis An object inheriting from class mb_analysis or a list of such objects.
-#' @param rhat A number specifying the rhat threshold.
-#' @param duration The maximum total time to spend on analysis/reanalysis.
-#' @param ... Additional arguments.
+#' @param ... Unused arguments.
 #' @export
-reanalyse <- function(analysis,
-                      rhat = getOption("mb.rhat", 1.1),
-                      duration = getOption("mb.duration", dminutes(10)),
-                      parallel = getOption("mb.parallel", FALSE),
-                      quick = getOption("mb.quick", FALSE),
-                      quiet = getOption("mb.quiet", TRUE),
-                      glance = getOption("mb.glance", TRUE),
-                      beep = getOption("mb.beep", TRUE),
-                      ...) {
-  UseMethod("reanalyse")
-}
-
-reanalyse_list <- function(analysis, rhat, duration, parallel, quick, quiet, glance, beep, ...) {
-  cat("Model:", names(analysis), "\n")
-  analysis <- reanalyse(analysis[[1]], rhat = rhat, duration = duration, quick = quick, quiet = quiet, glance = glance, beep = FALSE, ...)
-  list(analysis)
-}
-
-#' @export
-reanalyse.list <- function(analysis,
+reanalyse.list <- function(object,
                            rhat = getOption("mb.rhat", 1.1),
-                           duration = getOption("mb.duration", dminutes(10)),
+                           nreanalyses = getOption("mb.nreanalyses", 1L),
+                           duration = getOption("mb.duration", dhours(1)),
                            parallel = getOption("mb.parallel", FALSE),
                            quick = getOption("mb.quick", FALSE),
                            quiet = getOption("mb.quiet", TRUE),
@@ -41,15 +41,28 @@ reanalyse.list <- function(analysis,
                            beep = getOption("mb.beep", TRUE),
                            ...) {
   .Deprecated("reanalyse.mb_analyses")
-  class(analysis) <- "mb_analyses"
-  reanalyse(analysis, rhat = rhat, duration = duration, parallel = parallel,
+  class(object) <- "mb_analyses"
+  reanalyse(object, rhat = rhat, duration = duration, parallel = parallel,
             quick = quick, quiet = quiet, glance = glance, beep = beep, ...)
 }
 
+#' Reanalyse
+#'
+#' @param object The object to reanalyse.
+#' @param nreanalyses A count between 1 and 6 specifying the maximum number of reanalyses.
+#' @param rhat A number specifying the rhat threshold.
+#' @param duration The maximum total time to spend on analysis/reanalysis.
+#' @param quick A flag indicating whether to quickly get unreliable values.
+#' @param quiet A flag indicating whether to disable tracing information.
+#' @param glance A flag indicating whether to print summary of model.
+#' @param beep A flag indicating whether to beep on completion of the analysis.
+#' @param parallel A flag indicating whether to perform the analysis in parallel if possible
+#' @param ... Unused arguments.
 #' @export
-reanalyse.mb_analysis <- function(analysis,
+reanalyse.mb_analysis <- function(object,
                                   rhat = getOption("mb.rhat", 1.1),
-                                  duration = getOption("mb.duration", dminutes(10)),
+                                  nreanalyses = getOption("mb.nreanalyses", 1L),
+                                  duration = getOption("mb.duration", dhours(1)),
                                   parallel = getOption("mb.parallel", FALSE),
                                   quick = getOption("mb.quick", FALSE),
                                   quiet = getOption("mb.quiet", TRUE),
@@ -59,10 +72,23 @@ reanalyse.mb_analysis <- function(analysis,
   error("reanalyse is not defined for objects of the virtual class 'mb_analysis'")
 }
 
+#' Reanalyse
+#'
+#' @param object The object to reanalyse.
+#' @param rhat A number specifying the rhat threshold.
+#' @param nreanalyses A count between 1 and 7 specifying the maximum number of reanalyses.
+#' @param duration The maximum total time to spend on analysis/reanalysis.
+#' @param quick A flag indicating whether to quickly get unreliable values.
+#' @param quiet A flag indicating whether to disable tracing information.
+#' @param glance A flag indicating whether to print summary of model.
+#' @param beep A flag indicating whether to beep on completion of the analysis.
+#' @param parallel A flag indicating whether to perform the analysis in parallel if possible
+#' @param ... Unused arguments.
 #' @export
-reanalyse.mb_analyses <- function(analysis,
+reanalyse.mb_analyses <- function(object,
                                   rhat = getOption("mb.rhat", 1.1),
-                                  duration = getOption("mb.duration", dminutes(10)),
+                                  nreanalyses = getOption("mb.nreanalyses", 1L),
+                                  duration = getOption("mb.duration", dhours(1)),
                                   parallel = getOption("mb.parallel", FALSE),
                                   quick = getOption("mb.quick", FALSE),
                                   quiet = getOption("mb.quiet", TRUE),
@@ -73,16 +99,16 @@ reanalyse.mb_analyses <- function(analysis,
 
   if (beep) on.exit(beepr::beep())
 
-  if (!length(analysis)) return(analysis)
+  if (!length(object)) return(object)
 
-  names <- names(analysis)
+  names <- names(object)
   if (is.null(names)) {
-    names(analysis) <- 1:length(analysis)
+    names(object) <- 1:length(object)
   }
 
-  analysis %<>% purrr::lmap(reanalyse_list, rhat = rhat, duration = duration,
-                            quick = quick, quiet = quiet, glance = glance, beep = FALSE, ...)
-  names(analysis) <- names
-  class(analysis) <- "mb_analyses"
-  analysis
+  object %<>% purrr::lmap(reanalyse_list, rhat = rhat, nreanalyses = nreanalyses, duration = duration,
+                          quick = quick, quiet = quiet, glance = glance, beep = FALSE, ...)
+  names(object) <- names
+  class(object) <- "mb_analyses"
+  object
 }

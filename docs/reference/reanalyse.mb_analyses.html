@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Reanalyse — reanalyse • mbr</title>
+<title>Reanalyse — reanalyse.mb_analyses • mbr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -84,10 +84,17 @@
     </div>
 
     
-    <p>Reanalyse an analysis.</p>
+    <p>Reanalyse</p>
     
 
-    <pre class="usage"><span class='fu'>reanalyse</span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for mb_analyses</span>
+<span class='fu'><a href='reanalyse.html'>reanalyse</a></span>(<span class='no'>object</span>, <span class='kw'>rhat</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.rhat"</span>, <span class='fl'>1.1</span>),
+  <span class='kw'>nreanalyses</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.nreanalyses"</span>, <span class='fl'>1L</span>),
+  <span class='kw'>duration</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.duration"</span>, <span class='fu'>dhours</span>(<span class='fl'>1</span>)),
+  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.parallel"</span>, <span class='fl'>FALSE</span>), <span class='kw'>quick</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.quick"</span>,
+  <span class='fl'>FALSE</span>), <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.quiet"</span>, <span class='fl'>TRUE</span>),
+  <span class='kw'>glance</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.glance"</span>, <span class='fl'>TRUE</span>), <span class='kw'>beep</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.beep"</span>, <span class='fl'>TRUE</span>),
+  <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -97,8 +104,40 @@
       <td><p>The object to reanalyse.</p></td>
     </tr>
     <tr>
+      <th>rhat</th>
+      <td><p>A number specifying the rhat threshold.</p></td>
+    </tr>
+    <tr>
+      <th>nreanalyses</th>
+      <td><p>A count between 1 and 7 specifying the maximum number of reanalyses.</p></td>
+    </tr>
+    <tr>
+      <th>duration</th>
+      <td><p>The maximum total time to spend on analysis/reanalysis.</p></td>
+    </tr>
+    <tr>
+      <th>parallel</th>
+      <td><p>A flag indicating whether to perform the analysis in parallel if possible</p></td>
+    </tr>
+    <tr>
+      <th>quick</th>
+      <td><p>A flag indicating whether to quickly get unreliable values.</p></td>
+    </tr>
+    <tr>
+      <th>quiet</th>
+      <td><p>A flag indicating whether to disable tracing information.</p></td>
+    </tr>
+    <tr>
+      <th>glance</th>
+      <td><p>A flag indicating whether to print summary of model.</p></td>
+    </tr>
+    <tr>
+      <th>beep</th>
+      <td><p>A flag indicating whether to beep on completion of the analysis.</p></td>
+    </tr>
+    <tr>
       <th>...</th>
-      <td><p>Additional arguments.</p></td>
+      <td><p>Unused arguments.</p></td>
     </tr>
     </table>
     
