@@ -12,7 +12,7 @@ Depends:
     R (>= 3.3.1),
     broom,
     lubridate,
-    mcmcr (>= 0.0.0.9016),
+    mcmcr (>= 0.0.0.9017),
     stats
 Imports:
     beepr,
