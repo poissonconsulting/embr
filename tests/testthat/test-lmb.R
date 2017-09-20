@@ -24,11 +24,10 @@ test_that("lmb", {
   # glance <- glance(analysis)
   #
   # expect_is(glance, "tbl")
-  # expect_identical(colnames(glance), c("n", "K", "logLik", "IC", "duration", "converged"))
+  # expect_identical(colnames(glance), c("n", "K", "logLik", "IC", "converged"))
   # expect_equal(glance$logLik, -381.9374, tolerance = 0.0000001)
   # expect_identical(glance$n, 71L)
   # expect_identical(glance$K, 6L)
-  # expect_is(glance$duration, "Duration")
   #
   # coef <- coef(analysis)
   # expect_is(coef, "tbl")

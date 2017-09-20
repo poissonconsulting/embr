@@ -9,7 +9,6 @@ glance.mb_analysis <- function(x, n = NULL, ...) {
     K = nterms(x, include_constant = FALSE),
     logLik = logLik(x),
     IC = IC(x, n = n),
-    duration = elapsed(x),
     converged = converged(x)
   )
 }
