@@ -31,6 +31,10 @@ test_that("is_nlist", {
   expect_false(is_nlist(list(x = list(y = 2))))
 })
 
+test_that("syntactic", {
+  expect_identical(is.syntactic(c("0", "x", "1x","x y", "x1")), c(FALSE, TRUE, FALSE, FALSE, TRUE))
+})
+
 test_that("sort_nlist", {
   expect_identical(sort_nlist(list()), list())
   expect_identical(sort_nlist(list(y = 2, x = 1, a = 10)), list(a = 10, x = 1, y = 2))
