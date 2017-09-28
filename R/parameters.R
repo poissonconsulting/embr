@@ -16,6 +16,7 @@ parameters.character <- function(x, param_type = "all", scalar_only = FALSE, ...
     str_extract_all("\\w+") %>%
     unlist() %>%
     unique() %>%
+    magrittr::extract(., is.syntactic(.)) %>%
     sort()
   x
 }
