@@ -17,7 +17,7 @@ set_analysis_mode <- function(mode = "report") {
             mb.nreanalyses = 1L,
             mb.duration = dhours(1))
   } else if (mode == "test") {
-    options(mb.parallel = TRUE,
+    options(mb.parallel = getDoParWorkers() >= 2L,
             mb.quick = TRUE,
             mb.quiet = TRUE,
             mb.glance = TRUE,
@@ -26,7 +26,7 @@ set_analysis_mode <- function(mode = "report") {
             mb.nreanalyses = 1L,
             mb.duration = dminutes(10))
   } else if (mode == "report") {
-    options(mb.parallel = TRUE,
+    options(mb.parallel = getDoParWorkers() >= 4L,
             mb.quick = FALSE,
             mb.quiet = TRUE,
             mb.glance = TRUE,
@@ -35,7 +35,7 @@ set_analysis_mode <- function(mode = "report") {
             mb.nreanalyses = 2L,
             mb.duration = dhours(1))
   } else if (mode == "paper") {
-    options(mb.parallel = TRUE,
+    options(mb.parallel =  getDoParWorkers() >= 4L,
             mb.quick = FALSE,
             mb.quiet = TRUE,
             mb.glance = FALSE,
