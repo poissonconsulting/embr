@@ -1,8 +1,31 @@
 #' @export
-glance.mb_analysis <- function(x, n = NULL, ...) {
+glance.mb_analysis <- function(x, n = NULL, rhat = getOption("mb.rhat", 1.1), esr = getOption("mb.esr", 0.33), ...) {
   checkor(check_null(n), check_count(n))
+  check_number(rhat, c(1.0, 1.5))
+  check_number(esr, c(0.1, 1.0))
 
   if (is.null(n)) n <- sample_size(x)
+  K <- nterms(x, include_constant = FALSE)
+
+  if (is_bayesian(x)) {
+    rhat_analysis <- rhat(x)
+    rhat_arg <- rhat
+
+    esr_analysis <- esr(x)
+    esr_arg <- esr
+
+    tibble <- tibble::tibble(
+      n = n,
+      K = K,
+      nsamples = nsamples(x),
+      nchains = nchains(x),
+      nsims = nsims(x),
+      rhat = rhat_analysis,
+      esr = esr_analysis,
+      converged = rhat_analysis < rhat_arg & esr_analysis > esr_arg
+    )
+    return(tibble)
+  }
 
   dplyr::data_frame(
     n = n,
@@ -23,8 +46,8 @@ tidy.mb_analysis <- function(x, conf.int = FALSE, conf.level = 0.95, ...) {
   coef <- coef(x, conf_level = conf.level)
 
   coef %<>% dplyr::select_(term = ~term, ~estimate, std.error = ~sd,
-                          statistic = ~zscore, p.value = ~pvalue,
-                          conf.low = ~lower, conf.high = ~upper)
+                           statistic = ~zscore, p.value = ~pvalue,
+                           conf.low = ~lower, conf.high = ~upper)
 
   if (!conf.int) {
     coef$conf.low <- NULL

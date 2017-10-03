@@ -20,6 +20,7 @@ esr.mb_analyses <- function(x, ...) {
 
 #' @export
 nchains.mb_analysis <- function(x, ...) {
+  if (is.mb_null_analysis(x)) return(0L)
   nchains(as.mcmcr(x))
 }
 
