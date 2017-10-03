@@ -22,7 +22,7 @@ set_analysis_mode <- function(mode = "report") {
             mb.quiet = TRUE,
             mb.beep = FALSE,
             mb.rhat = 1.5,
-            mb.esr = 0.25,
+            mb.esr = 0.1,
             mb.nreanalyses = 1L,
             mb.duration = dminutes(10))
   } else if (mode == "report") {
@@ -31,7 +31,7 @@ set_analysis_mode <- function(mode = "report") {
             mb.quiet = TRUE,
             mb.beep = TRUE,
             mb.rhat = 1.1,
-            mb.esr = 0.33,
+            mb.esr = 0.25,
             mb.nreanalyses = 2L,
             mb.duration = dhours(1))
   } else if (mode == "paper") {
