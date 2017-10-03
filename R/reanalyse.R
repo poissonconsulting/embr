@@ -9,9 +9,9 @@ reanalyse <- function(object, ...) {
   UseMethod("reanalyse")
 }
 
-reanalyse_list <- function(object, rhat, nreanalyses, duration, parallel, quick, quiet, glance, beep, ...) {
+reanalyse_list <- function(object, rhat, efs, nreanalyses, duration, parallel, quick, quiet, glance, beep, ...) {
   cat("Model:", names(object), "\n")
-  object <- reanalyse(object[[1]], rhat = rhat, nreanalyses = nreanalyses,
+  object <- reanalyse(object[[1]], rhat = rhat, efs = efs, nreanalyses = nreanalyses,
                       duration = duration, quick = quick, quiet = quiet,
                       glance = glance, beep = FALSE, ...)
   list(object)
@@ -21,6 +21,7 @@ reanalyse_list <- function(object, rhat, nreanalyses, duration, parallel, quick,
 #'
 #' @param object The object to reanalyse.
 #' @param rhat A number specifying the rhat threshold.
+#' @param efs A number specifying the effective sampling rate.
 #' @param nreanalyses A count between 1 and 6 specifying the maximum number of reanalyses.
 #' @param duration The maximum total time to spend on analysis/reanalysis.
 #' @param quick A flag indicating whether to quickly get unreliable values.
@@ -32,6 +33,7 @@ reanalyse_list <- function(object, rhat, nreanalyses, duration, parallel, quick,
 #' @export
 reanalyse.list <- function(object,
                            rhat = getOption("mb.rhat", 1.1),
+                           efs = getOption("mb.efs", 0.33),
                            nreanalyses = getOption("mb.nreanalyses", 1L),
                            duration = getOption("mb.duration", dhours(1)),
                            parallel = getOption("mb.parallel", FALSE),
@@ -42,7 +44,7 @@ reanalyse.list <- function(object,
                            ...) {
   .Deprecated("reanalyse.mb_analyses")
   class(object) <- "mb_analyses"
-  reanalyse(object, rhat = rhat, duration = duration, parallel = parallel,
+  reanalyse(object, rhat = rhat, efs = efs, duration = duration, parallel = parallel,
             quick = quick, quiet = quiet, glance = glance, beep = beep, ...)
 }
 
@@ -51,6 +53,7 @@ reanalyse.list <- function(object,
 #' @param object The object to reanalyse.
 #' @param nreanalyses A count between 1 and 6 specifying the maximum number of reanalyses.
 #' @param rhat A number specifying the rhat threshold.
+#' @param efs A number specifying the minimum effective sampling rate.
 #' @param duration The maximum total time to spend on analysis/reanalysis.
 #' @param quick A flag indicating whether to quickly get unreliable values.
 #' @param quiet A flag indicating whether to disable tracing information.
@@ -61,6 +64,7 @@ reanalyse.list <- function(object,
 #' @export
 reanalyse.mb_analysis <- function(object,
                                   rhat = getOption("mb.rhat", 1.1),
+                                  efs = getOption("mb.efs", 0.33),
                                   nreanalyses = getOption("mb.nreanalyses", 1L),
                                   duration = getOption("mb.duration", dhours(1)),
                                   parallel = getOption("mb.parallel", FALSE),
@@ -76,6 +80,7 @@ reanalyse.mb_analysis <- function(object,
 #'
 #' @param object The object to reanalyse.
 #' @param rhat A number specifying the rhat threshold.
+#' @param efs A number specifying the effective sampling rate.
 #' @param nreanalyses A count between 1 and 7 specifying the maximum number of reanalyses.
 #' @param duration The maximum total time to spend on analysis/reanalysis.
 #' @param quick A flag indicating whether to quickly get unreliable values.
@@ -87,6 +92,7 @@ reanalyse.mb_analysis <- function(object,
 #' @export
 reanalyse.mb_analyses <- function(object,
                                   rhat = getOption("mb.rhat", 1.1),
+                                  efs = getOption("mb.efs", 0.33),
                                   nreanalyses = getOption("mb.nreanalyses", 1L),
                                   duration = getOption("mb.duration", dhours(1)),
                                   parallel = getOption("mb.parallel", FALSE),
@@ -106,7 +112,8 @@ reanalyse.mb_analyses <- function(object,
     names(object) <- 1:length(object)
   }
 
-  object %<>% purrr::lmap(reanalyse_list, rhat = rhat, nreanalyses = nreanalyses, duration = duration,
+  object %<>% purrr::lmap(reanalyse_list, rhat = rhat, efs = efs,
+                          nreanalyses = nreanalyses, duration = duration,
                           quick = quick, quiet = quiet, glance = glance, beep = FALSE, ...)
   names(object) <- names
   class(object) <- "mb_analyses"
