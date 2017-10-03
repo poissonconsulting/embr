@@ -13,7 +13,7 @@ set_analysis_mode <- function(mode = "report") {
             mb.quiet = FALSE,
             mb.beep = TRUE,
             mb.rhat = 1.2,
-            mb.efs = 0.1,
+            mb.esr = 0.1,
             mb.nreanalyses = 1L,
             mb.duration = dhours(1))
   } else if (mode == "test") {
@@ -22,7 +22,7 @@ set_analysis_mode <- function(mode = "report") {
             mb.quiet = TRUE,
             mb.beep = FALSE,
             mb.rhat = 1.5,
-            mb.efs = 0.25,
+            mb.esr = 0.25,
             mb.nreanalyses = 1L,
             mb.duration = dminutes(10))
   } else if (mode == "report") {
@@ -31,7 +31,7 @@ set_analysis_mode <- function(mode = "report") {
             mb.quiet = TRUE,
             mb.beep = TRUE,
             mb.rhat = 1.1,
-            mb.efs = 0.33,
+            mb.esr = 0.33,
             mb.nreanalyses = 2L,
             mb.duration = dhours(1))
   } else if (mode == "paper") {
@@ -40,7 +40,7 @@ set_analysis_mode <- function(mode = "report") {
             mb.quiet = TRUE,
             mb.beep = TRUE,
             mb.rhat = 1.05,
-            mb.efs = 0.5,
+            mb.esr = 0.5,
             mb.nreanalyses = 3L,
             mb.duration = dhours(10))
   } else error("mode '", mode,"' unrecognised (possible values are 'debug', 'test', 'report' or 'paper')")

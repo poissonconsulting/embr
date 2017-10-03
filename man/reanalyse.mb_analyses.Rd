@@ -5,7 +5,7 @@
 \title{Reanalyse}
 \usage{
 \method{reanalyse}{mb_analyses}(object, rhat = getOption("mb.rhat", 1.1),
-  efs = getOption("mb.efs", 0.33), nreanalyses = getOption("mb.nreanalyses",
+  esr = getOption("mb.esr", 0.33), nreanalyses = getOption("mb.nreanalyses",
   1L), duration = getOption("mb.duration", dhours(1)),
   parallel = getOption("mb.parallel", FALSE), quick = getOption("mb.quick",
   FALSE), quiet = getOption("mb.quiet", TRUE),
@@ -17,7 +17,7 @@
 
 \item{rhat}{A number specifying the rhat threshold.}
 
-\item{efs}{A number specifying the effective sampling rate.}
+\item{esr}{A number specifying the effective sampling rate.}
 
 \item{nreanalyses}{A count between 1 and 7 specifying the maximum number of reanalyses.}
 
