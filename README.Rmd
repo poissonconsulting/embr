@@ -27,6 +27,14 @@ knitr::opts_chunk$set(
 
 Currently there are packages which implement the functionality for JAGS ([jmbr](https://github.com/poissonconsulting/jmbr)), STAN ([smbr](https://github.com/poissonconsulting/smbr)) and TMB ([tmbr](https://github.com/poissonconsulting/tmbr)).
 
+
+## Classes
+
+`mb_analysis` - 1 analysis
+`mb_analyses` - 2 or more analyses on the same data
+`mb_meta_analysis` - 2 or more analyses with the same model on different data
+`mb_meta_analyses` - 2 or more `mb_analyses` (on different data)
+
 ## Demonstration
 
 ```{r, message = FALSE}

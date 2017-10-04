@@ -117,9 +117,12 @@ analyse.mb_model <- function(x, data,
                          parallel = parallel, quiet = quiet, glance = glance))
   }
 
-  plyr::llply(data, analyse1_data, x = x, loaded = loaded,
+  analyses <- plyr::llply(data, analyse1_data, x = x, loaded = loaded,
               nchains = nchains, niters = niters, nthin = nthin,
               parallel = parallel, quiet = quiet, glance = glance)
+
+  class(analyses) <- "mb_meta_analysis"
+  analyses
 }
 
 #' Analyse
@@ -154,17 +157,12 @@ analyse.mb_models <- function(x, data,
                           nchains = nchains, niters = niters, nthin = nthin,
                           parallel = parallel, quiet = quiet, glance = glance, beep = FALSE, ...)
 
-  as_mb_analyses <- function(x, names) {
-    names(x) <- names
-    class(x) <- "mb_analyses"
-    x
-  }
-
   if (is.data.frame(data)) {
-    analyses %<>% as_mb_analyses(names = names)
+    analyses %<>% as_mb_analyses(names)
     return(analyses)
   }
   analyses %<>% purrr::transpose()
-  analyses %<>% purrr::map(as_mb_analyses, names = names)
+  analyses %<>% purrr::map(as_mb_analyses, names)
+  class(analyses) <- "mb_meta_analyses"
   analyses
 }

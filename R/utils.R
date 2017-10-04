@@ -1,5 +1,17 @@
 all1 <- function(x) all(x == 1)
 
+as_mb_analyses <- function(x, text = names(x)) {
+  names(x) <- text
+  class(x) <- "mb_analyses"
+  x
+}
+
+as_mb_meta_analysis <- function(x, text = names(x)) {
+  names(x) <- text
+  class(x) <- "mb_meta_analysis"
+  x
+}
+
 dprint <- function(x, note = NULL, do = getOption("dprint.do", TRUE)) {
   if (!do) return(invisible())
   if (!is.null(note))
