@@ -24,8 +24,16 @@ analyse1 <- function(model, data, loaded, nchains, niters, nthin, quiet, glance,
   UseMethod("analyse1")
 }
 
-analyse_model <- function(x, name, data, parallel, nchains, niters, nthin, quiet, glance, beep, ...) {
-  if (glance) cat("Model:", name, "\n")
+analyse_data_model <- function(data, name = NULL, x, loaded, nchains, niters, nthin,
+                          parallel, quiet, glance, ...) {
+  if (!is.null(name) & glance) cat("Data:", name, "\n")
+  analyse1(x, data, loaded = loaded, nchains = nchains, niters = niters,
+           nthin = nthin, parallel = parallel, quiet = quiet, glance = glance, ...)
+}
+
+
+analyse_model <- function(x, name = NULL, data, parallel, nchains, niters, nthin, quiet, glance, beep, ...) {
+  if (!is.null(name) & glance) cat("Model:", name, "\n")
   analyse(x, data = data, parallel = parallel,
           nchains = nchains, niters = niters, nthin = nthin,
           quiet = quiet, glance = glance, beep = beep, ...)
@@ -59,12 +67,6 @@ analyse.character <- function(x, data,
   analyse(x, data = data,
           parallel = parallel, nchains = nchains, niters = niters, nthin = nthin, quiet = quiet,
           glance = glance, beep = beep)
-}
-
-analyse1_data <- function(data, x, loaded, nchains, niters, nthin,
-                          parallel, quiet, glance) {
-  analyse1(x, data, loaded = loaded, nchains = nchains, niters = niters,
-           nthin = nthin, parallel = parallel, quiet = quiet, glance = glance)
 }
 
 #' Analyse
@@ -112,14 +114,21 @@ analyse.mb_model <- function(x, data,
   loaded <- load_model(x, quiet)
 
   if (is.data.frame(data)) {
-    return(analyse1_data(data = data, x = x, loaded = loaded,
+    return(analyse_data_model(data = data, x = x, loaded = loaded,
                          nchains = nchains, niters = niters, nthin = nthin,
                          parallel = parallel, quiet = quiet, glance = glance))
   }
 
-  analyses <- plyr::llply(data, analyse1_data, x = x, loaded = loaded,
+  names <- names(data)
+  if (is.null(names)) {
+    names(data) <- 1:length(x)
+  }
+
+  analyses <- purrr::imap(data, analyse_data_model, x = x, loaded = loaded,
               nchains = nchains, niters = niters, nthin = nthin,
               parallel = parallel, quiet = quiet, glance = glance)
+
+  names(data) <- names
 
   class(analyses) <- "mb_meta_analysis"
   analyses
