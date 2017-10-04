@@ -10,5 +10,5 @@ set_analysis_mode(mode = "report")
 \item{mode}{A string of the analysis mode.}
 }
 \description{
-Sets analysis mode. Possible values are 'debug', 'trial', 'report' or 'paper'.
+Sets analysis mode. Possible values are 'debug', 'quick', 'report' or 'paper'.
 }

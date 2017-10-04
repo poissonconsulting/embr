@@ -1,6 +1,6 @@
 #' Set Analysis Mode
 #'
-#' Sets analysis mode. Possible values are 'debug', 'trial', 'report' or 'paper'.
+#' Sets analysis mode. Possible values are 'debug', 'quick', 'report' or 'paper'.
 #'
 #' @param mode A string of the analysis mode.
 #' @export
@@ -12,7 +12,7 @@ set_analysis_mode <- function(mode = "report") {
             mb.quick = TRUE,
             mb.quiet = FALSE,
             mb.beep = TRUE)
-  } else if (mode == "trial") {
+  } else if (mode == "quick") {
     options(mb.parallel = getDoParWorkers() >= 2L,
             mb.quick = TRUE,
             mb.quiet = TRUE,
@@ -35,5 +35,5 @@ set_analysis_mode <- function(mode = "report") {
             mb.esr = 0.5,
             mb.nreanalyses = 3L,
             mb.duration = dhours(10))
-  } else error("mode '", mode,"' unrecognised (possible values are 'debug', 'trial', 'report' or 'paper')")
+  } else error("mode '", mode,"' unrecognised (possible values are 'debug', 'quick', 'report' or 'paper')")
 }
