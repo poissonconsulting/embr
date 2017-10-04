@@ -3,7 +3,7 @@
 #' @importFrom stats coef
 #' @importFrom foreach getDoParWorkers
 #' @importFrom graphics plot
-#' @importFrom lubridate dminutes dhours
+#' @importFrom lubridate dminutes dhours is.duration
 #' @importFrom magrittr %<>% %>% divide_by set_colnames subtract use_series
 #' @importFrom plyr llply
 #' @importFrom rescale check_valid_rescalers
