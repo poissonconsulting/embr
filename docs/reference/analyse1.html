@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Analyse — analyse.mb_model • mbr</title>
+<title>Analyse — analyse1 • mbr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -87,55 +87,51 @@
     <p>Analyse</p>
     
 
-    <pre class="usage"><span class='co'># S3 method for mb_model</span>
-<span class='fu'><a href='analyse.html'>analyse</a></span>(<span class='no'>x</span>, <span class='no'>data</span>, <span class='kw'>nchains</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.nchains"</span>, <span class='fl'>3L</span>),
-  <span class='kw'>niters</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.niters"</span>, <span class='fl'>1000L</span>), <span class='kw'>nthin</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.thin"</span>,
-  <span class='kw'>NULL</span>), <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.parallel"</span>, <span class='fl'>FALSE</span>),
-  <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.quiet"</span>, <span class='fl'>TRUE</span>), <span class='kw'>glance</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.glance"</span>,
-  <span class='fl'>TRUE</span>), <span class='kw'>beep</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.beep"</span>, <span class='fl'>TRUE</span>), <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>analyse1</span>(<span class='no'>model</span>, <span class='no'>data</span>, <span class='no'>loaded</span>, <span class='no'>nchains</span>, <span class='no'>niters</span>, <span class='no'>nthin</span>, <span class='no'>quiet</span>, <span class='no'>glance</span>, <span class='no'>parallel</span>,
+  <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>An object inheriting from class mb_model or a list of such objects.</p></td>
+      <th>data</th>
+      <td><p>The data.</p></td>
     </tr>
     <tr>
-      <th>data</th>
-      <td><p>The data frame to analyse.</p></td>
+      <th>loaded</th>
+      <td><p>The loaded model.</p></td>
     </tr>
     <tr>
       <th>nchains</th>
-      <td><p>A count of the number of chains.</p></td>
+      <td><p>chains.</p></td>
     </tr>
     <tr>
       <th>niters</th>
-      <td><p>A count of the number of simulations to save per chain.</p></td>
+      <td><p>iters</p></td>
     </tr>
     <tr>
       <th>nthin</th>
-      <td><p>A count of the thining interval or NULL (in which case taken from model).</p></td>
-    </tr>
-    <tr>
-      <th>parallel</th>
-      <td><p>A flag indicating whether to perform the analysis in parallel if possible.</p></td>
+      <td><p>thin</p></td>
     </tr>
     <tr>
       <th>quiet</th>
-      <td><p>A flag indicating whether to disable tracing information.</p></td>
+      <td><p>quiet</p></td>
     </tr>
     <tr>
       <th>glance</th>
-      <td><p>A flag indicating whether to print a model summary.</p></td>
+      <td><p>glance</p></td>
     </tr>
     <tr>
-      <th>beep</th>
-      <td><p>A flag indicating whether to beep on completion of the analysis.</p></td>
+      <th>parallel</th>
+      <td><p>parallel</p></td>
     </tr>
     <tr>
       <th>...</th>
       <td><p>Additional arguments.</p></td>
+    </tr>
+    <tr>
+      <th>x</th>
+      <td><p>The mb_model to analyse.</p></td>
     </tr>
     </table>
     

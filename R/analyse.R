@@ -7,6 +7,23 @@ analyse <- function(x, ...) {
   UseMethod("analyse")
 }
 
+#' Analyse
+#'
+#' @param x The mb_model to analyse.
+#' @param data The data.
+#' @param loaded The loaded model.
+#' @param nchains chains.
+#' @param niters iters
+#' @param nthin thin
+#' @param quiet quiet
+#' @param glance glance
+#' @param parallel parallel
+#' @param ...  Additional arguments.
+#' @export
+analyse1 <- function(model, data, loaded, nchains, niters, nthin, quiet, glance, parallel, ...) {
+  UseMethod("analyse1")
+}
+
 analyse_model <- function(x, name, data, parallel, nchains, niters, nthin, quiet, glance, beep, ...) {
   if (glance) cat("Model:", name, "\n")
   analyse(x, data = data, parallel = parallel,
@@ -42,6 +59,67 @@ analyse.character <- function(x, data,
   analyse(x, data = data,
           parallel = parallel, nchains = nchains, niters = niters, nthin = nthin, quiet = quiet,
           glance = glance, beep = beep)
+}
+
+analyse1_data <- function(data, x, loaded, nchains, niters, nthin,
+                          parallel, quiet, glance) {
+  analyse1(x, data, loaded = loaded, nchains = nchains, niters = niters,
+           nthin = nthin, parallel = parallel, quiet = quiet, glance = glance)
+}
+
+#' Analyse
+#'
+#' @param x An object inheriting from class mb_model or a list of such objects.
+#' @param data The data frame to analyse.
+#' @param nchains A count of the number of chains.
+#' @param niters A count of the number of simulations to save per chain.
+#' @param nthin A count of the thining interval or NULL (in which case taken from model).
+#' @param parallel A flag indicating whether to perform the analysis in parallel if possible.
+#' @param quiet A flag indicating whether to disable tracing information.
+#' @param glance A flag indicating whether to print a model summary.
+#' @param beep A flag indicating whether to beep on completion of the analysis.
+#' @param ...  Additional arguments.
+#' @export
+analyse.mb_model <- function(x, data,
+                             nchains = getOption("mb.nchains", 3L),
+                             niters = getOption("mb.niters", 1000L),
+                             nthin = getOption("mb.thin", NULL),
+                             parallel = getOption("mb.parallel", FALSE),
+                             quiet = getOption("mb.quiet", TRUE),
+                             glance = getOption("mb.glance", TRUE),
+                             beep = getOption("mb.beep", TRUE),
+                             ...) {
+
+  check_flag(beep)
+  if (beep) on.exit(beepr::beep())
+
+  if (is.data.frame(data)) {
+    check_data2(data)
+  } else if (is.list(data)) {
+    llply(data, check_data2)
+  } else error("data must be a data.frame or a list of data.frames")
+
+  check_count(nchains, c(2L, 10L))
+  check_count(niters, c(10L, 100000L))
+  checkor(check_null(nthin), check_count(nthin, c(1L, 10000L)))
+
+  check_flag(parallel)
+  check_flag(quiet)
+  check_flag(glance)
+
+  if (is.null(nthin)) nthin <- nthin(x)
+
+  loaded <- load_model(x, quiet)
+
+  if (is.data.frame(data)) {
+    return(analyse1_data(data = data, x = x, loaded = loaded,
+                         nchains = nchains, niters = niters, nthin = nthin,
+                         parallel = parallel, quiet = quiet, glance = glance))
+  }
+
+  plyr::llply(data, analyse1_data, x = x, loaded = loaded,
+              nchains = nchains, niters = niters, nthin = nthin,
+              parallel = parallel, quiet = quiet, glance = glance)
 }
 
 #' Analyse
