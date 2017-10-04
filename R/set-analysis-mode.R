@@ -15,9 +15,9 @@ set_analysis_mode <- function(mode = "report") {
             mb.quiet = NULL,
             mb.beep = NULL,
             mb.glance = NULL,
+            mb.nreanalyses = NULL,
             mb.rhat = NULL,
             mb.esr = NULL,
-            mb.nreanalyses = NULL,
             mb.duration = NULL)
   } else if (mode == "debug") {
     options(mb.nchains = 2L,
@@ -25,14 +25,18 @@ set_analysis_mode <- function(mode = "report") {
             mb.nthin = 1L,
             mb.parallel = FALSE,
             mb.quiet = FALSE,
-            mb.beep = TRUE)
+            mb.beep = FALSE,
+            mb.glance = TRUE,
+            mb.nreanalyses = 0L)
   } else if (mode == "quick") {
     options(mb.nchains = 2L,
             mb.niters = 10L,
             mb.nthin = 1L,
             mb.parallel = getDoParWorkers() >= 2L,
             mb.quiet = TRUE,
-            mb.beep = FALSE)
+            mb.beep = FALSE,
+            mb.glance = TRUE,
+            mb.nreanalyses = 0L)
   } else if (mode == "check") {
     options(mb.nchains = 2L,
             mb.niters = 500L,
@@ -40,9 +44,10 @@ set_analysis_mode <- function(mode = "report") {
             mb.parallel = getDoParWorkers() >= 2L,
             mb.quiet = TRUE,
             mb.beep = FALSE,
+            mb.glance = FALSE,
+            mb.nreanalyses = 1L,
             mb.rhat = 1.0,
             mb.esr = 1.0,
-            mb.nreanalyses = 1L,
             mb.duration = dminutes(2))
   } else if (mode == "report") {
     options(mb.nchains = 3L,
@@ -51,9 +56,10 @@ set_analysis_mode <- function(mode = "report") {
             mb.parallel = getDoParWorkers() >= 3L,
             mb.quiet = TRUE,
             mb.beep = TRUE,
+            mb.glance = TRUE,
+            mb.nreanalyses = 1L,
             mb.rhat = 1.1,
             mb.esr = 0.2,
-            mb.nreanalyses = 1L,
             mb.duration = dhours(1))
   } else if (mode == "paper") {
     options(mb.nchains = 4L,
@@ -62,9 +68,10 @@ set_analysis_mode <- function(mode = "report") {
             mb.parallel = getDoParWorkers() >= 4L,
             mb.quiet = TRUE,
             mb.beep = TRUE,
+            mb.glance = TRUE,
+            mb.nreanalyses = 2L,
             mb.rhat = 1.05,
             mb.esr = 0.25,
-            mb.nreanalyses = 2L,
             mb.duration = dhours(6))
   } else error("mode '", mode,"' unrecognised (possible values are 'debug', 'reset', 'check', 'quick', 'report' or 'paper')")
 }
