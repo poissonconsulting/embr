@@ -4,10 +4,12 @@
 \alias{load_model}
 \title{Load Model}
 \usage{
-load_model(x, ...)
+load_model(x, quiet, ...)
 }
 \arguments{
 \item{x}{The model to load.}
+
+\item{quiet}{A flag indicating whether to suppress warnings and output.}
 
 \item{...}{Additional arguments.}
 }
