@@ -6,7 +6,7 @@
 \usage{
 update_model(model, code = NULL, gen_inits = NULL, random_effects = NULL,
   fixed = NULL, derived = NULL, select_data = NULL, center = NULL,
-  scale = NULL, modify_data = NULL, ngens = NULL, new_expr = NULL,
+  scale = NULL, modify_data = NULL, nthin = NULL, new_expr = NULL,
   modify_new_data = NULL, drops = NULL, ...)
 }
 \arguments{
@@ -31,7 +31,7 @@ returning a named list of initial values.}
 
 \item{modify_data}{A single argument function to modify the data (in list form) immediately prior to the analysis.}
 
-\item{ngens}{A number specifying the number of iterations to generate for each chain. Must be 10^3, 10^4, 10^5, 10^6 ol 10^7.}
+\item{nthin}{A count specifying the thinning interval.}
 
 \item{new_expr}{A string of R code specifying the predictive relationships.}
 

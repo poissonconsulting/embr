@@ -4,8 +4,9 @@
 \alias{analyse.mb_models}
 \title{Analyse}
 \usage{
-\method{analyse}{mb_models}(x, data, parallel = getOption("mb.parallel",
-  FALSE), quick = getOption("mb.quick", FALSE),
+\method{analyse}{mb_models}(x, data, nchains = getOption("mb.nchains", 3L),
+  niters = getOption("mb.niters", 1000L), nthin = getOption("mb.niters",
+  NULL), parallel = getOption("mb.parallel", FALSE),
   quiet = getOption("mb.quiet", TRUE), glance = getOption("mb.glance",
   TRUE), beep = getOption("mb.beep", TRUE), ...)
 }
@@ -14,9 +15,13 @@
 
 \item{data}{The data frame to analyse.}
 
-\item{parallel}{A flag indicating whether to perform the analysis in parallel if possible.}
+\item{nchains}{A count of the number of chains.}
 
-\item{quick}{A flag indicating whether to quickly get unreliable values.}
+\item{niters}{A count of the number of simulations to save per chain.}
+
+\item{nthin}{A count of the thining interval or NULL (in which case taken from model).}
+
+\item{parallel}{A flag indicating whether to perform the analysis in parallel if possible.}
 
 \item{quiet}{A flag indicating whether to disable tracing information.}
 

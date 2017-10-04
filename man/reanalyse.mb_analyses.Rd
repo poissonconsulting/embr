@@ -7,10 +7,9 @@
 \method{reanalyse}{mb_analyses}(object, rhat = getOption("mb.rhat", 1.1),
   esr = getOption("mb.esr", 0.33), nreanalyses = getOption("mb.nreanalyses",
   1L), duration = getOption("mb.duration", dhours(1)),
-  parallel = getOption("mb.parallel", FALSE), quick = getOption("mb.quick",
-  FALSE), quiet = getOption("mb.quiet", TRUE),
-  glance = getOption("mb.glance", TRUE), beep = getOption("mb.beep", TRUE),
-  ...)
+  parallel = getOption("mb.parallel", FALSE), quiet = getOption("mb.quiet",
+  TRUE), glance = getOption("mb.glance", TRUE), beep = getOption("mb.beep",
+  TRUE), ...)
 }
 \arguments{
 \item{object}{The object to reanalyse.}
@@ -24,8 +23,6 @@
 \item{duration}{The maximum total time to spend on analysis/reanalysis.}
 
 \item{parallel}{A flag indicating whether to perform the analysis in parallel if possible}
-
-\item{quick}{A flag indicating whether to quickly get unreliable values.}
 
 \item{quiet}{A flag indicating whether to disable tracing information.}
 

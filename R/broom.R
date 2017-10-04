@@ -14,8 +14,8 @@ glance.mb_analysis <- function(x, n = NULL, rhat = getOption("mb.rhat", 1.1), ..
       n = n,
       K = K,
       nchains = nchains(x),
-      nsims = nsims(x),
-      nsamples = nsamples(x),
+      nthin = nthin(x),
+      niters = niters(x),
       ess = ess(x),
       rhat = rhat_analysis,
       converged = rhat_analysis < rhat_arg

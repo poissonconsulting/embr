@@ -91,9 +91,8 @@
 <span class='fu'>derive</span>(<span class='no'>object</span>, <span class='kw'>new_data</span> <span class='kw'>=</span> <span class='fu'><a href='data_set.html'>data_set</a></span>(<span class='no'>object</span>),
   <span class='kw'>new_expr</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>new_values</span> <span class='kw'>=</span> <span class='fu'>list</span>(), <span class='kw'>term</span> <span class='kw'>=</span> <span class='st'>"prediction"</span>,
   <span class='kw'>modify_new_data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ref_data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.parallel"</span>, <span class='fl'>FALSE</span>), <span class='kw'>quick</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.quick"</span>,
-  <span class='fl'>FALSE</span>), <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.quiet"</span>, <span class='fl'>TRUE</span>), <span class='kw'>beep</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.beep"</span>,
-  <span class='fl'>FALSE</span>), <span class='no'>...</span>)</pre>
+  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.parallel"</span>, <span class='fl'>FALSE</span>), <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.quiet"</span>,
+  <span class='fl'>TRUE</span>), <span class='kw'>beep</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.beep"</span>, <span class='fl'>FALSE</span>), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -129,10 +128,6 @@
     <tr>
       <th>parallel</th>
       <td><p>A flag indicating whether to do predictions using parallel backend provided by foreach.</p></td>
-    </tr>
-    <tr>
-      <th>quick</th>
-      <td><p>A flag indicating whether to quickly get unreliable values.</p></td>
     </tr>
     <tr>
       <th>quiet</th>

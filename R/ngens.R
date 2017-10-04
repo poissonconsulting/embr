@@ -1,4 +1,4 @@
-#' Total Number of MCMC simulations generated for each chain.
+#' Total Number of MCMC simulations generated (including warmup)
 #'
 #' @param x The object
 #' @param ... Unused.
@@ -9,11 +9,6 @@ ngens <- function(x, ...) {
 }
 
 #' @export
-ngens.mb_model <- function(x, ...) {
-  as.integer(x$ngens)
-}
-
-#' @export
 ngens.mb_analysis <- function(x, ...) {
-  as.integer(x$ngens)
+  as.integer(nsims(x) * nthin(x) * 2L)
 }

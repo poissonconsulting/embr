@@ -26,7 +26,6 @@ predict.mb_analysis <- function(object,
                                 modify_new_data = NULL,
                                 ref_data = FALSE,
                                 parallel = getOption("mb.parallel", FALSE),
-                                quick = getOption("mb.quick", FALSE),
                                 quiet = getOption("mb.quiet", TRUE),
                                 beep = getOption("mb.beep", FALSE),
                                 ...) {
@@ -40,7 +39,7 @@ predict.mb_analysis <- function(object,
   object %<>% derive_data(new_data = new_data, new_expr = new_expr,
                           new_values = new_values, term = term,
                           modify_new_data = modify_new_data, ref_data = ref_data,
-                          parallel = parallel, quick = quick, quiet = quiet,
+                          parallel = parallel, quiet = quiet,
                           beep = FALSE, ...)
 
   object %<>% coef(conf_level = conf_level)
@@ -63,7 +62,6 @@ predict.mb_analyses <- function(object,
                                 modify_new_data = NULL,
                                 ref_data = FALSE,
                                 parallel = getOption("mb.parallel", FALSE),
-                                quick = getOption("mb.quick", FALSE),
                                 quiet = getOption("mb.quiet", TRUE),
                                 beep = getOption("mb.beep", FALSE),
                                 ...) {
@@ -76,7 +74,7 @@ predict.mb_analyses <- function(object,
   prediction <- llply(object, predict, new_data = new_data, new_expr = new_expr,
                       new_values = new_values, term = term, conf_level = conf_level,
                       modify_new_data = modify_new_data, ref_data = ref_data,
-                      parallel = parallel, quick = quick, quiet = quiet, beep = FALSE)
+                      parallel = parallel, quiet = quiet, beep = FALSE)
 
   if (!any(is.finite(ic$IC))) {
     prediction <- prediction[[1]] %<>%

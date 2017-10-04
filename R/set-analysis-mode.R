@@ -1,39 +1,70 @@
 #' Set Analysis Mode
 #'
-#' Sets analysis mode. Possible values are 'debug', 'quick', 'report' or 'paper'.
+#' Sets analysis mode. Possible values are 'reset', 'debug', 'check', 'quick', 'report' or 'paper'.
 #'
 #' @param mode A string of the analysis mode.
 #' @export
 set_analysis_mode <- function(mode = "report") {
   check_string(mode)
 
-  if (mode == "debug") {
-    options(mb.parallel = FALSE,
-            mb.quick = TRUE,
+  if (mode == "reset") {
+      options(mb.nchains = NULL,
+            mb.niters = NULL,
+            mb.nthin = NULL,
+            mb.parallel = NULL,
+            mb.quiet = NULL,
+            mb.beep = NULL,
+            mb.glance = NULL,
+            mb.rhat = NULL,
+            mb.esr = NULL,
+            mb.nreanalyses = NULL,
+            mb.duration = NULL)
+  } else if (mode == "debug") {
+    options(mb.nchains = 2L,
+            mb.niters = 10L,
+            mb.nthin = 1L,
+            mb.parallel = FALSE,
             mb.quiet = FALSE,
             mb.beep = TRUE)
   } else if (mode == "quick") {
-    options(mb.parallel = getDoParWorkers() >= 2L,
-            mb.quick = TRUE,
+    options(mb.nchains = 2L,
+            mb.niters = 10L,
+            mb.nthin = 1L,
+            mb.parallel = getDoParWorkers() >= 2L,
             mb.quiet = TRUE,
             mb.beep = FALSE)
+  } else if (mode == "check") {
+    options(mb.nchains = 2L,
+            mb.niters = 500L,
+            mb.nthin = NULL,
+            mb.parallel = getDoParWorkers() >= 2L,
+            mb.quiet = TRUE,
+            mb.beep = FALSE,
+            mb.rhat = 1.0,
+            mb.esr = 1.0,
+            mb.nreanalyses = 1L,
+            mb.duration = dminutes(2))
   } else if (mode == "report") {
-    options(mb.parallel = getDoParWorkers() >= 4L,
-            mb.quick = FALSE,
+    options(mb.nchains = 3L,
+            mb.niters = 500L,
+            mb.nthin = NULL,
+            mb.parallel = getDoParWorkers() >= 3L,
             mb.quiet = TRUE,
             mb.beep = TRUE,
             mb.rhat = 1.1,
-            mb.esr = 0.25,
-            mb.nreanalyses = 2L,
+            mb.esr = 0.2,
+            mb.nreanalyses = 1L,
             mb.duration = dhours(1))
   } else if (mode == "paper") {
-    options(mb.parallel =  getDoParWorkers() >= 4L,
-            mb.quick = FALSE,
+    options(mb.nchains = 4L,
+            mb.niters = 1000L,
+            mb.nthin = NULL,
+            mb.parallel = getDoParWorkers() >= 4L,
             mb.quiet = TRUE,
             mb.beep = TRUE,
             mb.rhat = 1.05,
-            mb.esr = 0.5,
-            mb.nreanalyses = 3L,
-            mb.duration = dhours(10))
-  } else error("mode '", mode,"' unrecognised (possible values are 'debug', 'quick', 'report' or 'paper')")
+            mb.esr = 0.25,
+            mb.nreanalyses = 2L,
+            mb.duration = dhours(6))
+  } else error("mode '", mode,"' unrecognised (possible values are 'debug', 'reset', 'check', 'quick', 'report' or 'paper')")
 }

@@ -12,26 +12,17 @@
 #' @param data Data.
 #' @param drops A list of character vectors specifying the scalar parameters to consider.
 #' @param conf_level A number specifying the confidence level. By default 0.95.
-#' @param quick A flag indicating whether to quickly get unreliable values.
-#' @param quiet A flag indicating whether to disable tracing information.
 #' @param beep A flag indicating whether to beep on completion of the analysis.
-#' @param parallel A flag indicating whether to perform the analysis in parallel if possible.
 #' @param ... Unused.
 #' @return A list of the analyses.
 #' @export
 backwards <- function(model, data, drops = list(), conf_level = 0.95,
-                      parallel = getOption("mb.parallel", FALSE),
-                      quick = getOption("mb.quick", FALSE),
-                      quiet = getOption("mb.quiet", TRUE),
                       beep = getOption("mb.beep", TRUE), ...) {
   UseMethod("backwards")
 }
 
 #' @export
 backwards.mb_model <- function(model, data, drops = list(), conf_level = 0.95,
-                               parallel = getOption("mb.parallel", FALSE),
-                               quick = getOption("mb.quick", FALSE),
-                               quiet = getOption("mb.quiet", TRUE),
                                beep = getOption("mb.beep", TRUE), ...) {
 
   .NotYetImplemented()
@@ -46,7 +37,7 @@ backwards.mb_model <- function(model, data, drops = list(), conf_level = 0.95,
   to_drop <- character(0)
   dropped <- list(character(0))
 
-  analysis <- analyse(model, data, parallel = parallel, quick = quick, quiet = quiet, beep = beep)
+  analysis <- analyse(model, data, beep = FALSE)
   analyses <- list(analysis)
 
   next_drop <- next_drop(analysis, drops, conf_level = conf_level)
@@ -58,8 +49,7 @@ backwards.mb_model <- function(model, data, drops = list(), conf_level = 0.95,
     to_drop %<>% c(next_drop)
     dropped %<>% c(to_drop)
 
-    analysis <- analyse(model, data, drop = to_drop, parallel = parallel,
-                        quick = quick, quiet = quiet, beep = beep)
+    analysis <- analyse(model, data, drop = to_drop, beep = FALSE)
     analyses %<>% c(list(analysis))
 
     next_drop <- next_drop(analysis, drops, conf_level = conf_level)

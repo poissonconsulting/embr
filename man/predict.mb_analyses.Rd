@@ -7,9 +7,8 @@
 \method{predict}{mb_analyses}(object, new_data = data_set(object),
   new_expr = NULL, new_values = list(), term = "prediction",
   conf_level = 0.95, modify_new_data = NULL, ref_data = FALSE,
-  parallel = getOption("mb.parallel", FALSE), quick = getOption("mb.quick",
-  FALSE), quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep",
-  FALSE), ...)
+  parallel = getOption("mb.parallel", FALSE), quiet = getOption("mb.quiet",
+  TRUE), beep = getOption("mb.beep", FALSE), ...)
 }
 \arguments{
 \item{object}{An object inheriting from class mb_analysis.}
@@ -29,8 +28,6 @@
 \item{ref_data}{A flag or a data frame with 1 row indicating the reference values for calculating the effects size.}
 
 \item{parallel}{A flag indicating whether to do predictions using parallel backend provided by foreach.}
-
-\item{quick}{A flag indicating whether to quickly get unreliable values.}
 
 \item{quiet}{A flag indicating whether to disable tracing information.}
 

@@ -19,6 +19,7 @@ Demonstration
 library(magrittr)
 library(ggplot2)
 library(mbr)
+#> Warning: package 'dplyr' was built under R version 3.4.2
 ```
 
 Installation

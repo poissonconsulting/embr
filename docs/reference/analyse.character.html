@@ -89,10 +89,11 @@
 
     <pre class="usage"><span class='co'># S3 method for character</span>
 <span class='fu'><a href='analyse.html'>analyse</a></span>(<span class='no'>x</span>, <span class='no'>data</span>, <span class='kw'>select_data</span> <span class='kw'>=</span> <span class='fu'>list</span>(),
-  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.parallel"</span>, <span class='fl'>FALSE</span>), <span class='kw'>quick</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.quick"</span>,
-  <span class='fl'>FALSE</span>), <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.quiet"</span>, <span class='fl'>TRUE</span>),
-  <span class='kw'>glance</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.glance"</span>, <span class='fl'>TRUE</span>), <span class='kw'>beep</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.beep"</span>, <span class='fl'>TRUE</span>),
-  <span class='no'>...</span>)</pre>
+  <span class='kw'>nchains</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.nchains"</span>, <span class='fl'>3L</span>), <span class='kw'>niters</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.niters"</span>,
+  <span class='fl'>1000L</span>), <span class='kw'>nthin</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.nthin"</span>, <span class='fl'>1L</span>),
+  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.parallel"</span>, <span class='fl'>FALSE</span>), <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.quiet"</span>,
+  <span class='fl'>TRUE</span>), <span class='kw'>glance</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.glance"</span>, <span class='fl'>TRUE</span>), <span class='kw'>beep</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.beep"</span>,
+  <span class='fl'>TRUE</span>), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
@@ -110,12 +111,20 @@
       <td><p>A named list specifying the columns to select and their associated classes and values as well as transformations and scaling options.</p></td>
     </tr>
     <tr>
-      <th>parallel</th>
-      <td><p>A flag indicating whether to perform the analysis in parallel if possible.</p></td>
+      <th>nchains</th>
+      <td><p>A count of the number of chains.</p></td>
     </tr>
     <tr>
-      <th>quick</th>
-      <td><p>A flag indicating whether to quickly get unreliable values.</p></td>
+      <th>niters</th>
+      <td><p>A count of the number of simulations to save per chain.</p></td>
+    </tr>
+    <tr>
+      <th>nthin</th>
+      <td><p>A count of the thining interval or NULL (in which case taken from model).</p></td>
+    </tr>
+    <tr>
+      <th>parallel</th>
+      <td><p>A flag indicating whether to perform the analysis in parallel if possible.</p></td>
     </tr>
     <tr>
       <th>quiet</th>

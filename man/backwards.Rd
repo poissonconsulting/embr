@@ -5,9 +5,7 @@
 \title{Backwards}
 \usage{
 backwards(model, data, drops = list(), conf_level = 0.95,
-  parallel = getOption("mb.parallel", FALSE), quick = getOption("mb.quick",
-  FALSE), quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep",
-  TRUE), ...)
+  beep = getOption("mb.beep", TRUE), ...)
 }
 \arguments{
 \item{model}{An object.}
@@ -17,12 +15,6 @@ backwards(model, data, drops = list(), conf_level = 0.95,
 \item{drops}{A list of character vectors specifying the scalar parameters to consider.}
 
 \item{conf_level}{A number specifying the confidence level. By default 0.95.}
-
-\item{parallel}{A flag indicating whether to perform the analysis in parallel if possible.}
-
-\item{quick}{A flag indicating whether to quickly get unreliable values.}
-
-\item{quiet}{A flag indicating whether to disable tracing information.}
 
 \item{beep}{A flag indicating whether to beep on completion of the analysis.}
 

@@ -5,10 +5,11 @@
 \title{Analyse}
 \usage{
 \method{analyse}{character}(x, data, select_data = list(),
-  parallel = getOption("mb.parallel", FALSE), quick = getOption("mb.quick",
-  FALSE), quiet = getOption("mb.quiet", TRUE),
-  glance = getOption("mb.glance", TRUE), beep = getOption("mb.beep", TRUE),
-  ...)
+  nchains = getOption("mb.nchains", 3L), niters = getOption("mb.niters",
+  1000L), nthin = getOption("mb.nthin", 1L),
+  parallel = getOption("mb.parallel", FALSE), quiet = getOption("mb.quiet",
+  TRUE), glance = getOption("mb.glance", TRUE), beep = getOption("mb.beep",
+  TRUE), ...)
 }
 \arguments{
 \item{x}{An object inheriting from class mb_model or a list of such objects.}
@@ -17,9 +18,13 @@
 
 \item{select_data}{A named list specifying the columns to select and their associated classes and values as well as transformations and scaling options.}
 
-\item{parallel}{A flag indicating whether to perform the analysis in parallel if possible.}
+\item{nchains}{A count of the number of chains.}
 
-\item{quick}{A flag indicating whether to quickly get unreliable values.}
+\item{niters}{A count of the number of simulations to save per chain.}
+
+\item{nthin}{A count of the thining interval or NULL (in which case taken from model).}
+
+\item{parallel}{A flag indicating whether to perform the analysis in parallel if possible.}
 
 \item{quiet}{A flag indicating whether to disable tracing information.}
 

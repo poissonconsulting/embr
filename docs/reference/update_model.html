@@ -89,7 +89,7 @@
 
     <pre class="usage"><span class='fu'>update_model</span>(<span class='no'>model</span>, <span class='kw'>code</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>gen_inits</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>random_effects</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>fixed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>derived</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>select_data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>center</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>scale</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>modify_data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ngens</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>new_expr</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>scale</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>modify_data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>nthin</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>new_expr</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>modify_new_data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>drops</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
@@ -137,8 +137,8 @@ returning a named list of initial values.</p></td>
       <td><p>A single argument function to modify the data (in list form) immediately prior to the analysis.</p></td>
     </tr>
     <tr>
-      <th>ngens</th>
-      <td><p>A number specifying the number of iterations to generate for each chain. Must be 10^3, 10^4, 10^5, 10^6 ol 10^7.</p></td>
+      <th>nthin</th>
+      <td><p>A count specifying the thinning interval.</p></td>
     </tr>
     <tr>
       <th>new_expr</th>

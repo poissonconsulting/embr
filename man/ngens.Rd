@@ -2,7 +2,7 @@
 % Please edit documentation in R/ngens.R
 \name{ngens}
 \alias{ngens}
-\title{Total Number of MCMC simulations generated for each chain.}
+\title{Total Number of MCMC simulations generated (including warmup)}
 \usage{
 ngens(x, ...)
 }
@@ -15,5 +15,5 @@ ngens(x, ...)
 A count.
 }
 \description{
-Total Number of MCMC simulations generated for each chain.
+Total Number of MCMC simulations generated (including warmup)
 }

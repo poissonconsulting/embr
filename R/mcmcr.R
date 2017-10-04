@@ -51,13 +51,11 @@ derive_fun <- function(object,
                        term = "prediction",
                        modify_new_data = NULL,
                        parallel,
-                       quick,
                        quiet,
                        ...) {
   check_data2(new_data)
   check_uniquely_named_list(new_values)
   check_flag(parallel)
-  check_flag(quick)
   check_flag(quiet)
 
   model <- model(object)
@@ -76,7 +74,7 @@ derive_fun <- function(object,
   data %<>% c(new_values)
 
   object %<>% derive(expr = new_expr, values = data, monitor = term,
-                     parallel = parallel, quick = quick)
+                     parallel = parallel)
   object
 }
 
@@ -95,7 +93,6 @@ derive.mb_analysis <- function(object,
                                modify_new_data = NULL,
                                ref_data = FALSE,
                                parallel = getOption("mb.parallel", FALSE),
-                               quick = getOption("mb.quick", FALSE),
                                quiet = getOption("mb.quiet", TRUE),
                                beep = getOption("mb.beep", FALSE),
                                ...) {
@@ -113,7 +110,7 @@ derive.mb_analysis <- function(object,
   new_data %<>% derive_fun(object, new_data = ., new_expr = new_expr,
                       new_values = new_values, term = term,
                       modify_new_data = modify_new_data,
-                      parallel = parallel, quick = quick,
+                      parallel = parallel,
                       quiet = quiet, beep = FALSE, ...)
 
   if (identical(ref_data, FALSE)) return(new_data)
@@ -124,7 +121,7 @@ derive.mb_analysis <- function(object,
   ref_data %<>% derive_fun(object, new_data = ., new_expr = new_expr,
                            new_values = new_values, term = term,
                            modify_new_data = modify_new_data,
-                           parallel = parallel, quick = quick,
+                           parallel = parallel,
                            quiet = quiet, beep = FALSE, ...)
 
   ref_data %<>% rep(nrow)
@@ -151,7 +148,6 @@ derive.mb_analysis <- function(object,
 #' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
 #' @param ref_data A flag or a data frame with 1 row indicating the reference values for calculating the effects size.
 #' @param parallel A flag indicating whether to do predictions using parallel backend provided by foreach.
-#' @param quick A flag indicating whether to quickly get unreliable values.
 #' @param quiet A flag indicating whether to disable tracing information.
 #' @param beep A flag indicating whether to beep on completion of the analysis.
 #' @param ...  Additional arguments.#' @return A object of class mcmcr_data.
@@ -164,7 +160,6 @@ derive_data <- function(object,
                         modify_new_data = NULL,
                         ref_data = FALSE,
                         parallel = getOption("mb.parallel", FALSE),
-                        quick = getOption("mb.quick", FALSE),
                         quiet = getOption("mb.quiet", TRUE),
                         beep = getOption("mb.beep", FALSE),
                         ...) {
@@ -177,7 +172,7 @@ derive_data <- function(object,
   object %<>% derive(new_data = new_data, new_expr = new_expr, new_values = new_values,
                      term = term, modify_new_data = modify_new_data,
                      ref_data = ref_data, parallel = parallel,
-                     quick = quick, quiet = quiet, beep = beep, ...)
+                     quiet = quiet, beep = beep, ...)
 
   object %<>% mcmcr_data(new_data)
   object
