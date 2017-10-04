@@ -68,11 +68,13 @@ reanalyse.mb_analysis <- function(object,
     if (glance) print(glance(object))
     return(object)
   }
-
   while (nreanalyses > 0L && duration >= elapsed(object) * 2 && !(converged(object, rhat) && esr(object) > esr)) {
-    object %<>% reanalyse1(parallel = parallel, quiet = quiet)
+    object <- analyse(model(object), data_set(object),
+                      nchains = nchains(object), niters = niters(object),
+                      nthin = nthin(object) * 2L,
+                      parallel = parallel, quiet = quiet,
+                      glance = glance, beep = FALSE)
     nreanalyses %<>% magrittr::subtract(1L)
-    if (glance) print(glance(object))
   }
   object
 }

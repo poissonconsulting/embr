@@ -9,7 +9,7 @@ analyse <- function(x, ...) {
 
 #' Analyse
 #'
-#' @param x The mb_model to analyse.
+#' @param model The mb_model to analyse.
 #' @param data The data.
 #' @param loaded The loaded model.
 #' @param nchains chains.

@@ -8,6 +8,8 @@ analyse1(model, data, loaded, nchains, niters, nthin, quiet, glance, parallel,
   ...)
 }
 \arguments{
+\item{model}{The mb_model to analyse.}
+
 \item{data}{The data.}
 
 \item{loaded}{The loaded model.}
@@ -25,8 +27,6 @@ analyse1(model, data, loaded, nchains, niters, nthin, quiet, glance, parallel,
 \item{parallel}{parallel}
 
 \item{...}{Additional arguments.}
-
-\item{x}{The mb_model to analyse.}
 }
 \description{
 Analyse
