@@ -12,6 +12,7 @@ reanalyse <- function(object, ...) {
 #' Reanalyse
 #'
 #' Reanalyse an analysis.
+#' For user to override.
 #'
 #' @param object The object to reanalyse.
 #' @param parallel A flag indicating whether to perform the reanalysis in parallel.
@@ -22,9 +23,15 @@ reanalyse1 <- function(object, parallel, quiet, ...) {
   UseMethod("reanalyse1")
 }
 
+reanalyse_model <- function(object, name = NULL, rhat, esr, nreanalyses, duration, parallel, quiet, glance, beep, ...) {
+  if (!is.null(name) & glance) cat("Model:", name, "\n")
+  reanalyse(object, rhat = rhat, esr = esr, nreanalyses = nreanalyses,
+            duration = duration, quiet = quiet,
+            glance = glance, beep = beep, ...)
+}
 
-reanalyse_analysis <- function(object, name, rhat, esr, nreanalyses, duration, parallel, quiet, glance, beep, ...) {
-  if (glance) cat("Model:", name, "\n")
+reanalyse_data <- function(object, name = NULL, rhat, esr, nreanalyses, duration, parallel, quiet, glance, beep, ...) {
+  if (!is.null(name) & glance) cat("Data:", name, "\n")
   reanalyse(object, rhat = rhat, esr = esr, nreanalyses = nreanalyses,
             duration = duration, quiet = quiet,
             glance = glance, beep = beep, ...)
@@ -64,7 +71,7 @@ reanalyse.mb_analysis <- function(object,
   check_flag(glance)
   check_number(esr, c(0, 1))
 
-  if (duration < elapsed(object) * 2 || (converged(object, rhat) && esr(object) > esr)) {
+  if (nreanalyses == 0L || duration < elapsed(object) * 2 || (converged(object, rhat) && esr(object) > esr)) {
     if (glance) print(glance(object))
     return(object)
   }
@@ -113,19 +120,12 @@ reanalyse.mb_analyses <- function(object,
     names(object) <- 1:length(object)
   }
 
-  object %<>% purrr::imap(reanalyse_analysis, rhat = rhat, esr = esr,
+  object %<>% purrr::imap(reanalyse_model, rhat = rhat, esr = esr,
                           nreanalyses = nreanalyses, duration = duration,
                           quiet = quiet, glance = glance, beep = FALSE, ...)
 
   object %<>% as_mb_analyses(names)
   object
-}
-
-reanalyse_meta_analysis <- function(object, name, rhat, esr, nreanalyses, duration, parallel, quiet, glance, beep, ...) {
-  if (glance) cat("Meta Analysis:", name, "\n")
-  reanalyse(object, rhat = rhat, esr = esr, nreanalyses = nreanalyses,
-            duration = duration, quiet = quiet,
-            glance = glance, beep = beep, ...)
 }
 
 #' Reanalyse
@@ -162,7 +162,7 @@ reanalyse.mb_meta_analysis <- function(object,
     names(object) <- 1:length(object)
   }
 
-  object %<>% purrr::imap(reanalyse_analysis, rhat = rhat, esr = esr,
+  object %<>% purrr::imap(reanalyse_data, rhat = rhat, esr = esr,
                           nreanalyses = nreanalyses, duration = duration,
                           quiet = quiet, glance = glance, beep = FALSE, ...)
 
@@ -207,7 +207,7 @@ reanalyse.mb_meta_analyses <- function(object,
   object %<>% purrr::transpose()
   object %<>% lapply(as_mb_meta_analysis)
 
-  object %<>% purrr::imap(reanalyse_meta_analysis, rhat = rhat, esr = esr,
+  object %<>% purrr::imap(reanalyse_model, rhat = rhat, esr = esr,
                           nreanalyses = nreanalyses, duration = duration,
                           quiet = quiet, glance = glance, beep = FALSE, ...)
 

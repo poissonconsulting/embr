@@ -17,4 +17,5 @@ reanalyse1(object, parallel, quiet, ...)
 }
 \description{
 Reanalyse an analysis.
+For user to override.
 }

@@ -24,7 +24,7 @@ analyse1 <- function(model, data, loaded, nchains, niters, nthin, quiet, glance,
   UseMethod("analyse1")
 }
 
-analyse_data_model <- function(data, name = NULL, x, loaded, nchains, niters, nthin,
+analyse_data <- function(data, name = NULL, x, loaded, nchains, niters, nthin,
                           parallel, quiet, glance, ...) {
   if (!is.null(name) & glance) cat("Data:", name, "\n")
   analyse1(x, data, loaded = loaded, nchains = nchains, niters = niters,
@@ -114,7 +114,7 @@ analyse.mb_model <- function(x, data,
   loaded <- load_model(x, quiet)
 
   if (is.data.frame(data)) {
-    return(analyse_data_model(data = data, x = x, loaded = loaded,
+    return(analyse_data(data = data, x = x, loaded = loaded,
                          nchains = nchains, niters = niters, nthin = nthin,
                          parallel = parallel, quiet = quiet, glance = glance))
   }
@@ -124,7 +124,7 @@ analyse.mb_model <- function(x, data,
     names(data) <- 1:length(x)
   }
 
-  analyses <- purrr::imap(data, analyse_data_model, x = x, loaded = loaded,
+  analyses <- purrr::imap(data, analyse_data, x = x, loaded = loaded,
               nchains = nchains, niters = niters, nthin = nthin,
               parallel = parallel, quiet = quiet, glance = glance)
 
