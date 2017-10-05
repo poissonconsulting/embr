@@ -12,6 +12,8 @@ glance.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), ...) {
     tibble <- tibble::tibble(
       n = n,
       K = K,
+      logLik = logLik(x),
+      IC = IC(x),
       nchains = nchains(x),
       nthin = nthin(x),
       niters = niters(x),
@@ -26,7 +28,7 @@ glance.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), ...) {
     n = n,
     K = nterms(x, include_constant = FALSE),
     logLik = logLik(x),
-    IC = IC(x, n = n),
+    IC = IC(x),
     converged = converged(x)
   )
 }
