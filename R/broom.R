@@ -38,16 +38,10 @@ glance.mb_analyses <- function(x, ...) {
 
 #' @export
 tidy.mb_analysis <- function(x, conf_level = getOption("mb.conf_level", 0.95), ...) {
-  coef <- coef(x, conf_level = conf.level)
+  coef <- coef(x, param_type = "all", conf_level = conf_level)
 
-  coef %<>% dplyr::select_(term = ~term, ~estimate, std.error = ~sd,
-                           statistic = ~zscore, p.value = ~pvalue,
-                           conf.low = ~lower, conf.high = ~upper)
+  coef <- coef[c("term", "estimate", "lower", "upper")]
 
-  if (!conf.int) {
-    coef$conf.low <- NULL
-    coef$conf.high <- NULL
-  }
   coef
 }
 

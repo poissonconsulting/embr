@@ -90,7 +90,8 @@ MB analyses averaged by IC weights.</p>
 
     <pre class="usage"><span class='co'># S3 method for mb_analyses</span>
 <span class='fu'>coef</span>(<span class='no'>object</span>, <span class='kw'>param_type</span> <span class='kw'>=</span> <span class='st'>"fixed"</span>,
-  <span class='kw'>include_constant</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>conf_level</span> <span class='kw'>=</span> <span class='fl'>0.95</span>, <span class='no'>...</span>)</pre>
+  <span class='kw'>include_constant</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>conf_level</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.conf_level"</span>, <span class='fl'>0.95</span>),
+  <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">

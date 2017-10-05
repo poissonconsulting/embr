@@ -16,7 +16,7 @@ test_that("mb_null_analysis", {
 
   tidy <- tidy(analysis)
   expect_is(tidy, "tbl")
-  expect_identical(colnames(tidy), c("term", "estimate", "std.error", "statistic", "p.value"))
+  expect_identical(colnames(tidy), c("term", "estimate", "lower", "upper"))
   expect_identical(nrow(tidy), 0L)
 
   expect_identical(logLik(analysis), -Inf)
