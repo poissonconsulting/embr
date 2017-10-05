@@ -24,7 +24,7 @@ drop_parameters.character <- function(x, parameters = character(0), ...) {
     error("parameters must be scalar")
 
   for (parameter in parameters) {
-    x %<>% str_replace_all(str_c("\\s+", parameter, "\\s+"), str_c(" 0 "))
+    x %<>% str_replace_all(str_c("\\b", parameter, "\\s+"), str_c("0 "))
   }
   x
 }

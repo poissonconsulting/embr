@@ -16,6 +16,26 @@ new_expr.mb_model <- function(object, ...) {
 }
 
 #' @export
+new_expr.mb_models <- function(object, ...) {
+  lapply(object, new_expr)
+}
+
+#' @export
 new_expr.mb_analysis <- function(object, ...) {
   new_expr(model(object))
+}
+
+#' @export
+new_expr.mb_analyses <- function(object, ...) {
+  lapply(object, new_expr)
+}
+
+#' @export
+new_expr.mb_meta_analysis <- function(object, ...) {
+  lapply(object, new_expr)
+}
+
+#' @export
+new_expr.mb_meta_analyses <- function(object, ...) {
+  lapply(object, new_expr)
 }
