@@ -1,9 +1,8 @@
 #' @export
-glance.mb_analysis <- function(x, n = NULL, rhat = getOption("mb.rhat", 1.1), ...) {
-  checkor(check_null(n), check_count(n))
+glance.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), ...) {
   check_number(rhat, c(1.0, 1.5))
 
-  if (is.null(n)) n <- sample_size(x)
+  n <- sample_size(x)
   K <- nterms(x, include_constant = FALSE)
 
   if (is_bayesian(x)) {
@@ -38,7 +37,7 @@ glance.mb_analyses <- function(x, ...) {
 }
 
 #' @export
-tidy.mb_analysis <- function(x, conf.int = FALSE, conf.level = 0.95, ...) {
+tidy.mb_analysis <- function(x, conf_level = getOption("mb.conf_level", 0.95), ...) {
   coef <- coef(x, conf_level = conf.level)
 
   coef %<>% dplyr::select_(term = ~term, ~estimate, std.error = ~sd,

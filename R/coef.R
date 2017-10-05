@@ -1,5 +1,6 @@
 #' @export
-coef.mb_null_analysis <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = 0.95, ...) {
+coef.mb_null_analysis <- function(object, param_type = "fixed", include_constant = TRUE,
+                                  conf_level = getOption("mb.conf_level", 0.95), ...) {
   check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
   check_flag(include_constant)
   check_number(conf_level, c(0.5, 0.99))
@@ -26,7 +27,7 @@ coef.mb_null_analysis <- function(object, param_type = "fixed", include_constant
 #' @param ... Not used.
 #' @return A tidy tibble of the coefficient terms.
 #' @export
-coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = 0.95, ...) {
+coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = getOption("mb.conf_level", 0.95), ...) {
   check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
   check_flag(include_constant)
   check_number(conf_level, c(0.5, 0.99))
@@ -79,7 +80,7 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
 #' @return A tidy tibble of the coeffcient terms with the model averaged estimate, the
 #' Akaike's weight and the proportion of models including the term.
 #' @export
-coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = 0.95, ...) {
+coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = getOption("mb.conf_level", 0.95), ...) {
   ic <- IC(object)
   coef <- llply(object, coef, param_type = param_type, include_constant = include_constant, conf_level = conf_level)
 
@@ -116,7 +117,8 @@ coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TR
 #' @param ... Not used.
 #' @return A tidy tibble.
 #' @export
-coef.mb_meta_analysis <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = 0.95, ...) {
+coef.mb_meta_analysis <- function(object, param_type = "fixed", include_constant = TRUE,
+                                  conf_level = getOption("mb.conf_level", 0.95), ...) {
   llply(object, coef, param_type = param_type, include_constant = include_constant, conf_level = conf_level, ...)
 }
 
@@ -129,6 +131,7 @@ coef.mb_meta_analysis <- function(object, param_type = "fixed", include_constant
 #' @param ... Not used.
 #' @return A tidy tibble.
 #' @export
-coef.mb_meta_analyses <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = 0.95, ...) {
+coef.mb_meta_analyses <- function(object, param_type = "fixed", include_constant = TRUE,
+                                  conf_level = getOption("mb.conf_level", 0.95), ...) {
   llply(object, coef, param_type = param_type, include_constant = include_constant, conf_level = conf_level, ...)
 }

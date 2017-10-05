@@ -16,13 +16,13 @@
 #' @param ... Unused.
 #' @return A list of the analyses.
 #' @export
-backwards <- function(model, data, drops = list(), conf_level = 0.95,
+backwards <- function(model, data, drops = list(), conf_level = getOption("mb.conf_level", 0.95),
                       beep = getOption("mb.beep", TRUE), ...) {
   UseMethod("backwards")
 }
 
 #' @export
-backwards.mb_model <- function(model, data, drops = list(), conf_level = 0.95,
+backwards.mb_model <- function(model, data, drops = list(), conf_level = getOption("mb.conf_level", 0.95),
                                beep = getOption("mb.beep", TRUE), ...) {
 
   .NotYetImplemented()
