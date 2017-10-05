@@ -66,26 +66,6 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
   coef
 }
 
-#' Coef List
-#'
-#' Coefficients for fixed parameters from
-#' MB analyses averaged by IC weights.
-#'
-#' @param object A list of mb_analysis objects.
-#' @param param_type A flag specifying whether 'fixed', 'random' or 'derived' terms.
-#' @param include_constant A flag specifying whether to include constant terms.
-#' @param conf_level A number specifying the confidence level. By default 0.95.
-#' @param ... Not used.
-#' @return A tidy tibble of the coeffcient terms with the model averaged estimate, the
-#' weight and the proportion of models including the term.
-#' @export
-coef.list <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = 0.95, ...) {
-  .Deprecated("coef.mb_analyses")
-  class(object) <- "mb_analyses"
-  coef(object, param_type = param_type, include_constant = include_constant,
-       conf_level = conf_level, ...)
-}
-
 #' Coef TMB Analyses
 #'
 #' Coefficients for fixed parameters from an ML based
@@ -125,4 +105,30 @@ coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TR
   coef <- coef[order(coef$term),]
   class(coef) %<>% c("mb_analyses_coef", .)
   coef
+}
+
+#' Coef TMB Meta Analysis
+#'
+#' @param object The mb_meta_analysis object.
+#' @param param_type A flag specifying whether 'fixed', 'random' or 'derived' terms.
+#' @param include_constant A flag specifying whether to include constant terms.
+#' @param conf_level A number specifying the confidence level. By default 0.95.
+#' @param ... Not used.
+#' @return A tidy tibble.
+#' @export
+coef.mb_meta_analysis <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = 0.95, ...) {
+  llply(object, coef, param_type = param_type, include_constant = include_constant, conf_level = conf_level, ...)
+}
+
+#' Coef TMB Meta Analyses
+#'
+#' @param object The mb_meta_analyses object.
+#' @param param_type A flag specifying whether 'fixed', 'random' or 'derived' terms.
+#' @param include_constant A flag specifying whether to include constant terms.
+#' @param conf_level A number specifying the confidence level. By default 0.95.
+#' @param ... Not used.
+#' @return A tidy tibble.
+#' @export
+coef.mb_meta_analyses <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = 0.95, ...) {
+  llply(object, coef, param_type = param_type, include_constant = include_constant, conf_level = conf_level, ...)
 }
