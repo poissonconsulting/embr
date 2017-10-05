@@ -30,6 +30,11 @@ coef_arg2to1 <- function(param_type, object, include_constant, conf_level, ...) 
 
 allin <- function(x, y) all(x %in% y)
 
+# should be more stable than log(colMeans(exp(x)))
+logColMeansExp <- function(x) {
+  matrixStats::colLogSumExps(x) - log(nrow(x))
+}
+
 #' Is Named List
 #'
 #' @param x The object to test.

@@ -12,10 +12,24 @@ IC <- function(object, ...) {
 
 #' @export
 IC.mb_analysis <- function(object, ...) {
-  K <- nterms(object, include_constant = FALSE)
-  n <- sample_size(object)
-  c <- 2 * K * (K + 1) / (n - K - 1)
-  2 * K - 2 * logLik(object) + c
+  if (!is_bayesian(object)) {
+    K <- nterms(object, include_constant = FALSE)
+    n <- sample_size(object)
+    c <- 2 * K * (K + 1) / (n - K - 1)
+    return(2 * K - 2 * logLik(object) + c)
+  }
+  logLik <- logLik_matrix(object)
+
+  npars <- logLik %>%
+    matrixStats::colVars() %>%
+    sum()
+
+  logLik %<>%
+    logColMeansExp() %>%
+    sum()
+
+  ic <- -2 * (logLik - npars)
+  ic
 }
 
 #' @export
