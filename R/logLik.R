@@ -34,7 +34,7 @@ logLik.mb_analysis <- function(object, ...) {
     if (is.null(object$logLik)) return(NA_real_)
     return(object$logLik)
   }
-  if (!"log_lik" %in% parameters(object$new_expr)) {
+  if (!is_new_parameter(object, "log_lik")) {
     warning("log_lik is not in new_expr", call. = FALSE)
     return(NA_real_)
   }

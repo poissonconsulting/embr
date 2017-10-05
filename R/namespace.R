@@ -1,6 +1,6 @@
 #' @import datacheckr mcmcr stringr
-#' @importFrom broom glance tidy
-#' @importFrom stats coef
+#' @importFrom broom augment glance tidy
+#' @importFrom stats coef residuals
 #' @importFrom foreach getDoParWorkers
 #' @importFrom graphics plot
 #' @importFrom lubridate dminutes dhours is.duration

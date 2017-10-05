@@ -51,3 +51,23 @@ tidy.mb_analysis <- function(x, conf.int = FALSE, conf.level = 0.95, ...) {
   }
   coef
 }
+
+#' @export
+augment.mb_analysis <- function(x, ...) {
+  data <- data_set(x)
+
+  if (is_new_parameter(x, "fitted"))
+    data$fitted <- fitted(x)$estimate
+  if (is_new_parameter(x, "residual"))
+    data$residual <- residuals(x)$estimate
+  if (is_new_parameter(x, "log_lik")) {
+    logLik <- logLik_matrix(x)
+    if (ncol(logLik) == nrow(data)) {
+      data$log_lik <- logColMeansExp(logLik)
+      data$vlog_lik <- matrixStats::colVars(logLik)
+    }
+  }
+  data
+}
+
+

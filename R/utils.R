@@ -28,6 +28,11 @@ coef_arg2to1 <- function(param_type, object, include_constant, conf_level, ...) 
   coef(object, param_type = param_type, include_constant = include_constant, conf_level = conf_level, ...)
 }
 
+
+is_new_parameter <- function(x, parameter) {
+  parameter %in% parameters(new_expr(x))
+}
+
 allin <- function(x, y) all(x %in% y)
 
 # should be more stable than log(colMeans(exp(x)))
