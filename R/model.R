@@ -15,7 +15,7 @@ model.character <- function(
   x, gen_inits = function(data) {list()}, random_effects = list(),
   fixed = getOption("mb.fixed", "^[^e]"),
   derived = character(0), select_data = list(),
-  center = character(0), scale = character(0), modify_data = identity, nthin = 1L,
+  center = character(0), scale = character(0), modify_data = identity, nthin = getOption("mb.nthin", 1L),
   new_expr = character(0), modify_new_data = identity, drops = list(), ...) {
 
   x %<>% mb_code()
@@ -32,7 +32,7 @@ model_mb_code <- function(
   fixed = getOption("mb.fixed", "^[^e]"),
   derived = character(0),
   select_data = list(), center = character(0), scale = character(0),
-  modify_data = identity, nthin,
+  modify_data = identity, nthin = getOption("mb.nthin", 1L),
   new_expr = character(0), modify_new_data = identity, drops = list(), ...) {
 
   check_mb_code(x)
@@ -139,7 +139,7 @@ model.mb_code <- function(
   fixed = getOption("mb.fixed", "^[^e]"),
   derived = character(0),
   select_data = list(), center = character(0), scale = character(0),
-  modify_data = identity, nthin = 1L,
+  modify_data = identity, nthin = getOption("mb.nthin", 1L),
   new_expr = character(0), modify_new_data = identity, drops = list(), ...) {
 
   model_mb_code(x = x, gen_inits = gen_inits, random_effects = random_effects,

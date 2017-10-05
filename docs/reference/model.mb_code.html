@@ -91,9 +91,9 @@
 <span class='fu'><a href='model.html'>model</a></span>(<span class='no'>x</span>, <span class='kw'>gen_inits</span> <span class='kw'>=</span> <span class='kw'>function</span>(<span class='no'>data</span>) {     <span class='fu'>list</span>() },
   <span class='kw'>random_effects</span> <span class='kw'>=</span> <span class='fu'>list</span>(), <span class='kw'>fixed</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.fixed"</span>, <span class='st'>"^[^e]"</span>),
   <span class='kw'>derived</span> <span class='kw'>=</span> <span class='fu'>character</span>(<span class='fl'>0</span>), <span class='kw'>select_data</span> <span class='kw'>=</span> <span class='fu'>list</span>(), <span class='kw'>center</span> <span class='kw'>=</span> <span class='fu'>character</span>(<span class='fl'>0</span>),
-  <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fu'>character</span>(<span class='fl'>0</span>), <span class='kw'>modify_data</span> <span class='kw'>=</span> <span class='no'>identity</span>, <span class='kw'>nthin</span> <span class='kw'>=</span> <span class='fl'>1L</span>,
-  <span class='kw'>new_expr</span> <span class='kw'>=</span> <span class='fu'>character</span>(<span class='fl'>0</span>), <span class='kw'>modify_new_data</span> <span class='kw'>=</span> <span class='no'>identity</span>, <span class='kw'>drops</span> <span class='kw'>=</span> <span class='fu'>list</span>(),
-  <span class='no'>...</span>)</pre>
+  <span class='kw'>scale</span> <span class='kw'>=</span> <span class='fu'>character</span>(<span class='fl'>0</span>), <span class='kw'>modify_data</span> <span class='kw'>=</span> <span class='no'>identity</span>,
+  <span class='kw'>nthin</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.nthin"</span>, <span class='fl'>1L</span>), <span class='kw'>new_expr</span> <span class='kw'>=</span> <span class='fu'>character</span>(<span class='fl'>0</span>),
+  <span class='kw'>modify_new_data</span> <span class='kw'>=</span> <span class='no'>identity</span>, <span class='kw'>drops</span> <span class='kw'>=</span> <span class='fu'>list</span>(), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
