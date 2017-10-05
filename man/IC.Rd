@@ -4,12 +4,10 @@
 \alias{IC}
 \title{Information Criterion}
 \usage{
-IC(object, n = NULL, ...)
+IC(object, ...)
 }
 \arguments{
 \item{object}{The object to calculate the IC for.}
-
-\item{n}{An count of the sample size. If NULL it is assumed to be the number of rows in the data.}
 
 \item{...}{Not used.}
 }
