@@ -9,11 +9,19 @@ glance.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), ...) {
     rhat_analysis <- rhat(x)
     rhat_arg <- rhat
 
+
+  logLik <- NA_real_
+  IC <- NA_real_
+  if (is_new_parameter(x, "log_lik")) {
+    logLik <- logLik(x)
+    IC <- IC(x)
+  }
+
     tibble <- tibble::tibble(
       n = n,
       K = K,
-      logLik = logLik(x),
-      IC = IC(x),
+      logLik = logLik,
+      IC = IC,
       nchains = nchains(x),
       nthin = nthin(x),
       niters = niters(x),

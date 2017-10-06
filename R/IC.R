@@ -18,6 +18,10 @@ IC.mb_analysis <- function(object, ...) {
     c <- 2 * K * (K + 1) / (n - K - 1)
     return(2 * K - 2 * logLik(object) + c)
   }
+  if (!is_new_parameter(object, "log_lik")) {
+    warning("log_lik is not in new_expr", call. = FALSE)
+    return(NA_real_)
+  }
   logLik <- logLik_matrix(object)
 
   npars <- logLik %>%
