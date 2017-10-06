@@ -14,7 +14,7 @@ fitted.mb_analysis <- function(object, ...) {
 
 #' Predict
 #'
-#' @inheritParams derive_data
+#' @inheritParams derive_data.mb_analysis
 #' @param conf_level A number specifying the confidence level. By default 0.95.
 #' @export
 predict.mb_analysis <- function(object,
@@ -50,7 +50,7 @@ predict.mb_analysis <- function(object,
 
 #' Predict
 #'
-#' @inheritParams derive_data
+#' @inheritParams derive_data.mb_analysis
 #' @param conf_level A number specifying the confidence level. By default 0.95.
 #' @export
 predict.mb_analyses <- function(object,
