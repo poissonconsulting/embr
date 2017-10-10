@@ -66,5 +66,12 @@ IC.mb_analyses <- function(object, ...) {
 
   tibble$DeltaIC %<>% round(1)
   tibble$ICWt %<>% round(2)
+  tibble <- tibble[order(tibble$IC),]
   tibble
 }
+
+#' @export
+IC.mb_meta_analyses <- function(object, ...) {
+  llply(object, IC, ...)
+}
+

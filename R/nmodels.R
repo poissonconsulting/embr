@@ -12,6 +12,9 @@ nmodels <- function(x, ...) {
 nmodels.mb_model <- function(x, ...) 1L
 
 #' @export
+nmodels.mb_models <- function(x, ...) length(x)
+
+#' @export
 nmodels.mb_analysis <- function(x, ...) 1L
 
 #' @export
