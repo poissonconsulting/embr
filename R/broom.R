@@ -75,8 +75,8 @@ tidy.mb_analysis <- function(x, conf_level = getOption("mb.conf_level", 0.95), .
 augment.mb_analysis <- function(x, ...) {
   data <- data_set(x)
 
-  if (is_new_parameter(x, "fitted"))
-    data$fitted <- fitted(x)$estimate
+  if (is_new_parameter(x, "fit"))
+    data$fit <- fitted(x)$estimate
   if (is_new_parameter(x, "residual"))
     data$residual <- residuals(x)$estimate
   if (is_new_parameter(x, "log_lik")) {
