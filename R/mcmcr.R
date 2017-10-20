@@ -1,11 +1,11 @@
 #' @export
-rhat.mb_analysis <- function(x, ...) {
-  rhat(as.mcmcr(x))
+rhat.mb_analysis <- function(x, by = "all", ...) {
+  rhat(as.mcmcr(x), by = by)
 }
 
 #' @export
-rhat.mb_analyses <- function(x, ...) {
-  rhat(as.mcmcrs(x))
+rhat.mb_analyses <- function(x, by = "all", ...) {
+  rhat(as.mcmcrs(x), by = by)
 }
 
 #' @export
