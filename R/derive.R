@@ -83,7 +83,7 @@ derive.mb_analyses <- function(object,
 
   if (!all(is.finite(ic$IC))) error("non-finite IC values")
 
-  object <- llply(derive, new_data = new_data, new_expr = new_expr,
+  object %<>% llply(derive, new_data = new_data, new_expr = new_expr,
                       new_values = new_values, term = term,
                       modify_new_data = modify_new_data, ref_data = ref_data,
                       parallel = parallel, quiet = quiet, beep = FALSE)
