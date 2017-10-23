@@ -76,7 +76,7 @@ predict.mb_analyses <- function(object,
                       modify_new_data = modify_new_data, ref_data = ref_data,
                       parallel = parallel, quiet = quiet, beep = FALSE)
 
-  if (!any(is.finite(ic$IC))) {
+  if (!all(is.finite(ic$IC))) {
     prediction <- prediction[[1]] %<>%
       dplyr::mutate_(estimate = ~NA_real_,
                      sd = ~NA_real_,

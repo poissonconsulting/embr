@@ -66,7 +66,7 @@ IC.mb_analyses <- function(object, ...) {
 
   tibble$DeltaIC %<>% round(1)
   tibble$ICWt %<>% round(2)
-  tibble <- tibble[order(tibble$IC),]
+  # retain original order and use sort_by_ic if required
   tibble
 }
 
