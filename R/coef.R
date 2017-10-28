@@ -1,6 +1,7 @@
 #' @export
 coef.mb_null_analysis <- function(object, param_type = "fixed", include_constant = TRUE,
-                                  conf_level = getOption("mb.conf_level", 0.95), ...) {
+                                  conf_level = getOption("mb.conf_level", 0.95),
+                                  estimate = getOption("mb.estimate", median), ...) {
   check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
   check_flag(include_constant)
   check_number(conf_level, c(0.5, 0.99))
@@ -24,10 +25,11 @@ coef.mb_null_analysis <- function(object, param_type = "fixed", include_constant
 #' @param param_type A flag specifying whether 'fixed', 'random' or 'derived' terms.
 #' @param include_constant A flag specifying whether to include constant terms.
 #' @param conf_level A number specifying the confidence level. By default 0.95.
+#' @param estimate The function to use to calculate the estimate.
 #' @param ... Not used.
 #' @return A tidy tibble of the coefficient terms.
 #' @export
-coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = getOption("mb.conf_level", 0.95), ...) {
+coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TRUE, conf_level = getOption("mb.conf_level", 0.95), estimate = getOption("mb.estimate", median), ...) {
   check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
   check_flag(include_constant)
   check_number(conf_level, c(0.5, 0.99))
@@ -43,11 +45,16 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
     return(coef)
   }
 
-  coef <- as.mcmcr(object) %>%
-    subset(parameters = parameters) %>%
-    coef()
+  if (niters(object) > 1) {
+    coef <- as.mcmcr(object) %>%
+      subset(parameters = parameters) %>%
+      coef(estimate = estimate)
 
-  if (niters(object) == 1) {
+  } else {
+    coef <- as.mcmcr(object) %>%
+      subset(parameters = parameters) %>%
+      coef()
+
     sd <- as.mcmcr(object$sd) %>%
       subset(parameters = parameters) %>%
       coef()

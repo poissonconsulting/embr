@@ -8,5 +8,5 @@
 #' @importFrom matrixStats colLogSumExps colVars
 #' @importFrom plyr llply
 #' @importFrom rescale check_valid_rescalers
-#' @importFrom stats fitted logLik predict terms
+#' @importFrom stats fitted logLik median predict terms
 NULL
