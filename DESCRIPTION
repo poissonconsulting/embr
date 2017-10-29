@@ -29,8 +29,10 @@ Imports:
     pryr,
     purrr,
     rescale (>= 0.0.0.9003),
+    rlang,
     stringr,
     tibble,
+    tidyr,
     timer (>= 0.0.1)
 Suggests:
     testthat,

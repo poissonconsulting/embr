@@ -1,3 +1,12 @@
+get_frequentist_coef <- function(object, conf_level = 0.95) {
+  object %<>% dplyr::mutate_(
+    zscore = ~estimate/sd,
+    lower = ~estimate + sd * qnorm((1 - conf_level) / 2),
+    upper = ~estimate + sd * qnorm((1 - conf_level) / 2 + conf_level),
+    pvalue = ~2*pnorm(-abs(zscore)))
+  object
+}
+
 #' @export
 coef.mb_null_analysis <- function(object, param_type = "fixed", include_constant = TRUE,
                                   conf_level = getOption("mb.conf_level", 0.95),
@@ -7,9 +16,9 @@ coef.mb_null_analysis <- function(object, param_type = "fixed", include_constant
   check_number(conf_level, c(0.5, 0.99))
 
   coef <- dplyr::data_frame(term = as.term(character(0)),
-                            estimate = numeric(0), sd = numeric(0),
-                            zscore = numeric(0), lower = numeric(0),
-                            upper = numeric(0), pvalue = numeric(0))
+                            estimate = numeric(0), sd = numeric(0))
+
+  coef %<>% get_frequentist_coef()
 
   class(coef) %<>% c("mb_analysis_coef", .)
   coef
@@ -38,18 +47,19 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
 
   if (!length(parameters)) {
     coef <- dplyr::data_frame(term = as.term(character(0)),
-                              estimate = numeric(0), sd = numeric(0),
-                              zscore = numeric(0), lower = numeric(0),
-                              upper = numeric(0), pvalue = numeric(0))
+                              estimate = numeric(0),
+                              sd = numeric(0))
+
+    coef %<>% get_frequentist_coef()
+
     class(coef) %<>% c("mb_analysis_coef", .)
     return(coef)
   }
 
-  if (niters(object) > 1) {
+  if (is_bayesian(object)) {
     coef <- as.mcmcr(object) %>%
       subset(parameters = parameters) %>%
       coef(estimate = estimate)
-
   } else {
     coef <- as.mcmcr(object) %>%
       subset(parameters = parameters) %>%
@@ -61,11 +71,7 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
 
     coef$sd <- sd$estimate
 
-    coef %<>% dplyr::mutate_(
-      zscore = ~estimate/sd,
-      lower = ~estimate + sd * qnorm((1 - conf_level) / 2),
-      upper = ~estimate + sd * qnorm((1 - conf_level) / 2 + conf_level),
-      pvalue = ~2*pnorm(-abs(zscore)))
+    coef %<>% get_frequentist_coef(conf_level = conf_level)
   }
 
   if (!include_constant) coef %<>% dplyr::filter_(~lower != upper)
@@ -97,18 +103,52 @@ coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TR
   nmodels <- length(coef)
   if (!nmodels) {
     coef <- dplyr::data_frame(
-      term = as.term(character(0)), estimate = numeric(0),
-      lower = numeric(0), upper = numeric(0), nmodels = integer(0),
-      proportion = numeric(0), ICWt = numeric(0))
+      term = as.term(character(0)),
+      estimate = numeric(0))
+
+    if(is_frequentist(object)) {
+      coef %<>%
+        dplyr::mutate(sd = UQ(parse_quosure("numeric(0)"))) %>%
+        get_frequentist_coef()
+    }
+    coef %<>% dplyr::mutate_(
+      nmodels = ~integer(0),
+      proportion = ~numeric(0),
+      ICWt = ~numeric(0))
     class(coef) %<>% c("mb_analyses_coef", .)
     return(coef)
   }
 
-  suppressWarnings(coef %<>% purrr::map2_df(ic$ICWt, function(x, y) {x$ICWt <- y; x}))
-  coef %<>% dplyr::group_by_(~term) %>% dplyr::summarise_(
-    estimate = ~sum(estimate * ICWt), lower = ~sum(lower * ICWt),
-    upper = ~sum(upper * ICWt), nmodels = ~nmodels, proportion = ~n()/nmodels, ICWt = ~min(sum(ICWt), 1.00)) %>%
+  suppressWarnings(coef %<>% purrr::map2_df(ic$model, function(x, y) {x$model <- y; x}))
+
+  coef %<>%
+    dplyr::mutate(.IN = UQ(parse_quosure("1"))) %>%
+    tidyr::complete(UQ(parse_quosure("term")), UQ(parse_quosure("model")), fill = list(estimate = 0, sd = 0, .IN = 0))  %>%
+    dplyr::inner_join(dplyr::select(ic, UQ(parse_quosure("model")), UQ(parse_quosure("ICWt"))), by = "model") %>%
+    dplyr::mutate_(coef = UQ(parse_quosure("estimate")),
+                   var = UQ(parse_quosure("pow(sd,2)"))) %>%
+    dplyr::group_by(UQ(parse_quosure("term"))) %>%
+    dplyr::summarise(
+      estimate = UQ(parse_quosure("sum(ICWt * estimate)")),
+      sd = UQ(parse_quosure("sqrt(sum(ICWt * (var + pow(coef - estimate, 2))))")),
+      nmodels = UQ(parse_quosure("nmodels")),
+      proportion = UQ(parse_quosure("sum(.IN)/nmodels")),
+      ICWt = UQ(parse_quosure("min(sum(ICWt * .IN), 1.00)"))) %>%
     dplyr::ungroup()
+
+  if(is_bayesian(object))
+    coef$sd <- NA_real_
+
+  coef %<>%
+    get_frequentist_coef() %>%
+    dplyr::select(UQ(parse_quosure("term")),
+                  UQ(parse_quosure("estimate")),
+                  UQ(parse_quosure("sd")),
+                  UQ(parse_quosure("zscore")),
+                  UQ(parse_quosure("lower")),
+                  UQ(parse_quosure("upper")),
+                  UQ(parse_quosure("pvalue")),
+                  UQ(parse_quosure("everything()")))
   coef$term %<>% as.term()
   coef <- coef[order(coef$term),]
   class(coef) %<>% c("mb_analyses_coef", .)

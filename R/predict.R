@@ -102,7 +102,7 @@ predict.mb_analyses <- function(object,
     dplyr::bind_rows(.id = ".model") %>%
     dplyr::group_by_(~.row) %>%
     dplyr::summarise_(
-      estimate = ~sum(estimate * ICWt),
+      estimate = ~sum(ICWt * estimate),
       lower = ~sum(lower * ICWt),
       upper = ~sum(upper * ICWt)) %>%
     dplyr::ungroup() %>%

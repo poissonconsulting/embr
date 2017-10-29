@@ -1,4 +1,4 @@
-#' @import datacheckr mcmcr stringr
+#' @import datacheckr mcmcr rlang stringr
 #' @importFrom broom augment glance tidy
 #' @importFrom stats coef residuals
 #' @importFrom foreach getDoParWorkers

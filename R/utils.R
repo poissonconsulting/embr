@@ -173,13 +173,3 @@ response_lm <- function(x) {
   if (!is.character(x)) x %<>% template()
   stringr::str_replace(x, "\\s+~.*", "") %>% str_replace_all("\\s{1,}", "")
 }
-
-#' Is Bayesian
-#'
-#' @param x An analysis to test
-#'
-#' @return A flag indicating whether x is a Bayesian analysis.
-#' @export
-is_bayesian <- function(x) {
-  is.mb_analysis(x) & nchains(x) >= 2L
-}
