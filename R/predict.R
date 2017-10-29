@@ -102,11 +102,11 @@ predict.mb_analyses <- function(object,
     dplyr::bind_rows(.id = ".model") %>%
     dplyr::group_by_(~.row) %>%
     dplyr::summarise_(
-      estimate = ~sum(ICWt * estimate),
-      lower = ~sum(lower * ICWt),
-      upper = ~sum(upper * ICWt)) %>%
+      estimate = ~sum(ICWt * estimate)) %>%
     dplyr::ungroup() %>%
-    dplyr::mutate_(sd = ~NA_real_,
+    dplyr::mutate_(lower = ~NA_real_,
+                   upper = ~NA_real_,
+                   sd = ~NA_real_,
                    zscore = ~NA_real_,
                    pvalue = ~NA_real_) %>%
     dplyr::arrange_(~.row) %>%
