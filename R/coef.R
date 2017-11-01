@@ -49,8 +49,6 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
   check_number(conf_level, c(0.5, 0.99))
   check_flag(profile)
 
-  if(is_frequentist && profile) warning("profiling is not implemented")
-
   parameters <- parameters(object, param_type)
 
   if (!length(parameters)) {
@@ -80,6 +78,10 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
     coef$sd <- sd$estimate
 
     coef %<>% get_frequentist_coef(conf_level = conf_level)
+
+    if(profile) {
+      prof <- profile_coef(object, conf_level = conf_level)
+    }
   }
 
   if (!include_constant) coef %<>% dplyr::filter_(~lower != upper)
