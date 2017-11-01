@@ -6,7 +6,8 @@
 \usage{
 \method{coef}{mb_meta_analysis}(object, param_type = "fixed",
   include_constant = TRUE, conf_level = getOption("mb.conf_level", 0.95),
-  ...)
+  estimate = getOption("mb.estimate", median),
+  profile = getOption("mb.profile", FALSE), ...)
 }
 \arguments{
 \item{object}{The mb_meta_analysis object.}
@@ -16,6 +17,10 @@
 \item{include_constant}{A flag specifying whether to include constant terms.}
 
 \item{conf_level}{A number specifying the confidence level. By default 0.95.}
+
+\item{estimate}{The function to use to calculate the estimate.}
+
+\item{profile}{A flag indicating whethe to use likelihood profiling as opposed to the Wald approximation when calculating confidence intervals for the frequentist models.}
 
 \item{...}{Not used.}
 }

@@ -6,7 +6,8 @@
 \usage{
 \method{coef}{mb_analysis}(object, param_type = "fixed",
   include_constant = TRUE, conf_level = getOption("mb.conf_level", 0.95),
-  estimate = getOption("mb.estimate", median), ...)
+  estimate = getOption("mb.estimate", median),
+  profile = getOption("mb.profile", FALSE), ...)
 }
 \arguments{
 \item{object}{The mb_analysis object.}
@@ -17,7 +18,9 @@
 
 \item{conf_level}{A number specifying the confidence level. By default 0.95.}
 
-\item{estimate}{The function to use to calculate the estimate.}
+\item{estimate}{The function to use to calculating the estimate for Bayesian models.}
+
+\item{profile}{A flag indicating whethe to use likelihood profiling as opposed to the Wald approximation when calculating confidence intervals for the frequentist models.}
 
 \item{...}{Not used.}
 }
