@@ -102,7 +102,7 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
     if (!include_constant) coef %<>% dplyr::filter_(~lower != upper)
 
     if(profile) {
-      confint <- confint(object, parm = coef$term, conf_level = conf_level, parallel = parallel)
+      confint <- confint(object, parm = coef$term, conf_level = conf_level, beep = beep, parallel = parallel)
       stopifnot(identical(confint$term, coef$term))
       coef[c("lower","upper")] <- confint[c("lower","upper")]
     }
@@ -133,7 +133,8 @@ coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TR
                              estimate = getOption("mb.estimate", median),
                              profile = getOption("mb.profile", FALSE),
                              parallel = getOption("mb.parallel", FALSE),
-                             beep = profile, ...) {
+                             beep = profile,
+                             ...) {
   check_flag(beep)
   if (beep) on.exit(beepr::beep())
   beep <- FALSE
@@ -217,7 +218,8 @@ coef.mb_meta_analysis <- function(object, param_type = "fixed", include_constant
                                   estimate = getOption("mb.estimate", median),
                                   profile = getOption("mb.profile", FALSE),
                                   parallel = getOption("mb.parallel", FALSE),
-                                  beep = profile, ...) {
+                                  beep = profile,
+                                  ...) {
   check_flag(beep)
   if (beep) on.exit(beepr::beep())
   beep <- FALSE
@@ -243,7 +245,8 @@ coef.mb_meta_analyses <- function(object, param_type = "fixed", include_constant
                                   estimate = getOption("mb.estimate", median),
                                   profile = getOption("mb.profile", FALSE),
                                   parallel = getOption("mb.parallel", FALSE),
-                                  beep = profile, ...) {
+                                  beep = profile,
+                                  ...) {
   check_flag(beep)
   if (beep) on.exit(beepr::beep())
   beep <- FALSE
