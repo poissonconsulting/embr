@@ -11,7 +11,14 @@ get_frequentist_coef <- function(object, conf_level = 0.95) {
 coef.mb_null_analysis <- function(object, param_type = "fixed", include_constant = TRUE,
                                   conf_level = getOption("mb.conf_level", 0.95),
                                   estimate = getOption("mb.estimate", median),
-                                  profile = getOption("mb.profile", FALSE), ...) {
+                                  profile = getOption("mb.profile", FALSE),
+                                  parallel = getOption("mb.parallel", FALSE),
+                                  beep = profile,
+                                  ...) {
+  check_flag(beep)
+  if (beep) on.exit(beepr::beep())
+  beep <- FALSE
+
   check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
   check_flag(include_constant)
   check_number(conf_level, c(0.5, 0.99))
@@ -37,17 +44,27 @@ coef.mb_null_analysis <- function(object, param_type = "fixed", include_constant
 #' @param conf_level A number specifying the confidence level. By default 0.95.
 #' @param estimate The function to use to calculating the estimate for Bayesian models.
 #' @param profile A flag indicating whethe to use likelihood profiling as opposed to the Wald approximation when calculating confidence intervals for the frequentist models.
+#' @param parallel A flag indicating whether to using parallel backend provided by foreach.
+#' @param beep A flag indicating whether to beep on completion of the analysis.
 #' @param ... Not used.
 #' @return A tidy tibble of the coefficient terms.
 #' @export
 coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TRUE,
                              conf_level = getOption("mb.conf_level", 0.95),
                              estimate = getOption("mb.estimate", median),
-                             profile = getOption("mb.profile", FALSE), ...) {
+                             profile = getOption("mb.profile", FALSE),
+                             parallel = getOption("mb.parallel", FALSE),
+                             beep = profile,
+                             ...) {
+  check_flag(beep)
+  if (beep) on.exit(beepr::beep())
+  beep <- FALSE
+
   check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
   check_flag(include_constant)
   check_number(conf_level, c(0.5, 0.99))
   check_flag(profile)
+  check_flag(parallel)
 
   parameters <- parameters(object, param_type)
 
@@ -85,9 +102,7 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
     if (!include_constant) coef %<>% dplyr::filter_(~lower != upper)
 
     if(profile) {
-      confint <- confint(object, parm = coef$term, conf_level = conf_level)
-      print(confint$term)
-      print(coef$term)
+      confint <- confint(object, parm = coef$term, conf_level = conf_level, parallel = parallel)
       stopifnot(identical(confint$term, coef$term))
       coef[c("lower","upper")] <- confint[c("lower","upper")]
     }
@@ -107,6 +122,8 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
 #' @param conf_level A number specifying the confidence level. By default 0.95.
 #' @param estimate The function to use to calculate the estimate for Bayesian models.
 #' @param profile A flag indicating whethe to use likelihood profiling as opposed to the Wald approximation when calculating confidence intervals for the frequentist models.
+#' @param parallel A flag indicating whether to using parallel backend provided by foreach.
+#' @param beep A flag indicating whether to beep on completion of the analysis.
 #' @param ... Not used.
 #' @return A tidy tibble of the coeffcient terms with the model averaged estimate, the
 #' Akaike's weight and the proportion of models including the term.
@@ -114,9 +131,15 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
 coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TRUE,
                              conf_level = getOption("mb.conf_level", 0.95),
                              estimate = getOption("mb.estimate", median),
-                             profile = getOption("mb.profile", FALSE), ...) {
+                             profile = getOption("mb.profile", FALSE),
+                             parallel = getOption("mb.parallel", FALSE),
+                             beep = profile, ...) {
+  check_flag(beep)
+  if (beep) on.exit(beepr::beep())
+  beep <- FALSE
+
   ic <- IC(object)
-  coef <- llply(object, coef, param_type = param_type, include_constant = include_constant, conf_level = conf_level)
+  coef <- llply(object, coef, param_type = param_type, include_constant = include_constant, conf_level = conf_level, profile = profile, parallel = parallel, beep = beep)
 
   coef <- coef[is.finite(ic$IC)]
   ic <- ic[is.finite(ic$IC),,drop = FALSE]
@@ -184,14 +207,22 @@ coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TR
 #' @param conf_level A number specifying the confidence level. By default 0.95.
 #' @param estimate The function to use to calculate the estimate.
 #' @param profile A flag indicating whethe to use likelihood profiling as opposed to the Wald approximation when calculating confidence intervals for the frequentist models.
+#' @param parallel A flag indicating whether to using parallel backend provided by foreach.
+#' @param beep A flag indicating whether to beep on completion of the analysis.
 #' @param ... Not used.
 #' @return A tidy tibble.
 #' @export
 coef.mb_meta_analysis <- function(object, param_type = "fixed", include_constant = TRUE,
                                   conf_level = getOption("mb.conf_level", 0.95),
                                   estimate = getOption("mb.estimate", median),
-                                  profile = getOption("mb.profile", FALSE), ...) {
-  llply(object, coef, param_type = param_type, include_constant = include_constant, conf_level = conf_level, estimate = estimate, profile = profile, ...)
+                                  profile = getOption("mb.profile", FALSE),
+                                  parallel = getOption("mb.parallel", FALSE),
+                                  beep = profile, ...) {
+  check_flag(beep)
+  if (beep) on.exit(beepr::beep())
+  beep <- FALSE
+
+  llply(object, coef, param_type = param_type, include_constant = include_constant, conf_level = conf_level, estimate = estimate, profile = profile, parallel = parallel, beep = beep, ...)
 }
 
 #' Coef TMB Meta Analyses
@@ -202,12 +233,20 @@ coef.mb_meta_analysis <- function(object, param_type = "fixed", include_constant
 #' @param conf_level A number specifying the confidence level. By default 0.95.
 #' @param estimate The function to use to calculate the estimate.
 #' @param profile A flag indicating whethe to use likelihood profiling as opposed to the Wald approximation when calculating confidence intervals for the frequentist models.
+#' @param parallel A flag indicating whether to using parallel backend provided by foreach.
+#' @param beep A flag indicating whether to beep on completion of the analysis.
 #' @param ... Not used.
 #' @return A tidy tibble.
 #' @export
 coef.mb_meta_analyses <- function(object, param_type = "fixed", include_constant = TRUE,
                                   conf_level = getOption("mb.conf_level", 0.95),
                                   estimate = getOption("mb.estimate", median),
-                                  profile = getOption("mb.profile", FALSE), ...) {
-  llply(object, coef, param_type = param_type, include_constant = include_constant, conf_level = conf_level, estimate = estimate, profile = profile, ...)
+                                  profile = getOption("mb.profile", FALSE),
+                                  parallel = getOption("mb.parallel", FALSE),
+                                  beep = profile, ...) {
+  check_flag(beep)
+  if (beep) on.exit(beepr::beep())
+  beep <- FALSE
+
+    llply(object, coef, param_type = param_type, include_constant = include_constant, conf_level = conf_level, estimate = estimate, profile = profile, parallel = parallel, beep = beep, ...)
 }

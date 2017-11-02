@@ -7,7 +7,8 @@
 \method{coef}{mb_meta_analyses}(object, param_type = "fixed",
   include_constant = TRUE, conf_level = getOption("mb.conf_level", 0.95),
   estimate = getOption("mb.estimate", median),
-  profile = getOption("mb.profile", FALSE), ...)
+  profile = getOption("mb.profile", FALSE),
+  parallel = getOption("mb.parallel", FALSE), beep = profile, ...)
 }
 \arguments{
 \item{object}{The mb_meta_analyses object.}
@@ -21,6 +22,10 @@
 \item{estimate}{The function to use to calculate the estimate.}
 
 \item{profile}{A flag indicating whethe to use likelihood profiling as opposed to the Wald approximation when calculating confidence intervals for the frequentist models.}
+
+\item{parallel}{A flag indicating whether to using parallel backend provided by foreach.}
+
+\item{beep}{A flag indicating whether to beep on completion of the analysis.}
 
 \item{...}{Not used.}
 }
