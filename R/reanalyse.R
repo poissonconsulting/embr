@@ -71,11 +71,11 @@ reanalyse.mb_analysis <- function(object,
   check_flag(glance)
   check_number(esr, c(0, 1))
 
-  if (nreanalyses == 0L || duration < elapsed(object) * 2 || (converged(object, rhat) && esr(object) > esr)) {
+  if (nreanalyses == 0L || duration < elapsed(object) * 2 || converged(object, rhat = rhat, esr = esr)) {
     if (glance) print(glance(object))
     return(object)
   }
-  while (nreanalyses > 0L && duration >= elapsed(object) * 2 && !(converged(object, rhat) && esr(object) > esr)) {
+  while (nreanalyses > 0L && duration >= elapsed(object) * 2 && !converged(object, rhat = rhat, esr = esr)) {
     object <- analyse(model(object), data_set(object),
                       nchains = nchains(object), niters = niters(object),
                       nthin = nthin(object) * 2L,

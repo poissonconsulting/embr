@@ -9,23 +9,23 @@ rhat.mb_analyses <- function(x, by = "all", ...) {
 }
 
 #' @export
-esr.mb_analysis <- function(x, ...) {
-  esr(as.mcmcr(x))
+esr.mb_analysis <- function(x,  by = "all",  ...) {
+  esr(as.mcmcr(x), by = by)
 }
 
 #' @export
-esr.mb_analyses <- function(x, ...) {
-  esr(as.mcmcrs(x))
+esr.mb_analyses <- function(x,  by = "all",  ...) {
+  esr(as.mcmcrs(x), by = by)
 }
 
 #' @export
-ess.mb_analysis <- function(x, ...) {
-  ess(as.mcmcr(x))
+ess.mb_analysis <- function(x,  by = "all", ...) {
+  ess(as.mcmcr(x), by = by)
 }
 
 #' @export
-ess.mb_analyses <- function(x, ...) {
-  ess(as.mcmcrs(x))
+ess.mb_analyses <- function(x,  by = "all", ...) {
+  ess(as.mcmcrs(x), by = by)
 }
 
 #' @export
@@ -40,15 +40,13 @@ niters.mb_analysis <- function(x, ...) {
 }
 
 #' @export
-converged.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), esr = getOption("mb.esr", 0.33), ...) {
-  x %<>% as.mcmcr(x)
-  if (nchains(x) < 2L) return(NA)
-  converged(x, rhat = rhat, esr = esr)
+converged.mb_analysis <- function(x, by = "all", rhat = getOption("mb.rhat", 1.1), esr = getOption("mb.esr", 0.33), ...) {
+  converged(as.mcmcr(x), by = by, rhat = rhat, esr = esr)
 }
 
 #' @export
-converged.mb_analyses <- function(x, rhat = getOption("mb.rhat", 1.1), esr = getOption("mb.esr", 0.33), ...) {
-  all(vapply(x, converged, TRUE, rhat = rhat, esr = esr))
+converged.mb_analyses <- function(x, by = "all", rhat = getOption("mb.rhat", 1.1), esr = getOption("mb.esr", 0.33), ...) {
+  converged(as.mcmcrs(x), by = by, rhat = rhat, esr = esr)
 }
 
 #' @export

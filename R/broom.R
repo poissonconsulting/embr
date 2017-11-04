@@ -1,58 +1,35 @@
 #' @export
-glance.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), ...) {
-  check_number(rhat, c(1.0, 1.5))
+glance.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), esr = getOption("mb.esr", 0.33), ...) {
 
-  n <- sample_size(x)
-  K <- nterms(x, include_constant = FALSE)
+  glance <- tibble::tibble(
+    n = sample_size(x),
+    K = nterms(x, include_constant = FALSE))
+
+  if (is_frequentist(x) || is_new_parameter(x, "log_lik")) {
+    glance$logLik = logLik(x)
+    glance$IC = IC(x)
+  }
 
   if (is_bayesian(x)) {
-    rhat_analysis <- rhat(x)
-    rhat_arg <- rhat
-
-    if (is_new_parameter(x, "log_lik")) {
-      tibble <- tibble::tibble(
-        n = n,
-        K = K,
-        logLik = logLik(x),
-        IC = IC(x),
-        nchains = nchains(x),
-        nthin = nthin(x),
-        niters = niters(x),
-        ess = ess(x),
-        rhat = rhat_analysis,
-        converged = rhat_analysis < rhat_arg
-      )
-    } else {
-      tibble <- tibble::tibble(
-        n = n,
-        K = K,
-        nchains = nchains(x),
-        nthin = nthin(x),
-        niters = niters(x),
-        ess = ess(x),
-        rhat = rhat_analysis,
-        converged = rhat_analysis < rhat_arg
-      )
-    }
-    return(tibble)
+    glance$nchains = nchains(x)
+    glance$nthin = nthin(x)
+    glance$niters = niters(x)
+    glance$ess = ess(x)
+    glance$rhat = rhat(x)
   }
-  dplyr::data_frame(
-    n = n,
-    K = nterms(x, include_constant = FALSE),
-    logLik = logLik(x),
-    IC = IC(x),
-    converged = converged(x)
-  )
+
+  glance$converged = converged(x, rhat = rhat, esr = esr)
+  glance
 }
 
 #' @export
 glance.mb_analyses <- function(x, ...) {
-  lapply(x, glance)
+  x %<>% purrr::map_dfr(x, glance, .id = "Analysis")
 }
 
 #' @export
 tidy.mb_analysis <- function(x, conf_level = getOption("mb.conf_level", 0.95), ...) {
-  coef <- coef(x, param_type = "all", conf_level = conf_level)
+  coef <- coef(x, conf_level = conf_level)
 
   coef <- coef[c("term", "estimate", "lower", "upper")]
 
