@@ -9,29 +9,33 @@ glance.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), ...) {
     rhat_analysis <- rhat(x)
     rhat_arg <- rhat
 
-
-  logLik <- NA_real_
-  IC <- NA_real_
-  if (is_new_parameter(x, "log_lik")) {
-    logLik <- logLik(x)
-    IC <- IC(x)
-  }
-
-    tibble <- tibble::tibble(
-      n = n,
-      K = K,
-      logLik = logLik,
-      IC = IC,
-      nchains = nchains(x),
-      nthin = nthin(x),
-      niters = niters(x),
-      ess = ess(x),
-      rhat = rhat_analysis,
-      converged = rhat_analysis < rhat_arg
-    )
+    if (is_new_parameter(x, "log_lik")) {
+      tibble <- tibble::tibble(
+        n = n,
+        K = K,
+        logLik = logLik(x),
+        IC = IC(x),
+        nchains = nchains(x),
+        nthin = nthin(x),
+        niters = niters(x),
+        ess = ess(x),
+        rhat = rhat_analysis,
+        converged = rhat_analysis < rhat_arg
+      )
+    } else {
+      tibble <- tibble::tibble(
+        n = n,
+        K = K,
+        nchains = nchains(x),
+        nthin = nthin(x),
+        niters = niters(x),
+        ess = ess(x),
+        rhat = rhat_analysis,
+        converged = rhat_analysis < rhat_arg
+      )
+    }
     return(tibble)
   }
-
   dplyr::data_frame(
     n = n,
     K = nterms(x, include_constant = FALSE),
