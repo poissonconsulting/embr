@@ -12,8 +12,8 @@ glance.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), esr = getOpt
 
   if (is_bayesian(x)) {
     glance$nchains = nchains(x)
-    glance$nthin = nthin(x)
     glance$niters = niters(x)
+    glance$nthin = nthin(x)
     glance$ess = ess(x)
     glance$rhat = rhat(x)
   }
