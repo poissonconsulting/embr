@@ -24,7 +24,8 @@ glance.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), esr = getOpt
 
 #' @export
 glance.mb_analyses <- function(x, ...) {
-  x %<>% purrr::map_dfr(x, glance, .id = "Analysis")
+  x %<>% purrr::map_dfr(glance, .id = "model")
+  x
 }
 
 #' @export
