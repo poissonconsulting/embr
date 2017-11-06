@@ -82,6 +82,7 @@ derive_data.mb_analysis <- function(object,
                      quiet = quiet, beep = beep, ...)
 
   object %<>% mcmcr_data(new_data)
+  names(object$mcmcr) <- "prediction"
   object
 }
 
@@ -125,5 +126,6 @@ derive_data.mb_analyses <- function(object,
                      quiet = quiet, beep = beep, ...)
 
   object %<>% mcmcr_data(new_data)
+  names(object$mcmcr) <- "prediction"
   object
 }
