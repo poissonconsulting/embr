@@ -19,8 +19,7 @@ set_analysis_mode <- function(mode = "report") {
             mb.rhat = NULL,
             mb.esr = NULL,
             mb.duration = NULL,
-            mb.conf_level = NULL,
-            mb.profile = NULL)
+            mb.conf_level = NULL)
   } else if (mode == "debug") {
     options(mb.nchains = 2L,
             mb.niters = 10L,
@@ -30,8 +29,7 @@ set_analysis_mode <- function(mode = "report") {
             mb.beep = FALSE,
             mb.glance = TRUE,
             mb.nreanalyses = 0L,
-            mb.conf_level = 0.95,
-            mb.profile = FALSE)
+            mb.conf_level = 0.95)
   } else if (mode == "quick") {
     options(mb.nchains = 2L,
             mb.niters = 10L,
@@ -41,8 +39,7 @@ set_analysis_mode <- function(mode = "report") {
             mb.beep = FALSE,
             mb.glance = TRUE,
             mb.nreanalyses = 0L,
-            mb.conf_level = 0.95,
-            mb.profile = FALSE)
+            mb.conf_level = 0.95)
   } else if (mode == "check") {
     options(mb.nchains = 2L,
             mb.niters = 500L,
@@ -55,8 +52,7 @@ set_analysis_mode <- function(mode = "report") {
             mb.rhat = 1.0,
             mb.esr = 1.0,
             mb.duration = dminutes(2),
-            mb.conf_level = 0.95,
-            mb.profile = FALSE)
+            mb.conf_level = 0.95)
   } else if (mode == "report") {
     options(mb.nchains = 3L,
             mb.niters = 500L,
@@ -69,8 +65,7 @@ set_analysis_mode <- function(mode = "report") {
             mb.rhat = 1.1,
             mb.esr = 0.1,
             mb.duration = dhours(1),
-            mb.conf_level = 0.95,
-            mb.profile = FALSE)
+            mb.conf_level = 0.95)
   } else if (mode == "paper") {
     options(mb.nchains = 4L,
             mb.niters = 1000L,
@@ -83,7 +78,6 @@ set_analysis_mode <- function(mode = "report") {
             mb.rhat = 1.05,
             mb.esr = 0.25,
             mb.duration = dhours(6),
-            mb.conf_level = 0.95,
-            mb.profile = TRUE)
+            mb.conf_level = 0.95)
   } else error("mode '", mode,"' unrecognised (possible values are 'debug', 'reset', 'check', 'quick', 'report' or 'paper')")
 }

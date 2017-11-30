@@ -30,7 +30,7 @@ glance.mb_analyses <- function(x, ...) {
 
 #' @export
 tidy.mb_analysis <- function(x, conf_level = getOption("mb.conf_level", 0.95), ...) {
-  coef <- coef(x, conf_level = conf_level)
+  coef <- coef(x, conf_level = conf_level, beep = FALSE)
 
   coef <- coef[c("term", "estimate", "lower", "upper")]
 
