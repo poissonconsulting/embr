@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Coef TMB Meta Analysis — coef.mb_meta_analysis • mbr</title>
+<title>Coef Profile — coef_profile • mbr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -80,50 +80,27 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Coef TMB Meta Analysis</h1>
+    <h1>Coef Profile</h1>
     </div>
 
     
-    <p>Coef TMB Meta Analysis</p>
+    <p>Gets coef confidence limits by likelihood profiling.</p>
     
 
-    <pre class="usage"><span class='co'># S3 method for mb_meta_analysis</span>
-<span class='fu'>coef</span>(<span class='no'>object</span>, <span class='kw'>param_type</span> <span class='kw'>=</span> <span class='st'>"fixed"</span>,
-  <span class='kw'>include_constant</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>conf_level</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.conf_level"</span>, <span class='fl'>0.95</span>),
-  <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.estimate"</span>, <span class='no'>median</span>), <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>coef_profile</span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>object</th>
-      <td><p>The mb_meta_analysis object.</p></td>
-    </tr>
-    <tr>
-      <th>param_type</th>
-      <td><p>A flag specifying whether 'fixed', 'random' or 'derived' terms.</p></td>
-    </tr>
-    <tr>
-      <th>include_constant</th>
-      <td><p>A flag specifying whether to include constant terms.</p></td>
-    </tr>
-    <tr>
-      <th>conf_level</th>
-      <td><p>A number specifying the confidence level. By default 0.95.</p></td>
-    </tr>
-    <tr>
-      <th>estimate</th>
-      <td><p>The function to use to calculate the estimate.</p></td>
+      <td><p>The object.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Not used.</p></td>
+      <td><p>Unused.</p></td>
     </tr>
     </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>A tidy tibble.</p>
     
 
   </div>
@@ -131,9 +108,7 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
-      <li><a href="#value">Value</a></li>
-          </ul>
+                </ul>
 
   </div>
 </div>

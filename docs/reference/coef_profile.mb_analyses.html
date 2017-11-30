@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Coef TMB Meta Analysis — coef.mb_meta_analysis • mbr</title>
+<title>Coef TMB Analyses — coef_profile.mb_analyses • mbr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -80,24 +80,27 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Coef TMB Meta Analysis</h1>
+    <h1>Coef TMB Analyses</h1>
     </div>
 
     
-    <p>Coef TMB Meta Analysis</p>
+    <p>Coefficients for fixed parameters from an ML based
+MB analyses averaged by IC weights.</p>
     
 
-    <pre class="usage"><span class='co'># S3 method for mb_meta_analysis</span>
-<span class='fu'>coef</span>(<span class='no'>object</span>, <span class='kw'>param_type</span> <span class='kw'>=</span> <span class='st'>"fixed"</span>,
+    <pre class="usage"><span class='co'># S3 method for mb_analyses</span>
+<span class='fu'><a href='coef_profile.html'>coef_profile</a></span>(<span class='no'>object</span>, <span class='kw'>param_type</span> <span class='kw'>=</span> <span class='st'>"fixed"</span>,
   <span class='kw'>include_constant</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='kw'>conf_level</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.conf_level"</span>, <span class='fl'>0.95</span>),
-  <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.estimate"</span>, <span class='no'>median</span>), <span class='no'>...</span>)</pre>
+  <span class='kw'>estimate</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.estimate"</span>, <span class='no'>median</span>),
+  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.parallel"</span>, <span class='fl'>FALSE</span>), <span class='kw'>beep</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.beep"</span>,
+  <span class='fl'>TRUE</span>), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>object</th>
-      <td><p>The mb_meta_analysis object.</p></td>
+      <td><p>The mb_analyses object.</p></td>
     </tr>
     <tr>
       <th>param_type</th>
@@ -113,7 +116,15 @@
     </tr>
     <tr>
       <th>estimate</th>
-      <td><p>The function to use to calculate the estimate.</p></td>
+      <td><p>The function to use to calculate the estimate for Bayesian models.</p></td>
+    </tr>
+    <tr>
+      <th>parallel</th>
+      <td><p>A flag indicating whether to using parallel backend provided by foreach.</p></td>
+    </tr>
+    <tr>
+      <th>beep</th>
+      <td><p>A flag indicating whether to beep on completion of the analysis.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -123,7 +134,8 @@
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tidy tibble.</p>
+    <p>A tidy tibble of the coeffcient terms with the model averaged estimate, the
+Akaike's weight and the proportion of models including the term.</p>
     
 
   </div>
