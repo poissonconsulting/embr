@@ -107,7 +107,7 @@ coef_profile.mb_analyses <- function(
 
     if(is_frequentist(object)) {
       coef %<>%
-        dplyr::mutate(sd = !!(parse_quo("numeric(0)"))) %>%
+        dplyr::mutate(sd = `!!`(parse_quo("numeric(0)"))) %>%
         get_frequentist_coef()
     }
     coef %<>% dplyr::mutate_(
@@ -121,18 +121,18 @@ coef_profile.mb_analyses <- function(
   suppressWarnings(coef %<>% purrr::map2_df(ic$model, function(x, y) {x$model <- y; x}))
 
   coef %<>%
-    dplyr::mutate(.IN = !!(parse_quo("1"))) %>%
-    tidyr::complete(!!(parse_quo("term")), !!(parse_quo("model")), fill = list(estimate = 0, sd = 0, .IN = 0))  %>%
-    dplyr::inner_join(dplyr::select(ic, !!(parse_quo("model")), !!(parse_quo("ICWt"))), by = "model") %>%
-    dplyr::mutate_(coef = !!(parse_quo("estimate")),
-                   var = !!(parse_quo("pow(sd,2)"))) %>%
-    dplyr::group_by(!!(parse_quo("term"))) %>%
+    dplyr::mutate(.IN = `!!`(parse_quo("1"))) %>%
+    tidyr::complete(`!!`(parse_quo("term")), `!!`(parse_quo("model")), fill = list(estimate = 0, sd = 0, .IN = 0))  %>%
+    dplyr::inner_join(dplyr::select(ic, `!!`(parse_quo("model")), `!!`(parse_quo("ICWt"))), by = "model") %>%
+    dplyr::mutate(coef = `!!`(parse_quo("estimate")),
+                   var = `!!`(parse_quo("pow(sd,2)"))) %>%
+    dplyr::group_by(`!!`(parse_quo("term"))) %>%
     dplyr::summarise(
-      estimate = !!(parse_quo("sum(ICWt * estimate)")),
-      sd = !!(parse_quo("sqrt(sum(ICWt * (var + pow(coef - estimate, 2))))")),
-      nmodels = !!(parse_quo("nmodels")),
-      proportion = !!(parse_quo("sum(.IN)/nmodels")),
-      ICWt = !!(parse_quo("min(sum(ICWt * .IN), 1.00)"))) %>%
+      estimate = `!!`(parse_quo("sum(ICWt * estimate)")),
+      sd = `!!`(parse_quo("sqrt(sum(ICWt * (var + pow(coef - estimate, 2))))")),
+      nmodels = `!!`(parse_quo("nmodels")),
+      proportion = `!!`(parse_quo("sum(.IN)/nmodels")),
+      ICWt = `!!`(parse_quo("min(sum(ICWt * .IN), 1.00)"))) %>%
     dplyr::ungroup()
 
   if(is_bayesian(object))
@@ -140,14 +140,14 @@ coef_profile.mb_analyses <- function(
 
   coef %<>%
     get_frequentist_coef() %>%
-    dplyr::select(!!(parse_quo("term")),
-                  !!(parse_quo("estimate")),
-                  !!(parse_quo("sd")),
-                  !!(parse_quo("zscore")),
-                  !!(parse_quo("lower")),
-                  !!(parse_quo("upper")),
-                  !!(parse_quo("pvalue")),
-                  !!(parse_quo("everything()")))
+    dplyr::select(`!!`(parse_quo("term")),
+                  `!!`(parse_quo("estimate")),
+                  `!!`(parse_quo("sd")),
+                  `!!`(parse_quo("zscore")),
+                  `!!`(parse_quo("lower")),
+                  `!!`(parse_quo("upper")),
+                  `!!`(parse_quo("pvalue")),
+                  `!!`(parse_quo("everything()")))
   coef$term %<>% as.term()
   coef <- coef[order(coef$term),]
   class(coef) %<>% c("mb_analyses_coef", .)
