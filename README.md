@@ -37,16 +37,15 @@ To install from GitHub
 
 To cite mbr in publications use:
 
-  Joe Thorley (2018). mbr: Model Builder Utility Functions and
-  Virtual Classes. Zenodo. https://doi.org/10.5281/zenodo.1162349.
+  Joe Thorley (2018) mbr: Model Builder Utility Functions and
+  Virtual Classes. doi: https://doi.org/10.5281/zenodo.1162349.
 
 A BibTeX entry for LaTeX users is
 
   @Misc{,
-    title = {mbr: Model Builder Utility Functions and Virtual Classes},
     author = {Joe Thorley},
-    publisher = {Zenodo},
     year = {2018},
+    title = {mbr: Model Builder Utility Functions and Virtual Classes},
     doi = {https://doi.org/10.5281/zenodo.1162349},
   }
 ```
