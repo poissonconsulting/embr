@@ -10,7 +10,7 @@ Status](https://ci.appveyor.com/api/projects/status/github/poissonconsulting/mbr
 Status](https://img.shields.io/codecov/c/github/poissonconsulting/mbr/master.svg)](https://codecov.io/github/poissonconsulting/mbr?branch=master)
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/mbr)](https://cran.r-project.org/package=mbr)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1162349.svg)](https://doi.org/10.5281/zenodo.1162349)
 
 # mbr
 
@@ -24,20 +24,32 @@ Currently there are packages which implement the functionality for JAGS
 ([smbr](https://github.com/poissonconsulting/smbr)) and TMB
 ([tmbr](https://github.com/poissonconsulting/tmbr)).
 
-## Demonstration
-
-``` r
-library(magrittr)
-library(ggplot2)
-library(mbr)
-```
-
 ## Installation
 
 To install from GitHub
 
     # install.packages("devtools")
     devtools::install_github("poissonconsulting/mbr")
+
+## Citation
+
+``` 
+
+To cite mbr in publications use:
+
+  Joe Thorley (2018). mbr: Model Builder Utility Functions and
+  Virtual Classes. Zenodo. https://doi.org/10.5281/zenodo.1162349.
+
+A BibTeX entry for LaTeX users is
+
+  @Misc{,
+    title = {mbr: Model Builder Utility Functions and Virtual Classes},
+    author = {Joe Thorley},
+    publisher = {Zenodo},
+    year = {2018},
+    doi = {https://doi.org/10.5281/zenodo.1162349},
+  }
+```
 
 ## Contribution
 

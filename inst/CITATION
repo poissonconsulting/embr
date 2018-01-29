@@ -1,0 +1,13 @@
+citHeader("To cite mbr in publications use:")
+
+citEntry(entry = "Misc",
+  title        = "mbr: Model Builder Utility Functions and Virtual Classes",
+  author       = as.person("Joe Thorley"),
+  publisher     = "Zenodo",
+  year         = "2018",
+  doi          = "https://doi.org/10.5281/zenodo.1162349",
+  textVersion  =
+  paste("Joe Thorley (2018).",
+        "mbr: Model Builder Utility Functions and Virtual Classes.",
+        "Zenodo.",
+        "https://doi.org/10.5281/zenodo.1162349."))
