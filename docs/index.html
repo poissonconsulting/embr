@@ -67,8 +67,6 @@
 <section id="introduction" class="level2"><h2>Introduction</h2>
 <p><code>mbr</code> (pronounced MBR) is an R package of utility functions and virtual classes for the model builder family of R packages.</p>
 <p>Currently there are packages which implement the functionality for JAGS (<a href="https://github.com/poissonconsulting/jmbr">jmbr</a>), STAN (<a href="https://github.com/poissonconsulting/smbr">smbr</a>) and TMB (<a href="https://github.com/poissonconsulting/tmbr">tmbr</a>).</p>
-</section><section id="classes" class="level2"><h2>Classes</h2>
-<p><code>mb_analysis</code> - 1 analysis <code>mb_analyses</code> - 2 or more analyses on the same data <code>mb_meta_analysis</code> - 2 or more analyses with the same model on different data <code>mb_meta_analyses</code> - 2 or more <code>mb_analyses</code> (on different data)</p>
 </section><section id="demonstration" class="level2"><h2>Demonstration</h2>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(magrittr)</a>
 <a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(ggplot2)</a>
@@ -81,6 +79,8 @@ devtools::install_github("poissonconsulting/mbr")</a></code></pre>
 <p>Please report any <a href="https://github.com/poissonconsulting/mbr/issues">issues</a>.</p>
 <p><a href="https://github.com/poissonconsulting/mbr/pulls">Pull requests</a> are always welcome.</p>
 <p>Please note that this project is released with a <a href="CONDUCT.md">Contributor Code of Conduct</a>. By participating in this project you agree to abide by its terms.</p>
+</section><section id="inspiration" class="level2"><h2>Inspiration</h2>
+<p><a href="https://github.com/poissonconsulting/jaggernaut">jaggernaut</a>.</p>
 </section></section>
 </div>
   </div>
@@ -102,7 +102,7 @@ devtools::install_github("poissonconsulting/mbr")</a></code></pre>
 </ul>
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://github.com/joethorley/stability-badges#unstable"><img src="https://img.shields.io/badge/stability-unstable-yellow.svg" alt="stability-unstable"></a></li>
+<li><a href="https://www.tidyverse.org/lifecycle/#maturing"><img src="https://img.shields.io/badge/lifecycle-maturing-blue.svg" alt="lifecycle"></a></li>
 <li><a href="https://travis-ci.org/poissonconsulting/mbr"><img src="https://travis-ci.org/poissonconsulting/mbr.svg?branch=master" alt="Travis-CI Build Status"></a></li>
 <li><a href="https://ci.appveyor.com/project/poissonconsulting/mbr"><img src="https://ci.appveyor.com/api/projects/status/github/poissonconsulting/mbr?branch=master&amp;svg=true" alt="AppVeyor Build Status"></a></li>
 <li><a href="https://codecov.io/github/poissonconsulting/mbr?branch=master"><img src="https://img.shields.io/codecov/c/github/poissonconsulting/mbr/master.svg" alt="Coverage Status"></a></li>

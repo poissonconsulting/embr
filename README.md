@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-[![stability-unstable](https://img.shields.io/badge/stability-unstable-yellow.svg)](https://github.com/joethorley/stability-badges#unstable)
+[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![Travis-CI Build
 Status](https://travis-ci.org/poissonconsulting/mbr.svg?branch=master)](https://travis-ci.org/poissonconsulting/mbr)
 [![AppVeyor Build
@@ -23,13 +23,6 @@ Currently there are packages which implement the functionality for JAGS
 ([jmbr](https://github.com/poissonconsulting/jmbr)), STAN
 ([smbr](https://github.com/poissonconsulting/smbr)) and TMB
 ([tmbr](https://github.com/poissonconsulting/tmbr)).
-
-## Classes
-
-`mb_analysis` - 1 analysis `mb_analyses` - 2 or more analyses on the
-same data `mb_meta_analysis` - 2 or more analyses with the same model on
-different data `mb_meta_analyses` - 2 or more `mb_analyses` (on
-different data)
 
 ## Demonstration
 
@@ -57,3 +50,7 @@ always welcome.
 Please note that this project is released with a [Contributor Code of
 Conduct](CONDUCT.md). By participating in this project you agree to
 abide by its terms.
+
+## Inspiration
+
+[jaggernaut](https://github.com/poissonconsulting/jaggernaut).
