@@ -11,7 +11,7 @@ drop_parameters <- function(x, parameters = character(0), ...) {UseMethod("drop_
 
 #' @export
 drop_parameters.character <- function(x, parameters = character(0), ...) {
-  check_vector(parameters, "", min_length = 0)
+  check_vector(parameters, "")
   check_unique(parameters)
 
 
@@ -31,7 +31,7 @@ drop_parameters.character <- function(x, parameters = character(0), ...) {
 
 #' @export
 drop_parameters.mb_model <- function(x, parameters = character(0), ...) {
-  check_vector(parameters, "", min_length = 0)
+  check_vector(parameters, "")
   check_unique(parameters)
 
 

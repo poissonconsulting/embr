@@ -7,7 +7,7 @@ derive_fun <- function(object,
                        parallel,
                        quiet,
                        ...) {
-  check_data2(new_data)
+  check_data(new_data)
   check_uniquely_named_list(new_values)
   check_flag(parallel)
   check_flag(quiet)
@@ -71,7 +71,7 @@ derive_data.mb_analysis <- function(object,
                         beep = getOption("mb.beep", FALSE),
                         ...) {
   check_string(term)
-  checkor(check_data2(new_data), check_vector(new_data, "", min_length = 0))
+  checkor(check_data(new_data), check_vector(new_data, ""))
 
   if (is.character(new_data))
     new_data %<>% newdata::new_data(data_set(object), .)
@@ -115,7 +115,7 @@ derive_data.mb_analyses <- function(object,
                                     ...) {
 
   check_string(term)
-  checkor(check_data2(new_data), check_vector(new_data, "", min_length = 0))
+  checkor(check_data(new_data), check_vector(new_data, ""))
 
   if (is.character(new_data))
     new_data %<>% newdata::new_data(data_set(object), .)

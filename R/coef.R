@@ -12,9 +12,9 @@ coef.mb_null_analysis <- function(object, param_type = "fixed", include_constant
                                   conf_level = getOption("mb.conf_level", 0.95),
                                   estimate = getOption("mb.estimate", median),
                                   ...) {
-  check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
+  check_vector(param_type, c("fixed", "random", "derived", "primary", "all"), length = 1)
   check_flag(include_constant)
-  check_number(conf_level, c(0.5, 0.99))
+  check_vector(conf_level, c(0.5, 0.99), length = 1)
 
   coef <- dplyr::data_frame(term = as.term(character(0)),
                             estimate = numeric(0), sd = numeric(0))
@@ -43,9 +43,9 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
                              conf_level = getOption("mb.conf_level", 0.95),
                              estimate = getOption("mb.estimate", median),
                              ...) {
-  check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
+  check_vector(param_type, c("fixed", "random", "derived", "primary", "all"), length = 1)
   check_flag(include_constant)
-  check_number(conf_level, c(0.5, 0.99))
+  check_vector(conf_level, c(0.5, 0.99), length = 1)
 
   parameters <- parameters(object, param_type)
 

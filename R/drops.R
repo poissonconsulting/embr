@@ -15,7 +15,7 @@ not_last <- function(x) {
 
 eliminate_drop <- function(drops, drop) {
   check_drops(drops)
-  check_vector(drop, "", min_length = 0)
+  check_vector(drop, "")
   drops %<>% llply(eliminate, drop)
   drops <- drops[vapply(drops, length, 1L) > 0]
   drops
@@ -56,7 +56,7 @@ make_all_drops <- function(drops) {
 next_drop <- function(analysis, drops, conf_level) {
   check_mb_analysis(analysis)
   check_drops(drops)
-  check_number(conf_level, c(0.5, 0.99))
+  check_vector(conf_level, c(0.5, 0.99), length = 1)
 
   drop <- possible_drop(drops)
 

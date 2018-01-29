@@ -17,12 +17,12 @@ select_data <- function(data, select_data, center, scale, random_effects) {
   if (!length(select_data)) {
     cols <- c(center, scale)
     cols %<>% c(unlist(random_effects))
-    check_cols(data, sort(unique(cols)))
+    check_colnames(data, sort(unique(cols)))
     return(data)
   }
 
   names(select_data) %<>% rescale::get_rescaler_colnames()
-  check_data2(data, select_data)
+  check_data(data, select_data)
   data <- data[names(select_data)]
   data
 }
@@ -37,8 +37,8 @@ select_data <- function(data, select_data, center, scale, random_effects) {
 #' @return The modified data in list form.
 #' @export
 select_rescale_data <- function(data, model, data2 = data) {
-  check_data1(data)
-  check_data1(data2)
+  check_data(data)
+  check_data(data2)
   check_mb_model(model)
   data %<>% select_data(model$select_data, model$center, model$scale, model$random_effects)
   data2 %<>% select_data(model$select_data, model$center, model$scale, model$random_effects)
@@ -60,7 +60,7 @@ select_rescale_data <- function(data, model, data2 = data) {
 #' @return The modified data in list form.
 #' @export
 modify_data <- function(data, model, numericize_factors = FALSE) {
-  check_data1(data)
+  check_data(data)
   check_mb_model(model)
   if (any(c("nObs", "Obs") %in% colnames(data)))
      error("Obs and nObs are reserved column names")
@@ -91,8 +91,8 @@ modify_data <- function(data, model, numericize_factors = FALSE) {
 #' @return The modified data in list form.
 #' @export
 modify_new_data <- function(data, data2, model, modify_new_data = NULL) {
-  check_data1(data)
-  check_data1(data2)
+  check_data(data)
+  check_data(data2)
   check_mb_model(model)
 
   if (is.null(modify_new_data)) modify_new_data <- model$modify_new_data

@@ -85,7 +85,7 @@ check_single_arg_fun <- function(fun) {
 }
 
 check_unique_character_vector <- function(x, x_name = substitute(x)) {
-  check_vector(x, "", min_length = 0, vector_name = x_name)
+  check_vector(x, "", x_name = x_name)
   check_unique(x, x_name = x_name)
   x
 }

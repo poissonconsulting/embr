@@ -96,9 +96,9 @@ analyse.mb_model <- function(x, data,
   if (beep) on.exit(beepr::beep())
 
   if (is.data.frame(data)) {
-    check_data2(data)
+    check_data(data)
   } else if (is.list(data)) {
-    llply(data, check_data2)
+    llply(data, check_data)
   } else error("data must be a data.frame or a list of data.frames")
 
   check_count(nchains, c(2L, 10L))

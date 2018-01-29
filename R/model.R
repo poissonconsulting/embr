@@ -46,8 +46,8 @@ model_mb_code <- function(
   check_unique_character_vector(scale)
   check_single_arg_fun(modify_data)
   check_single_arg_fun(modify_new_data)
-  check_vector(new_expr, "", min_length = 0, max_length = 1)
-  check_count(nthin, c(1L, 100000L))
+  check_vector(new_expr, "", length = c(0,1))
+  check_vector(nthin, c(1L, 100000L), length = 1)
   check_drops(drops)
 
   select_colnames <- rescale::get_rescaler_colnames(names(select_data))
@@ -132,7 +132,7 @@ model_mb_code <- function(
 #' @param drops A list of character vector of possible scalar parameters to drop (fix at 0).
 #' @param ... Unused arguments.
 #' @return An object inherting from class mb_model.
-#' @seealso \code{\link[datacheckr]{check_data2}} \code{\link[rescale]{rescale_c}}
+#' @seealso \code{\link[checkr]{check_data}} \code{\link[rescale]{rescale_c}}
 #' @export
 model.mb_code <- function(
   x, gen_inits = function(data) {list()}, random_effects = list(),

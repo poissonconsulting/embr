@@ -3,7 +3,7 @@
 # the parameters may therefore include data and code
 # where possible the user should override parameter.mb_code
 parameters.character <- function(x, param_type = "all", scalar_only = FALSE, ...) {
-  check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
+  check_vector(param_type, c("fixed", "random", "derived", "primary", "all"), length = 1)
   check_flag(scalar_only)
 
   if (param_type != "all")
@@ -29,7 +29,7 @@ parameters.mb_code <- function(x, param_type = "all", scalar_only = FALSE, ...) 
 
 #' @export
 parameters.mb_model <- function(x, param_type = "all", scalar_only = FALSE, ...) {
-  check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
+  check_vector(param_type, c("fixed", "random", "derived", "primary", "all"), length = 1)
   check_flag(scalar_only)
 
   if (scalar_only)
@@ -70,7 +70,7 @@ parameters.mb_model <- function(x, param_type = "all", scalar_only = FALSE, ...)
 
 #' @export
 parameters.mb_analysis <- function(x, param_type = "all", scalar_only = FALSE, ...) {
-  check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
+  check_vector(param_type, c("fixed", "random", "derived", "primary", "all"), length = 1)
   check_flag(scalar_only)
 
   if (param_type %in% c("primary", "all")) {

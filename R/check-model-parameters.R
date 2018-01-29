@@ -14,9 +14,9 @@ check_model_parameters <- function(x, fixed, random, derived, drops) {
 #' @export
 check_model_parameters.mb_code <- function(x, fixed, random, derived, drops) {
   check_string(fixed)
-  checkor(check_null(random), check_vector(random, character(0), min_length = 0))
-  checkor(check_null(derived), check_vector(derived, character(0), min_length = 0))
-  checkor(check_null(drops), check_vector(drops, character(0), min_length = 0))
+  checkor(check_null(random), check_vector(random, character(0)))
+  checkor(check_null(derived), check_vector(derived, character(0)))
+  checkor(check_null(drops), check_vector(drops, character(0)))
 
   parameters <- parameters(x)
 
