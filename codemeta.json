@@ -1,5 +1,8 @@
 {
-  "@context": ["http://purl.org/codemeta/2.0", "http://schema.org"],
+  "@context": [
+    "http://purl.org/codemeta/2.0",
+    "http://schema.org"
+  ],
   "@type": "SoftwareSourceCode",
   "identifier": "mbr",
   "description": "Utility functions and virtual classes shared by model builder packages\n    such as tmbr, jmbr and smbr.",
@@ -281,5 +284,6 @@
   ],
   "contIntegration": "https://travis-ci.org/poissonconsulting/mbr",
   "readme": "https://github.com/poissonconsulting/mbr/blob/master/README.md",
-  "fileSize": "79.278KB"
+  "fileSize": "79.326KB",
+  "releaseNotes": "https://github.com/poissonconsulting/mbr/blob/master/NEWS.md"
 }
