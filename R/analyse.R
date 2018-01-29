@@ -101,9 +101,9 @@ analyse.mb_model <- function(x, data,
     llply(data, check_data)
   } else error("data must be a data.frame or a list of data.frames")
 
-  check_count(nchains, c(2L, 10L))
-  check_count(niters, c(10L, 100000L))
-  checkor(check_null(nthin), check_count(nthin, c(1L, 10000L)))
+  check_vector(nchains, c(2L, 10L), length = 1)
+  check_vector(niters, c(10L, 100000L), length = 1)
+  checkor(check_null(nthin), check_vector(nthin, c(1L, 10000L), length = 1))
 
   check_flag(parallel)
   check_flag(quiet)
