@@ -1,5 +1,7 @@
 all1 <- function(x) all(x == 1)
 
+error <- function(...) stop(..., call. = FALSE)
+
 as_mb_analyses <- function(x, text = names(x)) {
   names(x) <- text
   class(x) <- "mb_analyses"
@@ -10,14 +12,6 @@ as_mb_meta_analysis <- function(x, text = names(x)) {
   names(x) <- text
   class(x) <- "mb_meta_analysis"
   x
-}
-
-dprint <- function(x, note = NULL, do = getOption("dprint.do", TRUE)) {
-  if (!do) return(invisible())
-  if (!is.null(note))
-    cat("\n**", note, "**\n")
-  cat("\n", deparse(substitute(x)), ": \n", sep = "")
-  print(x)
 }
 
 parameters_arg2to1 <- function(param_type, x, scalar_only) {
@@ -154,19 +148,6 @@ model_names <- function(x, drops) {
 
 drop_indices <- function(x) {
   str_replace(x, "^(\\w+)(\\[.*)", "\\1")
-}
-
-#' Power
-#'
-#' R equivalent to the C++  function.
-#'
-#' @param x A numeric vector
-#' @param n A numeric vector of the power term.
-#' @export
-#' @examples
-#' pow(10,2)
-pow <- function(x, n) {
-  x^n
 }
 
 response_lm <- function(x) {

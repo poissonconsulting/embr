@@ -9,9 +9,9 @@
   "name": "mbr: Model Builder Utility Functions and Virtual Classes",
   "codeRepository": "https://github.com/poissonconsulting/mbr",
   "issueTracker": "https://github.com/poissonconsulting/mbr/issues",
-  "datePublished": "2017-01-29",
+  "datePublished": "2018-02-04",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.0.1.9000",
+  "version": "0.0.1.9002",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -273,8 +273,12 @@
     {
       "@type": "SoftwareApplication",
       "identifier": "mcmcr",
-      "name": "mcmcr",
-      "version": "0.0.0.9020"
+      "name": "mcmcr"
+    },
+    {
+      "@type": "SoftwareApplication",
+      "identifier": "mcmcrdata",
+      "name": "mcmcrdata"
     },
     {
       "@type": "SoftwareApplication",
@@ -284,7 +288,7 @@
   ],
   "contIntegration": "https://travis-ci.org/poissonconsulting/mbr",
   "readme": "https://github.com/poissonconsulting/mbr/blob/master/README.md",
-  "fileSize": "79.627KB",
+  "fileSize": "79.411KB",
   "releaseNotes": "https://github.com/poissonconsulting/mbr/blob/master/NEWS.md",
   "citation": [
     {

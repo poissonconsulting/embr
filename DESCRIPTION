@@ -1,18 +1,17 @@
 Package: mbr
 Title: Model Builder Utility Functions and Virtual Classes
-Version: 0.0.1.9000
-Date: 2017-01-29
+Version: 0.0.1.9002
+Date: 2018-02-04
 Authors@R: person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre"))
 Description: Utility functions and virtual classes shared by model builder packages
     such as tmbr, jmbr and smbr.
 License: MIT + file LICENSE
-URL: https://github.com/poissonconsulting/mbr
-BugReports: https://github.com/poissonconsulting/mbr/issues
 Depends:
     R (>= 3.3.1),
     broom,
     lubridate,
-    mcmcr (>= 0.0.0.9020),
+    mcmcr,
+    mcmcrdata,
     stats
 Imports:
     beepr,
@@ -38,6 +37,8 @@ Suggests:
     testthat,
     covr
 Additional_Repositories: http://poissonconsulting.github.io/drat
+URL: https://github.com/poissonconsulting/mbr
+BugReports: https://github.com/poissonconsulting/mbr/issues
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 6.0.1
