@@ -27,8 +27,6 @@ is_new_parameter <- function(x, parameter) {
   parameter %in% parameters(new_expr(x))
 }
 
-allin <- function(x, y) all(x %in% y)
-
 # should be more stable than log(colMeans(exp(x)))
 logColMeansExp <- function(x) {
   matrixStats::colLogSumExps(x) - log(nrow(x))

@@ -6,7 +6,8 @@ zero_random_effects <- function(mcmcr, data, random_effects) {
   data <- data[unique(unlist(random_effects))]
   data <- data[vapply(data, all1, TRUE)]
   data <- names(data)
-  random_effects %<>% vapply(allin, TRUE, data)
+
+  random_effects %<>% vapply(function(x, y) any(x %in% y), TRUE, data)
   random_effects <- random_effects[random_effects]
   random_effects %<>% names()
 
