@@ -39,8 +39,9 @@ tidy.mb_analysis <- function(x, conf_level = getOption("mb.conf_level", 0.95), .
   if (is_bayesian(x)) {
     mcmcr <- as.mcmcr(x) %>%
       subset(parameters = parameters(x))
-    rhat <- estimates(mcmcr, fun = rhat, as_list = FALSE)
-    esr <- estimates(mcmcr, fun = esr, as_list = FALSE)
+
+    rhat <- rhat(mcmcr, by = "term")
+    esr <- esr(mcmcr, by = "term")
 
     rhat$rhat <- round(rhat$estimate, 2)
     esr$esr <- round(esr$estimate, 2)
