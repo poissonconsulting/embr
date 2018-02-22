@@ -40,13 +40,8 @@ tidy.mb_analysis <- function(x, conf_level = getOption("mb.conf_level", 0.95), .
     mcmcr <- as.mcmcr(x) %>%
       subset(parameters = parameters(x))
 
-    rhat <- rhat(mcmcr, by = "term")
-    esr <- esr(mcmcr, by = "term")
-
-    rhat$rhat <- round(rhat$estimate, 2)
-    esr$esr <- round(esr$estimate, 2)
-    rhat$estimate <- NULL
-    esr$estimate <- NULL
+    rhat <- rhat(mcmcr, by = "term", as_df = TRUE)
+    esr <- esr(mcmcr, by = "term", as_df = TRUE)
 
     coef %<>% merge(esr, by = "term")
     coef %<>% merge(rhat, by = "term")
