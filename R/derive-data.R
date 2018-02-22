@@ -1,4 +1,4 @@
-derive_fun <- function(object,
+mcmc_derive_fun <- function(object,
                        new_data = data_set(object),
                        new_expr = NULL,
                        new_values = list(),
@@ -27,7 +27,7 @@ derive_fun <- function(object,
   data %<>% numericize_factors()
   data %<>% c(new_values)
 
-  object %<>% derive(expr = new_expr, values = data, monitor = term,
+  object %<>% mcmc_derive(expr = new_expr, values = data, monitor = term,
                      parallel = parallel)
   object
 }
@@ -39,8 +39,8 @@ derive_fun <- function(object,
 #' @param object The object.
 #' @param ... Not used.
 #' @export
-derive_data <- function(object, ...) {
-  UseMethod("derive_data")
+mcmc_derive_data <- function(object, ...) {
+  UseMethod("mcmc_derive_data")
 }
 
 #' Derive Data
@@ -57,9 +57,10 @@ derive_data <- function(object, ...) {
 #' @param parallel A flag indicating whether to do predictions using parallel backend provided by foreach.
 #' @param quiet A flag indicating whether to disable tracing information.
 #' @param beep A flag indicating whether to beep on completion of the analysis.
-#' @param ...  Additional arguments.#' @return A object of class mcmcr_data.
+#' @param ...  Additional arguments.
+#' @return A object of class mcmc_data.
 #' @export
-derive_data.mb_analysis <- function(object,
+mcmc_derive_data.mb_analysis <- function(object,
                         new_data = data_set(object),
                         new_expr = NULL,
                         new_values = list(),
@@ -76,12 +77,12 @@ derive_data.mb_analysis <- function(object,
   if (is.character(new_data))
     new_data %<>% newdata::new_data(data_set(object), .)
 
-  object %<>% derive(new_data = new_data, new_expr = new_expr, new_values = new_values,
+  object %<>% mcmc_derive(new_data = new_data, new_expr = new_expr, new_values = new_values,
                      term = term, modify_new_data = modify_new_data,
                      ref_data = ref_data, parallel = parallel,
                      quiet = quiet, beep = beep, ...)
 
-  object %<>% mcmcr_data(new_data)
+  object %<>% mcmc_data(new_data)
   names(object$mcmcr) <- "prediction"
   object
 }
@@ -100,9 +101,10 @@ derive_data.mb_analysis <- function(object,
 #' @param parallel A flag indicating whether to do predictions using parallel backend provided by foreach.
 #' @param quiet A flag indicating whether to disable tracing information.
 #' @param beep A flag indicating whether to beep on completion of the analysis.
-#' @param ...  Additional arguments.#' @return A object of class mcmcr_data.
+#' @param ...  Additional arguments.
+#' @return A object of class mcmc_data.
 #' @export
-derive_data.mb_analyses <- function(object,
+mcmc_derive_data.mb_analyses <- function(object,
                                     new_data = data_set(object),
                                     new_expr = NULL,
                                     new_values = list(),
@@ -120,12 +122,10 @@ derive_data.mb_analyses <- function(object,
   if (is.character(new_data))
     new_data %<>% newdata::new_data(data_set(object), .)
 
-  object %<>% derive(new_data = new_data, new_expr = new_expr, new_values = new_values,
+  object %<>% mcmc_derive(new_data = new_data, new_expr = new_expr, new_values = new_values,
                      term = term, modify_new_data = modify_new_data,
                      ref_data = ref_data, parallel = parallel,
                      quiet = quiet, beep = beep, ...)
 
-  object %<>% mcmcr_data(new_data)
-  names(object$mcmcr) <- "prediction"
-  object
+  mcmc_data(object, new_data)
 }

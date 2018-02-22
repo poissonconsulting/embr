@@ -34,7 +34,7 @@
 
 \item{beep}{A flag indicating whether to beep on completion of the analysis.}
 
-\item{...}{Additional arguments.#' @return A object of class mcmcr_data.}
+\item{...}{Additional arguments.}
 }
 \description{
 Predict

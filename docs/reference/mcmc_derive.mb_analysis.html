@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Derive Data — derive_data • mbr</title>
+<title>Derive — mcmc_derive.mb_analysis • mbr</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -83,27 +83,72 @@
       <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Derive Data</h1>
+    <h1>Derive</h1>
     </div>
 
     
     <p>Calculate derived parameters.</p>
     
 
-    <pre class="usage"><span class='fu'>derive_data</span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='co'># S3 method for mb_analysis</span>
+<span class='fu'>mcmc_derive</span>(<span class='no'>object</span>, <span class='kw'>new_data</span> <span class='kw'>=</span> <span class='fu'><a href='data_set.html'>data_set</a></span>(<span class='no'>object</span>),
+  <span class='kw'>new_expr</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>new_values</span> <span class='kw'>=</span> <span class='fu'>list</span>(), <span class='kw'>term</span> <span class='kw'>=</span> <span class='st'>"prediction"</span>,
+  <span class='kw'>modify_new_data</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>ref_data</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.parallel"</span>, <span class='fl'>FALSE</span>), <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.quiet"</span>,
+  <span class='fl'>TRUE</span>), <span class='kw'>beep</span> <span class='kw'>=</span> <span class='fu'>getOption</span>(<span class='st'>"mb.beep"</span>, <span class='fl'>FALSE</span>), <span class='no'>...</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>object</th>
-      <td><p>The object.</p></td>
+      <td><p>An object inheriting from class mb_analysis.</p></td>
+    </tr>
+    <tr>
+      <th>new_data</th>
+      <td><p>The data frame to calculate the predictions for.</p></td>
+    </tr>
+    <tr>
+      <th>new_expr</th>
+      <td><p>A string of R code specifying the predictive relationship.</p></td>
+    </tr>
+    <tr>
+      <th>new_values</th>
+      <td><p>A named list of new or replacement values to pass to new_expr.</p></td>
+    </tr>
+    <tr>
+      <th>term</th>
+      <td><p>A string of the term in new_expr.</p></td>
+    </tr>
+    <tr>
+      <th>modify_new_data</th>
+      <td><p>A single argument function to modify new data (in list form) immediately prior to calculating new_expr.</p></td>
+    </tr>
+    <tr>
+      <th>ref_data</th>
+      <td><p>A flag or a data frame with 1 row indicating the reference values for calculating the effects size.</p></td>
+    </tr>
+    <tr>
+      <th>parallel</th>
+      <td><p>A flag indicating whether to do predictions using parallel backend provided by foreach.</p></td>
+    </tr>
+    <tr>
+      <th>quiet</th>
+      <td><p>A flag indicating whether to disable tracing information.</p></td>
+    </tr>
+    <tr>
+      <th>beep</th>
+      <td><p>A flag indicating whether to beep on completion of the analysis.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Not used.</p></td>
+      <td><p>Additional arguments.</p></td>
     </tr>
     </table>
+    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A object of class mcmcr.</p>
     
 
   </div>
@@ -111,7 +156,9 @@
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#value">Value</a></li>
+          </ul>
 
   </div>
 </div>

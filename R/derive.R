@@ -2,10 +2,10 @@
 #'
 #' Calculate derived parameters.
 #'
-#' @inheritParams derive_data.mb_analysis
+#' @inheritParams mcmc_derive_data.mb_analysis
 #' @return A object of class mcmcr.
 #' @export
-derive.mb_analysis <- function(object,
+mcmc_derive.mb_analysis <- function(object,
                                new_data = data_set(object),
                                new_expr = NULL,
                                new_values = list(),
@@ -27,7 +27,7 @@ derive.mb_analysis <- function(object,
 
   nrow <- nrow(new_data)
 
-  new_data %<>% derive_fun(object, new_data = ., new_expr = new_expr,
+  new_data %<>% mcmc_derive_fun(object, new_data = ., new_expr = new_expr,
                       new_values = new_values, term = term,
                       modify_new_data = modify_new_data,
                       parallel = parallel,
@@ -38,7 +38,7 @@ derive.mb_analysis <- function(object,
   if (identical(ref_data, TRUE))
     ref_data <- data_set(object) %>% newdata::new_data()
 
-  ref_data %<>% derive_fun(object, new_data = ., new_expr = new_expr,
+  ref_data %<>% mcmc_derive_fun(object, new_data = ., new_expr = new_expr,
                            new_values = new_values, term = term,
                            modify_new_data = modify_new_data,
                            parallel = parallel,
@@ -46,13 +46,13 @@ derive.mb_analysis <- function(object,
 
   ref_data %<>% rep(nrow)
 
-  ref_data %<>% purrr::reduce(bind_samples, along = 1)
+  ref_data %<>% purrr::reduce(bind_dimensions, along = 1)
 
   ref_data %<>% list()
   names(ref_data) <- names(new_data)
   class(ref_data) <- "mcmcr"
 
-  object <- combine_values(new_data, ref_data, fun = function(x) {(x[1] - x[2]) / x[2]})
+  object <- combine_samples(new_data, ref_data, fun = function(x) {(x[1] - x[2]) / x[2]})
   object
 }
 
@@ -60,10 +60,10 @@ derive.mb_analysis <- function(object,
 #'
 #' Calculate derived parameters.
 #'
-#' @inheritParams derive_data.mb_analysis
+#' @inheritParams mcmc_derive_data.mb_analysis
 #' @return A object of class mcmcr.
 #' @export
-derive.mb_analyses <- function(object,
+mcmc_derive.mb_analyses <- function(object,
                                new_data = data_set(object),
                                new_expr = NULL,
                                new_values = list(),
@@ -83,7 +83,7 @@ derive.mb_analyses <- function(object,
 
   if (!all(is.finite(ic$IC))) error("non-finite IC values")
 
-  object %<>% llply(derive, new_data = new_data, new_expr = new_expr,
+  object %<>% llply(mcmc_derive, new_data = new_data, new_expr = new_expr,
                       new_values = new_values, term = term,
                       modify_new_data = modify_new_data, ref_data = ref_data,
                       parallel = parallel, quiet = quiet, beep = FALSE)
@@ -92,7 +92,7 @@ derive.mb_analyses <- function(object,
 
   object %<>% purrr::map2(ic$ICWt, set_weight)
 
-  object %<>% purrr::reduce(combine_values, fun = sum)
+  object %<>% purrr::reduce(combine_samples, fun = sum)
 
   object
 }
