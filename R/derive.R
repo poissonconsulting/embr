@@ -46,7 +46,7 @@ mcmc_derive.mb_analysis <- function(object,
 
   ref_data %<>% rep(nrow)
 
-  ref_data %<>% purrr::reduce(bind_dimensions, along = 1)
+  ref_data %<>% purrr::reduce(bind_dimensions, along = 1L)
 
   ref_data %<>% list()
   names(ref_data) <- names(new_data)
