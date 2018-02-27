@@ -16,9 +16,10 @@ parameters.character <- function(x, param_type = "all", scalar_only = FALSE, ...
     str_extract_all("\\w+") %>%
     unlist() %>%
     unique() %>%
-    magrittr::extract(., is.syntactic(.)) %>%
-    sort()
-  x
+    magrittr::extract(., is.syntactic(.))
+
+  if(is.null(x)) return(character(0))
+  sort(x)
 }
 
 #' @export
