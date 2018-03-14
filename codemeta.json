@@ -9,9 +9,9 @@
   "name": "mbr: Model Builder Utility Functions and Virtual Classes",
   "codeRepository": "https://github.com/poissonconsulting/mbr",
   "issueTracker": "https://github.com/poissonconsulting/mbr/issues",
-  "datePublished": "2018-03-08",
+  "datePublished": "2018-03-14",
   "license": "https://spdx.org/licenses/MIT",
-  "version": "0.0.1.9005",
+  "version": "0.0.1.9006",
   "programmingLanguage": {
     "@type": "ComputerLanguage",
     "name": "R",
@@ -293,7 +293,7 @@
   ],
   "contIntegration": "https://travis-ci.org/poissonconsulting/mbr",
   "readme": "https://github.com/poissonconsulting/mbr/blob/master/README.md",
-  "fileSize": "79.251KB",
+  "fileSize": "79.262KB",
   "releaseNotes": "https://github.com/poissonconsulting/mbr/blob/master/NEWS.md",
   "citation": [
     {

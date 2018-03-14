@@ -118,7 +118,7 @@ coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TR
 
     if(is_frequentist(object)) {
       coef %<>%
-        dplyr::mutate(sd = `!!`(parse_quo("numeric(0)"))) %>%
+        dplyr::mutate(sd = `!!`(parse_expr("numeric(0)"))) %>%
         get_frequentist_coef()
     }
     coef %<>% dplyr::mutate_(
@@ -132,18 +132,18 @@ coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TR
   suppressWarnings(coef %<>% purrr::map2_df(ic$model, function(x, y) {x$model <- y; x}))
 
   coef %<>%
-    dplyr::mutate(.IN = `!!`(parse_quo("1"))) %>%
-    tidyr::complete(`!!`(parse_quo("term")), `!!`(parse_quo("model")), fill = list(estimate = 0, sd = 0, .IN = 0))  %>%
-    dplyr::inner_join(dplyr::select(ic, `!!`(parse_quo("model")), `!!`(parse_quo("ICWt"))), by = "model") %>%
-    dplyr::mutate(coef = `!!`(parse_quo("estimate")),
-                   var = `!!`(parse_quo("pow(sd,2)"))) %>%
-    dplyr::group_by(`!!`(parse_quo("term"))) %>%
+    dplyr::mutate(.IN = `!!`(parse_expr("1"))) %>%
+    tidyr::complete(`!!`(parse_expr("term")), `!!`(parse_expr("model")), fill = list(estimate = 0, sd = 0, .IN = 0))  %>%
+    dplyr::inner_join(dplyr::select(ic, `!!`(parse_expr("model")), `!!`(parse_expr("ICWt"))), by = "model") %>%
+    dplyr::mutate(coef = `!!`(parse_expr("estimate")),
+                   var = `!!`(parse_expr("pow(sd,2)"))) %>%
+    dplyr::group_by(`!!`(parse_expr("term"))) %>%
     dplyr::summarise(
-      estimate = `!!`(parse_quo("sum(ICWt * estimate)")),
-      sd = `!!`(parse_quo("sqrt(sum(ICWt * (var + pow(coef - estimate, 2))))")),
-      nmodels = `!!`(parse_quo("nmodels")),
-      proportion = `!!`(parse_quo("sum(.IN)/nmodels")),
-      ICWt = `!!`(parse_quo("min(sum(ICWt * .IN), 1.00)"))) %>%
+      estimate = `!!`(parse_expr("sum(ICWt * estimate)")),
+      sd = `!!`(parse_expr("sqrt(sum(ICWt * (var + pow(coef - estimate, 2))))")),
+      nmodels = `!!`(parse_expr("nmodels")),
+      proportion = `!!`(parse_expr("sum(.IN)/nmodels")),
+      ICWt = `!!`(parse_expr("min(sum(ICWt * .IN), 1.00)"))) %>%
     dplyr::ungroup()
 
   if(is_bayesian(object))
@@ -151,14 +151,14 @@ coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TR
 
   coef %<>%
     get_frequentist_coef() %>%
-    dplyr::select(`!!`(parse_quo("term")),
-                  `!!`(parse_quo("estimate")),
-                  `!!`(parse_quo("sd")),
-                  `!!`(parse_quo("zscore")),
-                  `!!`(parse_quo("lower")),
-                  `!!`(parse_quo("upper")),
-                  `!!`(parse_quo("pvalue")),
-                  `!!`(parse_quo("everything()")))
+    dplyr::select(`!!`(parse_expr("term")),
+                  `!!`(parse_expr("estimate")),
+                  `!!`(parse_expr("sd")),
+                  `!!`(parse_expr("zscore")),
+                  `!!`(parse_expr("lower")),
+                  `!!`(parse_expr("upper")),
+                  `!!`(parse_expr("pvalue")),
+                  `!!`(parse_expr("everything()")))
   coef$term %<>% as.term()
   coef <- coef[order(coef$term),]
   class(coef) %<>% c("mb_analyses_coef", .)
