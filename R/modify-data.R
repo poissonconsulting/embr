@@ -72,6 +72,7 @@ modify_data <- function(data, model, numericize_factors = FALSE) {
     as.list() %>%
     numericize_logicals() %>%
     numericize_dates() %>%
+    numericize_difftimes() %>%
     add_nfactors()
   if (numericize_factors) data %<>% numericize_factors()
   data$nObs <- nobs

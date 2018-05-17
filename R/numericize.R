@@ -9,6 +9,13 @@ numericize_dates <- function(data) {
   data
 }
 
+numericize_difftimes <- function(data) {
+  if (!is.list(data)) error("data must be a list")
+  if (!length(data)) return(data)
+  data[vapply(data, lubridate::is.difftime, TRUE)] %<>% llply(as.numeric)
+  data
+}
+
 numericize_logicals <- function(data) {
   if (!is.list(data)) error("data must be a list")
   if (!length(data)) return(data)
