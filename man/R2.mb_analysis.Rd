@@ -5,8 +5,9 @@
 \title{R2}
 \usage{
 \method{R2}{mb_analysis}(object, response, marginal = FALSE,
-  parallel = getOption("mb.parallel", FALSE), quiet = getOption("mb.quiet",
-  TRUE), beep = getOption("mb.beep", FALSE), ...)
+  term = "prediction", parallel = getOption("mb.parallel", FALSE),
+  quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep", FALSE),
+  ...)
 }
 \arguments{
 \item{object}{The object.}
@@ -14,6 +15,8 @@
 \item{response}{A string specifying the column in the data corresponding to the response.}
 
 \item{marginal}{A flag indicating whether to calculate the marginal or conditional R2 value.}
+
+\item{term}{A string of the term in new_expr.}
 
 \item{parallel}{A flag indicating whether to do predictions using parallel backend provided by foreach.}
 
@@ -27,5 +30,9 @@
 A number of the R2 value.
 }
 \description{
-Gets the marginal or conditional R2 value on the original scale for an mb_analysis object.
+Gets the conditional (or marginal) R2 value for the 'response' for an mb_analysis object.
+}
+\details{
+The conditional R2 value is the proportion of the variance in the response predicted by the full model.
+The marginal R2 values is just for the fixed effects ie after marginalizing out the random effects.
 }

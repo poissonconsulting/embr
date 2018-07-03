@@ -12,7 +12,10 @@ R2 <- function(object, ...) {
 
 #' R2
 #'
-#' Gets the marginal or conditional R2 value on the original scale for an mb_analysis object.
+#' Gets the conditional (or marginal) R2 value for the 'response' for an mb_analysis object.
+#'
+#' The conditional R2 value is the proportion of the variance in the response predicted by the full model.
+#' The marginal R2 values is just for the fixed effects ie after marginalizing out the random effects.
 #'
 #' @param object The object.
 #' @param response A string specifying the column in the data corresponding to the response.
@@ -23,6 +26,7 @@ R2 <- function(object, ...) {
 #' @return A number of the R2 value.
 #' @export
 R2.mb_analysis <- function(object, response, marginal = FALSE,
+                           term = "prediction",
                            parallel = getOption("mb.parallel", FALSE),
                            quiet = getOption("mb.quiet", TRUE),
                            beep = getOption("mb.beep", FALSE), ...) {
@@ -37,7 +41,7 @@ R2.mb_analysis <- function(object, response, marginal = FALSE,
 
   new_data <- data_set(object, marginalize_random_effects = marginal)
 
-  prediction <- predict(object, new_data = new_data,
+  prediction <- predict(object, new_data = new_data, term = term,
                                   parallel = parallel, quiet = quiet,
                                   beep = FALSE)
 
