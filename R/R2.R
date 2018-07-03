@@ -22,7 +22,7 @@ R2 <- function(object, ...) {
 #'
 #' @return A number of the R2 value.
 #' @export
-R2.mb_analysis <- function(object, response, marginal = TRUE,
+R2.mb_analysis <- function(object, response, marginal = FALSE,
                            parallel = getOption("mb.parallel", FALSE),
                            quiet = getOption("mb.quiet", TRUE),
                            beep = getOption("mb.beep", FALSE), ...) {
