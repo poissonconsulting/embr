@@ -1,5 +1,26 @@
 context("utils")
 
+test_that("all_first_level", {
+  expect_error(all_first_level(1))
+  expect_identical(all_first_level(factor(character(0), levels = c("A", "B"))),
+                   factor(character(0), levels = c("A", "B")))
+  expect_identical(all_first_level(factor("A", levels = c("A", "B"))),
+                   factor("A", levels = c("A", "B")))
+  expect_identical(all_first_level(factor("B", levels = c("A", "B"))),
+                   factor("A", levels = c("A", "B")))
+  expect_identical(all_first_level(factor(c("B", "A", "B"), levels = c("A", "B"))),
+                   factor(c("A", "A", "A"), levels = c("A", "B")))
+})
+
+test_that("dims", {
+  expect_identical(dims(integer()), 0L)
+  expect_identical(dims(1), 1L)
+  expect_identical(dims(1:2), 2L)
+  expect_identical(dims(matrix(1:2)), c(2L:1L))
+  expect_identical(dims(factor()), 0L)
+  expect_identical(dims(factor(c(0,NA))), 2L)
+})
+
 test_that("dims", {
   expect_identical(dims(integer()), 0L)
   expect_identical(dims(1), 1L)

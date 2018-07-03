@@ -1,3 +1,4 @@
+- add `marginalize_random_effects` argument to `data_set`
 - numericize difftime values as cause problems for STAN
 - `set_analysis_mode()` now ensures all options are set unless `mode = "reset"`
 and `rhat` has been decreased from `1.1` to `1.05` for report mode and from `1.05` to `1.01` for paper mode.

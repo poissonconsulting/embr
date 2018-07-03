@@ -4,7 +4,8 @@
 \alias{data_set}
 \title{Data Set}
 \usage{
-data_set(x, modify = FALSE, numericize_factors = FALSE, ...)
+data_set(x, modify = FALSE, numericize_factors = FALSE,
+  marginalize_random_effects = FALSE, ...)
 }
 \arguments{
 \item{x}{The object.}
@@ -12,6 +13,8 @@ data_set(x, modify = FALSE, numericize_factors = FALSE, ...)
 \item{modify}{A flag indicating whether to modify the data.}
 
 \item{numericize_factors}{A flag indicating whether to convert factors to integers if modifying the data.}
+
+\item{marginalize_random_effects}{A flag indicating whether to set each factor in one or more random effects at its first level.}
 
 \item{...}{Unused.}
 }

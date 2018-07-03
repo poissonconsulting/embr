@@ -152,3 +152,10 @@ response_lm <- function(x) {
   if (!is.character(x)) x %<>% template()
   stringr::str_replace(x, "\\s+~.*", "") %>% str_replace_all("\\s{1,}", "")
 }
+
+all_first_level <- function(x) {
+  stopifnot(is.factor(x))
+  levels <- levels(x)
+  if(is.ordered(x)) return(ordered(rep(levels[1], length(x)), levels = levels))
+  factor(rep(levels[1], length(x)), levels = levels)
+}
