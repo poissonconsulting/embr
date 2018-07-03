@@ -28,10 +28,17 @@ Currently there are packages which implement the functionality for JAGS ([jmbr](
 
 ## Installation
 
-To install from GitHub
+To install the latest development version from [GitHub](https://github.com/poissonconsulting/mbr)
 ```
 # install.packages("devtools")
 devtools::install_github("poissonconsulting/mbr")
+```
+
+To install the latest development version from the Poisson drat [repository](https://github.com/poissonconsulting/drat)
+```
+# install.packages("drat")
+drat::addRepo("poissonconsulting")
+install.packages("mbr")
 ```
 
 ## Citation
