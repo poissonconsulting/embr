@@ -7,7 +7,7 @@ glance.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), esr = getOpt
 
   if (is_frequentist(x) || is_new_parameter(x, "log_lik")) {
     glance$logLik = logLik(x)
-    glance$IC = IC(x)
+    glance$IC = round(IC(x),2)
   }
 
   if (is_bayesian(x)) {
@@ -25,6 +25,16 @@ glance.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), esr = getOpt
 #' @export
 glance.mb_analyses <- function(x, ...) {
   x %<>% purrr::map_dfr(glance, .id = "model")
+  if("IC" %in% colnames(x)) {
+    x$deltaIC <- x$IC - min(x$IC)
+    colnames <- colnames(x)
+    n <- length(colnames)
+    colnames <- colnames[c(1:5,n,6:(n-1))]
+    print(x)
+    print(colnames)
+    x <- x[colnames]
+    print(x)
+  }
   x
 }
 

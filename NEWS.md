@@ -1,3 +1,4 @@
+- add `deltaIC` to `glance()`
 - add `marginalize_random_effects` argument to `data_set`
 - numericize difftime values as cause problems for STAN
 - `set_analysis_mode()` now ensures all options are set unless `mode = "reset"`
