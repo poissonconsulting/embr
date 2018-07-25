@@ -30,10 +30,7 @@ glance.mb_analyses <- function(x, ...) {
     colnames <- colnames(x)
     n <- length(colnames)
     colnames <- colnames[c(1:5,n,6:(n-1))]
-    print(x)
-    print(colnames)
     x <- x[colnames]
-    print(x)
   }
   x
 }
