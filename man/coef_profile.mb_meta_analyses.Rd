@@ -5,8 +5,8 @@
 \title{Coef TMB Meta Analyses}
 \usage{
 \method{coef_profile}{mb_meta_analyses}(object, param_type = "fixed",
-  include_constant = TRUE, conf_level = getOption("mb.conf_level", 0.95),
-  estimate = getOption("mb.estimate", median),
+  include_constant = TRUE, conf_level = getOption("mb.conf_level",
+  0.95), estimate = getOption("mb.estimate", median),
   parallel = getOption("mb.parallel", FALSE),
   beep = getOption("mb.parallel", TRUE), ...)
 }

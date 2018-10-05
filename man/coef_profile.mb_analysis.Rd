@@ -5,10 +5,10 @@
 \title{Coef Profile Analysis}
 \usage{
 \method{coef_profile}{mb_analysis}(object, param_type = "fixed",
-  include_constant = TRUE, conf_level = getOption("mb.conf_level", 0.95),
-  estimate = getOption("mb.estimate", median),
-  parallel = getOption("mb.parallel", FALSE), beep = getOption("mb.profile",
-  TRUE), ...)
+  include_constant = TRUE, conf_level = getOption("mb.conf_level",
+  0.95), estimate = getOption("mb.estimate", median),
+  parallel = getOption("mb.parallel", FALSE),
+  beep = getOption("mb.profile", TRUE), ...)
 }
 \arguments{
 \item{object}{The mb_analysis object.}

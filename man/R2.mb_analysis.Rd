@@ -6,8 +6,8 @@
 \usage{
 \method{R2}{mb_analysis}(object, response, marginal = FALSE,
   term = "prediction", parallel = getOption("mb.parallel", FALSE),
-  quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep", FALSE),
-  ...)
+  quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep",
+  FALSE), ...)
 }
 \arguments{
 \item{object}{The object.}

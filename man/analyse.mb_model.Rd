@@ -4,9 +4,10 @@
 \alias{analyse.mb_model}
 \title{Analyse}
 \usage{
-\method{analyse}{mb_model}(x, data, nchains = getOption("mb.nchains", 3L),
-  niters = getOption("mb.niters", 1000L), nthin = getOption("mb.thin",
-  NULL), parallel = getOption("mb.parallel", FALSE),
+\method{analyse}{mb_model}(x, data, nchains = getOption("mb.nchains",
+  3L), niters = getOption("mb.niters", 1000L),
+  nthin = getOption("mb.thin", NULL),
+  parallel = getOption("mb.parallel", FALSE),
   quiet = getOption("mb.quiet", TRUE), glance = getOption("mb.glance",
   TRUE), beep = getOption("mb.beep", TRUE), ...)
 }

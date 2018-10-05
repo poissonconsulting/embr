@@ -5,8 +5,8 @@
 \title{Coef TMB Meta Analyses}
 \usage{
 \method{coef}{mb_meta_analyses}(object, param_type = "fixed",
-  include_constant = TRUE, conf_level = getOption("mb.conf_level", 0.95),
-  estimate = getOption("mb.estimate", median), ...)
+  include_constant = TRUE, conf_level = getOption("mb.conf_level",
+  0.95), estimate = getOption("mb.estimate", median), ...)
 }
 \arguments{
 \item{object}{The mb_meta_analyses object.}

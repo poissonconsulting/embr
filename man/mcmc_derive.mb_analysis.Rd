@@ -7,8 +7,9 @@
 \method{mcmc_derive}{mb_analysis}(object, new_data = data_set(object),
   new_expr = NULL, new_values = list(), term = "prediction",
   modify_new_data = NULL, ref_data = FALSE,
-  parallel = getOption("mb.parallel", FALSE), quiet = getOption("mb.quiet",
-  TRUE), beep = getOption("mb.beep", FALSE), ...)
+  parallel = getOption("mb.parallel", FALSE),
+  quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep",
+  FALSE), ...)
 }
 \arguments{
 \item{object}{An object inheriting from class mb_analysis.}

@@ -1,3 +1,5 @@
+^docs$
+^_pkgdown\.yml$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^README\.Rmd$
@@ -11,3 +13,4 @@
 ^LICENSE\.md$
 ^check.R$
 ^codemeta\.json$
+^build\.R$

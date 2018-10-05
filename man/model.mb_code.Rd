@@ -6,10 +6,11 @@
 \usage{
 \method{model}{mb_code}(x, gen_inits = function(data) {     list() },
   random_effects = list(), fixed = getOption("mb.fixed", "^[^e]"),
-  derived = character(0), select_data = list(), center = character(0),
-  scale = character(0), modify_data = identity,
-  nthin = getOption("mb.nthin", 1L), new_expr = character(0),
-  modify_new_data = identity, drops = list(), ...)
+  derived = character(0), select_data = list(),
+  center = character(0), scale = character(0),
+  modify_data = identity, nthin = getOption("mb.nthin", 1L),
+  new_expr = character(0), modify_new_data = identity,
+  drops = list(), ...)
 }
 \arguments{
 \item{x}{An object inheriting from class mb_code.}
