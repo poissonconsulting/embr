@@ -6,7 +6,7 @@
 #' @return A character vector of the parameters to monitor.
 #' @export
 monitor <- function(object, param_type = "all", scalar_only = FALSE) {
-  if (!is.mb_model(object)) error("object must be an mb_model")
+  if (!is.mb_model(object)) err("object must be an mb_model")
 
   parameters <- parameters(object, param_type = param_type,
                            scalar_only = scalar_only)

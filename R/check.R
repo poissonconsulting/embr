@@ -1,15 +1,15 @@
 check_drops <- function(drops) {
-  if (!is.list(drops)) error("drops must be a list")
+  if (!is.list(drops)) err("drops must be a list")
   if (!length(drops)) return(drops)
   if (!all(vapply(drops, is.character, TRUE)))
-    error("drops must be a list of character vectors")
+    err("drops must be a list of character vectors")
   if (!all(vapply(drops, length, 1L) > 0))
-    error("drops must be a list of non-zero length character vectors")
+    err("drops must be a list of non-zero length character vectors")
   if (anyDuplicated(drops))
-    error("drops must be a list of unique character vectors")
+    err("drops must be a list of unique character vectors")
 
   if (any(impossible_drop(drops) %in% possible_drop(drops)))
-    error("drops is inconsistent")
+    err("drops is inconsistent")
   drops
 }
 
@@ -22,7 +22,7 @@ check_drops <- function(drops) {
 check_mb_code <- function(object, object_name = substitute(object)) {
   if (!is.character(object_name)) object_name %<>% deparse()
 
-  if (!is.mb_code(object)) error(object_name, " must inherit from class mb_code")
+  if (!is.mb_code(object)) err(object_name, " must inherit from class mb_code")
   object
 }
 
@@ -35,7 +35,7 @@ check_mb_code <- function(object, object_name = substitute(object)) {
 check_mb_analysis <- function(object, object_name = substitute(object)) {
   if (!is.character(object_name)) object_name %<>% deparse()
 
-  if (!is.mb_analysis(object)) error(object_name, " must inherit from class mb_analysis")
+  if (!is.mb_analysis(object)) err(object_name, " must inherit from class mb_analysis")
   object
 }
 
@@ -48,7 +48,7 @@ check_mb_analysis <- function(object, object_name = substitute(object)) {
 check_mb_model <- function(object, object_name = substitute(object)) {
   if (!is.character(object_name)) object_name %<>% deparse()
 
-  if (!is.mb_model(object)) error(object_name, " must inherit from class mb_model")
+  if (!is.mb_model(object)) err(object_name, " must inherit from class mb_model")
   object
 }
 
@@ -60,7 +60,7 @@ check_x_in_y <- function(x, y, x_name = substitute(x), y_name = substitute(y), t
   if (!length(x)) return(x)
 
   if (!all(x %in% y))
-    error(type_x, " in ", x_name, " must also be in ", type_y, " of ", y_name)
+    err(type_x, " in ", x_name, " must also be in ", type_y, " of ", y_name)
   x
 }
 
@@ -72,15 +72,15 @@ check_x_not_in_y <- function(x, y, x_name = substitute(x), y_name = substitute(y
   if (!length(x)) return(x)
 
   if (any(x %in% y))
-    error(type_x, " in ", x_name, " must not be in ", type_y, " of ", y_name)
+    err(type_x, " in ", x_name, " must not be in ", type_y, " of ", y_name)
   x
 }
 
 check_single_arg_fun <- function(fun) {
   fun_name <- deparse(substitute(fun))
 
-  if (!is.function(fun)) error(fun_name, " must be a function")
-  if (length(formals(args(fun))) != 1)  error(fun_name, " must take a single argument")
+  if (!is.function(fun)) err(fun_name, " must be a function")
+  if (length(formals(args(fun))) != 1)  err(fun_name, " must take a single argument")
   fun
 }
 
@@ -93,12 +93,12 @@ check_unique_character_vector <- function(x, x_name = substitute(x)) {
 check_uniquely_named_character_vector <- function(x, x_name = substitute(x)) {
   if (is.name(x)) x_name %<>% deparse()
 
-  if (!is.character(x)) error(x_name, " must be a character vector")
+  if (!is.character(x)) err(x_name, " must be a character vector")
 
   if (!length(x))
     return(x)
 
-  if (is.null(names(x))) error(x_name, "must be named")
+  if (is.null(names(x))) err(x_name, "must be named")
   check_unique(names(x), x_name = x_name)
   x
 }
@@ -112,10 +112,10 @@ check_uniquely_named_character_vector <- function(x, x_name = substitute(x)) {
 check_uniquely_named_list <- function(x, x_name = substitute(x)) {
   if (is.name(x)) x_name %<>% deparse()
 
-  if (!is.list(x)) error(x_name, " must be a list")
+  if (!is.list(x)) err(x_name, " must be a list")
   if (!length(x)) return(x)
-  if (is.null(names(x))) error(x_name, " must be a named list")
-  if (anyDuplicated(names(x))) error(x_name, " must be a uniquely named list")
+  if (is.null(names(x))) err(x_name, " must be a named list")
+  if (anyDuplicated(names(x))) err(x_name, " must be a uniquely named list")
   x
 }
 
@@ -125,7 +125,7 @@ check_all_elements_class_character <- function(x, x_name = substitute(x)) {
   if (!length(x)) return(x)
 
   if (!all(unlist(llply(x, class)) == "character"))
-    error("elements of ", x_name, "must be character vectors")
+    err("elements of ", x_name, "must be character vectors")
   x
 }
 
@@ -135,6 +135,6 @@ check_all_elements_unique <- function(x, x_name = substitute(x)) {
   if (!length(x)) return(x)
 
   if (any(vapply(x, anyDuplicated, TRUE)))
-    error("elements of ", x_name, "must be unique")
+    err("elements of ", x_name, "must be unique")
   x
 }

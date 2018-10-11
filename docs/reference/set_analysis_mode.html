@@ -32,7 +32,7 @@
 
 <meta property="og:title" content="Set Analysis Mode — set_analysis_mode" />
 
-<meta property="og:description" content="Sets analysis mode. Possible values are 'reset', 'debug', 'check', 'quick', 'report' or 'paper'." />
+<meta property="og:description" content="Sets analysis mode." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">mbr</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.1.9010</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.0.1.9011</span>
       </span>
     </div>
 
@@ -107,7 +107,7 @@
 
     <div class="ref-description">
     
-    <p>Sets analysis mode. Possible values are 'reset', 'debug', 'check', 'quick', 'report' or 'paper'.</p>
+    <p>Sets analysis mode.</p>
     
     </div>
 
@@ -122,13 +122,52 @@
     </tr>
     </table>
     
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
+    <p>The old options.</p>
+    
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The possible modes are as follows:</p><dl class='dl-horizontal'>
+  <dt>'debug'</dt><dd><p>To rapidly identify problems with a model definition.</p></dd>
+  <dt>'quick'</dt><dd><p>To quickly test code runs.</p></dd>
+  <dt>'report'</dt><dd><p>To produce results for a report.</p></dd>
+  <dt>'paper'</dt><dd><p>To produce results for a peer-reviewed paper.</p></dd>
+  <dt>'check'</dt><dd><p>To run when checking a package.</p></dd>
+  <dt>'reset'</dt><dd><p>To reset all the options to NULL so that they are the default values for each function call.</p></dd>
+</dl>
+    <p>In each case the mode is a unique combination of the following package options</p><dl class='dl-horizontal'>
+  <dt>mb.nchains</dt><dd><p>A count of the number of chains.</p></dd>
+  <dt>mb.niters</dt><dd><p>A count of the number of simulations to save per chain.</p></dd>
+  <dt>mb.nthin</dt><dd><p>A count of the thining interval.</p></dd>
+  <dt>mb.parallel</dt><dd><p>A flag indicating whether to perform the analysis in parallel.</p></dd>
+  <dt>mb.quiet</dt><dd><p>A flag indicating whether to disable tracing information.</p></dd>
+  <dt>mb.beep</dt><dd><p>A flag indicating whether to beep on completion of the analysis.</p></dd>
+  <dt>mb.glance</dt><dd><p>A flag indicating whether to print a model summary.</p></dd>
+  <dt>mb.nreanalyses</dt><dd><p>A count specifying the maximum number of reanalyses.</p></dd>
+  <dt>mb.rhat</dt><dd><p>A number specifying the rhat threshold.</p></dd>
+  <dt>mb.esr</dt><dd><p>A number specifying the minimum effective sampling rate.</p></dd>
+  <dt>mb.duration</dt><dd><p>The maximum total time to spend on analysis and reanalysis.</p></dd>
+  <dt>mb.conf_level</dt><dd><p>A number specifying the confidence level.</p></dd>
+</dl>
+    
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><span class='co'># NOT RUN {</span>
+<span class='fu'>set_analysis_mode</span>(<span class='st'>"reset"</span>)
+<span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-                </ul>
+      
+      <li><a href="#value">Value</a></li>
+
+      <li><a href="#details">Details</a></li>
+      
+      <li><a href="#examples">Examples</a></li>
+    </ul>
 
   </div>
 </div>

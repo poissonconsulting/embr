@@ -55,7 +55,7 @@ model_mb_code <- function(
 
   if (!identical(center, character(0)) || !identical(scale, character(0))) {
     if (!identical(names(select_data), select_colnames))
-      error("scaling (and transforms) should be specified with select_data or center/scale not both")
+      err("scaling (and transforms) should be specified with select_data or center/scale not both")
 
     warning("arguments center and scale are deprecated; please use select_data instead.",
             call. = FALSE)

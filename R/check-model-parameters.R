@@ -21,16 +21,16 @@ check_model_parameters.mb_code <- function(x, fixed, random, derived, drops) {
   parameters <- parameters(x)
 
   if (!any(str_detect(parameters, fixed)))
-    error("fixed does not match any code parameters")
+    err("fixed does not match any code parameters")
 
   if (length(random) && !all(random %in% parameters))
-    error("random effects parameters missing from code parameters")
+    err("random effects parameters missing from code parameters")
 
   if (length(derived) && !all(derived %in% parameters))
-    error("derived parameters missing from code parameters")
+    err("derived parameters missing from code parameters")
 
   if (length(drops) && !all(unlist(drops) %in% parameters))
-    error("drops parameters missing from code parameters")
+    err("drops parameters missing from code parameters")
 
   derived
 }

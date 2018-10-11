@@ -7,10 +7,10 @@ parameters.character <- function(x, param_type = "all", scalar_only = FALSE, ...
   check_flag(scalar_only)
 
   if (param_type != "all")
-    error("parameters.character is not able to identify parameter types - set param_type = 'all' instead")
+    err("parameters.character is not able to identify parameter types - set param_type = 'all' instead")
 
   if (scalar_only)
-    error("parameters.character is not able to identify scalar parameters - set scalar_only = FALSE instead")
+    err("parameters.character is not able to identify scalar parameters - set scalar_only = FALSE instead")
 
   x %<>%
     str_extract_all("\\w+") %>%
@@ -34,7 +34,7 @@ parameters.mb_model <- function(x, param_type = "all", scalar_only = FALSE, ...)
   check_flag(scalar_only)
 
   if (scalar_only)
-    error("parameters.mb_model is not able to identify scalar parameters - set scalar_only = FALSE instead")
+    err("parameters.mb_model is not able to identify scalar parameters - set scalar_only = FALSE instead")
 
   if (param_type %in% c("primary", "all")) {
     parameters <- c("fixed", "random")

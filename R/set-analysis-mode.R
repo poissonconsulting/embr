@@ -1,9 +1,40 @@
 #' Set Analysis Mode
 #'
-#' Sets analysis mode. Possible values are 'reset', 'debug', 'check', 'quick', 'report' or 'paper'.
+#' Sets analysis mode.
+#'
+#' The possible modes are as follows:
+#' \describe{
+#'   \item{'debug'}{To rapidly identify problems with a model definition.}
+#'   \item{'quick'}{To quickly test code runs.}
+#'   \item{'report'}{To produce results for a report.}
+#'   \item{'paper'}{To produce results for a peer-reviewed paper.}
+#'   \item{'check'}{To run when checking a package.}
+#'   \item{'reset'}{To reset all the options to NULL so that they are the default values for each function call.}
+#' }
+#'
+#' In each case the mode is a unique combination of the following package options
+#' \describe{
+#'   \item{mb.nchains}{A count of the number of chains.}
+#'   \item{mb.niters}{A count of the number of simulations to save per chain.}
+#'   \item{mb.nthin}{A count of the thining interval.}
+#'   \item{mb.parallel}{A flag indicating whether to perform the analysis in parallel.}
+#'   \item{mb.quiet}{A flag indicating whether to disable tracing information.}
+#'   \item{mb.beep}{A flag indicating whether to beep on completion of the analysis.}
+#'   \item{mb.glance}{A flag indicating whether to print a model summary.}
+#'   \item{mb.nreanalyses}{A count specifying the maximum number of reanalyses.}
+#'   \item{mb.rhat}{A number specifying the rhat threshold.}
+#'   \item{mb.esr}{A number specifying the minimum effective sampling rate.}
+#'   \item{mb.duration}{The maximum total time to spend on analysis and reanalysis.}
+#'   \item{mb.conf_level}{A number specifying the confidence level.}
+#' }
 #'
 #' @param mode A string of the analysis mode.
+#' @return The old options.
 #' @export
+#' @examples
+#' \dontrun{
+#' set_analysis_mode("reset")
+#' }
 set_analysis_mode <- function(mode = "report") {
   check_string(mode)
 
@@ -85,5 +116,5 @@ set_analysis_mode <- function(mode = "report") {
             mb.esr = 0.25,
             mb.duration = dhours(6),
             mb.conf_level = 0.95)
-  } else error("mode '", mode,"' unrecognised (possible values are 'debug', 'reset', 'check', 'quick', 'report' or 'paper')")
+  } else err("mode '", mode,"' unrecognised (possible values are 'debug', 'reset', 'check', 'quick', 'report' or 'paper')")
 }

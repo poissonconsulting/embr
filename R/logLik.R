@@ -4,7 +4,7 @@ mcmc_derive_logLik <- function(x) {
   dim <- dim(logLik[["log_lik"]])
 
   if (!identical(length(dim), 3L))
-    error("logLik term 'log_lik' must be a vector")
+    err("logLik term 'log_lik' must be a vector")
 
   n <- dim[3]
 

@@ -19,9 +19,9 @@ drop_parameters.character <- function(x, parameters = character(0), ...) {
     return(x)
 
   # check that [ not in parameter name or followed by [ in x
-  if (any(str_detect(parameters, "\\["))) error("parameters must be scalar")
+  if (any(str_detect(parameters, "\\["))) err("parameters must be scalar")
   if (any(str_detect(x, str_c(parameters, "\\s*\\["))))
-    error("parameters must be scalar")
+    err("parameters must be scalar")
 
   for (parameter in parameters) {
     x %<>% str_replace_all(str_c("\\b", parameter, "\\s+"), str_c("0 "))

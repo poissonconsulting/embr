@@ -65,7 +65,7 @@ reanalyse.mb_analysis <- function(object,
   if (beep) on.exit(beepr::beep())
 
   check_vector(nreanalyses, c(0L, 4L), length = 1)
-  if (!is.duration(duration)) error("duration must be an object of class Duration")
+  if (!is.duration(duration)) err("duration must be an object of class Duration")
   check_flag(quiet)
   check_flag(parallel)
   check_flag(glance)

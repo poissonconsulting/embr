@@ -81,7 +81,7 @@ mcmc_derive.mb_analyses <- function(object,
 
   ic <- IC(object)
 
-  if (!all(is.finite(ic$IC))) error("non-finite IC values")
+  if (!all(is.finite(ic$IC))) err("non-finite IC values")
 
   object %<>% llply(mcmc_derive, new_data = new_data, new_expr = new_expr,
                       new_values = new_values, term = term,

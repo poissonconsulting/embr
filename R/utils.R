@@ -1,7 +1,5 @@
 all1 <- function(x) all(x == 1)
 
-error <- function(...) stop(..., call. = FALSE)
-
 as_mb_analyses <- function(x, text = names(x)) {
   names(x) <- text
   class(x) <- "mb_analyses"

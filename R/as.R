@@ -61,15 +61,15 @@ as.models.mb_model <- function(x, ...) {
 
 #' @export
 as.models.list <- function(x, ...) {
-  if (!is.list(x)) error("x must be a list")
+  if (!is.list(x)) err("x must be a list")
 
   if (length(x)) {
     if (!all(purrr::map_lgl(x, is.mb_model)))
-      error("all elements must inherit from 'mb_model'")
+      err("all elements must inherit from 'mb_model'")
 
     class <- purrr::map(x, class)
     if (!identical(length(unique(class)), 1L))
-      error("all model objects must have the same class")
+      err("all model objects must have the same class")
 
   }
   class(x) <- "mb_models"
@@ -95,14 +95,14 @@ as.mcmcrs.mb_analyses <- function(x, ...) {
 
 #' @export
 as.analyses.list <- function(x, ...) {
-  if (!is.list(x)) error("x must be a list")
+  if (!is.list(x)) err("x must be a list")
 
   if (length(x)) {
     if (!all(purrr::map_lgl(x, is.mb_analysis)))
-      error("all objects must inherit from 'mb_analysis'")
+      err("all objects must inherit from 'mb_analysis'")
     data <- purrr::map(x, data_set)
     if (!identical(length(unique(data)), 1L))
-      error("all analysis objects must have the same data")
+      err("all analysis objects must have the same data")
   }
   class(x) <- "mb_analyses"
   x

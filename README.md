@@ -72,4 +72,4 @@ abide by its terms.
 
 ## Inspiration
 
-[jaggernaut](https://github.com/poissonconsulting/jaggernaut).
+[jaggernaut](https://github.com/poissonconsulting/jaggernaut)

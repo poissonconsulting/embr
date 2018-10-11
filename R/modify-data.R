@@ -7,7 +7,7 @@ add_nfactors <- function(data) {
   names(factor) %<>% str_c("n", .)
 
   if (any(names(factor) %in% names(data)))
-    error("nFactor names are reserved")
+    err("nFactor names are reserved")
 
   data %<>% c(factor)
   data
@@ -63,7 +63,7 @@ modify_data <- function(data, model, numericize_factors = FALSE) {
   check_data(data, nrow = TRUE)
   check_mb_model(model)
   if (any(c("nObs", "Obs") %in% colnames(data)))
-     error("Obs and nObs are reserved column names")
+     err("Obs and nObs are reserved column names")
 
   nobs <- nrow(data)
 
