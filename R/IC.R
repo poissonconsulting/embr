@@ -64,8 +64,8 @@ IC.mb_analyses <- function(object, ...) {
   tibble$ICWt <- exp(-0.5 * tibble$DeltaIC)
   tibble$ICWt <- tibble$ICWt / sum(tibble$ICWt)
 
-  tibble$DeltaIC %<>% round(1)
-  tibble$ICWt %<>% round(2)
+  tibble$DeltaIC %<>% round(2)
+  tibble$ICWt %<>% round(3)
   # retain original order and use sort_by_ic if required
   tibble
 }
