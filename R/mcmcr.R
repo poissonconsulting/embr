@@ -7,8 +7,9 @@ rhat.mb_analysis <- function(x, by = "all", as_df = FALSE, ...) {
 rhat.mb_null_analysis <- function(x, ...) return(Inf)
 
 #' @export
-rhat.mb_analyses <- function(x, by = "all", as_df = FALSE, ...) {
-  rhat(as.mcmcrs(x), by = by, as_df = as_df)
+rhat.mb_analyses <- function(x, by = "all", as_df = FALSE, bound = FALSE, ...) {
+  check_unused(...)
+  rhat(as.mcmcrs(x), by = by, as_df = as_df, bound = bound)
 }
 
 #' @export
@@ -20,8 +21,15 @@ esr.mb_analysis <- function(x,  by = "all", as_df = FALSE,  ...) {
 esr.mb_null_analysis <- function(x, ...) return(0)
 
 #' @export
-esr.mb_analyses <- function(x,  by = "all", as_df = FALSE,  ...) {
-  esr(as.mcmcrs(x), by = by, as_df = as_df)
+esr.mb_analyses <- function(x,  by = "all", as_df = FALSE, bound = FALSE, ...) {
+  check_unused(...)
+  esr(as.mcmcrs(x), by = by, as_df = as_df, bound = bound)
+}
+
+#' @export
+converged.mb_analyses <- function(x,  by = "all", as_df = FALSE, bound = FALSE, ...) {
+  check_unused(...)
+  converged(as.mcmcrs(x), by = by, as_df = as_df, bound = bound)
 }
 
 #' @export
