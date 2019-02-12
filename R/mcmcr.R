@@ -1,5 +1,5 @@
 #' @export
-rhat.mb_analysis <- function(x, by = "all", as_df = FALSE, param_type = "all", ...) {
+rhat.mb_analysis <- function(x, by = "all", as_df = FALSE, split = TRUE, param_type = "all", ...) {
   check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
   check_unused(...)
   parameters <- parameters(x, param_type)
@@ -7,14 +7,14 @@ rhat.mb_analysis <- function(x, by = "all", as_df = FALSE, param_type = "all", .
   x <- as.mcmcr(x)
   x <- subset(x, parameters = parameters)
 
-  rhat(x, by = by, as_df = as_df)
+  rhat(x, by = by, as_df = as_df, split = split)
 }
 
 #' @export
 rhat.mb_null_analysis <- function(x, ...) Inf
 
 #' @export
-rhat.mb_analyses <- function(x, by = "all", as_df = FALSE, bound = FALSE, param_type = "all", ...) {
+rhat.mb_analyses <- function(x, by = "all", as_df = FALSE, split = !bound, bound = FALSE, param_type = "all", ...) {
   check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
   check_unused(...)
 
@@ -23,7 +23,7 @@ rhat.mb_analyses <- function(x, by = "all", as_df = FALSE, bound = FALSE, param_
   x <- as.mcmcrs(x)
   x <- subset(x, parameters = parameters)
 
-  rhat(x, by = by, as_df = as_df, bound = bound)
+  rhat(x, by = by, as_df = as_df, split = split, bound = bound)
 }
 
 #' @export
@@ -42,7 +42,7 @@ esr.mb_analysis <- function(x,  by = "all", as_df = FALSE, param_type = "all", .
 esr.mb_null_analysis <- function(x, ...) 0
 
 #' @export
-esr.mb_analyses <- function(x,  by = "all", as_df = FALSE, bound = FALSE, param_type = "all", ...) {
+esr.mb_analyses <- function(x,  by = "all", as_df = FALSE, param_type = "all", ...) {
   check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
   check_unused(...)
 
@@ -51,11 +51,11 @@ esr.mb_analyses <- function(x,  by = "all", as_df = FALSE, bound = FALSE, param_
   x <- as.mcmcrs(x)
   x <- subset(x, parameters = parameters)
 
-  esr(x, by = by, as_df = as_df, bound = bound)
+  esr(x, by = by, as_df = as_df)
 }
 
 #' @export
-converged.mb_analysis <- function(x, rhat = 1.1, esr = 0.33, by = "all", as_df = FALSE, param_type = "all", ...) {
+converged.mb_analysis <- function(x, rhat = 1.1, esr = 0.33, by = "all", as_df = FALSE, split = TRUE, param_type = "all", ...) {
   check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
   check_unused(...)
 
@@ -64,14 +64,14 @@ converged.mb_analysis <- function(x, rhat = 1.1, esr = 0.33, by = "all", as_df =
   x <- as.mcmcr(x)
   x <- subset(x, parameters = parameters)
 
-  converged(x, rhat = rhat, esr = esr, by = by, as_df = as_df)
+  converged(x, rhat = rhat, esr = esr, by = by, as_df = as_df, split = split)
 }
 
 #' @export
 converged.mb_null_analysis <- function(x, ...) FALSE
 
 #' @export
-converged.mb_analyses <- function(x, rhat = 1.1, esr = 0.33, by = "all", as_df = FALSE, bound = FALSE, param_type = "all", ...) {
+converged.mb_analyses <- function(x, rhat = 1.1, esr = 0.33, by = "all", as_df = FALSE, split = !bound, bound = FALSE, param_type = "all", ...) {
   check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
   check_unused(...)
 
@@ -80,7 +80,7 @@ converged.mb_analyses <- function(x, rhat = 1.1, esr = 0.33, by = "all", as_df =
   x <- as.mcmcrs(x)
   x <- subset(x, parameters = parameters)
 
-  converged(x, rhat = rhat, esr = esr, by = by, as_df = as_df, bound = bound)
+  converged(x, rhat = rhat, esr = esr, by = by, as_df = as_df, split = split, bound = bound)
 }
 
 #' @export

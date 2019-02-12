@@ -1,3 +1,4 @@
+- add split and bound to rhat and converged
 - add `deltaIC` to `glance()`
 - add `marginalize_random_effects` argument to `data_set`
 - numericize difftime values as cause problems for STAN
