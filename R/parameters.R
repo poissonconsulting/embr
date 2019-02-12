@@ -13,6 +13,7 @@ parameters.character <- function(x, param_type = "all", scalar_only = FALSE, ...
     err("parameters.character is not able to identify scalar parameters - set scalar_only = FALSE instead")
 
   x %<>%
+    rm_comments() %>%
     str_extract_all("\\w+") %>%
     unlist() %>%
     unique() %>%
@@ -24,7 +25,6 @@ parameters.character <- function(x, param_type = "all", scalar_only = FALSE, ...
 
 #' @export
 parameters.mb_code <- function(x, param_type = "all", scalar_only = FALSE, ...) {
-  x %<>% rm_comments()
   parameters(template(x), param_type = param_type, scalar_only = scalar_only)
 }
 
