@@ -30,7 +30,7 @@ sd_priors_by.mb_analysis <- function(x, by = 2,
                                   ...) {
   check_unused(...)
 
-  analyse(model = sd_priors_by(model(x), by = by),
+  analyse(sd_priors_by(model(x), by = by),
           data = data_set(x),
           nchains = nchains(x),
           niters = niters(x),
