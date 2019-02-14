@@ -6,11 +6,11 @@
 \alias{sd_priors_by.mb_analysis}
 \title{Multiply Standard Deviation of Priors By}
 \usage{
-sd_priors_by(x, by = 2, ...)
+sd_priors_by(x, by = 10, ...)
 
-\method{sd_priors_by}{mb_model}(x, by = 2, ...)
+\method{sd_priors_by}{mb_model}(x, by = 10, ...)
 
-\method{sd_priors_by}{mb_analysis}(x, by = 2,
+\method{sd_priors_by}{mb_analysis}(x, by = 10,
   parallel = getOption("mb.parallel", FALSE),
   quiet = getOption("mb.quiet", TRUE), glance = getOption("mb.glance",
   TRUE), beep = getOption("mb.beep", TRUE), ...)

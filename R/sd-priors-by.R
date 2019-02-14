@@ -6,14 +6,14 @@
 #' @param ... Not used.
 #' @return The updated object.
 #' @export
-sd_priors_by <- function(x, by = 2, ...) {
+sd_priors_by <- function(x, by = 10, ...) {
   UseMethod("sd_priors_by")
 }
 
 #' @describeIn sd_priors_by Multiply Standard Deviation of Priors for an MB model
 #' @export
-sd_priors_by.mb_model <- function(x, by = 2, ...) {
-  check_scalar(by, c(0.1, 10))
+sd_priors_by.mb_model <- function(x, by = 10, ...) {
+  check_scalar(by, c(0.001, 1000))
   check_unused(...)
 
   x$code <- sd_priors_by(x$code, by = by)
@@ -22,7 +22,7 @@ sd_priors_by.mb_model <- function(x, by = 2, ...) {
 
 #' @describeIn sd_priors_by Multiply Standard Deviation of Priors for an MB analysis
 #' @export
-sd_priors_by.mb_analysis <- function(x, by = 2,
+sd_priors_by.mb_analysis <- function(x, by = 10,
                                   parallel = getOption("mb.parallel", FALSE),
                                   quiet = getOption("mb.quiet", TRUE),
                                   glance = getOption("mb.glance", TRUE),
