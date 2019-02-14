@@ -6,11 +6,14 @@
 \alias{sd_priors_by.mb_analysis}
 \title{Multiply Standard Deviation of Priors By}
 \usage{
-sd_priors_by(x, by = 10, ...)
+sd_priors_by(x, by = 10, distributions = c("normal", "lognormal", "t"),
+  ...)
 
-\method{sd_priors_by}{mb_model}(x, by = 10, ...)
+\method{sd_priors_by}{mb_model}(x, by = 10, distributions = c("normal",
+  "lognormal", "t"), ...)
 
 \method{sd_priors_by}{mb_analysis}(x, by = 10,
+  distributions = c("normal", "lognormal", "t"),
   parallel = getOption("mb.parallel", FALSE),
   quiet = getOption("mb.quiet", TRUE), glance = getOption("mb.glance",
   TRUE), beep = getOption("mb.beep", TRUE), ...)
@@ -19,6 +22,9 @@ sd_priors_by(x, by = 10, ...)
 \item{x}{The object.}
 
 \item{by}{A double scalar of the multiplier.}
+
+\item{distributions}{A character vector of the distributions to adjust.
+Possible values are "laplace" (double exponential), "logistic", "lognormal", "normal", "t" and "nt" (non-central Student t).}
 
 \item{...}{Not used.}
 
