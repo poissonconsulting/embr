@@ -39,7 +39,7 @@ IC.mb_analysis <- function(object, ...) {
 #' @export
 IC.mb_analyses <- function(object, ...) {
   if (!length(object)) {
-    return(dplyr::data_frame(
+    return(tibble::tibble(
       model = character(0), K = integer(0), IC = numeric(0),
       DeltaIC = numeric(0), ICWt = numeric(0)))
   }
@@ -56,7 +56,7 @@ IC.mb_analyses <- function(object, ...) {
   random_effects <- llply(object, random_effects) %>% llply(sort_random_effects)
   if (!all(vapply(data, identical, TRUE, data[[1]]))) err("all elements of object must have the same random effects")
 
-  tibble <- dplyr::data_frame(model = names(object))
+  tibble <- tibble::tibble(model = names(object))
   tibble$K <- vapply(object, nterms, 1L, include_constant = FALSE)
   tibble$IC <- vapply(object, IC, 1, ...)
 

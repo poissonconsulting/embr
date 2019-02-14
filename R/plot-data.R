@@ -8,7 +8,7 @@ plot_data <- function(x, ...) {
 }
 
 ggplot_data <- function(x, y, x_name, y_name) {
-  data <- dplyr::data_frame(x, y)
+  data <- tibble::tibble(x, y)
   data %<>% dplyr::filter(!is.na(x), !is.na(y))
 
   if (length(unique(data$x)) <= 1) return(invisible(NULL))

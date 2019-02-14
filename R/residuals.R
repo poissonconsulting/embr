@@ -42,7 +42,7 @@ ggplot_residuals <- function(data, name) {
 
 #' @export
 plot_residuals.default <- function(x, name, residuals, ...) {
-  data <- dplyr::data_frame(x, residuals)
+  data <- tibble::tibble(x, residuals)
   data %<>% dplyr::filter(!is.na(x), !is.na(residuals))
 
   if (length(unique(data$x)) <= 1) return(invisible(NULL))
@@ -54,7 +54,7 @@ plot_residuals.default <- function(x, name, residuals, ...) {
 
 #' @export
 plot_residuals.factor <- function(x, name, residuals, ...) {
-  data <- dplyr::data_frame(x, residuals)
+  data <- tibble::tibble(x, residuals)
   data %<>% dplyr::filter(!is.na(x), !is.na(residuals))
 
   if (length(unique(data$x)) <= 1) return(invisible(NULL))

@@ -16,7 +16,7 @@ coef.mb_null_analysis <- function(object, param_type = "fixed", include_constant
   check_flag(include_constant)
   check_vector(conf_level, c(0.5, 0.99), length = 1)
 
-  coef <- dplyr::data_frame(term = as.term(character(0)),
+  coef <- tibble::tibble(term = as.term(character(0)),
                             estimate = numeric(0), sd = numeric(0))
 
   coef %<>% get_frequentist_coef()
@@ -50,7 +50,7 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
   parameters <- parameters(object, param_type)
 
   if (!length(parameters)) {
-    coef <- dplyr::data_frame(term = as.term(character(0)),
+    coef <- tibble::tibble(term = as.term(character(0)),
                               estimate = numeric(0),
                               sd = numeric(0))
 
@@ -112,7 +112,7 @@ coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TR
 
   nmodels <- length(coef)
   if (!nmodels) {
-    coef <- dplyr::data_frame(
+    coef <- tibble::tibble(
       term = as.term(character(0)),
       estimate = numeric(0))
 
