@@ -1,10 +1,10 @@
 tibble <- function(...) {
-  data <- data.frame(..., stringsAsFactors = FALSE)
-  class(data) <- c("tbl_df", "tbl", "data.frame")
-  data
+  x <- data.frame(..., stringsAsFactors = FALSE)
+  as_tibble(x)
 }
 
 as_tibble <- function(x) {
-  class(data) <- c("tbl_df", "tbl", "data.frame")
-  data
+  row.names(x) <- NULL
+  class(x) <- c("tbl_df", "tbl", "data.frame")
+  x
 }
