@@ -23,7 +23,28 @@ glance.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), esr = getOpt
 }
 
 #' @export
-glance.mb_analyses <- function(x, ...) {
+glance.mb_analyses <- function(
+  x, rhat = getOption("mb.rhat", 1.1), bound = FALSE, ...) {
+  check_flag(bound)
+  if(bound) {
+    if (!is_bayesian(x))
+      err("glance with bound = TRUE is only defined for Bayesian analyses.")
+
+    glance <- glance(x, rhat = rhat)
+
+    converged <- all(glance$rhat <= rhat)
+    rhat_all <- rhat(x, bound = TRUE)
+    rhat <- glance[c("model", "rhat")]
+    glance <- glance[1, c("n", "K", "nchains", "niters")]
+    rhat$model <- p0("rhat_", rhat$model)
+    rhat <- matrix(rhat$rhat, nrow = 1, dimnames = list("1", rhat$model))
+    rhat <- as.data.frame(rhat)
+    glance <- cbind(glance, rhat)
+    glance$rhat_all <- rhat_all
+    glance$converged <- converged && glance$rhat_all <= rhat
+
+    return(glance)
+  }
   x %<>% purrr::map_dfr(glance, .id = "model")
   if("IC" %in% colnames(x)) {
     x$deltaIC <- x$IC - min(x$IC)
