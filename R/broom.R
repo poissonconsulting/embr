@@ -1,7 +1,7 @@
 #' @export
 glance.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), esr = getOption("mb.esr", 0.33), ...) {
 
-  glance <- tibble::tibble(
+  glance <- tibble(
     n = sample_size(x),
     K = nterms(x, include_constant = FALSE))
 
@@ -43,7 +43,7 @@ glance.mb_analyses <- function(
     glance$rhat_all <- rhat_all
     glance$converged <- converged && glance$rhat_all <= rhat
 
-    return(glance)
+    return(as_tibble(glance))
   }
   x %<>% purrr::map_dfr(glance, .id = "model")
   if("IC" %in% colnames(x)) {

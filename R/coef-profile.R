@@ -101,7 +101,7 @@ coef_profile.mb_analyses <- function(
 
   nmodels <- length(coef)
   if (!nmodels) {
-    coef <- tibble::tibble(
+    coef <- tibble(
       term = as.term(character(0)),
       estimate = numeric(0))
 
