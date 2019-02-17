@@ -31,9 +31,9 @@ glance.mb_analyses <- function(
       err("glance with bound = TRUE is only defined for Bayesian analyses.")
 
     glance <- glance(x, rhat = rhat)
-
-    converged <- all(glance$rhat <= rhat)
     rhat_all <- rhat(x, bound = TRUE)
+    converged <- all(glance$rhat <= rhat) && rhat_all <= rhat
+
     rhat <- glance[c("model", "rhat")]
     glance <- glance[1, c("n", "K", "nchains", "niters")]
     rhat$model <- p0("rhat_", rhat$model)
@@ -41,7 +41,7 @@ glance.mb_analyses <- function(
     rhat <- as.data.frame(rhat)
     glance <- cbind(glance, rhat)
     glance$rhat_all <- rhat_all
-    glance$converged <- converged && glance$rhat_all <= rhat
+    glance$converged <- converged
 
     return(as_tibble(glance))
   }
