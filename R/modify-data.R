@@ -62,6 +62,7 @@ select_rescale_data <- function(data, model, data2 = data) {
 modify_data <- function(data, model, numericize_factors = FALSE) {
   check_data(data, nrow = TRUE)
   check_mb_model(model)
+  check_flag(numericize_factors)
   if (any(c("nObs", "Obs") %in% colnames(data)))
      err("Obs and nObs are reserved column names")
 
@@ -85,26 +86,35 @@ modify_data <- function(data, model, numericize_factors = FALSE) {
 #'
 #' Modifies a data frame to the form it will be passed to the analysis code.
 #'
-#' @param data The new data to modify.
+#' @inheritParams modify_data
 #' @param data2 The base data.
-#' @param model An object inheriting from class mb_model.
 #' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
 #' @return The modified data in list form.
 #' @export
-modify_new_data <- function(data, data2, model, modify_new_data = NULL) {
+modify_new_data <- function(data, data2, model, modify_new_data = NULL, numericize_factors = FALSE) {
   check_data(data, nrow = TRUE)
   check_data(data2, nrow = TRUE)
   check_mb_model(model)
+  check_flag(numericize_factors)
 
   if (is.null(modify_new_data)) modify_new_data <- model$modify_new_data
   check_single_arg_fun(modify_new_data)
 
-  data %<>% select_rescale_data(model, data2 = data2)
+  if (any(c("nObs", "Obs") %in% colnames(data)))
+     err("Obs and nObs are reserved column names")
 
-  data %<>% as.list()
-  data %<>% numericize_logicals()
-  data %<>% numericize_dates()
-  data %<>% add_nfactors()
+  nobs <- nrow(data)
+
+  data %<>%
+    select_rescale_data(model, data2 = data2) %>%
+    as.list() %>%
+    numericize_logicals() %>%
+    numericize_dates() %>%
+    numericize_difftimes() %>%
+    add_nfactors()
+
+  if (numericize_factors) data %<>% numericize_factors()
+  data$nObs <- nobs
   data %<>% modify_new_data()
   data
 }

@@ -4,16 +4,19 @@
 \alias{modify_new_data}
 \title{Modify New Data}
 \usage{
-modify_new_data(data, data2, model, modify_new_data = NULL)
+modify_new_data(data, data2, model, modify_new_data = NULL,
+  numericize_factors = FALSE)
 }
 \arguments{
-\item{data}{The new data to modify.}
+\item{data}{The data to modify.}
 
 \item{data2}{The base data.}
 
 \item{model}{An object inheriting from class mb_model.}
 
 \item{modify_new_data}{A single argument function to modify new data (in list form) immediately prior to calculating new_expr.}
+
+\item{numericize_factors}{A flag indicating whether to convert factors to integer.}
 }
 \value{
 The modified data in list form.
