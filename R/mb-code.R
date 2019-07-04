@@ -29,6 +29,7 @@
 mb_code <- function(template) {
   check_string(template)
 
+  class <- "mb_code"
   if (stringr::str_detect(template, "#include <TMB.hpp>")) {
     class <- c("tmb_code", "mb_code")
   } else if (stringr::str_detect(template, "parameters\\s*[{]")) {
@@ -37,7 +38,7 @@ mb_code <- function(template) {
     class <- c("jmb_code", "mb_code")
   } else if (stringr::str_detect(template, "^\\s*function\\s*[(]\\s*[)]")) {
     class <- c("lmb_code", "mb_code")
-  } else err("template type is unrecognised")
+  } else wrn("template type is unrecognised")
 
   object <- list()
   object$template <- template

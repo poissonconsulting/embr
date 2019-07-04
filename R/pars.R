@@ -1,8 +1,5 @@
 #' @export
-# it is important to note that parameters.character pull all words from the character string
-# the parameters may therefore include data and code
-# where possible the user should override parameter.mb_code
-parameters.character <- function(x, param_type = "all", scalar_only = FALSE, ...) {
+pars.mb_code <- function(x, param_type = "all", scalar_only = FALSE, ...) {
   check_vector(param_type, c("fixed", "random", "derived", "primary", "all"), length = 1)
   check_flag(scalar_only)
 
@@ -13,6 +10,7 @@ parameters.character <- function(x, param_type = "all", scalar_only = FALSE, ...
     err("parameters.character is not able to identify scalar parameters - set scalar_only = FALSE instead")
 
   x %<>%
+    template() %>%
     rm_comments() %>%
     str_extract_all("\\w+") %>%
     unlist() %>%
@@ -24,17 +22,12 @@ parameters.character <- function(x, param_type = "all", scalar_only = FALSE, ...
 }
 
 #' @export
-parameters.mb_code <- function(x, param_type = "all", scalar_only = FALSE, ...) {
-  parameters(template(x), param_type = param_type, scalar_only = scalar_only)
-}
-
-#' @export
-parameters.mb_model <- function(x, param_type = "all", scalar_only = FALSE, ...) {
+pars.mb_model <- function(x, param_type = "all", scalar_only = FALSE, ...) {
   check_vector(param_type, c("fixed", "random", "derived", "primary", "all"), length = 1)
   check_flag(scalar_only)
 
   if (scalar_only)
-    err("parameters.mb_model is not able to identify scalar parameters - set scalar_only = FALSE instead")
+    err("pars.mb_model is not able to identify scalar parameters - set scalar_only = FALSE instead")
 
   if (param_type %in% c("primary", "all")) {
     parameters <- c("fixed", "random")
@@ -59,7 +52,7 @@ parameters.mb_model <- function(x, param_type = "all", scalar_only = FALSE, ...)
     sort()
   if (param_type == "derived") return(derived)
 
-  parameters <- parameters(code(x), param_type = "all", scalar_only = scalar_only)
+  parameters <- pars(code(x), param_type = "all", scalar_only = scalar_only)
 
   parameters %<>%
     setdiff(random) %>%
@@ -70,7 +63,7 @@ parameters.mb_model <- function(x, param_type = "all", scalar_only = FALSE, ...)
 }
 
 #' @export
-parameters.mb_analysis <- function(x, param_type = "all", scalar_only = FALSE, ...) {
+pars.mb_analysis <- function(x, param_type = "all", scalar_only = FALSE, ...) {
   check_vector(param_type, c("fixed", "random", "derived", "primary", "all"), length = 1)
   check_flag(scalar_only)
 

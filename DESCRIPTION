@@ -1,6 +1,6 @@
 Package: mbr
 Title: Model Builder Utility Functions and Virtual Classes
-Version: 0.0.1.9023
+Version: 0.0.1.9024
 Authors@R: person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre"))
 Description: Utility functions and virtual classes shared by model builder packages
     such as tmbr, jmbr and smbr.
@@ -32,7 +32,9 @@ Imports:
     rlang,
     stringr,
     tidyr,
-    timer
+    timer,
+    term,
+    nlist
 Suggests:
     testthat,
     covr
@@ -44,7 +46,9 @@ Remotes:
     poissonconsulting/mcmcderive,
     poissonconsulting/newdata,
     poissonconsulting/rescale,
-    poissonconsulting/timer
+    poissonconsulting/timer,
+    poissonconsulting/term,
+    poissonconsulting/nlist
 URL: https://github.com/poissonconsulting/mbr
 BugReports: https://github.com/poissonconsulting/mbr/issues
 Encoding: UTF-8
