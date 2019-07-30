@@ -22,7 +22,7 @@ coef_arg2to1 <- function(param_type, object, include_constant, conf_level, ...) 
 
 
 is_new_parameter <- function(x, parameter) {
-  parameter %in% pars(new_expr(x))
+  parameter %in% pars(term::as.term(new_expr(x)))
 }
 
 # should be more stable than log(colMeans(exp(x)))
