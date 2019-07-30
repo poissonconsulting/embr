@@ -12,8 +12,8 @@ as_mb_meta_analysis <- function(x, text = names(x)) {
   x
 }
 
-parameters_arg2to1 <- function(param_type, x, scalar_only) {
-  parameters(x = x, param_type = param_type, scalar_only = scalar_only)
+pars_arg2to1 <- function(param_type, x, scalar_only) {
+  pars(x = x, param_type = param_type, scalar_only = scalar_only)
 }
 
 coef_arg2to1 <- function(param_type, object, include_constant, conf_level, ...) {
@@ -22,7 +22,7 @@ coef_arg2to1 <- function(param_type, object, include_constant, conf_level, ...) 
 
 
 is_new_parameter <- function(x, parameter) {
-  parameter %in% parameters(new_expr(x))
+  parameter %in% pars(new_expr(x))
 }
 
 # should be more stable than log(colMeans(exp(x)))

@@ -20,9 +20,9 @@ returning a named list of initial values.}
 
 \item{random_effects}{A named list specifying the random effects and the associated factors.}
 
-\item{fixed}{A string of a regular expression specifying the fixed parameters to monitor.}
+\item{fixed}{A string of a regular expression specifying the fixed pars to monitor.}
 
-\item{derived}{A character vector of the derived parameters to monitor.}
+\item{derived}{A character vector of the derived pars to monitor.}
 
 \item{select_data}{A named list specifying the columns to select and their associated classes and values as well as transformations and scaling options.}
 
@@ -38,7 +38,7 @@ returning a named list of initial values.}
 
 \item{modify_new_data}{A single argument function to modify new data (in list form) immediately prior to calculating new_expr.}
 
-\item{drops}{A list of character vector of possible scalar parameters to drop (fix at 0).}
+\item{drops}{A list of character vector of possible scalar pars to drop (fix at 0).}
 
 \item{...}{Unused arguments.}
 }
@@ -49,8 +49,8 @@ An object inherting from class mb_model.
 Creates MB model.
 }
 \details{
-For tmb models gen_inits must specify all the fixed parameters.
-Missing random parameters are assigned the value 0.
+For tmb models gen_inits must specify all the fixed pars.
+Missing random pars are assigned the value 0.
 
 For jmb models unspecified the initial values for each chain are drawn from the prior distributions.
 }

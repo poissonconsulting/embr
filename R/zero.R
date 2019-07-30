@@ -1,5 +1,5 @@
 zero_random_effects <- function(mcmcr, data, random_effects) {
-  stopifnot(all(names(random_effects) %in% parameters(mcmcr)))
+  stopifnot(all(names(random_effects) %in% pars(mcmcr)))
   stopifnot(all(unlist(random_effects) %in% names(data)))
 
   data %<>% llply(as.numeric)

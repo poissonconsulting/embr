@@ -47,7 +47,7 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
   check_flag(include_constant)
   check_vector(conf_level, c(0.5, 0.99), length = 1)
 
-  parameters <- parameters(object, param_type)
+  pars <- pars(object, param_type)
 
   if (!length(parameters)) {
     coef <- tibble(term = as.term(character(0)),

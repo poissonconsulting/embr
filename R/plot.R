@@ -5,11 +5,11 @@
 #' @param ... Unused.
 #' @export
 plot.mb_analysis <- function(x, param_type = "fixed", ...) {
-  parameters <- parameters(x, param_type)
+  pars <- pars(x, param_type)
 
   x %<>% as.mcmcr()
 
-  x %<>% subset(parameters = parameters)
+  x %<>% subset(pars = pars)
 
   plot(x)
 }

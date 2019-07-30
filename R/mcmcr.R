@@ -3,10 +3,10 @@ rhat.mb_analysis <- function(x, by = "all", param_type = "all", as_df = FALSE,
                              ...) {
   check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
   check_unused(...)
-  parameters <- parameters(x, param_type)
+  pars <- pars(x, param_type)
 
   x <- as.mcmcr(x)
-  x <- subset(x, parameters = parameters)
+  x <- subset(x, pars = pars)
 
   rhat(x, by = by, as_df = as_df)
 }
@@ -20,10 +20,10 @@ rhat.mb_analyses <- function(x, by = "all", param_type = "all", as_df = FALSE,
   check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
   check_unused(...)
 
-  parameters <- parameters(x[[1]], param_type)
+  pars <- pars(x[[1]], param_type)
 
   x <- as.mcmcrs(x)
-  x <- subset(x, parameters = parameters)
+  x <- subset(x, pars = pars)
 
   rhat(x, by = by, as_df = as_df, bound = bound)
 }
@@ -32,10 +32,10 @@ rhat.mb_analyses <- function(x, by = "all", param_type = "all", as_df = FALSE,
 esr.mb_analysis <- function(x,  by = "all", as_df = FALSE, param_type = "all", ...) {
   check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
   check_unused(...)
-  parameters <- parameters(x, param_type)
+  pars <- pars(x, param_type)
 
   x <- as.mcmcr(x)
-  x <- subset(x, parameters = parameters)
+  x <- subset(x, pars = pars)
 
   esr(x, by = by, as_df = as_df)
 }
@@ -48,10 +48,10 @@ esr.mb_analyses <- function(x,  by = "all", as_df = FALSE, param_type = "all", .
   check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
   check_unused(...)
 
-  parameters <- parameters(x[[1]], param_type)
+  pars <- pars(x[[1]], param_type)
 
   x <- as.mcmcrs(x)
-  x <- subset(x, parameters = parameters)
+  x <- subset(x, pars = pars)
 
   esr(x, by = by, as_df = as_df)
 }
@@ -62,10 +62,10 @@ converged.mb_analysis <- function(x, rhat = 1.1, esr = 0.33, by = "all",
   check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
   check_unused(...)
 
-  parameters <- parameters(x, param_type)
+  pars <- pars(x, param_type)
 
   x <- as.mcmcr(x)
-  x <- subset(x, parameters = parameters)
+  x <- subset(x, pars = pars)
 
   converged(x, rhat = rhat, esr = esr, by = by, as_df = as_df)
 }
@@ -81,10 +81,10 @@ converged.mb_analyses <- function(x, rhat = 1.1, esr = 0.33, by = "all",
   check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
   check_unused(...)
 
-  parameters <- parameters(x[[1]], param_type)
+  pars <- pars(x[[1]], param_type)
 
   x <- as.mcmcrs(x)
-  x <- subset(x, parameters = parameters)
+  x <- subset(x, pars = pars)
 
   converged(x, rhat = rhat, esr = esr, by = by, as_df = as_df, bound = bound)
 }

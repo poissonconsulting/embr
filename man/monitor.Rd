@@ -2,20 +2,20 @@
 % Please edit documentation in R/monitor.R
 \name{monitor}
 \alias{monitor}
-\title{Parameters to monitor}
+\title{pars to monitor}
 \usage{
 monitor(object, param_type = "all", scalar_only = FALSE)
 }
 \arguments{
-\item{object}{An mb model object to get the parameters for.}
+\item{object}{An mb model object to get the pars for.}
 
-\item{param_type}{A string specifying the type of parameters to get.}
+\item{param_type}{A string specifying the type of pars to get.}
 
-\item{scalar_only}{A flag indicating whether to only get scalar parameters.}
+\item{scalar_only}{A flag indicating whether to only get scalar pars.}
 }
 \value{
-A character vector of the parameters to monitor.
+A character vector of the pars to monitor.
 }
 \description{
-Parameters to monitor
+pars to monitor
 }

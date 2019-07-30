@@ -84,7 +84,7 @@ model_mb_code <- function(
   check_x_in_y(center, select_colnames, y_name = "select_data", type_y = "names")
   check_x_in_y(scale, select_colnames, y_name = "select_data", type_y = "names")
 
-  derived <- check_model_parameters(x, fixed, random = names(random_effects),
+  derived <- check_model_pars(x, fixed, random = names(random_effects),
                          derived = derived, drops = unlist(drops))
 
   center %<>% sort()
@@ -112,8 +112,8 @@ model_mb_code <- function(
 #'
 #' Creates MB model.
 #'
-#' For tmb models gen_inits must specify all the fixed parameters.
-#' Missing random parameters are assigned the value 0.
+#' For tmb models gen_inits must specify all the fixed pars.
+#' Missing random pars are assigned the value 0.
 #'
 #' For jmb models unspecified the initial values for each chain are drawn from the prior distributions.
 #'
@@ -121,15 +121,15 @@ model_mb_code <- function(
 #' @param gen_inits A single argument function taking the modified data and
 #' returning a named list of initial values.
 #' @param random_effects A named list specifying the random effects and the associated factors.
-#' @param fixed A string of a regular expression specifying the fixed parameters to monitor.
-#' @param derived A character vector of the derived parameters to monitor.
+#' @param fixed A string of a regular expression specifying the fixed pars to monitor.
+#' @param derived A character vector of the derived pars to monitor.
 #' @param select_data A named list specifying the columns to select and their associated classes and values as well as transformations and scaling options.
 #' @inheritParams rescale::rescale
 #' @param modify_data A single argument function to modify the data (in list form) immediately prior to the analysis.
 #' @param nthin A count specifying the thinning interval.
 #' @param new_expr A string of R code specifying the predictive relationships.
 #' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
-#' @param drops A list of character vector of possible scalar parameters to drop (fix at 0).
+#' @param drops A list of character vector of possible scalar pars to drop (fix at 0).
 #' @param ... Unused arguments.
 #' @return An object inherting from class mb_model.
 #' @seealso \code{\link[checkr]{check_data}} \code{\link[rescale]{rescale_c}}
