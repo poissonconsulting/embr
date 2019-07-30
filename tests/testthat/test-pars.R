@@ -1,6 +1,6 @@
-context("parameters")
+context("pars")
 
-test_that("parameters", {
+test_that("pars", {
 
   new_expr = mb_code(" fit2 <- a + b * x # c
                     fit <- a + b * x + bYear[Year]
@@ -9,7 +9,7 @@ test_that("parameters", {
                      prediction[i] <- fit[i]
                     }")
 
-  expect_identical(parameters(new_expr), sort(c("a", "b", "bYear", "fit", "fit2", "i", "prediction",
+  expect_identical(pars(new_expr), sort(c("a", "b", "bYear", "fit", "fit2", "i", "prediction",
                          "residual", "x", "y", "Year")))
 
   expect_identical(npars(new_expr), 11L)

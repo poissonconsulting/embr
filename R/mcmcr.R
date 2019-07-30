@@ -101,3 +101,9 @@ niters.mb_analysis <- function(x, ...) {
   check_unused(...)
   niters(as.mcmcr(x))
 }
+
+#' @export
+npars.mb_code <- function(x, ...) {
+  check_unused(...)
+  length(pars(x))
+}

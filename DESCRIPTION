@@ -9,7 +9,7 @@ Depends:
     R (>= 3.4.0),
     broom,
     lubridate,
-    mcmcr,
+    mcmcr (>= 0.2.0.9012),
     mcmcdata,
     mcmcderive,
     stats
