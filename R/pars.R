@@ -1,4 +1,26 @@
 #' @export
+pars.character <- function(x, param_type = "all", scalar_only = FALSE, ...) {
+  check_vector(param_type, c("fixed", "random", "derived", "primary", "all"), length = 1)
+  check_flag(scalar_only)
+
+  if (param_type != "all")
+    err("pars.character is not able to identify parameter types - set param_type = 'all' instead")
+
+  if (scalar_only)
+    err("pars.character is not able to identify scalar pars - set scalar_only = FALSE instead")
+
+  x %<>%
+    rm_comments() %>%
+    str_extract_all("\\w+") %>%
+    unlist() %>%
+    unique() %>%
+    magrittr::extract(., is.syntactic(.))
+
+  if(is.null(x)) return(character(0))
+  sort(x)
+}
+
+#' @export
 pars.mb_code <- function(x, param_type = "all", scalar_only = FALSE, ...) {
   check_vector(param_type, c("fixed", "random", "derived", "primary", "all"), length = 1)
   check_flag(scalar_only)
