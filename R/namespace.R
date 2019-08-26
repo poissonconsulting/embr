@@ -1,4 +1,5 @@
 #' @import err checkr mcmcr mcmcdata mcmcderive rlang stringr term nlist
+#' @importFrom chk chk_lgl chk_unused
 #' @importFrom broom augment glance tidy
 #' @importFrom stats coef residuals
 #' @importFrom foreach getDoParWorkers

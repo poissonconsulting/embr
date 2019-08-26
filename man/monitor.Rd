@@ -4,14 +4,15 @@
 \alias{monitor}
 \title{pars to monitor}
 \usage{
-monitor(object, param_type = "all", scalar_only = FALSE)
+monitor(object, param_type = "all", scalar = NA)
 }
 \arguments{
 \item{object}{An mb model object to get the pars for.}
 
 \item{param_type}{A string specifying the type of pars to get.}
 
-\item{scalar_only}{A flag indicating whether to only get scalar pars.}
+\item{scalar}{A logical scalar indicating whether to monitor all parameters (NA),
+only scalar parameteres (TRUE) or only non-scalar parameters (FALSE).}
 }
 \value{
 A character vector of the pars to monitor.

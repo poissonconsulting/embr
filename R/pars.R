@@ -1,13 +1,14 @@
 #' @export
-pars.character <- function(x, param_type = "all", scalar_only = FALSE, ...) {
+pars.character <- function(x, param_type = "all", scalar = NA, ...) {
   check_vector(param_type, c("fixed", "random", "derived", "primary", "all"), length = 1)
-  check_flag(scalar_only)
+  chk_lgl(scalar)
+  chk_unused(...)
 
   if (param_type != "all")
     err("pars.character is not able to identify parameter types - set param_type = 'all' instead")
 
-  if (scalar_only)
-    err("pars.character is not able to identify scalar pars - set scalar_only = FALSE instead")
+  if (!is.na(scalar))
+    err("pars.character is not able to identify scalar pars - set scalar = NA instead")
 
   x %<>%
     rm_comments() %>%
@@ -21,15 +22,16 @@ pars.character <- function(x, param_type = "all", scalar_only = FALSE, ...) {
 }
 
 #' @export
-pars.mb_code <- function(x, param_type = "all", scalar_only = FALSE, ...) {
+pars.mb_code <- function(x, param_type = "all", scalar = NA, ...) {
   check_vector(param_type, c("fixed", "random", "derived", "primary", "all"), length = 1)
-  check_flag(scalar_only)
+  chk_lgl(scalar)
+  chk_unused(...)
 
   if (param_type != "all")
     err("pars.character is not able to identify parameter types - set param_type = 'all' instead")
 
-  if (scalar_only)
-    err("pars.character is not able to identify scalar pars - set scalar_only = FALSE instead")
+  if (!is.na(scalar))
+    err("pars.character is not able to identify scalar pars - set scalar = NA instead")
 
   x %<>%
     template() %>%
@@ -44,19 +46,20 @@ pars.mb_code <- function(x, param_type = "all", scalar_only = FALSE, ...) {
 }
 
 #' @export
-pars.mb_model <- function(x, param_type = "all", scalar_only = FALSE, ...) {
+pars.mb_model <- function(x, param_type = "all", scalar = NA, ...) {
   check_vector(param_type, c("fixed", "random", "derived", "primary", "all"), length = 1)
-  check_flag(scalar_only)
+  check_lgl(scalar)
+  chk_unused(...)
 
-  if (scalar_only)
-    err("pars.mb_model is not able to identify scalar pars - set scalar_only = FALSE instead")
+  if (scalar)
+    err("pars.mb_model is not able to identify scalar pars - set scalar = NA instead")
 
   if (param_type %in% c("primary", "all")) {
     pars <- c("fixed", "random")
     if (param_type == "all") pars %<>% c("derived")
 
     pars %<>%
-      purrr::map(pars_arg2to1, x = x, scalar_only = scalar_only) %>%
+      purrr::map(pars_arg2to1, x = x, scalar = scalar) %>%
       unlist() %>%
       sort()
 
@@ -74,7 +77,7 @@ pars.mb_model <- function(x, param_type = "all", scalar_only = FALSE, ...) {
     sort()
   if (param_type == "derived") return(derived)
 
-  pars <- pars(code(x), param_type = "all", scalar_only = scalar_only)
+  pars <- pars(code(x), param_type = "all", scalar = scalar)
 
   pars %<>%
     setdiff(random) %>%
@@ -85,23 +88,23 @@ pars.mb_model <- function(x, param_type = "all", scalar_only = FALSE, ...) {
 }
 
 #' @export
-pars.mb_analysis <- function(x, param_type = "all", scalar_only = FALSE, ...) {
+pars.mb_analysis <- function(x, param_type = "all", scalar = NA, ...) {
   check_vector(param_type, c("fixed", "random", "derived", "primary", "all"), length = 1)
-  check_flag(scalar_only)
+  chk_lgl(scalar)
 
   if (param_type %in% c("primary", "all")) {
     pars <- c("fixed", "random")
     if (param_type == "all") pars %<>% c("derived")
 
     pars %<>%
-      purrr::map(pars_arg2to1, x = x, scalar_only = scalar_only) %>%
+      purrr::map(pars_arg2to1, x = x, scalar = scalar) %>%
       unlist() %>%
       sort()
 
     return(pars)
   }
 
-  pars <- pars(as.mcmcr(x), scalar_only = scalar_only)
+  pars <- pars(as.mcmcr(x), scalar = scalar)
 
   random <- names(random_effects(x))
   if (is.null(random)) random <- character(0)

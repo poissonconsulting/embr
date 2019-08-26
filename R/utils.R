@@ -12,8 +12,8 @@ as_mb_meta_analysis <- function(x, text = names(x)) {
   x
 }
 
-pars_arg2to1 <- function(param_type, x, scalar_only) {
-  pars(x = x, param_type = param_type, scalar_only = scalar_only)
+pars_arg2to1 <- function(param_type, x, scalar) {
+  pars(x = x, param_type = param_type, scalar = scalar)
 }
 
 coef_arg2to1 <- function(param_type, object, include_constant, conf_level, ...) {
