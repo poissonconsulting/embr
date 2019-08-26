@@ -48,10 +48,10 @@ pars.mb_code <- function(x, param_type = "all", scalar = NA, ...) {
 #' @export
 pars.mb_model <- function(x, param_type = "all", scalar = NA, ...) {
   check_vector(param_type, c("fixed", "random", "derived", "primary", "all"), length = 1)
-  check_lgl(scalar)
+  chk_lgl(scalar)
   chk_unused(...)
 
-  if (scalar)
+  if (!is.na(scalar))
     err("pars.mb_model is not able to identify scalar pars - set scalar = NA instead")
 
   if (param_type %in% c("primary", "all")) {
