@@ -41,15 +41,15 @@ test_that("indexes", {
   expect_identical(indexes(c("bIntercept[i]")), "[i]")
 })
 
-test_that("is_nlist", {
-  expect_false(is_nlist(1))
-  expect_true(is_nlist(list()))
-  expect_false(is_nlist(c(x = 1)))
-  expect_true(is_nlist(list(x = 1)))
-  expect_false(is_nlist(list(1)))
-  expect_true(is_nlist(list(x = c(1,2))))
-  expect_false(is_nlist(list(x = list(1,2))))
-  expect_false(is_nlist(list(x = list(y = 2))))
+test_that("is_namedlist", {
+  expect_false(is_namedlist(1))
+  expect_true(is_namedlist(list()))
+  expect_false(is_namedlist(c(x = 1)))
+  expect_true(is_namedlist(list(x = 1)))
+  expect_false(is_namedlist(list(1)))
+  expect_true(is_namedlist(list(x = c(1,2))))
+  expect_false(is_namedlist(list(x = list(1,2))))
+  expect_false(is_namedlist(list(x = list(y = 2))))
 })
 
 test_that("syntactic", {

@@ -37,12 +37,12 @@ logColMeansExp <- function(x) {
 #' @return A flag.
 #' @export
 #' @examples
-#' is_nlist(1)
-#' is_nlist(list())
-#' is_nlist(list(1))
-#' is_nlist(list(x = 1))
-#' is_nlist(list(x = list(y = 2)))
-is_nlist <- function(x) {
+#' is_namedlist(1)
+#' is_namedlist(list())
+#' is_namedlist(list(1))
+#' is_namedlist(list(x = 1))
+#' is_namedlist(list(x = list(y = 2)))
+is_namedlist <- function(x) {
   if (!is.list(x)) return(FALSE)
   if (!length(x)) return(TRUE)
   if (is.null(names(x))) return(FALSE)
@@ -77,7 +77,7 @@ sort_random_effects <- function(x) {
 #' @examples
 #' sort_nlist(list(y = 2, x = 1, a = 10))
 sort_nlist <- function(x) {
-  stopifnot(is_nlist(x))
+  stopifnot(is_namedlist(x))
 
   if (!length(x)) return(x)
   x[order(names(x))]
@@ -113,7 +113,7 @@ lmcmcarray <- function(x) {
 #' @examples
 #' scalar_nlist(list(y = 2, x = 1, a = c(10,1)))
 scalar_nlist <- function(x) {
-  stopifnot(is_nlist(x))
+  stopifnot(is_namedlist(x))
 
   if (!length(x)) return(x)
   x[vapply(x, dims, 0L) == 1]
