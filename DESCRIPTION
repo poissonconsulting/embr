@@ -35,7 +35,9 @@ Imports:
     tidyr,
     timer,
     term,
-    nlist
+    nlist,
+    universals,
+    extras
 Suggests:
     testthat,
     covr
@@ -50,7 +52,9 @@ Remotes:
     poissonconsulting/rescale,
     poissonconsulting/timer,
     poissonconsulting/term,
-    poissonconsulting/nlist
+    poissonconsulting/nlist,
+    poissonconsulting/universals,
+    poissonconsulting/extras
 URL: https://github.com/poissonconsulting/mbr
 BugReports: https://github.com/poissonconsulting/mbr/issues
 Encoding: UTF-8
