@@ -4,12 +4,19 @@
 \alias{analyse.character}
 \title{Analyse}
 \usage{
-\method{analyse}{character}(x, data, select_data = list(),
+\method{analyse}{character}(
+  x,
+  data,
+  select_data = list(),
   nchains = getOption("mb.nchains", 3L),
-  niters = getOption("mb.niters", 1000L), nthin = getOption("mb.nthin",
-  1L), parallel = getOption("mb.parallel", FALSE),
-  quiet = getOption("mb.quiet", TRUE), glance = getOption("mb.glance",
-  TRUE), beep = getOption("mb.beep", TRUE), ...)
+  niters = getOption("mb.niters", 1000L),
+  nthin = getOption("mb.nthin", 1L),
+  parallel = getOption("mb.parallel", FALSE),
+  quiet = getOption("mb.quiet", TRUE),
+  glance = getOption("mb.glance", TRUE),
+  beep = getOption("mb.beep", TRUE),
+  ...
+)
 }
 \arguments{
 \item{x}{An object inheriting from class mb_model or a list of such objects.}

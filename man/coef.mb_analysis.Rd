@@ -4,9 +4,14 @@
 \alias{coef.mb_analysis}
 \title{Coef JAGS Analysis}
 \usage{
-\method{coef}{mb_analysis}(object, param_type = "fixed",
-  include_constant = TRUE, conf_level = getOption("mb.conf_level",
-  0.95), estimate = getOption("mb.estimate", median), ...)
+\method{coef}{mb_analysis}(
+  object,
+  param_type = "fixed",
+  include_constant = TRUE,
+  conf_level = getOption("mb.conf_level", 0.95),
+  estimate = getOption("mb.estimate", median),
+  ...
+)
 }
 \arguments{
 \item{object}{The mb_analysis object.}

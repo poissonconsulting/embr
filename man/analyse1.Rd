@@ -4,8 +4,18 @@
 \alias{analyse1}
 \title{Analyse}
 \usage{
-analyse1(model, data, loaded, nchains, niters, nthin, quiet, glance,
-  parallel, ...)
+analyse1(
+  model,
+  data,
+  loaded,
+  nchains,
+  niters,
+  nthin,
+  quiet,
+  glance,
+  parallel,
+  ...
+)
 }
 \arguments{
 \item{model}{The mb_model to analyse.}

@@ -4,8 +4,7 @@
 \alias{nterms.mb_analysis}
 \title{Number of terms}
 \usage{
-\method{nterms}{mb_analysis}(x, param_type = "fixed",
-  include_constant = TRUE, ...)
+\method{nterms}{mb_analysis}(x, param_type = "fixed", include_constant = TRUE, ...)
 }
 \arguments{
 \item{x}{The object to get the nterms for}

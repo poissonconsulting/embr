@@ -4,11 +4,23 @@
 \alias{update_model}
 \title{Update MB Model}
 \usage{
-update_model(model, code = NULL, gen_inits = NULL,
-  random_effects = NULL, fixed = NULL, derived = NULL,
-  select_data = NULL, center = NULL, scale = NULL,
-  modify_data = NULL, nthin = NULL, new_expr = NULL,
-  modify_new_data = NULL, drops = NULL, ...)
+update_model(
+  model,
+  code = NULL,
+  gen_inits = NULL,
+  random_effects = NULL,
+  fixed = NULL,
+  derived = NULL,
+  select_data = NULL,
+  center = NULL,
+  scale = NULL,
+  modify_data = NULL,
+  nthin = NULL,
+  new_expr = NULL,
+  modify_new_data = NULL,
+  drops = NULL,
+  ...
+)
 }
 \arguments{
 \item{model}{The model to update.}

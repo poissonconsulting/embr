@@ -4,8 +4,13 @@
 \alias{data_set}
 \title{Data Set}
 \usage{
-data_set(x, modify = FALSE, numericize_factors = FALSE,
-  marginalize_random_effects = FALSE, ...)
+data_set(
+  x,
+  modify = FALSE,
+  numericize_factors = FALSE,
+  marginalize_random_effects = FALSE,
+  ...
+)
 }
 \arguments{
 \item{x}{The object.}

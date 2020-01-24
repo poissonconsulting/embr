@@ -4,9 +4,14 @@
 \alias{coef.mb_meta_analysis}
 \title{Coef TMB Meta Analysis}
 \usage{
-\method{coef}{mb_meta_analysis}(object, param_type = "fixed",
-  include_constant = TRUE, conf_level = getOption("mb.conf_level",
-  0.95), estimate = getOption("mb.estimate", median), ...)
+\method{coef}{mb_meta_analysis}(
+  object,
+  param_type = "fixed",
+  include_constant = TRUE,
+  conf_level = getOption("mb.conf_level", 0.95),
+  estimate = getOption("mb.estimate", median),
+  ...
+)
 }
 \arguments{
 \item{object}{The mb_meta_analysis object.}

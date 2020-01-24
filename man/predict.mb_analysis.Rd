@@ -4,13 +4,20 @@
 \alias{predict.mb_analysis}
 \title{Predict}
 \usage{
-\method{predict}{mb_analysis}(object, new_data = data_set(object),
-  new_expr = NULL, new_values = list(), term = "prediction",
+\method{predict}{mb_analysis}(
+  object,
+  new_data = data_set(object),
+  new_expr = NULL,
+  new_values = list(),
+  term = "prediction",
   conf_level = getOption("mb.conf_level", 0.95),
-  modify_new_data = NULL, ref_data = FALSE,
+  modify_new_data = NULL,
+  ref_data = FALSE,
   parallel = getOption("mb.parallel", FALSE),
-  quiet = getOption("mb.quiet", TRUE), beep = getOption("mb.beep",
-  FALSE), ...)
+  quiet = getOption("mb.quiet", TRUE),
+  beep = getOption("mb.beep", FALSE),
+  ...
+)
 }
 \arguments{
 \item{object}{An object inheriting from class mb_analysis.}

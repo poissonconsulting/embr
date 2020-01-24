@@ -4,13 +4,18 @@
 \alias{reanalyse.mb_analysis}
 \title{Reanalyse}
 \usage{
-\method{reanalyse}{mb_analysis}(object, rhat = getOption("mb.rhat", 1.1),
+\method{reanalyse}{mb_analysis}(
+  object,
+  rhat = getOption("mb.rhat", 1.1),
   esr = getOption("mb.esr", 0.33),
   nreanalyses = getOption("mb.nreanalyses", 1L),
   duration = getOption("mb.duration", dhours(1)),
   parallel = getOption("mb.parallel", FALSE),
-  quiet = getOption("mb.quiet", TRUE), glance = getOption("mb.glance",
-  TRUE), beep = getOption("mb.beep", TRUE), ...)
+  quiet = getOption("mb.quiet", TRUE),
+  glance = getOption("mb.glance", TRUE),
+  beep = getOption("mb.beep", TRUE),
+  ...
+)
 }
 \arguments{
 \item{object}{The object to reanalyse.}

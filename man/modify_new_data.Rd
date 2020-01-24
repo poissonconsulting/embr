@@ -4,8 +4,13 @@
 \alias{modify_new_data}
 \title{Modify New Data}
 \usage{
-modify_new_data(data, data2, model, modify_new_data = NULL,
-  numericize_factors = FALSE)
+modify_new_data(
+  data,
+  data2,
+  model,
+  modify_new_data = NULL,
+  numericize_factors = FALSE
+)
 }
 \arguments{
 \item{data}{The data to modify.}

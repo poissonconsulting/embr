@@ -4,8 +4,7 @@
 \alias{terms.mb_analysis}
 \title{Terms}
 \usage{
-\method{terms}{mb_analysis}(x, param_type = "fixed",
-  include_constant = TRUE, ...)
+\method{terms}{mb_analysis}(x, param_type = "fixed", include_constant = TRUE, ...)
 }
 \arguments{
 \item{x}{The mb_analysis object.}

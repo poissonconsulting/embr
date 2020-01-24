@@ -4,9 +4,14 @@
 \alias{backwards}
 \title{Backwards}
 \usage{
-backwards(model, data, drops = list(),
+backwards(
+  model,
+  data,
+  drops = list(),
   conf_level = getOption("mb.conf_level", 0.95),
-  beep = getOption("mb.beep", TRUE), ...)
+  beep = getOption("mb.beep", TRUE),
+  ...
+)
 }
 \arguments{
 \item{model}{An object.}
