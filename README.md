@@ -3,7 +3,7 @@
 
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
 [![Travis-CI Build
-Status](https://travis-ci.org/poissonconsulting/mbr.svg?branch=master)](https://travis-ci.org/poissonconsulting/mbr)
+Status](https://travis-ci.com/poissonconsulting/mbr.svg?branch=master)](https://travis-ci.com/poissonconsulting/mbr)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/poissonconsulting/mbr?branch=master&svg=true)](https://ci.appveyor.com/project/poissonconsulting/mbr)
 [![Coverage
@@ -39,8 +39,8 @@ To install the latest development version from the Poisson drat
 
 To cite mbr in publications use:
 
-  Joe Thorley (2018) mbr: Model Builder Utility Functions and
-  Virtual Classes. doi: https://doi.org/10.5281/zenodo.1162349.
+  Joe Thorley (2018) mbr: Model Builder Utility Functions and Virtual
+  Classes. doi: https://doi.org/10.5281/zenodo.1162349.
 
 A BibTeX entry for LaTeX users is
 
