@@ -4,15 +4,26 @@
 \alias{estimates.mb_analysis}
 \title{Estimates}
 \usage{
-\method{estimates}{mb_analysis}(object, param_type = "fixed", ...)
+\method{estimates}{mb_analysis}(x, param_type = "fixed", ...)
 }
 \arguments{
-\item{object}{The mb_analysis object.}
+\item{x}{An object.}
 
 \item{param_type}{A string indicating the type of terms to get the names for.}
 
-\item{...}{Not used.}
+\item{...}{Other arguments passed to methods.}
+}
+\value{
+An (unsorted) named (by parameters) list of numeric atomic objects of the estimates or an (unsorted) \code{\link[nlist]{nlist}}.
 }
 \description{
-estimates
+Calculates the estimates for an MCMC object.
+}
+\seealso{
+Other {MCMC manipulations}: 
+\code{\link[universals]{bind_chains}()},
+\code{\link[universals]{collapse_chains}()},
+\code{\link[universals]{fill_all}()},
+\code{\link[universals]{fill_na}()},
+\code{\link[universals]{split_chains}()}
 }

@@ -1,17 +1,15 @@
-#' Estimates
-#'
-#' estimates
-#'
-#' @param object The mb_analysis object.
-#' @param param_type A string indicating the type of terms to get the names for.
-#' @param ... Not used.
 #' @export
-estimates.mb_analysis <- function(object, param_type = "fixed", ...) {
-  pars <- pars(object, param_type = param_type)
+universals::estimates
 
-  object %<>%
+#' @inherit universals::estimates
+#' @inheritParams params
+#' @export
+estimates.mb_analysis <- function(x, param_type = "fixed", ...) {
+  pars <- pars(x, param_type = param_type)
+
+  x %<>%
     as.mcmcr() %>%
     subset(pars = pars)
 
-  estimates(object)
+  estimates(x)
 }
