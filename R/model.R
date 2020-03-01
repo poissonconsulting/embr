@@ -132,7 +132,7 @@ model_mb_code <- function(
 #' @param drops A list of character vector of possible scalar pars to drop (fix at 0).
 #' @param ... Unused arguments.
 #' @return An object inherting from class mb_model.
-#' @seealso \code{\link[checkr]{check_data}} \code{\link[rescale]{rescale_c}}
+#' @seealso \code{\link[chk]{check_data}} \code{\link[rescale]{rescale_c}}
 #' @export
 model.mb_code <- function(
   x, gen_inits = function(data) {list()}, random_effects = list(),

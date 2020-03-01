@@ -17,8 +17,8 @@ mcmc_derive.mb_analysis <- function(object,
                                beep = getOption("mb.beep", FALSE),
                                ...) {
   chk_flag(beep)
-  checkor(check_data(new_data), check_vector(new_data, ""))
-  checkor(chk_flag(ref_data), check_data(ref_data))
+  checkor(chk_data(new_data), check_vector(new_data, ""))
+  checkor(chk_flag(ref_data), chk_data(ref_data))
 
   if (beep) on.exit(beepr::beep())
 

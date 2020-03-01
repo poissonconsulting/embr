@@ -7,7 +7,7 @@ mcmc_derive_fun <- function(object,
                        parallel,
                        quiet,
                        ...) {
-  check_data(new_data)
+  chk_data(new_data)
   check_uniquely_named_list(new_values)
   chk_flag(parallel)
   chk_flag(quiet)
@@ -72,7 +72,7 @@ mcmc_derive_data.mb_analysis <- function(object,
                         beep = getOption("mb.beep", FALSE),
                         ...) {
   chk_string(term)
-  checkor(check_data(new_data), check_vector(new_data, ""))
+  checkor(chk_data(new_data), check_vector(new_data, ""))
 
   if (is.character(new_data))
     new_data %<>% newdata::new_data(data_set(object), .)
@@ -116,7 +116,7 @@ mcmc_derive_data.mb_analyses <- function(object,
                                     ...) {
 
   chk_string(term)
-  checkor(check_data(new_data), check_vector(new_data, ""))
+  checkor(chk_data(new_data), check_vector(new_data, ""))
 
   if (is.character(new_data))
     new_data %<>% newdata::new_data(data_set(object), .)
