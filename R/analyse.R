@@ -101,9 +101,14 @@ analyse.mb_model <- function(x, data,
     llply(data, chk_data)
   } else err("data must be a data.frame or a list of data.frames")
 
-  check_vector(nchains, c(2L, 10L), length = 1)
-  check_vector(niters, c(10L, 100000L), length = 1)
-  checkor(chk_null(nthin), check_vector(nthin, c(1L, 10000L), length = 1))
+  chk_whole_number(nchains)
+  chk_range(nchains, c(2L, 10L))
+  chk_whole_number(niters)
+  chk_range(niters, c(10L, 100000L))
+  if(!is.null(nthin)) {
+    chk_whole_number(nthin)
+    chk_range(nthin, c(1L, 10000L))
+  }
 
   chk_flag(parallel)
   chk_flag(quiet)

@@ -64,12 +64,14 @@ reanalyse.mb_analysis <- function(object,
   chk_flag(beep)
   if (beep) on.exit(beepr::beep())
 
-  check_vector(nreanalyses, c(0L, 4L), length = 1)
+  chk_whole_number(nreanalyses)
+  chk_range(nreanalyses,  c(0L, 4L))
   if (!is.duration(duration)) err("duration must be an object of class Duration")
   chk_flag(quiet)
   chk_flag(parallel)
   chk_flag(glance)
-  check_vector(esr, c(0, 1), length = 1)
+  chk_number(esr)
+  chk_range(esr, c(0, 1))
 
   if (nreanalyses == 0L || duration < elapsed(object) * 2 || converged(object, rhat = rhat, esr = esr)) {
     if (glance) print(glance(object))

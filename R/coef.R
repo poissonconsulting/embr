@@ -12,7 +12,8 @@ coef.mb_null_analysis <- function(object, param_type = "fixed", include_constant
                                   conf_level = getOption("mb.conf_level", 0.95),
                                   estimate = getOption("mb.estimate", median),
                                   ...) {
-  check_vector(param_type, c("fixed", "random", "derived", "primary", "all"), length = 1)
+  chk_string(param_type)
+  chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
   chk_flag(include_constant)
   chk_number(conf_level)
   chk_range(conf_level, c(0.5, 0.99))
@@ -44,7 +45,8 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
                              conf_level = getOption("mb.conf_level", 0.95),
                              estimate = getOption("mb.estimate", median),
                              ...) {
-  check_vector(param_type, c("fixed", "random", "derived", "primary", "all"), length = 1)
+  chk_string(param_type)
+  chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
   chk_flag(include_constant)
   chk_number(conf_level)
   chk_range(conf_level, c(0.5, 0.99))

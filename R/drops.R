@@ -15,7 +15,7 @@ not_last <- function(x) {
 
 eliminate_drop <- function(drops, drop) {
   check_drops(drops)
-  check_vector(drop, "")
+  chk_s3_class(drop, "character")
   drops %<>% llply(eliminate, drop)
   drops <- drops[vapply(drops, length, 1L) > 0]
   drops
