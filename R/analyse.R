@@ -103,7 +103,7 @@ analyse.mb_model <- function(x, data,
 
   check_vector(nchains, c(2L, 10L), length = 1)
   check_vector(niters, c(10L, 100000L), length = 1)
-  checkor(check_null(nthin), check_vector(nthin, c(1L, 10000L), length = 1))
+  checkor(chk_null(nthin), check_vector(nthin, c(1L, 10000L), length = 1))
 
   chk_flag(parallel)
   chk_flag(quiet)
