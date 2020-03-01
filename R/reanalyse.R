@@ -61,14 +61,14 @@ reanalyse.mb_analysis <- function(object,
                                   beep = getOption("mb.beep", TRUE),
                                   ...) {
 
-  check_flag(beep)
+  chk_flag(beep)
   if (beep) on.exit(beepr::beep())
 
   check_vector(nreanalyses, c(0L, 4L), length = 1)
   if (!is.duration(duration)) err("duration must be an object of class Duration")
-  check_flag(quiet)
-  check_flag(parallel)
-  check_flag(glance)
+  chk_flag(quiet)
+  chk_flag(parallel)
+  chk_flag(glance)
   check_vector(esr, c(0, 1), length = 1)
 
   if (nreanalyses == 0L || duration < elapsed(object) * 2 || converged(object, rhat = rhat, esr = esr)) {
@@ -109,7 +109,7 @@ reanalyse.mb_analyses <- function(object,
                                   glance = getOption("mb.glance", TRUE),
                                   beep = getOption("mb.beep", TRUE),
                                   ...) {
-  check_flag(beep)
+  chk_flag(beep)
 
   if (beep) on.exit(beepr::beep())
 
@@ -151,7 +151,7 @@ reanalyse.mb_meta_analysis <- function(object,
                                        glance = getOption("mb.glance", TRUE),
                                        beep = getOption("mb.beep", TRUE),
                                        ...) {
-  check_flag(beep)
+  chk_flag(beep)
 
   if (beep) on.exit(beepr::beep())
 
@@ -193,7 +193,7 @@ reanalyse.mb_meta_analyses <- function(object,
                                        glance = getOption("mb.glance", TRUE),
                                        beep = getOption("mb.beep", TRUE),
                                        ...) {
-  check_flag(beep)
+  chk_flag(beep)
 
   if (beep) on.exit(beepr::beep())
 

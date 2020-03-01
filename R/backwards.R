@@ -27,7 +27,7 @@ backwards.mb_model <- function(model, data, drops = list(), conf_level = getOpti
 
   .NotYetImplemented()
 
-  check_flag(beep)
+  chk_flag(beep)
   if (beep) on.exit(beepr::beep(2))
 
   if (!length(drops)) drops <- model$drops

@@ -15,7 +15,7 @@ coef_profile.mb_null_analysis <- function(object, param_type = "fixed", include_
                                           beep = getOption("mb.beep", TRUE),
                                           ...) {
 
-  check_flag(beep)
+  chk_flag(beep)
   if (beep) on.exit(beepr::beep())
 
   coef(object, param_type = param_type, include_constant = include_constant,
@@ -44,7 +44,7 @@ coef_profile.mb_analysis <- function(object, param_type = "fixed", include_const
                                      parallel = getOption("mb.parallel", FALSE),
                                      beep = getOption("mb.profile", TRUE),
                                      ...) {
-  check_flag(beep)
+  chk_flag(beep)
   if (beep) on.exit(beepr::beep())
   beep <- FALSE
 
@@ -87,7 +87,7 @@ coef_profile.mb_analyses <- function(
   parallel = getOption("mb.parallel", FALSE),
   beep = getOption("mb.beep", TRUE),
   ...) {
-  check_flag(beep)
+  chk_flag(beep)
   if (beep) on.exit(beepr::beep())
   beep <- FALSE
 
@@ -172,7 +172,7 @@ coef_profile.mb_meta_analysis <- function(object, param_type = "fixed", include_
                                           parallel = getOption("mb.parallel", FALSE),
                                           beep = getOption("mb.beep", TRUE),
                                           ...) {
-  check_flag(beep)
+  chk_flag(beep)
   if (beep) on.exit(beepr::beep())
   beep <- FALSE
 
@@ -197,7 +197,7 @@ coef_profile.mb_meta_analyses <- function(object, param_type = "fixed", include_
                                           parallel = getOption("mb.parallel", FALSE),
                                           beep = getOption("mb.parallel", TRUE),
                                           ...) {
-  check_flag(beep)
+  chk_flag(beep)
   if (beep) on.exit(beepr::beep())
   beep <- FALSE
 

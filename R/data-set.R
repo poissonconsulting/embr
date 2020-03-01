@@ -15,9 +15,9 @@ data_set <- function(x, modify = FALSE, numericize_factors = FALSE,
 #' @export
 data_set.mb_analysis <- function(x, modify = FALSE, numericize_factors = FALSE,
                                  marginalize_random_effects = FALSE, ...) {
-  check_flag(modify)
-  check_flag(numericize_factors)
-  check_flag(marginalize_random_effects)
+  chk_flag(modify)
+  chk_flag(numericize_factors)
+  chk_flag(marginalize_random_effects)
 
   data <- x$data
 

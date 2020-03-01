@@ -13,7 +13,7 @@ coef.mb_null_analysis <- function(object, param_type = "fixed", include_constant
                                   estimate = getOption("mb.estimate", median),
                                   ...) {
   check_vector(param_type, c("fixed", "random", "derived", "primary", "all"), length = 1)
-  check_flag(include_constant)
+  chk_flag(include_constant)
   check_vector(conf_level, c(0.5, 0.99), length = 1)
 
   coef <- tibble(term = as.term(character(0)),
@@ -44,7 +44,7 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
                              estimate = getOption("mb.estimate", median),
                              ...) {
   check_vector(param_type, c("fixed", "random", "derived", "primary", "all"), length = 1)
-  check_flag(include_constant)
+  chk_flag(include_constant)
   check_vector(conf_level, c(0.5, 0.99), length = 1)
 
   pars <- pars(object, param_type)

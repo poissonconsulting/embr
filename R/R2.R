@@ -32,8 +32,8 @@ R2.mb_analysis <- function(object, response, marginal = FALSE,
                            beep = getOption("mb.beep", FALSE), ...) {
 
   check_string(response)
-  check_flag(marginal)
-  check_flag(beep)
+  chk_flag(marginal)
+  chk_flag(beep)
   if (beep) on.exit(beepr::beep())
 
   data <- data_set(object, modify_data = TRUE, numericize_factors = TRUE)

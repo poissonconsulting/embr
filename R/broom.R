@@ -25,7 +25,7 @@ glance.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), esr = getOpt
 #' @export
 glance.mb_analyses <- function(
   x, rhat = getOption("mb.rhat", 1.1), bound = FALSE, ...) {
-  check_flag(bound)
+  chk_flag(bound)
   if(bound) {
     if (!is_bayesian(x))
       err("glance with bound = TRUE is only defined for Bayesian analyses.")

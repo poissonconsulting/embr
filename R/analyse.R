@@ -92,7 +92,7 @@ analyse.mb_model <- function(x, data,
                              beep = getOption("mb.beep", TRUE),
                              ...) {
 
-  check_flag(beep)
+  chk_flag(beep)
   if (beep) on.exit(beepr::beep())
 
   if (is.data.frame(data)) {
@@ -105,9 +105,9 @@ analyse.mb_model <- function(x, data,
   check_vector(niters, c(10L, 100000L), length = 1)
   checkor(check_null(nthin), check_vector(nthin, c(1L, 10000L), length = 1))
 
-  check_flag(parallel)
-  check_flag(quiet)
-  check_flag(glance)
+  chk_flag(parallel)
+  chk_flag(quiet)
+  chk_flag(glance)
 
   if (is.null(nthin)) nthin <- nthin(x)
 
@@ -156,7 +156,7 @@ analyse.mb_models <- function(x, data,
                               glance = getOption("mb.glance", TRUE),
                               beep = getOption("mb.beep", TRUE),
                               ...) {
-  check_flag(beep)
+  chk_flag(beep)
   if (beep) on.exit(beepr::beep())
 
   names <- names(x)

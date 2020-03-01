@@ -9,8 +9,8 @@ mcmc_derive_fun <- function(object,
                        ...) {
   check_data(new_data)
   check_uniquely_named_list(new_values)
-  check_flag(parallel)
-  check_flag(quiet)
+  chk_flag(parallel)
+  chk_flag(quiet)
 
   model <- model(object)
 

@@ -14,7 +14,7 @@
 \item{...}{Other arguments passed to methods.}
 }
 \value{
-An (unsorted) named (by parameters) list of numeric atomic objects of the estimates or an (unsorted) \code{\link[nlist]{nlist}}.
+An \code{\link[nlist:nlist]{nlist::nlist()}} object.
 }
 \description{
 Calculates the estimates for an MCMC object.

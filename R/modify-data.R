@@ -62,7 +62,7 @@ select_rescale_data <- function(data, model, data2 = data) {
 modify_data <- function(data, model, numericize_factors = FALSE) {
   check_data(data, nrow = TRUE)
   check_mb_model(model)
-  check_flag(numericize_factors)
+  chk_flag(numericize_factors)
   if (any(c("nObs", "Obs") %in% colnames(data)))
      err("Obs and nObs are reserved column names")
 
@@ -95,7 +95,7 @@ modify_new_data <- function(data, data2, model, modify_new_data = NULL, numerici
   check_data(data, nrow = TRUE)
   check_data(data2, nrow = TRUE)
   check_mb_model(model)
-  check_flag(numericize_factors)
+  chk_flag(numericize_factors)
 
   if (is.null(modify_new_data)) modify_new_data <- model$modify_new_data
   check_single_arg_fun(modify_new_data)
