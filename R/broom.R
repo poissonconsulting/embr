@@ -1,4 +1,13 @@
 #' @export
+generics::tidy
+
+#' @export
+generics::glance
+
+#' @export
+generics::augment
+
+#' @export
 glance.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), esr = getOption("mb.esr", 0.33), ...) {
 
   glance <- tibble(

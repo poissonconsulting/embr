@@ -7,7 +7,6 @@ Description: Utility functions and virtual classes shared by model builder packa
 License: MIT + file LICENSE
 Depends:
     R (>= 3.4.0),
-    broom,
     lubridate,
     mcmcr (>= 0.2.0.9021),
     mcmcdata,
@@ -36,6 +35,7 @@ Imports:
     term,
     nlist,
     universals,
+    generics,
     extras
 Suggests:
     testthat,
