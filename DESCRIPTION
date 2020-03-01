@@ -27,7 +27,6 @@ Imports:
     newdata,
     parallel,
     plyr,
-    pryr,
     purrr,
     rescale,
     rlang,
