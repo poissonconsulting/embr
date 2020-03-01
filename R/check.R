@@ -85,7 +85,8 @@ check_single_arg_fun <- function(fun) {
 }
 
 check_unique_character_vector <- function(x, x_name = substitute(x)) {
-  check_vector(x, "", x_name = x_name)
+  chk_s3_class(x, "character", x_name = x_name)
+  chk_not_any_na(x, x_name = x_name)
   chk_unique(x, x_name = x_name)
   x
 }

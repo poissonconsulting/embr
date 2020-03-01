@@ -11,7 +11,8 @@ drop_pars <- function(x, pars = character(0), ...) {UseMethod("drop_pars")}
 
 #' @export
 drop_pars.character <- function(x, pars = character(0), ...) {
-  check_vector(pars, "")
+  chk_s3_class(pars, "character")
+  chk_not_any_na(pars)
   chk_unique(pars)
 
 
@@ -31,7 +32,8 @@ drop_pars.character <- function(x, pars = character(0), ...) {
 
 #' @export
 drop_pars.mb_model <- function(x, pars = character(0), ...) {
-  check_vector(pars, "")
+  chk_s3_class(pars, "character")
+  chk_not_any_na(pars)
   chk_unique(pars)
 
 

@@ -47,7 +47,8 @@ model_mb_code <- function(
   check_single_arg_fun(modify_data)
   check_single_arg_fun(modify_new_data)
   check_vector(new_expr, "", length = c(0,1))
-  check_vector(nthin, c(1L, 100000L), length = 1)
+  chk_whole_number(nthin)
+  chk_scalar(nthin)
   check_drops(drops)
 
   select_colnames <- rescale::get_rescaler_colnames(names(select_data))
