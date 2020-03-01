@@ -16,7 +16,7 @@ sd_priors_by <- function(x, by = 10, distributions = c("normal", "lognormal", "t
 #' @export
 sd_priors_by.mb_model <- function(x, by = 10, distributions = c("normal", "lognormal", "t"), ...) {
   check_scalar(by, c(0.001, 1000))
-  check_unused(...)
+  chk_unused(...)
 
   x$code <- sd_priors_by(x$code, by = by, distributions = distributions)
   x
@@ -30,7 +30,7 @@ sd_priors_by.mb_analysis <- function(x, by = 10, distributions = c("normal", "lo
                                   glance = getOption("mb.glance", TRUE),
                                   beep = getOption("mb.beep", TRUE),
                                   ...) {
-  check_unused(...)
+  chk_unused(...)
 
   analyse(sd_priors_by(model(x), by = by, distributions = distributions),
           data = data_set(x),
