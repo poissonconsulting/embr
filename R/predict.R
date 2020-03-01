@@ -29,7 +29,8 @@ predict.mb_analysis <- function(object,
                                 quiet = getOption("mb.quiet", TRUE),
                                 beep = getOption("mb.beep", FALSE),
                                 ...) {
-  check_vector(conf_level, c(0.5, 0.99), length = 1)
+  chk_number(conf_level)
+  chk_range(conf_level, c(0.5, 0.99))
   chk_flag(beep)
 
   if (beep) on.exit(beepr::beep())

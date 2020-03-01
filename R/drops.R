@@ -56,7 +56,8 @@ make_all_drops <- function(drops) {
 next_drop <- function(analysis, drops, conf_level) {
   check_mb_analysis(analysis)
   check_drops(drops)
-  check_vector(conf_level, c(0.5, 0.99), length = 1)
+  chk_number(conf_level)
+  chk_range(conf_level, c(0.5, 0.99))
 
   drop <- possible_drop(drops)
 

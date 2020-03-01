@@ -14,7 +14,8 @@ coef.mb_null_analysis <- function(object, param_type = "fixed", include_constant
                                   ...) {
   check_vector(param_type, c("fixed", "random", "derived", "primary", "all"), length = 1)
   chk_flag(include_constant)
-  check_vector(conf_level, c(0.5, 0.99), length = 1)
+  chk_number(conf_level)
+  chk_range(conf_level, c(0.5, 0.99))
 
   coef <- tibble(term = as.term(character(0)),
                             estimate = numeric(0), sd = numeric(0))
@@ -45,7 +46,8 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
                              ...) {
   check_vector(param_type, c("fixed", "random", "derived", "primary", "all"), length = 1)
   chk_flag(include_constant)
-  check_vector(conf_level, c(0.5, 0.99), length = 1)
+  chk_number(conf_level)
+  chk_range(conf_level, c(0.5, 0.99))
 
   pars <- pars(object, param_type)
 
