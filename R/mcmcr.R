@@ -1,7 +1,8 @@
 #' @export
 rhat.mb_analysis <- function(x, by = "all", param_type = "all", as_df = FALSE,
                              ...) {
-  check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
+  chk_string(param_type)
+  chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
   chk_unused(...)
   pars <- pars(x, param_type)
 
@@ -17,7 +18,8 @@ rhat.mb_null_analysis <- function(x, ...) Inf
 #' @export
 rhat.mb_analyses <- function(x, by = "all", param_type = "all", as_df = FALSE,
                              bound = FALSE,  ...) {
-  check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
+  chk_string(param_type)
+  chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
   chk_unused(...)
 
   pars <- pars(x[[1]], param_type)
@@ -30,7 +32,8 @@ rhat.mb_analyses <- function(x, by = "all", param_type = "all", as_df = FALSE,
 
 #' @export
 esr.mb_analysis <- function(x,  by = "all", as_df = FALSE, param_type = "all", ...) {
-  check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
+  chk_string(param_type)
+  chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
   chk_unused(...)
   pars <- pars(x, param_type)
 
@@ -45,7 +48,8 @@ esr.mb_null_analysis <- function(x, ...) 0
 
 #' @export
 esr.mb_analyses <- function(x,  by = "all", as_df = FALSE, param_type = "all", ...) {
-  check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
+  chk_string(param_type)
+  chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
   chk_unused(...)
 
   pars <- pars(x[[1]], param_type)
@@ -59,7 +63,8 @@ esr.mb_analyses <- function(x,  by = "all", as_df = FALSE, param_type = "all", .
 #' @export
 converged.mb_analysis <- function(x, rhat = 1.1, esr = 0.33, by = "all",
                                   param_type = "all", as_df = FALSE, ...) {
-  check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
+  chk_string(param_type)
+  chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
   chk_unused(...)
 
   pars <- pars(x, param_type)
@@ -78,7 +83,8 @@ converged.mb_analyses <- function(x, rhat = 1.1, esr = 0.33, by = "all",
                                   param_type = "all", as_df = FALSE,
                                   bound = FALSE,
                                   ...) {
-  check_scalar(param_type, c("fixed", "random", "derived", "primary", "all"))
+  chk_string(param_type)
+  chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
   chk_unused(...)
 
   pars <- pars(x[[1]], param_type)

@@ -15,7 +15,8 @@ sd_priors_by <- function(x, by = 10, distributions = c("normal", "lognormal", "t
 #' @describeIn sd_priors_by Multiply Standard Deviation of Priors for an MB model
 #' @export
 sd_priors_by.mb_model <- function(x, by = 10, distributions = c("normal", "lognormal", "t"), ...) {
-  check_scalar(by, c(0.001, 1000))
+  chk_number(by)
+  chk_range(by, c(0.001, 1000))
   chk_unused(...)
 
   x$code <- sd_priors_by(x$code, by = by, distributions = distributions)
