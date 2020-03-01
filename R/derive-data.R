@@ -15,7 +15,7 @@ mcmc_derive_fun <- function(object,
   model <- model(object)
 
   if (is.null(new_expr)) new_expr <- model$new_expr
-  check_string(new_expr)
+  chk_string(new_expr)
 
   data <- mbr::modify_new_data(new_data, data2 = data_set(object), model = model,
                                modify_new_data = modify_new_data)
@@ -71,7 +71,7 @@ mcmc_derive_data.mb_analysis <- function(object,
                         quiet = getOption("mb.quiet", TRUE),
                         beep = getOption("mb.beep", FALSE),
                         ...) {
-  check_string(term)
+  chk_string(term)
   checkor(check_data(new_data), check_vector(new_data, ""))
 
   if (is.character(new_data))
@@ -115,7 +115,7 @@ mcmc_derive_data.mb_analyses <- function(object,
                                     beep = getOption("mb.beep", FALSE),
                                     ...) {
 
-  check_string(term)
+  chk_string(term)
   checkor(check_data(new_data), check_vector(new_data, ""))
 
   if (is.character(new_data))

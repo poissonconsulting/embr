@@ -13,7 +13,7 @@ check_model_pars <- function(x, fixed, random, derived, drops) {
 
 #' @export
 check_model_pars.mb_code <- function(x, fixed, random, derived, drops) {
-  check_string(fixed)
+  chk_string(fixed)
   checkor(check_null(random), check_vector(random, character(0)))
   checkor(check_null(derived), check_vector(derived, character(0)))
   checkor(check_null(drops), check_vector(drops, character(0)))

@@ -31,7 +31,7 @@ R2.mb_analysis <- function(object, response, marginal = FALSE,
                            quiet = getOption("mb.quiet", TRUE),
                            beep = getOption("mb.beep", FALSE), ...) {
 
-  check_string(response)
+  chk_string(response)
   chk_flag(marginal)
   chk_flag(beep)
   if (beep) on.exit(beepr::beep())

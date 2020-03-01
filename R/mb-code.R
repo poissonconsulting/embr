@@ -27,7 +27,7 @@
 #'")
 #' class(x)
 mb_code <- function(template) {
-  check_string(template)
+  chk_string(template)
 
   class <- "mb_code"
   if (stringr::str_detect(template, "#include <TMB.hpp>")) {

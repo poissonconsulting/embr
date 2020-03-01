@@ -39,6 +39,6 @@ template.mb_analysis <- function(object, ...) {
 
 #' @export
 "template<-.mb_code" <- function(object, value) {
-  check_string(value)
+  chk_string(value)
   mb_code(value)
 }

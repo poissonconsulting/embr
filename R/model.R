@@ -38,7 +38,7 @@ model_mb_code <- function(
   check_mb_code(x)
   check_single_arg_fun(gen_inits)
   check_uniquely_named_list(random_effects)
-  check_string(fixed)
+  chk_string(fixed)
   check_unique_character_vector(derived)
   check_uniquely_named_list(select_data)
   check_valid_rescalers(names(select_data))

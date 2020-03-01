@@ -36,7 +36,7 @@
 #' set_analysis_mode("reset")
 #' }
 set_analysis_mode <- function(mode = "report") {
-  check_string(mode)
+  chk_string(mode)
 
   if (mode == "reset") {
     options(mb.nchains = NULL,
