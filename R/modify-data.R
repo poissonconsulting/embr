@@ -22,7 +22,7 @@ select_data <- function(data, select_data, center, scale, random_effects) {
   }
 
   names(select_data) %<>% rescale::get_rescaler_colnames()
-  check_data(data, select_data)
+  checkr::check_data(data, select_data)
   data <- data[names(select_data)]
   data
 }
@@ -37,8 +37,10 @@ select_data <- function(data, select_data, center, scale, random_effects) {
 #' @return The modified data in list form.
 #' @export
 select_rescale_data <- function(data, model, data2 = data) {
-  check_data(data, nrow = TRUE)
-  check_data(data2, nrow = TRUE)
+  chk_data(data)
+  chk_not_empty(data)
+  chk_data(data2)
+  chk_not_empty(data2)
   check_mb_model(model)
   data %<>% select_data(model$select_data, model$center, model$scale, model$random_effects)
   data2 %<>% select_data(model$select_data, model$center, model$scale, model$random_effects)
@@ -60,7 +62,8 @@ select_rescale_data <- function(data, model, data2 = data) {
 #' @return The modified data in list form.
 #' @export
 modify_data <- function(data, model, numericize_factors = FALSE) {
-  check_data(data, nrow = TRUE)
+  chk_data(data)
+  chk_not_empty(data)
   check_mb_model(model)
   chk_flag(numericize_factors)
   if (any(c("nObs", "Obs") %in% colnames(data)))
@@ -92,8 +95,10 @@ modify_data <- function(data, model, numericize_factors = FALSE) {
 #' @return The modified data in list form.
 #' @export
 modify_new_data <- function(data, data2, model, modify_new_data = NULL, numericize_factors = FALSE) {
-  check_data(data, nrow = TRUE)
-  check_data(data2, nrow = TRUE)
+  chk_data(data)
+  chk_not_empty(data)
+  chk_data(data2)
+  chk_not_empty(data2)
   check_mb_model(model)
   chk_flag(numericize_factors)
 
