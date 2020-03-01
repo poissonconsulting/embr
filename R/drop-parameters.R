@@ -12,7 +12,7 @@ drop_pars <- function(x, pars = character(0), ...) {UseMethod("drop_pars")}
 #' @export
 drop_pars.character <- function(x, pars = character(0), ...) {
   check_vector(pars, "")
-  check_unique(pars)
+  chk_unique(pars)
 
 
   if (!length(pars))
@@ -32,7 +32,7 @@ drop_pars.character <- function(x, pars = character(0), ...) {
 #' @export
 drop_pars.mb_model <- function(x, pars = character(0), ...) {
   check_vector(pars, "")
-  check_unique(pars)
+  chk_unique(pars)
 
 
   if (!length(pars)) return(x)

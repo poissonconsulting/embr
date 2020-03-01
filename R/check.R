@@ -86,7 +86,7 @@ check_single_arg_fun <- function(fun) {
 
 check_unique_character_vector <- function(x, x_name = substitute(x)) {
   check_vector(x, "", x_name = x_name)
-  check_unique(x, x_name = x_name)
+  chk_unique(x, x_name = x_name)
   x
 }
 
@@ -99,7 +99,7 @@ check_uniquely_named_character_vector <- function(x, x_name = substitute(x)) {
     return(x)
 
   if (is.null(names(x))) err(x_name, "must be named")
-  check_unique(names(x), x_name = x_name)
+  chk_unique(names(x), x_name = x_name)
   x
 }
 
