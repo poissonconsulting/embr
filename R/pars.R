@@ -11,12 +11,11 @@ pars.character <- function(x, param_type = "all", scalar = NA, ...) {
   if (!is.na(scalar))
     err("pars.character is not able to identify scalar pars - set scalar = NA instead")
 
-  x %<>%
-    rm_comments() %>%
-    str_extract_all("\\w+") %>%
-    unlist() %>%
-    unique() %>%
-    magrittr::extract(., is.syntactic(.))
+  x <- rm_comments(x)
+  x <- str_extract_all(x, "\\w+")
+  x <- unlist(x)
+  x <- unique(x)
+  x <- magrittr::extract(x, is.syntactic(x))
 
   if(is.null(x)) return(character(0))
   sort(x)
@@ -35,13 +34,12 @@ pars.mb_code <- function(x, param_type = "all", scalar = NA, ...) {
   if (!is.na(scalar))
     err("pars.character is not able to identify scalar pars - set scalar = NA instead")
 
-  x %<>%
-    template() %>%
-    rm_comments() %>%
-    str_extract_all("\\w+") %>%
-    unlist() %>%
-    unique() %>%
-    magrittr::extract(., is.syntactic(.))
+  x <- template(x)
+  x <- rm_comments(x)
+  x <- str_extract_all(x, "\\w+")
+  x <- unlist(x)
+  x <- unique(x)
+  x <- magrittr::extract(x, is.syntactic(x))
 
   if(is.null(x)) return(character(0))
   sort(x)
@@ -61,10 +59,9 @@ pars.mb_model <- function(x, param_type = "all", scalar = NA, ...) {
     pars <- c("fixed", "random")
     if (param_type == "all") pars <- c(pars, "derived")
 
-    pars %<>%
-      purrr::map(pars_arg2to1, x = x, scalar = scalar) %>%
-      unlist() %>%
-      sort()
+    pars <- purrr::map(pars, pars_arg2to1, x = x, scalar = scalar)
+    pars <- unlist(pars)
+    pars <- sort(pars)
 
     return(pars)
   }
@@ -96,12 +93,11 @@ pars.mb_analysis <- function(x, param_type = "all", scalar = NA, ...) {
 
   if (param_type %in% c("primary", "all")) {
     pars <- c("fixed", "random")
-    if (param_type == "all") pars %<>% c("derived")
+    if (param_type == "all") pars <- c(pars, "derived")
 
-    pars %<>%
-      purrr::map(pars_arg2to1, x = x, scalar = scalar) %>%
-      unlist() %>%
-      sort()
+    pars <- purrr::map(pars, pars_arg2to1, x = x, scalar = scalar)
+    pars <- unlist(pars)
+    pars <- sort(pars)
 
     return(pars)
   }
@@ -110,9 +106,8 @@ pars.mb_analysis <- function(x, param_type = "all", scalar = NA, ...) {
 
   random <- names(random_effects(x))
   if (is.null(random)) random <- character(0)
-  random %<>%
-    intersect(pars) %>%
-    sort()
+  random <- intersect(random, pars)
+  random <- sort(random)
 
   if (param_type ==  "random") return(random)
 
@@ -122,10 +117,9 @@ pars.mb_analysis <- function(x, param_type = "all", scalar = NA, ...) {
 
   if (param_type == "derived") return(derived)
 
-  pars %<>%
-    setdiff(random) %>%
-    setdiff(derived) %>%
-    sort()
+  pars <- setdiff(pars, random)
+  pars <- setdiff(pars, derived)
+  pars <- sort(pars)
 
   pars
 }

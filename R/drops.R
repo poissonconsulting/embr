@@ -23,13 +23,19 @@ eliminate_drop <- function(drops, drop) {
 
 possible_drop <- function(drops) {
   if (!length(drops)) return(character(0))
-  drops %<>% llply(dplyr::last) %>% unlist() %>% unique() %>% sort()
+  drops <- llply(drops, dplyr::last)
+  drops <- unlist(drops)
+  drops <- unique(drops)
+  drops <- sort(drops)
   drops
 }
 
 impossible_drop <- function(drops) {
   if (!length(drops)) return(character(0))
-  drops %<>% llply(not_last) %>% unlist() %>% unique() %>% sort()
+  drops <- llply(drops, not_last)
+  drops <- unlist(drops)
+  drops <- unique(drops)
+  drops <- sort(drops)
   drops
 }
 
@@ -38,7 +44,7 @@ recursive_drop <- function(drops, drop) {
   drop2 <- eliminate_drop(drops, drop) %>% possible_drop()
   for (d2 in drop2) {
     d2 <- c(drop, d2)
-    list %<>% c(recursive_drop(drops, d2))
+    list <- c(list, recursive_drop(drops, d2))
   }
   list
 }
@@ -47,7 +53,8 @@ make_all_drops <- function(drops) {
   check_drops(drops)
   if (!length(drops)) return(list("base" = character(0)))
   drop <- recursive_drop(drops, character(0))
-  drop %<>% llply(sort) %>% unique()
+  drop <- llply(drop, sort)
+  drop <- unique(drop)
   drop <- drop[order(vapply(drop, length, 1L))]
   names(drop) <- model_names(drop, drops)
   drop
@@ -65,7 +72,7 @@ next_drop <- function(analysis, drops, conf_level) {
 
   coef <- coef(analysis)
   # scalar only
-  coef %<>% dplyr::filter_(~!str_detect(term, "\\["))
+  coef <- dplyr::filter_(coef, ~!str_detect(term, "\\["))
 
   if (!all(drop %in% coef$term)) err("unrecognised fixed scalar parameter")
 

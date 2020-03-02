@@ -20,10 +20,9 @@ monitor <- function(object, param_type = "all", scalar = NA) {
   named <- intersect(named, pars)
   pars <- pars[grepl(regexp, pars, perl = TRUE)]
 
-  pars %<>%
-    c(named) %>%
-    unique() %>%
-    sort()
+  pars <- c(pars, named)
+  pars <- unique(pars)
+  pars <- sort(pars)
 
   pars
 }
