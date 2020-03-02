@@ -7,7 +7,6 @@ test_that("mb_code", {
 })
 
 test_that("template", {
-  require(stringr, quietly = TRUE)
   code <- mb_code(.tmb_template)
   expect_identical(template(code), .tmb_template)
   template(code) <- gsub("nll", "negll", template(code))

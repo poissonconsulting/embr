@@ -91,7 +91,7 @@ lmcmcarray <- function(x) {
   } else {
     dims <- sub("^(\\w+)(.*)", "\\2", x$term[nrow])
     dims <- sub("^(\\[)(.*)(\\])$", "\\2", dims)
-    dims <- str_split(dims, ",", simplify = FALSE)
+    dims <- strsplit(dims, ",")
     dims <- unlist(dims)
     dims <- as.integer(dims)
   }
@@ -120,7 +120,7 @@ scalar_nlist <- function(x) {
 }
 
 indexes <- function(x) {
-  x <- str_replace(x, "^(\\w+)(\\[[:alnum:]+([,][:alnum:]+)*\\])$", "\\2")
+  x <- sub("^(\\w+)(\\[[[:alnum:]]+([,][[:alnum:]]+)*\\])$", "\\2", x)
   x[!grepl("\\[", x)] <- ""
   x
 }
@@ -160,3 +160,7 @@ all_first_level <- function(x) {
   if(is.ordered(x)) return(ordered(rep(levels[1], length(x)), levels = levels))
   factor(rep(levels[1], length(x)), levels = levels)
 }
+
+# from https://recology.info/2018/10/limiting-dependencies/
+str_extract_all <- function(x, y) regmatches(x, gregexpr(y, x))
+
