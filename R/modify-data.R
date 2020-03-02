@@ -3,25 +3,25 @@ add_nfactors <- function(data) {
 
   if (!length(factor)) return(data)
 
-  factor %<>% llply(nlevels)
-  names(factor) %<>% str_c("n", .)
+  factor <- llply(factor, nlevels)
+  names(factor) <- str_c("n", names(factor))
 
   if (any(names(factor) %in% names(data)))
     err("nFactor names are reserved")
 
-  data %<>% c(factor)
+  data <- c(data, factor)
   data
 }
 
 select_data <- function(data, select_data, center, scale, random_effects) {
   if (!length(select_data)) {
     cols <- c(center, scale)
-    cols %<>% c(unlist(random_effects))
+    cols <- c(cols, unlist(random_effects))
     check_colnames(data, sort(unique(cols)))
     return(data)
   }
 
-  names(select_data) %<>% rescale::get_rescaler_colnames()
+  names(select_data) <- rescale::get_rescaler_colnames(names(select_data))
   checkr::check_data(data, select_data)
   data <- data[names(select_data)]
   data
@@ -42,13 +42,13 @@ select_rescale_data <- function(data, model, data2 = data) {
   chk_data(data2)
   chk_not_empty(data2)
   check_mb_model(model)
-  data %<>% select_data(model$select_data, model$center, model$scale, model$random_effects)
-  data2 %<>% select_data(model$select_data, model$center, model$scale, model$random_effects)
+  data <- select_data(data, model$select_data, model$center, model$scale, model$random_effects)
+  data2 <- select_data(data2, model$select_data, model$center, model$scale, model$random_effects)
 
   if (!identical(model$center, character(0)) || !identical(model$scale, character(0)))  {
-    data %<>% rescale::rescale(data2 = data2, center = model$center, scale = model$scale)
+    data <- rescale::rescale(data, data2 = data2, center = model$center, scale = model$scale)
   } else if (length(model$select_data))
-    data %<>% rescale::rescale_c(data2 = data2, colnames = names(model$select_data))
+    data <- rescale::rescale_c(data, data2 = data2, colnames = names(model$select_data))
   data
 }
 

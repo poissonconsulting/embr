@@ -24,13 +24,11 @@ IC.mb_analysis <- function(object, ...) {
   }
   logLik <- logLik_matrix(object)
 
-  npars <- logLik %>%
-    matrixStats::colVars() %>%
-    sum()
+  npars <- matrixStats::colVars(logLik)
+  npars <- sum(npars)
 
-  logLik %<>%
-    logColMeansExp() %>%
-    sum()
+  logLik <- logColMeansExp(logLik)
+  logLik <- sum(logLik)
 
   ic <- -2 * (logLik - npars)
   ic
@@ -64,8 +62,8 @@ IC.mb_analyses <- function(object, ...) {
   tibble$ICWt <- exp(-0.5 * tibble$DeltaIC)
   tibble$ICWt <- tibble$ICWt / sum(tibble$ICWt)
 
-  tibble$DeltaIC %<>% round(2)
-  tibble$ICWt %<>% round(3)
+  tibble$DeltaIC <- round(tibble$DeltaIC, 2)
+  tibble$ICWt <- round(tibble$ICWt, 3)
   # retain original order and use sort_by_ic if required
   tibble
 }

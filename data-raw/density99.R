@@ -26,13 +26,15 @@ site_year$site_year_effect <- rnorm(nrow(site_year), sd = exp(log_sd_site_year))
 data <- expand.grid(Visit = 1:nvisit, Site = site$Site,
                     Year = 1:nyear + start_year)
 
-data %<>% inner_join(site, by = "Site") %>% inner_join(site_year, by = c("Site", "Year"))
+data <- inner_join(data, site, by = "Site")
+data <- inner_join(data, site_year, by = c("Site", "Year"))
 
 residual <- rnorm(nrow(data), sd = exp(log_sd))
 
-data %<>% mutate(Density = exp(alpha + beta * (Year - mean(Year)) + (as.integer(HabitatQuality) - 1) * habitat + site_year_effect + residual))
+data <- mutate(data, Density = exp(alpha + beta * (Year - mean(Year)) + (as.integer(HabitatQuality) - 1) * habitat + site_year_effect + residual))
 
-data %<>% select(Site, HabitatQuality, Year, Visit, Density) %>% arrange(Site, Year, Visit)
+data <- select(data, Site, HabitatQuality, Year, Visit, Density)
+data <- arrange(data, Site, Year, Visit)
 
 density99 <- data
 use_data(density99, overwrite = TRUE)

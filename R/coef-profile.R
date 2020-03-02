@@ -106,15 +106,14 @@ coef_profile.mb_analyses <- function(
       estimate = numeric(0))
 
     if(is_frequentist(object)) {
-      coef %<>%
-        dplyr::mutate(sd = `!!`(parse_expr("numeric(0)"))) %>%
-        get_frequentist_coef()
+      coef <- dplyr::mutate(coef, sd = `!!`(parse_expr("numeric(0)")))
+      coef <- get_frequentist_coef(coef)
     }
-    coef %<>% dplyr::mutate_(
+    coef <- dplyr::mutate_(coef,
       nmodels = ~integer(0),
       proportion = ~numeric(0),
       ICWt = ~numeric(0))
-    class(coef) %<>% c("mb_analyses_coef", .)
+    class(coef) <- c("mb_analyses_coef", class(coef))
     return(coef)
   }
 
@@ -148,9 +147,9 @@ coef_profile.mb_analyses <- function(
                   `!!`(parse_expr("upper")),
                   `!!`(parse_expr("pvalue")),
                   `!!`(parse_expr("everything()")))
-  coef$term %<>% as.term()
+  coef$term <- as.term(coef$term)
   coef <- coef[order(coef$term),]
-  class(coef) %<>% c("mb_analyses_coef", .)
+  class(coef) <- c("mb_analyses_coef", class(coef))
   coef
 }
 

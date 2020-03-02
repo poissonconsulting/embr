@@ -61,9 +61,9 @@ is.syntactic <- function(x) {
 }
 
 sort_random_effects <- function(x) {
-  x %<>% sort_nlist()
+  x <- sort_nlist(x)
   check_all_elements_class_character(x)
-  x %<>% llply(function(x) sort(x))
+  x <- llply(x, function(x) sort(x))
   x
 }
 
@@ -95,7 +95,7 @@ lmcmcarray <- function(x) {
       unlist() %>%
       as.integer()
   }
-  dims %<>% c(1L, 1L, .)
+  dims <- c(dims, 1L, 1L, .)
 
   samples <- array(x$estimate, dim = dims)
   class(samples) <- "mcmcarray"
@@ -120,7 +120,7 @@ scalar_nlist <- function(x) {
 }
 
 indexes <- function(x) {
-  x %<>% str_replace("^(\\w+)(\\[[:alnum:]+([,][:alnum:]+)*\\])$", "\\2")
+  x <- str_replace(x, "^(\\w+)(\\[[:alnum:]+([,][:alnum:]+)*\\])$", "\\2")
   x[!str_detect(x, "\\[")] <- ""
   x
 }
@@ -130,12 +130,12 @@ remainder <- function(x, y) {
 }
 
 model_names <- function(x, drops) {
-  drops %<>% full_drop()
+  drops <- full_drop(drops)
   stopifnot(all(unique(unlist((x))) %in% drops))
-  x %<>% llply(remainder, drops)
+  x <- llply(x, remainder, drops)
   x[vapply(x, length, 1L) == 0] <- "base"
-  x %<>% llply(str_c, collapse = "+") %>% unlist()
-  x %<>% vapply(function(x) str_c("base+", x, collapse = ""), "")
+  x <- llply(x, str_c, collapse = "+") %>% unlist()
+  x <- vapply(x, function(x) str_c("base+", x, collapse = ""), "")
   x[x == "base+base"] <- "base"
   x[x == str_c("base+", str_c(drops, collapse = "+"), collapse = "")] <- "full"
   names(x) <- NULL
@@ -147,7 +147,7 @@ drop_indices <- function(x) {
 }
 
 response_lm <- function(x) {
-  if (!is.character(x)) x %<>% template()
+  if (!is.character(x)) x <- template(x)
   stringr::str_replace(x, "\\s+~.*", "") %>% str_replace_all("\\s{1,}", "")
 }
 

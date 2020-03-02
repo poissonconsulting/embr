@@ -7,7 +7,6 @@ Description: Utility functions and virtual classes shared by model builder packa
 License: MIT + file LICENSE
 Depends:
     R (>= 3.4.0),
-    lubridate,
     mcmcr (>= 0.2.0.9021),
     mcmcdata,
     mcmcderive,
@@ -26,6 +25,7 @@ Imports:
     newdata,
     parallel,
     plyr,
+    lubridate,
     purrr,
     rescale,
     rlang,

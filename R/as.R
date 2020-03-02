@@ -27,14 +27,13 @@ as.analyses <- function(x, ...) {
 
 #' @export
 as.mcmcr.mb_analysis_coef <- function(x, ...) {
-  x %<>%
-    dplyr::select_(~term, ~estimate) %>%
-    dplyr::mutate_(parameter = ~str_replace(term, "^(\\w+)(.*)", "\\1")) %>%
-    plyr::dlply(~parameter, lmcmcarray)
+  x <- dplyr::select_(x ~term, ~estimate)
+  x <- dplyr::mutate_(x, parameter = ~str_replace(term, "^(\\w+)(.*)", "\\1"))
+  x <-  plyr::dlply(x,~parameter, lmcmcarray)
 
   class(x) <- "mcmcr"
 
-  x %<>% sort()
+  x <- sort(x)
   x
 }
 
@@ -43,9 +42,8 @@ as.mcmcr.mb_analysis <- function(x, ...) {
   if (!is.null(x$mcmcr)) return(x$mcmcr)
 
   # this needs switching off by removing lm and replacing R function based optimizer
-  x %<>%
-    coef("all") %>%
-    as.mcmcr()
+  x <- coef(x, "all")
+  x <- as.mcmcr(x)
   x
 }
 
@@ -83,13 +81,13 @@ as.models.mb_analysis <- function(x, ...) {
 
 #' @export
 as.models.mb_analyses <- function(x, ...) {
-  x %<>% purrr::map(model)
+  x <- purrr::map(x, model)
   as.models(x)
 }
 
 #' @export
 as.mcmcrs.mb_analyses <- function(x, ...) {
-  x %<>% purrr::map(as.mcmcr)
+  x <- purrr::map(x, as.mcmcr)
   mcmcr::as.mcmcrs(x)
 }
 

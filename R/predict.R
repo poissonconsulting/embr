@@ -35,15 +35,15 @@ predict.mb_analysis <- function(object,
 
   if (beep) on.exit(beepr::beep())
 
-  term %<>% str_c("^", ., "$")
+  term <- str_c("^", term, "$")
 
-  object %<>% mcmc_derive_data(new_data = new_data, new_expr = new_expr,
+  object <- mcmc_derive_data(object, new_data = new_data, new_expr = new_expr,
                           new_values = new_values, term = term,
                           modify_new_data = modify_new_data, ref_data = ref_data,
                           parallel = parallel, quiet = quiet,
                           beep = FALSE, ...)
 
-  object %<>% coef(conf_level = conf_level)
+  object <- coef(object, conf_level = conf_level)
 
   object
 }
@@ -77,8 +77,7 @@ predict.mb_analyses <- function(object,
                       parallel = parallel, quiet = quiet, beep = FALSE)
 
   if (!all(is.finite(ic$IC))) {
-    prediction <- prediction[[1]] %<>%
-      dplyr::mutate_(estimate = ~NA_real_,
+    prediction <- dplyr::mutate_(prediction[[1]], estimate = ~NA_real_,
                      sd = ~NA_real_,
                      zscore = ~NA_real_,
                      lower = ~NA_real_,
@@ -94,9 +93,9 @@ predict.mb_analyses <- function(object,
   prediction <- prediction[is.finite(ic$IC)]
   ic <- ic[is.finite(ic$IC),,drop = FALSE]
 
-  prediction %<>% purrr::map2(ic$ICWt, function(x, y) {x$ICWt <- y; x})
+  prediction <- purrr::map2(prediction, ic$ICWt, function(x, y) {x$ICWt <- y; x})
 
-  prediction %<>% purrr::map_df(function(x) {x$.row <- 1:nrow(x); x})
+  prediction <- purrr::map_df(prediction, function(x) {x$.row <- 1:nrow(x); x})
 
   prediction %<>%
     dplyr::bind_rows(.id = ".model") %>%
@@ -111,6 +110,6 @@ predict.mb_analyses <- function(object,
                    pvalue = ~NA_real_) %>%
     dplyr::arrange_(~.row) %>%
     dplyr::select_(~estimate,~sd,~zscore,~lower,~upper,~pvalue)
-  new_data %<>% dplyr::bind_cols(prediction)
+  new_data <- dplyr::bind_cols(new_data, prediction)
   new_data
 }

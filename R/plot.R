@@ -7,9 +7,9 @@
 plot.mb_analysis <- function(x, param_type = "fixed", ...) {
   pars <- pars(x, param_type)
 
-  x %<>% as.mcmcr()
+  x <- as.mcmcr(x)
 
-  x %<>% subset(pars = pars)
+  x <- subset(x, pars = pars)
 
   plot(x)
 }

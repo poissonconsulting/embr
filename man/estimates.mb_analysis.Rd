@@ -19,6 +19,12 @@ An \code{\link[nlist:nlist]{nlist::nlist()}} object.
 \description{
 Calculates the estimates for an MCMC object.
 }
+\examples{
+estimates.foobar <- function(x, ...) {
+ NotYetImplemented()
+ # replace with code to get estimates for an object of class 'foobar'
+}
+}
 \seealso{
 Other {MCMC manipulations}: 
 \code{\link[universals]{bind_chains}()},

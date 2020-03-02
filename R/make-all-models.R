@@ -12,9 +12,9 @@ make_all_models <- function(model, drops = list()) {
 
   if (!length(drops)) return(models(full = model))
 
-  drops %<>% make_all_drops()
+  drops <- make_all_drops(drops)
   models <- rep(list(model), length(drops))
-  models %<>% purrr::map2(drops, drop_pars)
+  models <- purrr::map2(models, drops, drop_pars)
   names(models) <- names(drops)
   as.models(models)
 }

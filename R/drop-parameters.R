@@ -25,7 +25,7 @@ drop_pars.character <- function(x, pars = character(0), ...) {
     err("pars must be scalar")
 
   for (parameter in pars) {
-    x %<>% str_replace_all(str_c("\\b", parameter, "\\s+"), str_c("0 "))
+    x <- str_replace_all(x, str_c("\\b", parameter, "\\s+"), str_c("0 "))
   }
   x
 }
@@ -39,8 +39,8 @@ drop_pars.mb_model <- function(x, pars = character(0), ...) {
 
   if (!length(pars)) return(x)
 
-  x$code %<>% drop_pars(pars = pars)
-  x$new_expr %<>% drop_pars(pars = pars)
+  x$code <- drop_pars(x$code, pars = pars)
+  x$new_expr <- drop_pars(x$new_expr, pars = pars)
   x$drops <- list()
   x
 }
