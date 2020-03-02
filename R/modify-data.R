@@ -71,13 +71,12 @@ modify_data <- function(data, model, numericize_factors = FALSE) {
 
   nobs <- nrow(data)
 
-  data %<>%
-    select_rescale_data(model) %>%
-    as.list() %>%
-    numericize_logicals() %>%
-    numericize_dates() %>%
-    numericize_difftimes() %>%
-    add_nfactors()
+  data <- select_rescale_data(data, model)
+  data <- as.list(data)
+  data <- numericize_logicals(data)
+  data <- numericize_dates(data)
+  data <- numericize_difftimes(data)
+  data <- add_nfactors(data)
   if (numericize_factors) data <- numericize_factors(data)
   data$nObs <- nobs
   data <- model$modify_data(data)
@@ -110,13 +109,12 @@ modify_new_data <- function(data, data2, model, modify_new_data = NULL, numerici
 
   nobs <- nrow(data)
 
-  data %<>%
-    select_rescale_data(model, data2 = data2) %>%
-    as.list() %>%
-    numericize_logicals() %>%
-    numericize_dates() %>%
-    numericize_difftimes() %>%
-    add_nfactors()
+  data <- select_rescale_data(data, model, data2 = data2)
+  data <- as.list(data)
+  data <- numericize_logicals(data)
+  data <- numericize_dates(data)
+  data <- numericize_difftimes(data)
+  data <- add_nfactors(data)
 
   if (numericize_factors) data <- numericize_factors(data)
   data$nObs <- nobs

@@ -75,7 +75,7 @@ mcmc_derive_data.mb_analysis <- function(object,
   checkor(chk_data(new_data), check_vector(new_data, ""))
 
   if (is.character(new_data))
-    new_data %<>% newdata::new_data(data_set(object), .)
+    new_data <- newdata::new_data(data_set(object), new_data)
 
   object %<>% mcmc_derive(new_data = new_data, new_expr = new_expr, new_values = new_values,
                      term = term, modify_new_data = modify_new_data,

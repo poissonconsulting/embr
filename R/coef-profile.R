@@ -117,7 +117,7 @@ coef_profile.mb_analyses <- function(
     return(coef)
   }
 
-  suppressWarnings(coef %<>% purrr::map2_df(ic$model, function(x, y) {x$model <- y; x}))
+  suppressWarnings(coef <- purrr::map2_df(coef, ic$model, function(x, y) {x$model <- y; x}))
 
   coef <- dplyr::mutate(coef, .IN = `!!`(parse_expr("1")))
   coef <- tidyr::complete(coef, `!!`(parse_expr("term")), `!!`(parse_expr("model")), fill = list(estimate = 0, sd = 0, .IN = 0))

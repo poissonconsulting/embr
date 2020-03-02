@@ -79,9 +79,9 @@ plot_residuals.mb_analysis <- function(x, ...) {
 
   residuals <- residuals$estimate
 
-  variables %<>% dplyr::select(order(names(.))) %>%
-    purrr::discard(is.character) %>%
-    purrr::keep(is_multiple_values)
+  variables <- dplyr::select(variables, order(names(variables)))
+  variables <- purrr::discard(variables, is.character)
+  variables <- purrr::keep(variables, is_multiple_values)
 
   plots <- purrr::map2(variables, names(variables), plot_residuals, residuals = residuals) %>%
     purrr::discard(is.null)

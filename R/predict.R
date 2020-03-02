@@ -97,19 +97,18 @@ predict.mb_analyses <- function(object,
 
   prediction <- purrr::map_df(prediction, function(x) {x$.row <- 1:nrow(x); x})
 
-  prediction %<>%
-    dplyr::bind_rows(.id = ".model") %>%
-    dplyr::group_by_(~.row) %>%
-    dplyr::summarise_(
-      estimate = ~sum(ICWt * estimate)) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate_(lower = ~NA_real_,
+  prediction <- dplyr::bind_rows(prediction, .id = ".model")
+  prediction <- dplyr::group_by_(prediction, ~.row)
+  prediction <- dplyr::summarise_(prediction,
+      estimate = ~sum(ICWt * estimate))
+  prediction <- dplyr::ungroup(prediction)
+  prediction <- dplyr::mutate_(prediction, lower = ~NA_real_,
                    upper = ~NA_real_,
                    sd = ~NA_real_,
                    zscore = ~NA_real_,
-                   pvalue = ~NA_real_) %>%
-    dplyr::arrange_(~.row) %>%
-    dplyr::select_(~estimate,~sd,~zscore,~lower,~upper,~pvalue)
-  new_data <- dplyr::bind_cols(new_data, prediction)
+                   pvalue = ~NA_real_)
+  prediction <- dplyr::arrange_(prediction, ~.row)
+  prediction <- dplyr::select_(prediction, ~estimate,~sd,~zscore,~lower,~upper,~pvalue)
+  new_data <- dplyr::bind_cols(prediction, new_data, prediction)
   new_data
 }
