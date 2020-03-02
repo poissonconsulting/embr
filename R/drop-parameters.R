@@ -25,7 +25,7 @@ drop_pars.character <- function(x, pars = character(0), ...) {
     err("pars must be scalar", tidy = FALSE)
 
   for (parameter in pars) {
-    x <- str_replace_all(x, p0("\\b", parameter, "\\s+"), p0("0 "))
+    x <- gsub(p0("\\b", parameter, "\\s+"), p0("0 "), x)
   }
   x
 }

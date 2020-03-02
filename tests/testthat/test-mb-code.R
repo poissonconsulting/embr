@@ -10,6 +10,6 @@ test_that("template", {
   require(stringr, quietly = TRUE)
   code <- mb_code(.tmb_template)
   expect_identical(template(code), .tmb_template)
-  template(code) <- str_replace_all(template(code), "nll", "negll")
-  expect_identical(template(code), str_replace_all(.tmb_template, "nll", "negll"))
+  template(code) <- gsub("nll", "negll", template(code))
+  expect_identical(template(code), gsub("nll", "negll", .tmb_template))
 })

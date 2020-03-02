@@ -89,8 +89,8 @@ lmcmcarray <- function(x) {
   if (identical(nrow, 1L)) {
     dims <- 1L
   } else {
-    dims <- str_replace(x$term[nrow], "^(\\w+)(.*)", "\\2")
-    dims <- str_replace(dims, "^(\\[)(.*)(\\])$", "\\2")
+    dims <- sub("^(\\w+)(.*)", "\\2", x$term[nrow])
+    dims <- sub("^(\\[)(.*)(\\])$", "\\2", dims)
     dims <- str_split(dims, ",", simplify = FALSE)
     dims <- unlist(dims)
     dims <- as.integer(dims)
@@ -144,13 +144,13 @@ model_names <- function(x, drops) {
 }
 
 drop_indices <- function(x) {
-  str_replace(x, "^(\\w+)(\\[.*)", "\\1")
+  sub("^(\\w+)(\\[.*)", "\\1", x)
 }
 
 response_lm <- function(x) {
   if (!is.character(x)) x <- template(x)
-  x <- stringr::str_replace(x, "\\s+~.*", "")
-  x <- str_replace_all(x, "\\s{1,}", "")
+  x <- sub("\\s+~.*", "", x)
+  x <- gsub("\\s{1,}", "", x)
   x
 }
 

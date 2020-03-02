@@ -28,7 +28,7 @@ as.analyses <- function(x, ...) {
 #' @export
 as.mcmcr.mb_analysis_coef <- function(x, ...) {
   x <- dplyr::select_(x ~term, ~estimate)
-  x <- dplyr::mutate_(x, parameter = ~str_replace(term, "^(\\w+)(.*)", "\\1"))
+  x <- dplyr::mutate_(x, parameter = ~sub("^(\\w+)(.*)", "\\1", term))
   x <-  plyr::dlply(x,~parameter, lmcmcarray)
 
   class(x) <- "mcmcr"

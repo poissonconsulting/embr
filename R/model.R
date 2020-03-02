@@ -107,7 +107,7 @@ model_mb_code <- function(
               drops = drops,
               nthin = nthin)
   class(obj) <- class(x)
-  class(obj) <- str_replace(class(obj), "code", "model")
+  class(obj) <- sub("code", "model", class(obj))
   obj
 }
 
