@@ -1,11 +1,5 @@
 #' @export
-generics::tidy
-
-#' @export
 generics::glance
-
-#' @export
-generics::augment
 
 #' @export
 glance.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), esr = getOption("mb.esr", 0.33), ...) {
@@ -64,47 +58,3 @@ glance.mb_analyses <- function(
   }
   x
 }
-
-#' @export
-tidy.mb_analysis <- function(x, conf_level = getOption("mb.conf_level", 0.95), ...) {
-  coef <- coef(x, conf_level = conf_level, beep = FALSE)
-
-  coef <- coef[c("term", "estimate", "lower", "upper")]
-
-  if (!nrow(coef)) return(coef)
-
-  if (is_bayesian(x)) {
-    mcmcr <- as.mcmcr(x)
-    mcmcr <- subset(mcmcr, pars = pars(x))
-
-    rhat <- rhat(mcmcr, by = "term", as_df = TRUE)
-    esr <- esr(mcmcr, by = "term", as_df = TRUE)
-
-    coef <- merge(coef, esr, by = "term")
-    coef <- merge(coef, rhat, by = "term")
-  }
-  coef
-}
-
-#' @export
-augment.mb_analysis <- function(x, ...) {
-  data <- data_set(x)
-
-  if (is_new_parameter(x, "fit"))
-    data$fit <- fitted(x)$estimate
-  if (is_new_parameter(x, "residual"))
-    data$residual <- residuals(x)$estimate
-  if (is_new_parameter(x, "log_lik")) {
-    if (is_bayesian(x)) {
-      logLik <- logLik_matrix(x)
-      if (ncol(logLik) == nrow(data)) {
-        data$log_lik <- logColMeansExp(logLik)
-        data$vlog_lik <- apply(logLik, 2, var)
-      }
-    } else
-      data$log_lik <- predict(x, new_data = data_set(x), term = "log_lik")$estimate
-  }
-  data
-}
-
-
