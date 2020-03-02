@@ -134,11 +134,11 @@ model_names <- function(x, drops) {
   stopifnot(all(unique(unlist((x))) %in% drops))
   x <- llply(x, remainder, drops)
   x[vapply(x, length, 1L) == 0] <- "base"
-  x <- llply(x, str_c, collapse = "+")
+  x <- llply(x, p0, collapse = "+")
   x <- unlist(x)
-  x <- vapply(x, function(x) str_c("base+", x, collapse = ""), "")
+  x <- vapply(x, function(x) p0("base+", x, collapse = ""), "")
   x[x == "base+base"] <- "base"
-  x[x == str_c("base+", str_c(drops, collapse = "+"), collapse = "")] <- "full"
+  x[x == p0("base+", p0(drops, collapse = "+"), collapse = "")] <- "full"
   names(x) <- NULL
   x
 }

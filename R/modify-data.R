@@ -4,7 +4,7 @@ add_nfactors <- function(data) {
   if (!length(factor)) return(data)
 
   factor <- llply(factor, nlevels)
-  names(factor) <- str_c("n", names(factor))
+  names(factor) <- p0("n", names(factor))
 
   if (any(names(factor) %in% names(data)))
     err("nFactor names are reserved", tidy = FALSE)

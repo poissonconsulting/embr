@@ -35,7 +35,7 @@ predict.mb_analysis <- function(object,
 
   if (beep) on.exit(beepr::beep())
 
-  term <- str_c("^", term, "$")
+  term <- p0("^", term, "$")
 
   object <- mcmc_derive_data(object, new_data = new_data, new_expr = new_expr,
                           new_values = new_values, term = term,

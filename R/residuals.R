@@ -102,7 +102,7 @@ analyse_residuals <- function(x) {
   #   purrr::discard(is.character) %>%
   #   purrr::keep(is_multiple_values)
   #
-  # models <- str_c("residual ~ ", names(data)) %>% c("residual ~ 1", .) %>%
+  # models <- p0("residual ~ ", names(data)) %>% c("residual ~ 1", .) %>%
   #   purrr::map(model) %>%
   #   as.models()
   #

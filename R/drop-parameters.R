@@ -21,11 +21,11 @@ drop_pars.character <- function(x, pars = character(0), ...) {
 
   # check that [ not in parameter name or followed by [ in x
   if (any(str_detect(pars, "\\["))) err("pars must be scalar", tidy = FALSE)
-  if (any(str_detect(x, str_c(pars, "\\s*\\["))))
+  if (any(str_detect(x, p0(pars, "\\s*\\["))))
     err("pars must be scalar", tidy = FALSE)
 
   for (parameter in pars) {
-    x <- str_replace_all(x, str_c("\\b", parameter, "\\s+"), str_c("0 "))
+    x <- str_replace_all(x, p0("\\b", parameter, "\\s+"), p0("0 "))
   }
   x
 }
