@@ -1,3 +1,6 @@
+#' @export
+stats::coef
+
 get_frequentist_coef <- function(object, conf_level = 0.95) {
   object <- dplyr::mutate_(object,
     zscore = ~estimate/sd,

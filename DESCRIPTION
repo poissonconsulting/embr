@@ -9,9 +9,9 @@ Depends:
     R (>= 3.4.0),
     mcmcr (>= 0.2.0.9021),
     mcmcdata,
-    mcmcderive,
-    stats
+    mcmcderive
 Imports:
+    stats,
     chk,
     beepr,
     dplyr,

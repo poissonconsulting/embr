@@ -1,3 +1,6 @@
+#' @export
+stats::terms
+
 #' Number of terms
 #'
 #' @param x The object to get the nterms for

@@ -1,3 +1,9 @@
+#' @export
+stats::fitted
+
+#' @export
+stats::predict
+
 #' Fitted Values
 #'
 #' Extract fitted values for a MB analysis.

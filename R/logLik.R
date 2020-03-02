@@ -1,3 +1,6 @@
+#' @export
+stats::logLik
+
 mcmc_derive_logLik <- function(x) {
   logLik <- mcmc_derive(x, term = "log_lik")
 
