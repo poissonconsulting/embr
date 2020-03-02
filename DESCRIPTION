@@ -14,7 +14,6 @@ Depends:
 Imports:
     chk,
     beepr,
-    checkr,
     dplyr,
     foreach,
     graphics,

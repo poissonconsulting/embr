@@ -22,7 +22,10 @@ select_data <- function(data, select_data, center, scale, random_effects) {
   }
 
   names(select_data) <- rescale::get_rescaler_colnames(names(select_data))
-  checkr::check_data(data, select_data)
+  if(is.character(select_data)) {
+    check_names(data, select_data)
+  } else
+    check_data(data, select_data)
   data <- data[names(select_data)]
   data
 }
