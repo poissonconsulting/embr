@@ -20,7 +20,7 @@ check_drops <- function(drops) {
 #' @return The object or throws an informative error.
 #' @export
 check_mb_code <- function(object, object_name = substitute(object)) {
-  if (!is.character(object_name)) object_name %<>% deparse()
+  if (!is.character(object_name)) object_name <- deparse(object_name)
 
   if (!is.mb_code(object)) err(object_name, " must inherit from class mb_code")
   object
@@ -33,7 +33,7 @@ check_mb_code <- function(object, object_name = substitute(object)) {
 #' @return The object or throws an informative error.
 #' @export
 check_mb_analysis <- function(object, object_name = substitute(object)) {
-  if (!is.character(object_name)) object_name %<>% deparse()
+  if (!is.character(object_name)) object_name <- deparse(object_name)
 
   if (!is.mb_analysis(object)) err(object_name, " must inherit from class mb_analysis")
   object
@@ -46,15 +46,15 @@ check_mb_analysis <- function(object, object_name = substitute(object)) {
 #' @return The object or throws an informative error.
 #' @export
 check_mb_model <- function(object, object_name = substitute(object)) {
-  if (!is.character(object_name)) object_name %<>% deparse()
+  if (!is.character(object_name)) object_name <- deparse(object_name)
 
   if (!is.mb_model(object)) err(object_name, " must inherit from class mb_model")
   object
 }
 
 check_x_in_y <- function(x, y, x_name = substitute(x), y_name = substitute(y), type_x = "values", type_y = "values") {
-  if (is.name(x_name)) x_name %<>% deparse()
-  if (is.name(y_name)) y_name %<>% deparse()
+  if (is.name(x_name)) x_name <- deparse(x_name)
+  if (is.name(y_name)) y_name <- deparse(y_name)
 
   if (is.null(y)) return(x)
   if (!length(x)) return(x)
@@ -65,8 +65,8 @@ check_x_in_y <- function(x, y, x_name = substitute(x), y_name = substitute(y), t
 }
 
 check_x_not_in_y <- function(x, y, x_name = substitute(x), y_name = substitute(y), type_x = "values", type_y = "values") {
-  if (is.name(x_name)) x_name %<>% deparse()
-  if (is.name(y_name)) y_name %<>% deparse()
+  if (is.name(x_name)) x_name <- deparse(x_name)
+  if (is.name(y_name)) y_name <- deparse(y_name)
 
   if (is.null(y)) return(x)
   if (!length(x)) return(x)
@@ -92,7 +92,7 @@ check_unique_character_vector <- function(x, x_name = substitute(x)) {
 }
 
 check_uniquely_named_character_vector <- function(x, x_name = substitute(x)) {
-  if (is.name(x)) x_name %<>% deparse()
+  if (is.name(x)) x_name <- deparse(x_name)
 
   if (!is.character(x)) err(x_name, " must be a character vector")
 
@@ -111,7 +111,7 @@ check_uniquely_named_character_vector <- function(x, x_name = substitute(x)) {
 #' @return The original object or throws an informative error.
 #' @export
 check_uniquely_named_list <- function(x, x_name = substitute(x)) {
-  if (is.name(x)) x_name %<>% deparse()
+  if (is.name(x)) x_name <- deparse(x_name)
 
   if (!is.list(x)) err(x_name, " must be a list")
   if (!length(x)) return(x)
@@ -121,7 +121,7 @@ check_uniquely_named_list <- function(x, x_name = substitute(x)) {
 }
 
 check_all_elements_class_character <- function(x, x_name = substitute(x)) {
-  if (is.name(x)) x_name %<>% deparse()
+  if (is.name(x)) x_name <- deparse(x_name)
 
   if (!length(x)) return(x)
 
@@ -131,7 +131,7 @@ check_all_elements_class_character <- function(x, x_name = substitute(x)) {
 }
 
 check_all_elements_unique <- function(x, x_name = substitute(x)) {
-    if (is.name(x)) x_name %<>% deparse()
+  if (is.name(x)) x_name <- deparse(x_name)
 
   if (!length(x)) return(x)
 

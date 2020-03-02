@@ -54,7 +54,7 @@ glance.mb_analyses <- function(
 
     return(as_tibble(glance))
   }
-  x %<>% purrr::map_dfr(glance, .id = "model")
+  x <- purrr::map_dfr(x, glance, .id = "model")
   if("IC" %in% colnames(x)) {
     x$deltaIC <- x$IC - min(x$IC)
     colnames <- colnames(x)
@@ -80,8 +80,8 @@ tidy.mb_analysis <- function(x, conf_level = getOption("mb.conf_level", 0.95), .
     rhat <- rhat(mcmcr, by = "term", as_df = TRUE)
     esr <- esr(mcmcr, by = "term", as_df = TRUE)
 
-    coef %<>% merge(esr, by = "term")
-    coef %<>% merge(rhat, by = "term")
+    coef <- merge(coef, esr, by = "term")
+    coef <- merge(coef, rhat, by = "term")
   }
   coef
 }

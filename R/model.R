@@ -18,7 +18,7 @@ model.character <- function(
   center = character(0), scale = character(0), modify_data = identity, nthin = getOption("mb.nthin", 1L),
   new_expr = character(0), modify_new_data = identity, drops = list(), ...) {
 
-  x %<>% mb_code()
+  x <- mb_code(x)
 
   model(x, gen_inits = gen_inits, fixed = fixed, derived = derived,
         random_effects = random_effects, select_data = select_data,
@@ -89,9 +89,9 @@ model_mb_code <- function(
   derived <- check_model_pars(x, fixed, random = names(random_effects),
                          derived = derived, drops = unlist(drops))
 
-  center %<>% sort()
-  scale %<>% sort()
-  random_effects %<>% sort_nlist()
+  center <- sort(center)
+  scale <- sort(scale)
+  random_effects <- sort_nlist(random_effects)
 
   obj <- list(code = x,
               gen_inits = gen_inits,

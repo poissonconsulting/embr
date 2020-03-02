@@ -45,12 +45,12 @@ backwards.mb_model <- function(model, data, drops = list(), conf_level = getOpti
   while (length(next_drop)) {
     cat("dropping", next_drop, "...\n")
 
-    drops %<>% eliminate_drop(next_drop)
-    to_drop %<>% c(next_drop)
-    dropped %<>% c(to_drop)
+    drops <- eliminate_drop(drops, next_drop)
+    to_drop <- c(to_drop, next_drop)
+    dropped <- c(dropped, to_drop)
 
     analysis <- analyse(model, data, drop = to_drop, beep = FALSE)
-    analyses %<>% c(list(analysis))
+    analyses <- c(analyses, list(analysis))
 
     next_drop <- next_drop(analysis, drops, conf_level = conf_level)
   }

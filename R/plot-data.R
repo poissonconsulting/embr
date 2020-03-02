@@ -9,7 +9,7 @@ plot_data <- function(x, ...) {
 
 ggplot_data <- function(x, y, x_name, y_name) {
   data <- tibble(x, y)
-  data %<>% dplyr::filter(!is.na(x), !is.na(y))
+  data <- dplyr::filter(data, !is.na(x), !is.na(y))
 
   if (length(unique(data$x)) <= 1) return(invisible(NULL))
 
@@ -38,9 +38,9 @@ plot_data.factor <- function(x, y, x_name, y_name, ...) {
 
 #' @export
 plot_data.data.frame <- function(x, ...) {
-  x %<>% dplyr::select(order(names(.))) %>%
-    purrr::discard(is.character) %>%
-    purrr::keep(is_multiple_values)
+  x <- dplyr::select(x, order(names(x)))
+  x <- purrr::discard(x, is.character)
+  x <- purrr::keep(x, is_multiple_values)
 
   if(!ncol(x)) return(invisible(NULL))
 
@@ -49,14 +49,14 @@ plot_data.data.frame <- function(x, ...) {
     for (y_name in names(x)) {
       if (!identical(x_name, y_name)) {
         plot <- plot_data(x = x[[x_name]], y = x[[y_name]],
-                               x_name = x_name, y_name = y_name) %>%
-          list() %>%
-          stats::setNames(paste(x_name, y_name))
-        plots %<>% c(plot)
+                               x_name = x_name, y_name = y_name)
+        plot <- list(plot)
+        plot <- stats::setNames(plot, paste(x_name, y_name))
+        plots <- c(plots, plot)
       }
     }
   }
-  plots %<>% purrr::discard(is.null)
+  plots <- purrr::discard(plots, is.null)
   plots
 }
 

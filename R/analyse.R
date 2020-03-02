@@ -63,7 +63,7 @@ analyse.character <- function(x, data,
                               glance = getOption("mb.glance", TRUE),
                               beep = getOption("mb.beep", TRUE),
                               ...) {
-  x %<>% model(select_data = select_data)
+  x <- model(x, select_data = select_data)
   analyse(x, data = data,
           parallel = parallel, nchains = nchains, niters = niters, nthin = nthin, quiet = quiet,
           glance = glance, beep = beep)
@@ -172,11 +172,11 @@ analyse.mb_models <- function(x, data,
                           parallel = parallel, quiet = quiet, glance = glance, beep = FALSE, ...)
 
   if (is.data.frame(data)) {
-    analyses %<>% as_mb_analyses(names)
+    analyses <- as_mb_analyses(analyses, names)
     return(analyses)
   }
-  analyses %<>% purrr::transpose()
-  analyses %<>% purrr::map(as_mb_analyses, names)
+  analyses <- purrr::transpose(analyses)
+  analyses <- purrr::map(analyses, as_mb_analyses, names)
   class(analyses) <- "mb_meta_analyses"
   analyses
 }
