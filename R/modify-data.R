@@ -78,9 +78,9 @@ modify_data <- function(data, model, numericize_factors = FALSE) {
     numericize_dates() %>%
     numericize_difftimes() %>%
     add_nfactors()
-  if (numericize_factors) data %<>% numericize_factors()
+  if (numericize_factors) data <- numericize_factors(data)
   data$nObs <- nobs
-  data %<>% model$modify_data()
+  data <- model$modify_data(data)
   data
 }
 
@@ -118,8 +118,8 @@ modify_new_data <- function(data, data2, model, modify_new_data = NULL, numerici
     numericize_difftimes() %>%
     add_nfactors()
 
-  if (numericize_factors) data %<>% numericize_factors()
+  if (numericize_factors) data <- numericize_factors(data)
   data$nObs <- nobs
-  data %<>% modify_new_data()
+  data <- modify_new_data(data)
   data
 }

@@ -29,9 +29,9 @@ data_set.mb_analysis <- function(x, modify = FALSE, numericize_factors = FALSE,
   }
 
   if (modify) {
-    data %<>% modify_data(model(x), numericize_factors = numericize_factors)
+    data <- modify_data(data, model(x), numericize_factors = numericize_factors)
   } else
-      data %<>% dplyr::as.tbl()
+      data <- dplyr::as.tbl(data)
   data
 }
 

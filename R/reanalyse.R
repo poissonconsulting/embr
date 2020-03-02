@@ -83,7 +83,7 @@ reanalyse.mb_analysis <- function(object,
                       nthin = nthin(object) * 2L,
                       parallel = parallel, quiet = quiet,
                       glance = glance, beep = FALSE)
-    nreanalyses %<>% magrittr::subtract(1L)
+    nreanalyses <- nreanalyses - 1L
   }
   object
 }
@@ -122,11 +122,11 @@ reanalyse.mb_analyses <- function(object,
     names(object) <- 1:length(object)
   }
 
-  object %<>% purrr::imap(reanalyse_model, rhat = rhat, esr = esr,
+  object <- purrr::imap(object, reanalyse_model, rhat = rhat, esr = esr,
                           nreanalyses = nreanalyses, duration = duration,
                           quiet = quiet, glance = glance, beep = FALSE, ...)
 
-  object %<>% as_mb_analyses(names)
+  object <- as_mb_analyses(object, names)
   object
 }
 
@@ -164,11 +164,11 @@ reanalyse.mb_meta_analysis <- function(object,
     names(object) <- 1:length(object)
   }
 
-  object %<>% purrr::imap(reanalyse_data, rhat = rhat, esr = esr,
+  object <- purrr::imap(object, reanalyse_data, rhat = rhat, esr = esr,
                           nreanalyses = nreanalyses, duration = duration,
                           quiet = quiet, glance = glance, beep = FALSE, ...)
 
-  object %<>% as_mb_meta_analysis(names)
+  object <- as_mb_meta_analysis(object, names)
   object
 }
 
@@ -206,15 +206,15 @@ reanalyse.mb_meta_analyses <- function(object,
     names(object) <- 1:length(object)
   }
 
-  object %<>% purrr::transpose()
-  object %<>% lapply(as_mb_meta_analysis)
+  object <- purrr::transpose(object)
+  object <- lapply(object, as_mb_meta_analysis)
 
-  object %<>% purrr::imap(reanalyse_model, rhat = rhat, esr = esr,
+  object <- purrr::imap(object, reanalyse_model, rhat = rhat, esr = esr,
                           nreanalyses = nreanalyses, duration = duration,
                           quiet = quiet, glance = glance, beep = FALSE, ...)
 
-  object %<>% purrr::transpose()
-  object %<>% lapply(as_mb_analyses)
+  object <- purrr::transpose(object)
+  object <- lapply(object, as_mb_analyses)
 
   names(object) <- names
   class(object) <- "mb_meta_analyses"

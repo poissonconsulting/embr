@@ -17,7 +17,7 @@ monitor <- function(object, param_type = "all", scalar = NA) {
     names() %>%
     c(object$derived)
 
-  named %<>% intersect(pars)
+  named <- intersect(named, pars)
   pars <- pars[grepl(regexp, pars, perl = TRUE)]
 
   pars %<>%

@@ -59,7 +59,7 @@ pars.mb_model <- function(x, param_type = "all", scalar = NA, ...) {
 
   if (param_type %in% c("primary", "all")) {
     pars <- c("fixed", "random")
-    if (param_type == "all") pars %<>% c("derived")
+    if (param_type == "all") pars <- c(pars, "derived")
 
     pars %<>%
       purrr::map(pars_arg2to1, x = x, scalar = scalar) %>%
@@ -71,8 +71,7 @@ pars.mb_model <- function(x, param_type = "all", scalar = NA, ...) {
 
   random <- names(random_effects(x))
   if (is.null(random)) random <- character(0)
-  random %<>%
-    sort()
+  random <- sort(random)
 
   if (param_type == "random") return(random)
 
@@ -82,10 +81,9 @@ pars.mb_model <- function(x, param_type = "all", scalar = NA, ...) {
 
   pars <- pars(code(x), param_type = "all", scalar = scalar)
 
-  pars %<>%
-    setdiff(random) %>%
-    setdiff(derived) %>%
-    sort()
+  pars <- setdiff(pars, random)
+  pars <- setdiff(pars, derived)
+  pars <- sort(pars)
 
   pars
 }

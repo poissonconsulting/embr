@@ -119,27 +119,25 @@ coef_profile.mb_analyses <- function(
 
   suppressWarnings(coef %<>% purrr::map2_df(ic$model, function(x, y) {x$model <- y; x}))
 
-  coef %<>%
-    dplyr::mutate(.IN = `!!`(parse_expr("1"))) %>%
-    tidyr::complete(`!!`(parse_expr("term")), `!!`(parse_expr("model")), fill = list(estimate = 0, sd = 0, .IN = 0))  %>%
-    dplyr::inner_join(dplyr::select(ic, `!!`(parse_expr("model")), `!!`(parse_expr("ICWt"))), by = "model") %>%
-    dplyr::mutate(coef = `!!`(parse_expr("estimate")),
-                   var = `!!`(parse_expr("pow(sd,2)"))) %>%
-    dplyr::group_by(`!!`(parse_expr("term"))) %>%
-    dplyr::summarise(
+  coef <- dplyr::mutate(coef, .IN = `!!`(parse_expr("1")))
+  coef <- tidyr::complete(coef, `!!`(parse_expr("term")), `!!`(parse_expr("model")), fill = list(estimate = 0, sd = 0, .IN = 0))
+  coef <- dplyr::inner_join(coef, dplyr::select(ic, `!!`(parse_expr("model")), `!!`(parse_expr("ICWt"))), by = "model")
+  coef <- dplyr::mutate(coef, coef = `!!`(parse_expr("estimate")),
+                   var = `!!`(parse_expr("pow(sd,2)")))
+  coef <- dplyr::group_by(coef, `!!`(parse_expr("term")))
+  coef <- dplyr::summarise(coef,
       estimate = `!!`(parse_expr("sum(ICWt * estimate)")),
       sd = `!!`(parse_expr("sqrt(sum(ICWt * (var + pow(coef - estimate, 2))))")),
       nmodels = `!!`(parse_expr("nmodels")),
       proportion = `!!`(parse_expr("sum(.IN)/nmodels")),
-      ICWt = `!!`(parse_expr("min(sum(ICWt * .IN), 1.00)"))) %>%
-    dplyr::ungroup()
+      ICWt = `!!`(parse_expr("min(sum(ICWt * .IN), 1.00)")))
+  coef <- dplyr::ungroup(coef)
 
   if(is_bayesian(object))
     coef$sd <- NA_real_
 
-  coef %<>%
-    get_frequentist_coef() %>%
-    dplyr::select(`!!`(parse_expr("term")),
+  coef <- get_frequentist_coef(coef)
+  coef <- dplyr::select(coef, `!!`(parse_expr("term")),
                   `!!`(parse_expr("estimate")),
                   `!!`(parse_expr("sd")),
                   `!!`(parse_expr("zscore")),

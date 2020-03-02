@@ -20,14 +20,14 @@ mcmc_derive_fun <- function(object,
   data <- mbr::modify_new_data(new_data, data2 = data_set(object), model = model,
                                modify_new_data = modify_new_data)
 
-  object %<>% as.mcmcr()
+  object <- as.mcmcr(object)
 
-  object %<>% zero_random_effects(data, model$random_effects)
+  object <- zero_random_effects(object, data, model$random_effects)
 
-  data %<>% numericize_factors()
-  data %<>% c(new_values)
+  data <- numericize_factors(data)
+  data <- c(data, new_values)
 
-  object %<>% mcmc_derive(expr = new_expr, values = data, monitor = term,
+  object <- mcmc_derive(object, expr = new_expr, values = data, monitor = term,
                      parallel = parallel)
   object
 }

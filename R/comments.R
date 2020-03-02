@@ -34,32 +34,32 @@ rm_comments.character <- function(object, comment_string = "#", ...) {
 
 #' @export
 rm_comments.mb_code <- function(object, ...) {
-  object$template %<>% rm_comments(comment_string = comment_string(object))
+  object$template <- rm_comments(object$template, comment_string = comment_string(object))
   object
 }
 
 #' @export
 rm_comments.mb_model <- function(object, ...) {
-  object$code %<>% rm_comments()
+  object$code <- rm_comments(object$code)
   object
 }
 
 #' @export
 rm_comments.mb_analysis <- function(object, ...) {
-  object$model %<>% rm_comments()
+  object$model <- rm_comments(object$model)
   object
 }
 
 #' @export
 rm_comments.mb_models <- function(object, ...) {
-  object %<>% lapply(rm_comments)
+  object <- lapply(object, rm_comments)
   class(object) <- "mb_models"
   object
 }
 
 #' @export
 rm_comments.mb_analyses <- function(object, ...) {
-  object %<>% lapply(rm_comments)
+  object <- lapply(object, rm_comments)
   class(object) <- "mb_analyses"
   object
 }

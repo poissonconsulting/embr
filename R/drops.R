@@ -16,7 +16,7 @@ not_last <- function(x) {
 eliminate_drop <- function(drops, drop) {
   check_drops(drops)
   chk_s3_class(drop, "character")
-  drops %<>% llply(eliminate, drop)
+  drops <- llply(drops, eliminate, drop)
   drops <- drops[vapply(drops, length, 1L) > 0]
   drops
 }
@@ -71,12 +71,12 @@ next_drop <- function(analysis, drops, conf_level) {
 
   if (any(is.na(coef$pvalue))) err("undefined pvalues")
 
-  coef %<>% dplyr::filter_(~pvalue > (1 - conf_level))
+  coef <- dplyr::filter_(coef, ~pvalue > (1 - conf_level))
   if (!nrow(coef)) return(character(0))
 
-  coef %<>% dplyr::filter_(~term %in% drop)
+  coef <- dplyr::filter_(coef, ~term %in% drop)
   if (!nrow(coef)) return(character(0))
 
-  coef %<>% dplyr::arrange_(~dplyr::desc(pvalue))
+  coef <- dplyr::arrange_(coef, ~dplyr::desc(pvalue))
   coef$term[1]
 }
