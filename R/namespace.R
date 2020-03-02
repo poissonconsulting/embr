@@ -3,8 +3,8 @@
 #' @importFrom foreach getDoParWorkers
 #' @importFrom graphics plot
 #' @importFrom lubridate dminutes dhours is.duration
-#' @importFrom matrixStats colLogSumExps colVars
+#' @importFrom matrixStats colLogSumExps
 #' @importFrom plyr llply
 #' @importFrom rescale check_valid_rescalers
-#' @importFrom stats fitted logLik median predict terms
+#' @importFrom stats var fitted logLik median predict terms
 NULL

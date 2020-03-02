@@ -24,7 +24,7 @@ IC.mb_analysis <- function(object, ...) {
   }
   logLik <- logLik_matrix(object)
 
-  npars <- matrixStats::colVars(logLik)
+  npars <- apply(logLik, 2, var)
   npars <- sum(npars)
 
   logLik <- logColMeansExp(logLik)
