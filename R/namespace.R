@@ -4,7 +4,7 @@
 #' @importFrom foreach getDoParWorkers
 #' @importFrom graphics plot
 #' @importFrom lubridate dminutes dhours is.duration
-#' @importFrom magrittr %>% use_series
+#' @importFrom magrittr %>%
 #' @importFrom matrixStats colLogSumExps colVars
 #' @importFrom plyr llply
 #' @importFrom rescale check_valid_rescalers

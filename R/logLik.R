@@ -17,7 +17,7 @@ mcmc_derive_logLik <- function(x) {
 logLik_matrix <- function(x) {
   matrix <- mcmc_derive_logLik(x)
   matrix <- mcmcr::collapse_chains(matrix)
-  matrix <- magrittr::use_series(matrix, "log_lik")
+  matrix <- matrix$log_lik
   matrix <- matrix(matrix, ncol = sample_size(x))
   matrix
 }
