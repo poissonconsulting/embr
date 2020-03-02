@@ -83,8 +83,8 @@ plot_residuals.mb_analysis <- function(x, ...) {
   variables <- purrr::discard(variables, is.character)
   variables <- purrr::keep(variables, is_multiple_values)
 
-  plots <- purrr::map2(variables, names(variables), plot_residuals, residuals = residuals) %>%
-    purrr::discard(is.null)
+  plots <- purrr::map2(variables, names(variables), plot_residuals, residuals = residuals)
+  plots <- purrr::discard(plots, is.null)
   plots
 }
 

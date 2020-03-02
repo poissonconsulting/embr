@@ -1,6 +1,5 @@
 rm(list = ls())
 
-library(magrittr)
 library(dplyr)
 library(devtools)
 

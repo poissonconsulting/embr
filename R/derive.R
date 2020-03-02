@@ -35,9 +35,10 @@ mcmc_derive.mb_analysis <- function(object,
 
   if (identical(ref_data, FALSE)) return(new_data)
 
-  if (identical(ref_data, TRUE))
-    ref_data <- data_set(object) %>% newdata::new_data()
-
+  if (identical(ref_data, TRUE)) {
+    ref_data <- data_set(object)
+    ref_data <- newdata::new_data(ref_data)
+  }
   ref_data <- mcmc_derive_fun(object, new_data = ref_data, new_expr = new_expr,
                            new_values = new_values, term = term,
                            modify_new_data = modify_new_data,
@@ -88,7 +89,7 @@ mcmc_derive.mb_analyses <- function(object,
                       modify_new_data = modify_new_data, ref_data = ref_data,
                       parallel = parallel, quiet = quiet, beep = FALSE)
 
-  set_weight <- function(x, weight) mcmc_map(x, .f = magrittr::multiply_by, weight)
+  set_weight <- function(x, weight) mcmc_map(x, .f = function(x, weight) x * weight, weight = weight)
 
   object <- purrr::map2(object, ic$ICWt, set_weight)
 

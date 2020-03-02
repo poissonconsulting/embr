@@ -20,7 +20,6 @@ Imports:
     foreach,
     graphics,
     ggplot2,
-    magrittr,
     matrixStats,
     newdata,
     parallel,

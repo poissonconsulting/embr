@@ -8,7 +8,6 @@ test_that("mb_code", {
 
 test_that("template", {
   require(stringr, quietly = TRUE)
-  require(magrittr, quietly = TRUE)
   code <- mb_code(.tmb_template)
   expect_identical(template(code), .tmb_template)
   template(code) <- str_replace_all(template(code), "nll", "negll")

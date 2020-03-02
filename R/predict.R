@@ -87,8 +87,8 @@ predict.mb_analyses <- function(object,
     return(prediction)
   }
 
-  new_data <- prediction[[1]] %>%
-   dplyr::select_(~-estimate, ~-sd, ~-zscore, ~-lower, ~-upper, ~-pvalue)
+  new_data <- prediction[[1]]
+  new_data <- dplyr::select_(new_data, ~-estimate, ~-sd, ~-zscore, ~-lower, ~-upper, ~-pvalue)
 
   prediction <- prediction[is.finite(ic$IC)]
   ic <- ic[is.finite(ic$IC),,drop = FALSE]

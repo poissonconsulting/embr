@@ -13,9 +13,9 @@ monitor <- function(object, param_type = "all", scalar = NA) {
                            scalar = scalar)
 
   regexp <- object$fixed
-  named <- object$random_effects %>%
-    names() %>%
-    c(object$derived)
+  named <- object$random_effects
+  named <- names(named)
+  named <- c(named, object$derived)
 
   named <- intersect(named, pars)
   pars <- pars[grepl(regexp, pars, perl = TRUE)]

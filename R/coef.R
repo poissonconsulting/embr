@@ -65,20 +65,20 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
   }
 
   if (is_bayesian(object)) {
-    coef <- as.mcmcr(object) %>%
-      subset(pars = pars) %>%
-      coef(estimate = estimate)
+    coef <- as.mcmcr(object)
+    coef <- subset(coef, pars = pars)
+    coef <- coef(coef, estimate = estimate)
 
     if (!include_constant) coef <- dplyr::filter_(coef, ~lower != upper)
 
   } else {
-    coef <- as.mcmcr(object) %>%
-      subset(pars = pars) %>%
-      coef()
+    coef <- as.mcmcr(object)
+    coef <- subset(coef, pars = pars)
+    coef <- coef(coef)
 
-    sd <- as.mcmcr(object$sd) %>%
-      subset(pars = pars) %>%
-      coef()
+    sd <- as.mcmcr(object$sd)
+    sd <- subset(sd, pars = pars)
+    sd <- coef(sd)
 
     coef$sd <- sd$estimate
 

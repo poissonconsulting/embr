@@ -39,9 +39,9 @@ logLik.mb_analysis <- function(object, ...) {
     return(NA_real_)
   }
 
-  logLik <- logLik_matrix(object) %>%
-    logColMeansExp() %>%
-    sum()
+  logLik <- logLik_matrix(object)
+  logLik <- logColMeansExp(logLik)
+  logLik <- sum(logLik)
 
   logLik
 }

@@ -74,8 +74,8 @@ tidy.mb_analysis <- function(x, conf_level = getOption("mb.conf_level", 0.95), .
   if (!nrow(coef)) return(coef)
 
   if (is_bayesian(x)) {
-    mcmcr <- as.mcmcr(x) %>%
-      subset(pars = pars(x))
+    mcmcr <- as.mcmcr(x)
+    mcmcr <- subset(mcmcr, pars = pars(x))
 
     rhat <- rhat(mcmcr, by = "term", as_df = TRUE)
     esr <- esr(mcmcr, by = "term", as_df = TRUE)

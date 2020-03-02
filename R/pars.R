@@ -15,7 +15,7 @@ pars.character <- function(x, param_type = "all", scalar = NA, ...) {
   x <- str_extract_all(x, "\\w+")
   x <- unlist(x)
   x <- unique(x)
-  x <- magrittr::extract(x, is.syntactic(x))
+  x <- x[is.syntactic(x)]
 
   if(is.null(x)) return(character(0))
   sort(x)
@@ -39,7 +39,7 @@ pars.mb_code <- function(x, param_type = "all", scalar = NA, ...) {
   x <- str_extract_all(x, "\\w+")
   x <- unlist(x)
   x <- unique(x)
-  x <- magrittr::extract(x, is.syntactic(x))
+  x <- x[is.syntactic(x)]
 
   if(is.null(x)) return(character(0))
   sort(x)
@@ -72,8 +72,8 @@ pars.mb_model <- function(x, param_type = "all", scalar = NA, ...) {
 
   if (param_type == "random") return(random)
 
-  derived <- x$derived %>%
-    sort()
+  derived <- x$derived
+  derived <- sort(derived)
   if (param_type == "derived") return(derived)
 
   pars <- pars(code(x), param_type = "all", scalar = scalar)
@@ -111,9 +111,9 @@ pars.mb_analysis <- function(x, param_type = "all", scalar = NA, ...) {
 
   if (param_type ==  "random") return(random)
 
-  derived <- x$model$derived %>%
-    intersect(pars) %>%
-    sort()
+  derived <- x$model$derived
+  derived <- intersect(derived, pars)
+  derived <- sort(derived)
 
   if (param_type == "derived") return(derived)
 

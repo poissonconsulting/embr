@@ -51,7 +51,8 @@ IC.mb_analyses <- function(object, ...) {
   data <- llply(object, data_set)
   if (!all(vapply(data, identical, TRUE, data[[1]]))) err("all elements of object must have the same data")
 
-  random_effects <- llply(object, random_effects) %>% llply(sort_random_effects)
+  random_effects <- llply(object, random_effects)
+  random_effects <- llply(random_effects, sort_random_effects)
   if (!all(vapply(data, identical, TRUE, data[[1]]))) err("all elements of object must have the same random effects")
 
   tibble <- tibble(model = names(object))

@@ -1,7 +1,10 @@
 full_drop <- function(drops) {
   check_drops(drops)
   if (!length(drops)) return(character(0))
-  unlist(drops) %>% unique() %>% sort()
+  drops <- unlist(drops)
+  drops <- unique(drops)
+  drops <- sort(drops)
+  drops
 }
 
 eliminate <- function(x, y) {
@@ -41,7 +44,8 @@ impossible_drop <- function(drops) {
 
 recursive_drop <- function(drops, drop) {
   list <- list(drop)
-  drop2 <- eliminate_drop(drops, drop) %>% possible_drop()
+  drop2 <- eliminate_drop(drops, drop)
+  drop2 <- possible_drop(drop2)
   for (d2 in drop2) {
     d2 <- c(drop, d2)
     list <- c(list, recursive_drop(drops, d2))

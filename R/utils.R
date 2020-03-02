@@ -89,11 +89,11 @@ lmcmcarray <- function(x) {
   if (identical(nrow, 1L)) {
     dims <- 1L
   } else {
-    dims <- str_replace(x$term[nrow], "^(\\w+)(.*)", "\\2") %>%
-      str_replace("^(\\[)(.*)(\\])$", "\\2") %>%
-      str_split(",", simplify = FALSE) %>%
-      unlist() %>%
-      as.integer()
+    dims <- str_replace(x$term[nrow], "^(\\w+)(.*)", "\\2")
+    dims <- str_replace(dims, "^(\\[)(.*)(\\])$", "\\2")
+    dims <- str_split(dims, ",", simplify = FALSE)
+    dims <- unlist(dims)
+    dims <- as.integer(dims)
   }
   dims <- c(dims, 1L, 1L, .)
 
@@ -134,7 +134,8 @@ model_names <- function(x, drops) {
   stopifnot(all(unique(unlist((x))) %in% drops))
   x <- llply(x, remainder, drops)
   x[vapply(x, length, 1L) == 0] <- "base"
-  x <- llply(x, str_c, collapse = "+") %>% unlist()
+  x <- llply(x, str_c, collapse = "+")
+  x <- unlist(x)
   x <- vapply(x, function(x) str_c("base+", x, collapse = ""), "")
   x[x == "base+base"] <- "base"
   x[x == str_c("base+", str_c(drops, collapse = "+"), collapse = "")] <- "full"
@@ -148,7 +149,9 @@ drop_indices <- function(x) {
 
 response_lm <- function(x) {
   if (!is.character(x)) x <- template(x)
-  stringr::str_replace(x, "\\s+~.*", "") %>% str_replace_all("\\s{1,}", "")
+  x <- stringr::str_replace(x, "\\s+~.*", "")
+  x <- str_replace_all(x, "\\s{1,}", "")
+  x
 }
 
 all_first_level <- function(x) {
