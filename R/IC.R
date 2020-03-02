@@ -42,18 +42,18 @@ IC.mb_analyses <- function(object, ...) {
       DeltaIC = numeric(0), ICWt = numeric(0)))
   }
   if (!all(vapply(object, is.mb_analysis, TRUE)))
-    err("object must be a list of mb_analysis objects")
+    err("object must be a list of mb_analysis objects", tidy = FALSE)
 
   if (is.null(names(object))) names(object) <- 1:length(object)
 
-  if (anyDuplicated(names(object))) err("objects must be uniquely named")
+  if (anyDuplicated(names(object))) err("objects must be uniquely named", tidy = FALSE)
 
   data <- llply(object, data_set)
-  if (!all(vapply(data, identical, TRUE, data[[1]]))) err("all elements of object must have the same data")
+  if (!all(vapply(data, identical, TRUE, data[[1]]))) err("all elements of object must have the same data", tidy = FALSE)
 
   random_effects <- llply(object, random_effects)
   random_effects <- llply(random_effects, sort_random_effects)
-  if (!all(vapply(data, identical, TRUE, data[[1]]))) err("all elements of object must have the same random effects")
+  if (!all(vapply(data, identical, TRUE, data[[1]]))) err("all elements of object must have the same random effects", tidy = FALSE)
 
   tibble <- tibble(model = names(object))
   tibble$K <- vapply(object, nterms, 1L, include_constant = FALSE)

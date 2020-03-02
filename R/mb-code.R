@@ -38,7 +38,7 @@ mb_code <- function(template) {
     class <- c("jmb_code", "mb_code")
   } else if (stringr::str_detect(template, "^\\s*function\\s*[(]\\s*[)]")) {
     class <- c("lmb_code", "mb_code")
-  } else wrn("template type is unrecognised")
+  } else wrn("template type is unrecognised", tidy = FALSE)
 
   object <- list()
   object$template <- template

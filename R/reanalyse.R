@@ -66,7 +66,7 @@ reanalyse.mb_analysis <- function(object,
 
   chk_whole_number(nreanalyses)
   chk_range(nreanalyses,  c(0L, 4L))
-  if (!is.duration(duration)) err("duration must be an object of class Duration")
+  if (!is.duration(duration)) err("duration must be an object of class Duration", tidy = FALSE)
   chk_flag(quiet)
   chk_flag(parallel)
   chk_flag(glance)

@@ -17,8 +17,8 @@ mcmc_derive.mb_analysis <- function(object,
                                beep = getOption("mb.beep", FALSE),
                                ...) {
   chk_flag(beep)
-  checkor(chk_data(new_data), check_vector(new_data, ""))
-  checkor(chk_flag(ref_data), chk_data(ref_data))
+  chkor(chk_data(new_data), chk_character(new_data))
+  chkor(chk_flag(ref_data), chk_data(ref_data))
 
   if (beep) on.exit(beepr::beep())
 
@@ -82,7 +82,7 @@ mcmc_derive.mb_analyses <- function(object,
 
   ic <- IC(object)
 
-  if (!all(is.finite(ic$IC))) err("non-finite IC values")
+  if (!all(is.finite(ic$IC))) err("non-finite IC values", tidy = FALSE)
 
   object <- llply(object, mcmc_derive, new_data = new_data, new_expr = new_expr,
                       new_values = new_values, term = term,

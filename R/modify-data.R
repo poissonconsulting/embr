@@ -7,7 +7,7 @@ add_nfactors <- function(data) {
   names(factor) <- str_c("n", names(factor))
 
   if (any(names(factor) %in% names(data)))
-    err("nFactor names are reserved")
+    err("nFactor names are reserved", tidy = FALSE)
 
   data <- c(data, factor)
   data
@@ -17,7 +17,7 @@ select_data <- function(data, select_data, center, scale, random_effects) {
   if (!length(select_data)) {
     cols <- c(center, scale)
     cols <- c(cols, unlist(random_effects))
-    check_colnames(data, sort(unique(cols)))
+    check_names(data, sort(unique(cols)))
     return(data)
   }
 
@@ -67,7 +67,7 @@ modify_data <- function(data, model, numericize_factors = FALSE) {
   check_mb_model(model)
   chk_flag(numericize_factors)
   if (any(c("nObs", "Obs") %in% colnames(data)))
-     err("Obs and nObs are reserved column names")
+     err("Obs and nObs are reserved column names", tidy = FALSE)
 
   nobs <- nrow(data)
 
@@ -105,7 +105,7 @@ modify_new_data <- function(data, data2, model, modify_new_data = NULL, numerici
   check_single_arg_fun(modify_new_data)
 
   if (any(c("nObs", "Obs") %in% colnames(data)))
-     err("Obs and nObs are reserved column names")
+     err("Obs and nObs are reserved column names", tidy = FALSE)
 
   nobs <- nrow(data)
 

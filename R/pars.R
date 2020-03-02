@@ -6,10 +6,10 @@ pars.character <- function(x, param_type = "all", scalar = NA, ...) {
   chk_unused(...)
 
   if (param_type != "all")
-    err("pars.character is not able to identify parameter types - set param_type = 'all' instead")
+    err("pars.character is not able to identify parameter types - set param_type = 'all' instead", tidy = FALSE)
 
   if (!is.na(scalar))
-    err("pars.character is not able to identify scalar pars - set scalar = NA instead")
+    err("pars.character is not able to identify scalar pars - set scalar = NA instead", tidy = FALSE)
 
   x <- rm_comments(x)
   x <- str_extract_all(x, "\\w+")
@@ -29,10 +29,10 @@ pars.mb_code <- function(x, param_type = "all", scalar = NA, ...) {
   chk_unused(...)
 
   if (param_type != "all")
-    err("pars.character is not able to identify parameter types - set param_type = 'all' instead")
+    err("pars.character is not able to identify parameter types - set param_type = 'all' instead", tidy = FALSE)
 
   if (!is.na(scalar))
-    err("pars.character is not able to identify scalar pars - set scalar = NA instead")
+    err("pars.character is not able to identify scalar pars - set scalar = NA instead", tidy = FALSE)
 
   x <- template(x)
   x <- rm_comments(x)
@@ -53,7 +53,7 @@ pars.mb_model <- function(x, param_type = "all", scalar = NA, ...) {
   chk_unused(...)
 
   if (!is.na(scalar))
-    err("pars.mb_model is not able to identify scalar pars - set scalar = NA instead")
+    err("pars.mb_model is not able to identify scalar pars - set scalar = NA instead", tidy = FALSE)
 
   if (param_type %in% c("primary", "all")) {
     pars <- c("fixed", "random")

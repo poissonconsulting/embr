@@ -78,9 +78,9 @@ next_drop <- function(analysis, drops, conf_level) {
   # scalar only
   coef <- dplyr::filter_(coef, ~!str_detect(term, "\\["))
 
-  if (!all(drop %in% coef$term)) err("unrecognised fixed scalar parameter")
+  if (!all(drop %in% coef$term)) err("unrecognised fixed scalar parameter", tidy = FALSE)
 
-  if (any(is.na(coef$pvalue))) err("undefined pvalues")
+  if (any(is.na(coef$pvalue))) err("undefined pvalues", tidy = FALSE)
 
   coef <- dplyr::filter_(coef, ~pvalue > (1 - conf_level))
   if (!nrow(coef)) return(character(0))

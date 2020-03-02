@@ -37,7 +37,7 @@ glance.mb_analyses <- function(
   chk_flag(bound)
   if(bound) {
     if (!is_bayesian(x))
-      err("glance with bound = TRUE is only defined for Bayesian analyses.")
+      err("glance with bound = TRUE is only defined for Bayesian analyses.", tidy = FALSE)
 
     glance <- glance(x, rhat = rhat)
     rhat_all <- rhat(x, bound = TRUE)

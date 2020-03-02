@@ -14,23 +14,23 @@ check_model_pars <- function(x, fixed, random, derived, drops) {
 #' @export
 check_model_pars.mb_code <- function(x, fixed, random, derived, drops) {
   chk_string(fixed)
-  checkor(chk_null(random), check_vector(random, character(0)))
-  checkor(chk_null(derived), check_vector(derived, character(0)))
-  checkor(chk_null(drops), check_vector(drops, character(0)))
+  if(!is.null(random)) chk_character(random)
+  if(!is.null(derived)) chk_character(derived)
+  if(!is.null(drops)) chk_character(drops)
 
   pars <- pars(x)
 
   if (!any(str_detect(pars, fixed)))
-    err("fixed does not match any code parameters")
+    err("fixed does not match any code parameters", tidy = FALSE)
 
   if (length(random) && !all(random %in% pars))
-    err("random effects parameters missing from code parameters")
+    err("random effects parameters missing from code parameters", tidy = FALSE)
 
   if (length(derived) && !all(derived %in% pars))
-    err("derived parameters missing from code parameters")
+    err("derived parameters missing from code parameters", tidy = FALSE)
 
   if (length(drops) && !all(unlist(drops) %in% pars))
-    err("drops parameters missing from code parameters")
+    err("drops parameters missing from code parameters", tidy = FALSE)
 
   derived
 }

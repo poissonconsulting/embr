@@ -16,7 +16,6 @@ Imports:
     beepr,
     checkr,
     dplyr,
-    err,
     foreach,
     graphics,
     ggplot2,
