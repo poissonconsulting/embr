@@ -121,7 +121,7 @@ scalar_nlist <- function(x) {
 
 indexes <- function(x) {
   x <- str_replace(x, "^(\\w+)(\\[[:alnum:]+([,][:alnum:]+)*\\])$", "\\2")
-  x[!str_detect(x, "\\[")] <- ""
+  x[!grepl("\\[", x)] <- ""
   x
 }
 

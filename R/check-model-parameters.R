@@ -20,7 +20,7 @@ check_model_pars.mb_code <- function(x, fixed, random, derived, drops) {
 
   pars <- pars(x)
 
-  if (!any(str_detect(pars, fixed)))
+  if (!any(grepl(fixed, pars)))
     err("fixed does not match any code parameters", tidy = FALSE)
 
   if (length(random) && !all(random %in% pars))

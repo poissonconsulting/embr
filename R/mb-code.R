@@ -30,13 +30,13 @@ mb_code <- function(template) {
   chk_string(template)
 
   class <- "mb_code"
-  if (stringr::str_detect(template, "#include <TMB.hpp>")) {
+  if (grepl("#include <TMB.hpp>", template)) {
     class <- c("tmb_code", "mb_code")
-  } else if (stringr::str_detect(template, "parameters\\s*[{]")) {
+  } else if (grepl("parameters\\s*[{]", template)) {
     class <- c("smb_code", "mb_code")
-  } else if (stringr::str_detect(template, "model\\s*[{]")) {
+  } else if (grepl("model\\s*[{]", template)) {
     class <- c("jmb_code", "mb_code")
-  } else if (stringr::str_detect(template, "^\\s*function\\s*[(]\\s*[)]")) {
+  } else if (grepl("^\\s*function\\s*[(]\\s*[)]", template)) {
     class <- c("lmb_code", "mb_code")
   } else wrn("template type is unrecognised", tidy = FALSE)
 
