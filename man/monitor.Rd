@@ -4,7 +4,7 @@
 \alias{monitor}
 \title{pars to monitor}
 \usage{
-monitor(object, param_type = "all", scalar = NA)
+monitor(object, param_type = "all", scalar = NULL)
 }
 \arguments{
 \item{object}{An mb model object to get the pars for.}

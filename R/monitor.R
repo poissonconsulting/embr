@@ -6,7 +6,7 @@
 #' only scalar parameteres (TRUE) or only non-scalar parameters (FALSE).
 #' @return A character vector of the pars to monitor.
 #' @export
-monitor <- function(object, param_type = "all", scalar = NA) {
+monitor <- function(object, param_type = "all", scalar = NULL) {
   if (!is.mb_model(object)) err("object must be an mb_model", tidy = FALSE)
 
   pars <- pars(object, param_type = param_type,
