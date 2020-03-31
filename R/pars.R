@@ -89,7 +89,7 @@ pars.mb_model <- function(x, param_type = "all", scalar = NULL, ...) {
 pars.mb_analysis <- function(x, param_type = "all", scalar = NULL, ...) {
   chk_string(param_type)
   chk_subset(param_type,  c("fixed", "random", "derived", "primary", "all"))
-  chk_lgl(scalar)
+  if(!is.null(scalar)) chk_flag(scalar)
 
   if (param_type %in% c("primary", "all")) {
     pars <- c("fixed", "random")
