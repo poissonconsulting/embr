@@ -15,6 +15,7 @@ Imports:
     chk,
     beepr,
     dplyr,
+    tibble,
     foreach,
     graphics,
     ggplot2,

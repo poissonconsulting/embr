@@ -14,7 +14,7 @@
 \item{...}{Other arguments passed to methods.}
 }
 \value{
-An list of uniquely named numeric atomic objects.
+A list of uniquely named numeric objects.
 }
 \description{
 Calculates the estimates for an MCMC object.
