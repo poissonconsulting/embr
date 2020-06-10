@@ -72,7 +72,7 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
     coef <- subset(coef, pars = pars)
     coef <- coef(coef, estimate = estimate)
 
-    if (!include_constant) coef <- dplyr::filter_(coef, ~lower != upper)
+    if (!include_constant) coef <- dplyr::filter(coef, .data$lower != .data$upper)
 
   } else {
     coef <- as.mcmcr(object)
@@ -87,7 +87,7 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
 
     coef <- get_frequentist_coef(coef, conf_level = conf_level)
 
-    if (!include_constant) coef <- dplyr::filter_(coef, ~lower != upper)
+    if (!include_constant) coef <- dplyr::filter(coef, ~.data$lower != .data$upper)
   }
   class(coef) <- c("mb_analysis_coef", class(coef))
   coef
