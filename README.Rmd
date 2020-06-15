@@ -12,12 +12,13 @@ knitr::opts_chunk$set(
 )
 ```
 
+<!-- badges: start -->
 [![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
-[![Travis-CI Build Status](https://travis-ci.com/poissonconsulting/mbr.svg?branch=master)](https://travis-ci.com/poissonconsulting/mbr)
-[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/poissonconsulting/mbr?branch=master&svg=true)](https://ci.appveyor.com/project/poissonconsulting/mbr)
+[![R build status](https://github.com/poissonconsulting/mbr/workflows/R-CMD-check/badge.svg)](https://github.com/poissonconsulting/mbr/actions)
 [![Coverage Status](https://img.shields.io/codecov/c/github/poissonconsulting/mbr/master.svg)](https://codecov.io/github/poissonconsulting/mbr?branch=master)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1162349.svg)](https://doi.org/10.5281/zenodo.1162349)
+<!-- badges: end -->
 
 # mbr
 
@@ -48,7 +49,10 @@ Please report any [issues](https://github.com/poissonconsulting/mbr/issues).
 
 [Pull requests](https://github.com/poissonconsulting/mbr/pulls) are always welcome.
 
-Please note that this project is released with a [Contributor Code of Conduct](CONDUCT.md). By participating in this project you agree to abide by its terms.
+## Code of Conduct
+
+Please note that the mbr project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
+
 
 ## Inspiration
 
