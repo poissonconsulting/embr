@@ -120,7 +120,7 @@
     <p>Identifies the type of the code and creates an object of the appropriate class.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>mb_code</span>(<span class='no'>template</span>)</pre>
+    <pre class="usage"><span class='fu'>mb_code</span>(<span class='kw'>template</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -136,7 +136,7 @@
     <p>An object inheriting from class mb_code.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>x</span> <span class='kw'>&lt;-</span> <span class='fu'>mb_code</span>(
+    <pre class="examples"><div class='input'><span class='kw'>x</span> <span class='op'>&lt;-</span> <span class='fu'>mb_code</span>(
 <span class='st'>"#include &lt;TMB.hpp&gt;
 
 template&lt;class Type&gt;
@@ -153,8 +153,24 @@ for(int i = 0; i &lt; n; i++){
 }
 return nll;
 }
-"</span>)
-<span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='no'>x</span>)</div><div class='output co'>#&gt; [1] "tmb_code" "mb_code" </div></pre>
+"</span>#include <TMB.hpp>
+
+template<class Type>
+
+Type objective_function<Type>::operator() () {
+DATA_VECTOR(Count);
+PARAMETER(bIntercept);
+
+int n = Count.size();
+
+Type nll = 0.0;
+for(int i = 0; i < n; i++){
+  nll -= dpois(Count(i), bIntercept, true);
+}
+return nll;
+}
+")
+<span class='fu'><a href='https://rdrr.io/r/base/class.html'>class</a></span>(<span class='kw'>x</span>)</div><div class='output co'>#&gt; [1] "tmb_code" "mb_code" </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

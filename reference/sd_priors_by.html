@@ -120,21 +120,21 @@
     <p>Multiply Standard Deviation of Priors By</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sd_priors_by</span>(<span class='no'>x</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>distributions</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"normal"</span>, <span class='st'>"lognormal"</span>, <span class='st'>"t"</span>), <span class='no'>...</span>)
+    <pre class="usage"><span class='fu'>sd_priors_by</span>(<span class='kw'>x</span>, by = <span class='fl'>10</span>, distributions = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"normal"</span>, <span class='st'>"lognormal"</span>, <span class='st'>"t"</span>), <span class='kw'>...</span>)
 
 <span class='co'># S3 method for mb_model</span>
-<span class='fu'>sd_priors_by</span>(<span class='no'>x</span>, <span class='kw'>by</span> <span class='kw'>=</span> <span class='fl'>10</span>, <span class='kw'>distributions</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"normal"</span>, <span class='st'>"lognormal"</span>, <span class='st'>"t"</span>), <span class='no'>...</span>)
+<span class='fu'>sd_priors_by</span>(<span class='kw'>x</span>, by = <span class='fl'>10</span>, distributions = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"normal"</span>, <span class='st'>"lognormal"</span>, <span class='st'>"t"</span>), <span class='kw'>...</span>)
 
 <span class='co'># S3 method for mb_analysis</span>
 <span class='fu'>sd_priors_by</span>(
-  <span class='no'>x</span>,
-  <span class='kw'>by</span> <span class='kw'>=</span> <span class='fl'>10</span>,
-  <span class='kw'>distributions</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"normal"</span>, <span class='st'>"lognormal"</span>, <span class='st'>"t"</span>),
-  <span class='kw'>parallel</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"mb.parallel"</span>, <span class='fl'>FALSE</span>),
-  <span class='kw'>quiet</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"mb.quiet"</span>, <span class='fl'>TRUE</span>),
-  <span class='kw'>glance</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"mb.glance"</span>, <span class='fl'>TRUE</span>),
-  <span class='kw'>beep</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"mb.beep"</span>, <span class='fl'>TRUE</span>),
-  <span class='no'>...</span>
+  <span class='kw'>x</span>,
+  by = <span class='fl'>10</span>,
+  distributions = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"normal"</span>, <span class='st'>"lognormal"</span>, <span class='st'>"t"</span>),
+  parallel = <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"mb.parallel"</span>, <span class='fl'>FALSE</span>),
+  quiet = <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"mb.quiet"</span>, <span class='fl'>TRUE</span>),
+  glance = <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"mb.glance"</span>, <span class='fl'>TRUE</span>),
+  beep = <span class='fu'><a href='https://rdrr.io/r/base/options.html'>getOption</a></span>(<span class='st'>"mb.beep"</span>, <span class='fl'>TRUE</span>),
+  <span class='kw'>...</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
