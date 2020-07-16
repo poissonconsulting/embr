@@ -22,7 +22,7 @@ below to see their documentation.
 \describe{
   \item{generics}{\code{\link[generics]{augment}}, \code{\link[generics]{glance}}, \code{\link[generics]{tidy}}}
 
-  \item{stats}{\code{\link[stats]{coef}}, \code{\link[stats]{fitted}}, \code{\link[stats]{logLik}}, \code{\link[stats]{predict}}, \code{\link[stats]{terms}}}
+  \item{stats}{\code{\link[stats]{coef}}, \code{\link[stats:fitted.values]{fitted}}, \code{\link[stats]{logLik}}, \code{\link[stats]{predict}}, \code{\link[stats]{terms}}}
 
   \item{universals}{\code{\link[universals]{estimates}}}
 }}
