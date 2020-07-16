@@ -102,7 +102,7 @@ coef_profile.mb_analyses <- function(
   nmodels <- length(coef)
   if (!nmodels) {
     coef <- tibble(
-      term = as.term(character(0)),
+      term = as_term(character(0)),
       estimate = numeric(0))
 
     if(is_frequentist(object)) {
@@ -145,7 +145,7 @@ coef_profile.mb_analyses <- function(
                   `!!`(parse_expr("upper")),
                   `!!`(parse_expr("pvalue")),
                   `!!`(parse_expr("everything()")))
-  coef$term <- as.term(coef$term)
+  coef$term <- as_term(coef$term)
   coef <- coef[order(coef$term),]
   class(coef) <- c("mb_analyses_coef", class(coef))
   coef

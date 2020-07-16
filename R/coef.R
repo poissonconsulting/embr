@@ -21,7 +21,7 @@ coef.mb_null_analysis <- function(object, param_type = "fixed", include_constant
   chk_number(conf_level)
   chk_range(conf_level, c(0.5, 0.99))
 
-  coef <- tibble(term = as.term(character(0)),
+  coef <- tibble(term = as_term(character(0)),
                             estimate = numeric(0), sd = numeric(0))
 
   coef <- get_frequentist_coef(coef)
@@ -57,7 +57,7 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
   pars <- pars(object, param_type)
 
   if (!length(parameters)) {
-    coef <- tibble(term = as.term(character(0)),
+    coef <- tibble(term = as_term(character(0)),
                               estimate = numeric(0),
                               sd = numeric(0))
 
@@ -120,7 +120,7 @@ coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TR
   nmodels <- length(coef)
   if (!nmodels) {
     coef <- tibble(
-      term = as.term(character(0)),
+      term = as_term(character(0)),
       estimate = numeric(0))
 
     if(is_frequentist(object)) {
@@ -163,7 +163,7 @@ coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TR
                   `!!`(parse_expr("upper")),
                   `!!`(parse_expr("pvalue")),
                   `!!`(parse_expr("everything()")))
-  coef$term <- as.term(coef$term)
+  coef$term <- as_term(coef$term)
   coef <- coef[order(coef$term),]
   class(coef) <- c("mb_analyses_coef", class(coef))
   coef

@@ -34,7 +34,7 @@ test_that("lmb", {
   # expect_is(coef, "mb_analysis_coef")
   # expect_identical(colnames(coef), c("term", "estimate", "sd", "zscore", "lower", "upper", "pvalue"))
   #
-  # expect_identical(coef$term, as.term(c("(Intercept)", "feedhorsebean", "feedlinseed",
+  # expect_identical(coef$term, as_term(c("(Intercept)", "feedhorsebean", "feedlinseed",
   #                                       "feedmeatmeal", "feedsoybean", "feedsunflower")))
   #
   # mcmcr <- as.mcmcr(analysis)
@@ -132,7 +132,7 @@ test_that("models", {
   # expect_is(analyses, "mb_analyses")
   # coef <- coef(analyses)
   # expect_is(coef, "mb_analyses_coef")
-  # expect_identical(coef$term, as.term(c("(Intercept)", "feedhorsebean", "feedlinseed",
+  # expect_identical(coef$term, as_term(c("(Intercept)", "feedhorsebean", "feedlinseed",
   #                                       "feedmeatmeal", "feedsoybean", "feedsunflower")))
   # expect_identical(coef$proportion, c(1.0, rep(0.5, 5)))
   #
