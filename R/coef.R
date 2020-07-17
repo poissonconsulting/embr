@@ -86,8 +86,7 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
     coef$sd <- sd$estimate
 
     coef <- get_frequentist_coef(coef, conf_level = conf_level)
-
-    if (!include_constant) coef <- dplyr::filter(coef, ~.data$lower != .data$upper)
+    if (!include_constant) coef <- dplyr::filter(coef, .data$lower != .data$upper)
   }
   class(coef) <- c("mb_analysis_coef", class(coef))
   coef
