@@ -1,4 +1,5 @@
-#' @import chk mcmcr mcmcdata mcmcderive rlang term nlist generics
+#' @import chk mcmcr mcmcdata mcmcderive term nlist generics
+#' @importFrom rlang parse_expr !! .data
 #' @importFrom stats coef residuals
 #' @importFrom foreach getDoParWorkers
 #' @importFrom graphics plot
