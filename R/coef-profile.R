@@ -109,10 +109,10 @@ coef_profile.mb_analyses <- function(
       coef <- dplyr::mutate(coef, sd = `!!`(parse_expr("numeric(0)")))
       coef <- get_frequentist_coef(coef)
     }
-    coef <- dplyr::mutate_(coef,
-      nmodels = ~integer(0),
-      proportion = ~numeric(0),
-      ICWt = ~numeric(0))
+    coef <- dplyr::mutate(coef,
+      nmodels = integer(0),
+      proportion = numeric(0),
+      ICWt = numeric(0))
     class(coef) <- c("mb_analyses_coef", class(coef))
     return(coef)
   }

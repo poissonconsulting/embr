@@ -83,12 +83,12 @@ predict.mb_analyses <- function(object,
                       parallel = parallel, quiet = quiet, beep = FALSE)
 
   if (!all(is.finite(ic$IC))) {
-    prediction <- dplyr::mutate_(prediction[[1]], estimate = ~NA_real_,
-                     sd = ~NA_real_,
-                     zscore = ~NA_real_,
-                     lower = ~NA_real_,
-                     upper = ~NA_real_,
-                     pvalue = ~NA_real_
+    prediction <- dplyr::mutate(prediction[[1]], estimate = NA_real_,
+                     sd = NA_real_,
+                     zscore = NA_real_,
+                     lower = NA_real_,
+                     upper = NA_real_,
+                     pvalue = NA_real_
     )
     return(prediction)
   }
@@ -108,13 +108,17 @@ predict.mb_analyses <- function(object,
   prediction <- dplyr::summarise_(prediction,
       estimate = ~sum(ICWt * estimate))
   prediction <- dplyr::ungroup(prediction)
-  prediction <- dplyr::mutate_(prediction, lower = ~NA_real_,
-                   upper = ~NA_real_,
-                   sd = ~NA_real_,
-                   zscore = ~NA_real_,
-                   pvalue = ~NA_real_)
+  prediction <- dplyr::mutate(prediction, lower = NA_real_,
+                   upper = NA_real_,
+                   sd = NA_real_,
+                   zscore = NA_real_,
+                   pvalue = NA_real_)
   prediction <- dplyr::arrange_(prediction, ~.row)
-  prediction <- dplyr::select_(prediction, ~estimate,~sd,~zscore,~lower,~upper,~pvalue)
+  prediction <- dplyr::select(prediction, estimate = .data$estimate,
+                              sd = .data$sd, zscore = .data$zscore,
+                              lower = .data$lower,,
+                              upper = .data$upper,
+                              pvalue = .data$pvalue)
   new_data <- dplyr::bind_cols(prediction, new_data, prediction)
   new_data
 }

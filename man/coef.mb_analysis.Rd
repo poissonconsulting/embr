@@ -10,6 +10,7 @@
   include_constant = TRUE,
   conf_level = getOption("mb.conf_level", 0.95),
   estimate = getOption("mb.estimate", median),
+  simplify = FALSE,
   ...
 )
 }
@@ -23,6 +24,8 @@
 \item{conf_level}{A number specifying the confidence level. By default 0.95.}
 
 \item{estimate}{The function to use to calculating the estimate for Bayesian models.}
+
+\item{simplify}{A flag specifying whether to drop sd and zscore columns and return svalue instead of pvalue.}
 
 \item{...}{Not used.}
 }

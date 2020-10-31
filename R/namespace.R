@@ -7,5 +7,6 @@
 #' @importFrom matrixStats colLogSumExps
 #' @importFrom plyr llply
 #' @importFrom rescale check_valid_rescalers
-#' @importFrom stats var fitted logLik median predict terms
+#' @importFrom dplyr select mutate
+#' @importFrom stats var fitted logLik median predict terms pnorm qnorm
 NULL

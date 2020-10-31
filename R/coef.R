@@ -2,11 +2,10 @@
 stats::coef
 
 get_frequentist_coef <- function(object, conf_level = 0.95) {
-  object <- dplyr::mutate_(object,
-    zscore = ~estimate/sd,
-    lower = ~estimate + sd * qnorm((1 - conf_level) / 2),
-    upper = ~estimate + sd * qnorm((1 - conf_level) / 2 + conf_level),
-    pvalue = ~2*pnorm(-abs(zscore)))
+  object <- dplyr::mutate(object,
+                           lower = .data$estimate + .data$sd * qnorm((1 - conf_level) / 2),
+                           upper = .data$estimate + .data$sd * qnorm((1 - conf_level) / 2 + conf_level),
+                           pvalue = 2*pnorm(-abs(.data$zscore)))
   object
 }
 
@@ -14,19 +13,29 @@ get_frequentist_coef <- function(object, conf_level = 0.95) {
 coef.mb_null_analysis <- function(object, param_type = "fixed", include_constant = TRUE,
                                   conf_level = getOption("mb.conf_level", 0.95),
                                   estimate = getOption("mb.estimate", median),
+                                  simplify = FALSE,
                                   ...) {
   chk_string(param_type)
   chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
   chk_flag(include_constant)
   chk_number(conf_level)
   chk_range(conf_level, c(0.5, 0.99))
+  chk_flag(simplify)
 
   coef <- tibble(term = as_term(character(0)),
-                            estimate = numeric(0), sd = numeric(0))
+                 estimate = numeric(0), sd = numeric(0),
+                 zscore = numeric(0))
 
   coef <- get_frequentist_coef(coef)
 
+  if(simplify) {
+    coef <- mutate(coef, svalue = -log(.data$pvalue, base = 2))
+    coef <- select(coef, .data$term, .data$estimate, .data$lower, .data$upper,
+                   .data$svalue)
+  }
+
   class(coef) <- c("mb_analysis_coef", class(coef))
+
   coef
 }
 
@@ -41,27 +50,35 @@ coef.mb_null_analysis <- function(object, param_type = "fixed", include_constant
 #' @param include_constant A flag specifying whether to include constant terms.
 #' @param conf_level A number specifying the confidence level. By default 0.95.
 #' @param estimate The function to use to calculating the estimate for Bayesian models.
+#' @param simplify A flag specifying whether to drop sd and zscore columns and return svalue instead of pvalue.
 #' @param ... Not used.
 #' @return A tidy tibble of the coefficient terms.
 #' @export
 coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TRUE,
                              conf_level = getOption("mb.conf_level", 0.95),
                              estimate = getOption("mb.estimate", median),
+                             simplify = FALSE,
                              ...) {
   chk_string(param_type)
   chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
   chk_flag(include_constant)
   chk_number(conf_level)
   chk_range(conf_level, c(0.5, 0.99))
+  chk_flag(simplify)
 
   pars <- pars(object, param_type)
 
   if (!length(parameters)) {
     coef <- tibble(term = as_term(character(0)),
-                              estimate = numeric(0),
-                              sd = numeric(0))
+                   estimate = numeric(0),
+                   sd = numeric(0))
 
     coef <- get_frequentist_coef(coef)
+
+    if(simplify) {
+      coef <- select(coef, .data$term, .data$estimate, .data$lower, .data$upper,
+                     .data$svalue)
+    }
 
     class(coef) <- c("mb_analysis_coef", class(coef))
     return(coef)
@@ -70,7 +87,7 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
   if (is_bayesian(object)) {
     coef <- as.mcmcr(object)
     coef <- subset(coef, pars = pars)
-    coef <- coef(coef, estimate = estimate)
+    coef <- coef(coef, estimate = estimate, simplify = simplify)
 
     if (!include_constant) coef <- dplyr::filter(coef, .data$lower != .data$upper)
 
@@ -87,7 +104,12 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
 
     coef <- get_frequentist_coef(coef, conf_level = conf_level)
     if (!include_constant) coef <- dplyr::filter(coef, .data$lower != .data$upper)
+    if(simplify) {
+      coef <- select(coef, .data$term, .data$estimate, .data$lower, .data$upper,
+                     .data$svalue)
+    }
   }
+
   class(coef) <- c("mb_analysis_coef", class(coef))
   coef
 }
@@ -126,10 +148,10 @@ coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TR
       coef <- dplyr::mutate(coef, sd = `!!`(parse_expr("numeric(0)")))
       coef <- get_frequentist_coef(coef)
     }
-    coef <- dplyr::mutate_(coef,
-      nmodels = ~integer(0),
-      proportion = ~numeric(0),
-      ICWt = ~numeric(0))
+    coef <- dplyr::mutate(coef,
+                           nmodels = integer(0),
+                           proportion = numeric(0),
+                           ICWt = numeric(0))
     class(coef) <- c("mb_analyses_coef", class(coef))
     return(coef)
   }
@@ -140,14 +162,14 @@ coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TR
   coef <- tidyr::complete(coef, `!!`(parse_expr("term")), `!!`(parse_expr("model")), fill = list(estimate = 0, sd = 0, .IN = 0))
   coef <- dplyr::inner_join(coef, dplyr::select(ic, `!!`(parse_expr("model")), `!!`(parse_expr("ICWt"))), by = "model")
   coef <- dplyr::mutate(coef, coef = `!!`(parse_expr("estimate")),
-                   var = `!!`(parse_expr("pow(sd,2)")))
+                        var = `!!`(parse_expr("pow(sd,2)")))
   coef <- dplyr::group_by(coef, `!!`(parse_expr("term")))
   coef <- dplyr::summarise(coef,
-      estimate = `!!`(parse_expr("sum(ICWt * estimate)")),
-      sd = `!!`(parse_expr("sqrt(sum(ICWt * (var + pow(coef - estimate, 2))))")),
-      nmodels = `!!`(parse_expr("nmodels")),
-      proportion = `!!`(parse_expr("sum(.IN)/nmodels")),
-      ICWt = `!!`(parse_expr("min(sum(ICWt * .IN), 1.00)")))
+                           estimate = `!!`(parse_expr("sum(ICWt * estimate)")),
+                           sd = `!!`(parse_expr("sqrt(sum(ICWt * (var + pow(coef - estimate, 2))))")),
+                           nmodels = `!!`(parse_expr("nmodels")),
+                           proportion = `!!`(parse_expr("sum(.IN)/nmodels")),
+                           ICWt = `!!`(parse_expr("min(sum(ICWt * .IN), 1.00)")))
   coef <- dplyr::ungroup(coef)
 
   if(is_bayesian(object))
@@ -155,13 +177,13 @@ coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TR
 
   coef <- get_frequentist_coef(coef)
   coef <- dplyr::select(coef, `!!`(parse_expr("term")),
-                  `!!`(parse_expr("estimate")),
-                  `!!`(parse_expr("sd")),
-                  `!!`(parse_expr("zscore")),
-                  `!!`(parse_expr("lower")),
-                  `!!`(parse_expr("upper")),
-                  `!!`(parse_expr("pvalue")),
-                  `!!`(parse_expr("everything()")))
+                        `!!`(parse_expr("estimate")),
+                        `!!`(parse_expr("sd")),
+                        `!!`(parse_expr("zscore")),
+                        `!!`(parse_expr("lower")),
+                        `!!`(parse_expr("upper")),
+                        `!!`(parse_expr("pvalue")),
+                        `!!`(parse_expr("everything()")))
   coef$term <- as_term(coef$term)
   coef <- coef[order(coef$term),]
   class(coef) <- c("mb_analyses_coef", class(coef))
@@ -199,5 +221,5 @@ coef.mb_meta_analyses <- function(object, param_type = "fixed", include_constant
                                   conf_level = getOption("mb.conf_level", 0.95),
                                   estimate = getOption("mb.estimate", median),
                                   ...) {
-    llply(object, coef, param_type = param_type, include_constant = include_constant, conf_level = conf_level, estimate = estimate, ...)
+  llply(object, coef, param_type = param_type, include_constant = include_constant, conf_level = conf_level, estimate = estimate, ...)
 }
