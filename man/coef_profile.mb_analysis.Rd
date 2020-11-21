@@ -12,6 +12,7 @@
   estimate = getOption("mb.estimate", median),
   parallel = getOption("mb.parallel", FALSE),
   beep = getOption("mb.profile", TRUE),
+  simplify = TRUE,
   ...
 )
 }
@@ -29,6 +30,8 @@
 \item{parallel}{A flag indicating whether to using parallel backend provided by foreach.}
 
 \item{beep}{A flag indicating whether to beep on completion of the analysis.}
+
+\item{simplify}{A flag specifying whether to simplify with svalue.}
 
 \item{...}{Not used.}
 }

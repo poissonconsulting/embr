@@ -13,13 +13,14 @@ coef_profile.mb_null_analysis <- function(object, param_type = "fixed", include_
                                           estimate = getOption("mb.estimate", median),
                                           parallel = getOption("mb.parallel", FALSE),
                                           beep = getOption("mb.beep", TRUE),
+                                          simplify = TRUE,
                                           ...) {
 
   chk_flag(beep)
   if (beep) on.exit(beepr::beep())
 
   coef(object, param_type = param_type, include_constant = include_constant,
-       conf_level = conf_level, estimate = estimate, ...)
+       conf_level = conf_level, estimate = estimate, simplify = simplify, ...)
 }
 
 #' Coef Profile Analysis
@@ -35,6 +36,7 @@ coef_profile.mb_null_analysis <- function(object, param_type = "fixed", include_
 #' @param estimate The function to use to calculating the estimate for Bayesian models.
 #' @param parallel A flag indicating whether to using parallel backend provided by foreach.
 #' @param beep A flag indicating whether to beep on completion of the analysis.
+#' @param simplify A flag specifying whether to simplify with svalue.
 #' @param ... Not used.
 #' @return A tidy tibble of the coefficient terms.
 #' @export
@@ -43,6 +45,7 @@ coef_profile.mb_analysis <- function(object, param_type = "fixed", include_const
                                      estimate = getOption("mb.estimate", median),
                                      parallel = getOption("mb.parallel", FALSE),
                                      beep = getOption("mb.profile", TRUE),
+                                     simplify = TRUE,
                                      ...) {
   chk_flag(beep)
   if (beep) on.exit(beepr::beep())
@@ -50,13 +53,15 @@ coef_profile.mb_analysis <- function(object, param_type = "fixed", include_const
 
   coef <- coef(object, param_type = param_type,
                include_constant = include_constant,
-               conf_level = conf_level, estimate = estimate, ...)
+               conf_level = conf_level, estimate = estimate,
+               simplify = simplify, ...)
 
   if (is_bayesian(object)) {
     warning("coef_profile is undefined for Bayesian models - returning coef")
   } else {
     confint <- confint(object, parm = coef$term, conf_level = conf_level,
-                       beep = FALSE, parallel = parallel)
+                       beep = FALSE, parallel = parallel,
+                       simplify = simplify)
     stopifnot(identical(confint$term, coef$term))
     coef[c("lower","upper")] <- confint[c("lower","upper")]
   }
