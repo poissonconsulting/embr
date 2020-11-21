@@ -21,7 +21,7 @@ drop_pars.character <- function(x, pars = character(0), ...) {
 
   # check that [ not in parameter name or followed by [ in x
   if (any(grepl("\\[", pars))) err("pars must be scalar", tidy = FALSE)
-  if (any(grepl(p0(pars, "\\s*\\["), x)))
+  if (any(stringr::str_detect(x, p0(pars, "\\s*\\["))))
     err("pars must be scalar", tidy = FALSE)
 
   for (parameter in pars) {
