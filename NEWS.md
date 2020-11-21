@@ -1,3 +1,9 @@
+# mbr 0.0.1.9029
+
+- fix up simplify = TRUE
+- add `deltaIC` to `glance()`
+
+
 - add split and bound to rhat and converged
 - add `deltaIC` to `glance()`
 - add `marginalize_random_effects` argument to `data_set`
