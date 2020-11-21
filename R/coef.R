@@ -3,6 +3,7 @@ stats::coef
 
 get_frequentist_coef <- function(object, conf_level = 0.95) {
   object <- dplyr::mutate(object,
+                           zscore = .data$estimate/ .data$sd,
                            lower = .data$estimate + .data$sd * qnorm((1 - conf_level) / 2),
                            upper = .data$estimate + .data$sd * qnorm((1 - conf_level) / 2 + conf_level),
                            pvalue = 2*pnorm(-abs(.data$zscore)))
@@ -76,6 +77,7 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
     coef <- get_frequentist_coef(coef)
 
     if(simplify) {
+      coef <- mutate(coef, svalue = -log(.data$pvalue, base = 2))
       coef <- select(coef, .data$term, .data$estimate, .data$lower, .data$upper,
                      .data$svalue)
     }
@@ -105,6 +107,7 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
     coef <- get_frequentist_coef(coef, conf_level = conf_level)
     if (!include_constant) coef <- dplyr::filter(coef, .data$lower != .data$upper)
     if(simplify) {
+      coef <- mutate(coef, svalue = -log(.data$pvalue, base = 2))
       coef <- select(coef, .data$term, .data$estimate, .data$lower, .data$upper,
                      .data$svalue)
     }
