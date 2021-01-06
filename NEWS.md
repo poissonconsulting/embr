@@ -1,3 +1,8 @@
+# mbr 0.0.1.9030
+
+- Added `posterior_predictive_check()`.
+
+
 # mbr 0.0.1.9029
 
 - fix up simplify = TRUE
