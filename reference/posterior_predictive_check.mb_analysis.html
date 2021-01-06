@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Sort Analyses by IC — sort_by_ic • mbr</title>
+<title>Posterior Predictive Check — posterior_predictive_check.mb_analysis • mbr</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Sort Analyses by IC — sort_by_ic" />
-<meta property="og:description" content="Sort Analyses by IC" />
+<meta property="og:title" content="Posterior Predictive Check — posterior_predictive_check.mb_analysis" />
+<meta property="og:description" content="Posterior Predictive Check" />
 
 
 
@@ -105,33 +105,34 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Sort Analyses by IC</h1>
-    <small class="dont-index">Source: <a href='https://github.com/poissonconsulting/mbr/blob/master/R/sort_by.R'><code>R/sort_by.R</code></a></small>
-    <div class="hidden name"><code>sort_by_ic.Rd</code></div>
+    <h1>Posterior Predictive Check</h1>
+    <small class="dont-index">Source: <a href='https://github.com/poissonconsulting/mbr/blob/master/R/posterior-predictive-check.R'><code>R/posterior-predictive-check.R</code></a></small>
+    <div class="hidden name"><code>posterior_predictive_check.mb_analysis.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Sort Analyses by IC</p>
+    <p>Posterior Predictive Check</p>
     </div>
 
-    <pre class="usage"><span class='fu'>sort_by_ic</span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='co'># S3 method for mb_analysis</span>
+<span class='fu'><a href='posterior_predictive_check.html'>posterior_predictive_check</a></span><span class='op'>(</span><span class='va'>x</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>the object.</p></td>
+      <td><p>The MB analysis object.</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Unused</p></td>
+      <td><p>Unused.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The sorted object</p>
+    <p>A tibble of the checks.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
