@@ -18,12 +18,12 @@ posterior_predictive_check <- function(x, ...) {
 #' @export
 posterior_predictive_check.mb_analysis <- function(x, ...) {
   chk_unused(...)
-  data <- data_set(x)
 
-  resample_residuals <- mcmc_derive_data(x, new_data = data, term = "^resample_residual$")
-  residuals <- predict(x, new_data = data, term = "residual")$estimate
+  resample_residuals <- resample_residuals(x)
+  residuals <- residuals(x)
 
   resample_residuals <- as.mcmc(collapse_chains(resample_residuals$mcmc))
+  residuals <- residuals$estimate
 
   zeros <- extras::zeros(residuals, na_rm = TRUE)
   mean <- extras::xtr_mean(residuals, na_rm = TRUE)
