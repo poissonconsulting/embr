@@ -19,10 +19,10 @@ posterior_predictive_check <- function(x, ...) {
 posterior_predictive_check.mb_analysis <- function(x, ...) {
   chk_unused(...)
 
-  resample_residuals <- resample_residuals(x)
+  simulate_residuals <- simulate_residuals(x)
   residuals <- residuals(x)
 
-  resample_residuals <- as.mcmc(collapse_chains(resample_residuals$mcmc))
+  simulate_residuals <- as.mcmc(collapse_chains(simulate_residuals$mcmc))
   residuals <- residuals$estimate
 
   zeros <- extras::zeros(residuals, na_rm = TRUE)
@@ -31,11 +31,11 @@ posterior_predictive_check.mb_analysis <- function(x, ...) {
   skewness <- extras::skewness(residuals, na_rm = TRUE)
   kurtosis <- extras::kurtosis(residuals, na_rm = TRUE)
 
-  zeroses <- apply(resample_residuals, 1, FUN = extras::zeros, na_rm = TRUE)
-  means <- apply(resample_residuals, 1, FUN = extras::xtr_mean, na_rm = TRUE)
-  variances <- apply(resample_residuals, 1, FUN = extras::variance, na_rm = TRUE)
-  skewnesses <- apply(resample_residuals, 1, FUN = extras::skewness, na_rm = TRUE)
-  kurtoses <- apply(resample_residuals, 1, FUN = extras::kurtosis, na_rm = TRUE)
+  zeroses <- apply(simulate_residuals, 1, FUN = extras::zeros, na_rm = TRUE)
+  means <- apply(simulate_residuals, 1, FUN = extras::xtr_mean, na_rm = TRUE)
+  variances <- apply(simulate_residuals, 1, FUN = extras::variance, na_rm = TRUE)
+  skewnesses <- apply(simulate_residuals, 1, FUN = extras::skewness, na_rm = TRUE)
+  kurtoses <- apply(simulate_residuals, 1, FUN = extras::kurtosis, na_rm = TRUE)
 
   tibble <- tibble::tibble(moment = c("zeros", "mean", "variance", "skewness", "kurtosis"))
   tibble$moment <- factor(tibble$moment, tibble$moment)

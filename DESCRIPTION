@@ -34,7 +34,7 @@ Imports:
     stringr,
     universals,
     generics,
-    extras,
+    extras (>= 0.1.0.9009),
     lifecycle
 Suggests:
     testthat,
