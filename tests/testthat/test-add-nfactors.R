@@ -1,5 +1,3 @@
-context("add-nfactors")
-
 test_that("add_nfactors", {
   expect_identical(names(add_nfactors(list(x = factor(1)))), c("x", "nx"))
   expect_identical(names(add_nfactors(list(x = factor(1), y = 1))), c("x", "y", "nx"))

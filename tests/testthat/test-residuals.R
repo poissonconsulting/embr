@@ -1,5 +1,3 @@
-context("residuals")
-
 test_that("lmb", {
   # data <- datasets::chickwts
   # data$char <- ""

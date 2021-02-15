@@ -1,5 +1,3 @@
-context("drops")
-
 test_that("eliminate", {
   expect_equal(eliminate(1:3, 2), c(1,3))
   expect_equal(eliminate(c(2,1:3,2,2), 2), c(1,3))

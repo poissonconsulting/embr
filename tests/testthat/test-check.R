@@ -1,5 +1,3 @@
-context("check")
-
 test_that("check_drops", {
   expect_identical(check_drops(list()),list())
   expect_identical(check_drops(list("1")),list("1"))

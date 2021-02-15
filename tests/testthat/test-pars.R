@@ -1,5 +1,3 @@
-context("pars")
-
 test_that("pars", {
 
   new_expr = mb_code(" fit2 <- a + b * x # c
