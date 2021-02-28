@@ -32,16 +32,8 @@ mcmc_derive_fun <- function(object,
   object
 }
 
-#' Derive Data
-#'
-#' Calculate derived parameters.
-#'
-#' @param object The object.
-#' @param ... Not used.
 #' @export
-mcmc_derive_data <- function(object, ...) {
-  UseMethod("mcmc_derive_data")
-}
+mcmcdata::mcmc_derive_data
 
 #' Derive Data
 #'
