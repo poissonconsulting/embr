@@ -1,5 +1,3 @@
-context("utils")
-
 test_that("all_first_level", {
   expect_error(all_first_level(1))
   expect_identical(all_first_level(factor(character(0), levels = c("A", "B"))),

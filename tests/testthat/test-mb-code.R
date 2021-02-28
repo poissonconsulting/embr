@@ -1,5 +1,3 @@
-context("mb-code")
-
 test_that("mb_code", {
   expect_warning(mb_code("blah blah"), "template type is unrecognised")
   expect_is(mb_code(.tmb_template), "tmb_code")

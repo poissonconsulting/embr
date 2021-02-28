@@ -1,9 +1,9 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
 <!-- badges: start -->
 
-[![lifecycle](https://img.shields.io/badge/lifecycle-maturing-blue.svg)](https://www.tidyverse.org/lifecycle/#maturing)
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 [![R build
 status](https://github.com/poissonconsulting/mbr/workflows/R-CMD-check/badge.svg)](https://github.com/poissonconsulting/mbr/actions)
 [![Coverage
@@ -36,22 +36,20 @@ To install the latest development version from the Poisson drat
 
 ## Citation
 
-``` 
 
-To cite mbr in publications use:
+    To cite mbr in publications use:
 
-  Joe Thorley (2018) mbr: Model Builder Utility Functions and Virtual
-  Classes. doi: https://doi.org/10.5281/zenodo.1162349.
+      Joe Thorley (2018) mbr: Model Builder Utility Functions and Virtual
+      Classes. doi: https://doi.org/10.5281/zenodo.1162349.
 
-A BibTeX entry for LaTeX users is
+    A BibTeX entry for LaTeX users is
 
-  @Misc{,
-    author = {Joe Thorley},
-    year = {2018},
-    title = {mbr: Model Builder Utility Functions and Virtual Classes},
-    doi = {https://doi.org/10.5281/zenodo.1162349},
-  }
-```
+      @Misc{,
+        author = {Joe Thorley},
+        year = {2018},
+        title = {mbr: Model Builder Utility Functions and Virtual Classes},
+        doi = {https://doi.org/10.5281/zenodo.1162349},
+      }
 
 ## Contribution
 

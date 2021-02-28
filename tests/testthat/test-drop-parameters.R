@@ -1,5 +1,3 @@
-context("drop-pars")
-
 test_that("drop_pars", {
 
   new_expr = " fit2 <- a + b * x

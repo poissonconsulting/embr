@@ -1,5 +1,3 @@
-context("lmb")
-
 test_that("lmb", {
 
   model <- model("function() {

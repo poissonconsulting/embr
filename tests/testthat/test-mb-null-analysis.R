@@ -1,5 +1,3 @@
-context("mb-null-analysis")
-
 test_that("mb_null_analysis", {
   analysis <- list(data = datasets::mtcars)
   class(analysis) <- c("mb_null_analysis", "mb_analysis")
