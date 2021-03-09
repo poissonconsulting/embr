@@ -27,12 +27,13 @@ Currently there are packages which implement the functionality for JAGS
 
 ## Installation
 
-To install the latest development version from the Poisson drat
-[repository](https://github.com/poissonconsulting/drat)
+To install the latest development version from
+[GitHub](https://github.com/poissonconsulting/mbr)
 
-    # install.packages("drat")
-    drat::addRepo("poissonconsulting")
-    install.packages("mbr")
+``` r
+# install.packages("remotes")
+remotes::install_github("poissonconsulting/mbr")
+```
 
 ## Citation
 
