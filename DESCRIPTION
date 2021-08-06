@@ -12,9 +12,6 @@ License: MIT + file LICENSE
 URL: https://github.com/poissonconsulting/mbr
 BugReports: https://github.com/poissonconsulting/mbr/issues
 Depends:
-    mcmcdata,
-    mcmcderive,
-    mcmcr,
     R (>= 4.0)
 Imports:
     beepr,
@@ -27,6 +24,9 @@ Imports:
     graphics,
     lifecycle,
     lubridate,
+    mcmcdata,
+    mcmcderive,
+    mcmcr,
     matrixStats,
     newdata,
     nlist,
