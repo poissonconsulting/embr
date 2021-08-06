@@ -1,52 +1,57 @@
 Package: mbr
 Title: Model Builder Utility Functions and Virtual Classes
 Version: 0.0.1.9030
-Authors@R: person("Joe", "Thorley", email = "joe@poissonconsulting.ca", role = c("aut", "cre"))
-Description: Utility functions and virtual classes shared by model builder packages
-    such as tmbr, jmbr and smbr.
+Authors@R: 
+    person(given = "Joe",
+           family = "Thorley",
+           role = c("aut", "cre"),
+           email = "joe@poissonconsulting.ca")
+Description: Utility functions and virtual classes shared by model builder
+    packages such as tmbr, jmbr and smbr.
 License: MIT + file LICENSE
+URL: https://github.com/poissonconsulting/mbr
+BugReports: https://github.com/poissonconsulting/mbr/issues
 Depends:
-    R (>= 3.4),
-    mcmcr (>= 0.2.0.9021),
     mcmcdata,
-    mcmcderive
+    mcmcderive,
+    mcmcr,
+    R (>= 4.0)
 Imports:
-    stats,
-    chk,
     beepr,
+    chk,
     dplyr,
-    tibble,
+    extras,
     foreach,
-    graphics,
+    generics,
     ggplot2,
+    graphics,
+    lifecycle,
+    lubridate,
     matrixStats,
     newdata,
+    nlist,
     parallel,
     plyr,
-    lubridate,
     purrr,
     rescale,
     rlang,
+    stats,
+    stringr,
+    term,
+    tibble,
     tidyr,
     timer,
-    term,
-    nlist,
-    stringr,
-    universals,
-    generics,
-    extras,
-    lifecycle
+    universals
 Suggests:
-    testthat,
-    covr
+    covr,
+    testthat
+RdMacros: 
+    lifecycle
 Remotes: 
     poissonconsulting/mcmcdata,
     poissonconsulting/newdata,
     poissonconsulting/rescale,
     poissonconsulting/timer
-URL: https://github.com/poissonconsulting/mbr
-BugReports: https://github.com/poissonconsulting/mbr/issues
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.1
-RdMacros: lifecycle
