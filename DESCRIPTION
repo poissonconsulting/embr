@@ -34,23 +34,16 @@ Imports:
     stringr,
     universals,
     generics,
-    extras (>= 0.1.0.9009),
+    extras,
     lifecycle
 Suggests:
     testthat,
     covr
 Remotes: 
-    poissonconsulting/chk,
-    poissonconsulting/mcmcr,
     poissonconsulting/mcmcdata,
-    poissonconsulting/mcmcderive,
     poissonconsulting/newdata,
     poissonconsulting/rescale,
-    poissonconsulting/timer,
-    poissonconsulting/term,
-    poissonconsulting/nlist,
-    poissonconsulting/universals,
-    poissonconsulting/extras
+    poissonconsulting/timer
 URL: https://github.com/poissonconsulting/mbr
 BugReports: https://github.com/poissonconsulting/mbr/issues
 Encoding: UTF-8
