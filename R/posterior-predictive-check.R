@@ -46,11 +46,11 @@ posterior_predictive_check.mb_analysis <- function(x, zeros = FALSE, ...) {
     zeros <- residuals(x, type = "data")
 
     simulate_zeros <- as.mcmc(collapse_chains(simulate_zeros$mcmc))
-    zeroses <- apply(simulate_residuals, 1, FUN = extras::zeros, na_rm = TRUE)
+    zeroses <- apply(simulate_residuals, 1, FUN = extras::pzeros, na_rm = TRUE)
 
     zeros <- zeros$estimate
 
-    zeros <- extras::zeros(zeros, na_rm = TRUE)
+    zeros <- extras::pzeros(zeros, na_rm = TRUE)
   } else {
     zeros <- NA_integer_
     zeroses <- NA_integer_
