@@ -13,16 +13,28 @@ posterior_predictive_check <- function(x, ...) {
 #' Posterior Predictive Check
 #'
 #' @param x The MB analysis object.
+#' @param zeros A flag specifying whether to perform a posterior predictive check
+#' on the number of zeros in the data.
 #' @param ... Unused.
 #' @return A tibble of the checks.
 #' @export
-posterior_predictive_check.mb_analysis <- function(x, ...) {
+posterior_predictive_check.mb_analysis <- function(x, zeros = FALSE, ...) {
+  chk_flag(zeros)
   chk_unused(...)
 
   simulate_residuals <- simulate_residuals(x)
+  if(zeros) {
+    simulate_zeros <- simulate_residuals(x, type = "data")
+  }
   residuals <- residuals(x)
 
   simulate_residuals <- as.mcmc(collapse_chains(simulate_residuals$mcmc))
+
+  means <- apply(simulate_residuals, 1, FUN = extras::xtr_mean, na_rm = TRUE)
+  variances <- apply(simulate_residuals, 1, FUN = extras::variance, na_rm = TRUE)
+  skewnesses <- apply(simulate_residuals, 1, FUN = extras::skewness, na_rm = TRUE)
+  kurtoses <- apply(simulate_residuals, 1, FUN = extras::kurtosis, na_rm = TRUE)
+
   residuals <- residuals$estimate
 
   mean <- extras::xtr_mean(residuals, na_rm = TRUE)
@@ -30,18 +42,28 @@ posterior_predictive_check.mb_analysis <- function(x, ...) {
   skewness <- extras::skewness(residuals, na_rm = TRUE)
   kurtosis <- extras::kurtosis(residuals, na_rm = TRUE)
 
-  means <- apply(simulate_residuals, 1, FUN = extras::xtr_mean, na_rm = TRUE)
-  variances <- apply(simulate_residuals, 1, FUN = extras::variance, na_rm = TRUE)
-  skewnesses <- apply(simulate_residuals, 1, FUN = extras::skewness, na_rm = TRUE)
-  kurtoses <- apply(simulate_residuals, 1, FUN = extras::kurtosis, na_rm = TRUE)
+  if(zeros) {
+    zeros <- residuals(x, type = "data")
 
-  tibble <- tibble::tibble(moment = c("mean", "variance", "skewness", "kurtosis"))
+    simulate_zeros <- as.mcmc(collapse_chains(simulate_zeros$mcmc))
+    zeroses <- apply(simulate_residuals, 1, FUN = extras::zeros, na_rm = TRUE)
+
+    zeros <- zeros$estimate
+
+    zeros <- extras::zeros(zeros, na_rm = TRUE)
+  } else {
+    zeros <- NA_integer_
+    zeroses <- NA_integer_
+  }
+
+  tibble <- tibble::tibble(moment = c("zeros", "mean", "variance", "skewness", "kurtosis"))
   tibble$moment <- factor(tibble$moment, tibble$moment)
-  tibble$observed <- c(mean, variance, skewness, kurtosis)
-  tibble$median <- c(median(means), median(variances), median(skewnesses), median(kurtoses))
-  tibble$lower <- c(lower(means), lower(variances), lower(skewnesses), lower(kurtoses))
-  tibble$upper <- c(upper(means), upper(variances), upper(skewnesses), upper(kurtoses))
-  tibble$svalue <- c(svalue(means, threshold = mean),
+  tibble$observed <- c(zeros, mean, variance, skewness, kurtosis)
+  tibble$median <- c(median(zeroses), median(means), median(variances), median(skewnesses), median(kurtoses))
+  tibble$lower <- c(lower(zeroses), lower(means), lower(variances), lower(skewnesses), lower(kurtoses))
+  tibble$upper <- c(upper(zeroses), upper(means), upper(variances), upper(skewnesses), upper(kurtoses))
+  tibble$svalue <- c(svalue(zeroses, threshold = zeros),
+                     svalue(means, threshold = mean),
                      svalue(variances, threshold = variance),
                      svalue(skewnesses, threshold = skewness),
                      svalue(kurtoses, threshold = kurtosis))

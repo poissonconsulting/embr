@@ -6,6 +6,8 @@
 \arguments{
 \item{param_type}{A string indicating the type of terms to get the names for.}
 
+\item{type}{A string of the residual type.}
+
 \item{...}{Unused.}
 }
 \description{

@@ -4,10 +4,13 @@
 \alias{posterior_predictive_check.mb_analysis}
 \title{Posterior Predictive Check}
 \usage{
-\method{posterior_predictive_check}{mb_analysis}(x, ...)
+\method{posterior_predictive_check}{mb_analysis}(x, zeros = FALSE, ...)
 }
 \arguments{
 \item{x}{The MB analysis object.}
+
+\item{zeros}{A flag specifying whether to perform a posterior predictive check
+on the number of zeros in the data.}
 
 \item{...}{Unused.}
 }

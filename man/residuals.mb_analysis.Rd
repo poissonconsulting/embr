@@ -4,10 +4,12 @@
 \alias{residuals.mb_analysis}
 \title{Residuals}
 \usage{
-\method{residuals}{mb_analysis}(object, ...)
+\method{residuals}{mb_analysis}(object, type = NULL, ...)
 }
 \arguments{
 \item{object}{The MB analysis object.}
+
+\item{type}{A string of the residual type.}
 
 \item{...}{Unused.}
 }

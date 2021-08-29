@@ -5,10 +5,13 @@
 #' The new_expr in the model must include the term 'residual'.
 #'
 #' @param object The MB analysis object.
+#' @inheritParams params
 #' @param ... Unused.
 #' @return The analysis data set with the residual values.
 #' @export
-residuals.mb_analysis <- function(object, ...) {
+residuals.mb_analysis <- function(object, type = NULL, ...) {
+  chk_null_or(type, vld_string)
+  new_expr(object) <- edit_residuals_code(new_expr(object), type = type)
   predict(object, new_data = data_set(object), term = "residual")
 }
 

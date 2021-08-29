@@ -4,15 +4,20 @@
 \alias{simulate_residuals}
 \title{Simulate Residuals}
 \usage{
-simulate_residuals(x)
+simulate_residuals(x, type = NULL)
 }
 \arguments{
 \item{x}{The MB analysis object.}
+
+\item{type}{A string of the residual type.}
 }
 \value{
 An mcmc_data of the simulated residuals.
 }
 \description{
-Requires that new_expr includes code like `residual <- res_bern(`
-or `residual[i] <- res_norm(` without the `simulate` argument.
+Requires that new_expr includes `residual <- res_bern(`
+or `residual[i] <- res_norm(`.
+}
+\seealso{
+extras::res_binom
 }
