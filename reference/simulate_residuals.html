@@ -40,8 +40,8 @@
 
 
 <meta property="og:title" content="Simulate Residuals — simulate_residuals" />
-<meta property="og:description" content="Requires that new_expr includes code like `residual &amp;lt;- res_bern(`
-or `residual[i] &amp;lt;- res_norm(` without the `simulate` argument." />
+<meta property="og:description" content="Requires that new_expr includes `residual &amp;lt;- res_bern(`
+or `residual[i] &amp;lt;- res_norm(`." />
 
 
 
@@ -120,11 +120,11 @@ or `residual[i] &amp;lt;- res_norm(` without the `simulate` argument." />
     </div>
 
     <div class="ref-description">
-    <p>Requires that new_expr includes code like `residual &lt;- res_bern(`
-or `residual[i] &lt;- res_norm(` without the `simulate` argument.</p>
+    <p>Requires that new_expr includes `residual &lt;- res_bern(`
+or `residual[i] &lt;- res_norm(`.</p>
     </div>
 
-    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>simulate_residuals</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></code></pre></div>
+    <div class="ref-usage sourceCode"><pre class='sourceCode r'><code><span class='fu'>simulate_residuals</span><span class='op'>(</span><span class='va'>x</span>, type <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></code></pre></div>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -133,11 +133,18 @@ or `residual[i] &lt;- res_norm(` without the `simulate` argument.</p>
       <th>x</th>
       <td><p>The MB analysis object.</p></td>
     </tr>
+    <tr>
+      <th>type</th>
+      <td><p>A string of the residual type.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>An mcmc_data of the simulated residuals.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>extras::res_binom</p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
