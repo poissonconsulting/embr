@@ -51,9 +51,11 @@ posterior_predictive_check.mb_analysis <- function(x, zeros = FALSE, ...) {
     zeros <- zeros$estimate
 
     zeros <- extras::pzeros(zeros, na_rm = TRUE)
+    zeroses_svalue <- svalue(zeroses, threshold = zeros)
   } else {
     zeros <- NA_integer_
     zeroses <- NA_integer_
+    zeroses_svalue <- NA_real_
   }
 
   tibble <- tibble::tibble(moment = c("zeros", "mean", "variance", "skewness", "kurtosis"))
@@ -62,7 +64,7 @@ posterior_predictive_check.mb_analysis <- function(x, zeros = FALSE, ...) {
   tibble$median <- c(median(zeroses), median(means), median(variances), median(skewnesses), median(kurtoses))
   tibble$lower <- c(lower(zeroses), lower(means), lower(variances), lower(skewnesses), lower(kurtoses))
   tibble$upper <- c(upper(zeroses), upper(means), upper(variances), upper(skewnesses), upper(kurtoses))
-  tibble$svalue <- c(svalue(zeroses, threshold = zeros),
+  tibble$svalue <- c(zeroses_svalue,
                      svalue(means, threshold = mean),
                      svalue(variances, threshold = variance),
                      svalue(skewnesses, threshold = skewness),
