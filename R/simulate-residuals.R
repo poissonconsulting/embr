@@ -13,7 +13,7 @@ simulate_residuals <- function(x) {
 
   res_reg <- "(residual\\s*(\\[[^\\]\\}\n;]+\\]){0,1}\\s*<-\\s*res_[[:alnum:]_]+\\s*\\()(?![^;\n\\}]*simulate)"
   if(!stringr::str_detect(new_expr, res_reg)) {
-    err("`new_expr` must include `residual <- res_binom(` or equivalent without reference to simulate argument.", tidy = FALSE)
+    err("`new_expr` must include `residual <- res_xxx(` without reference to simulate argument.", tidy = FALSE)
   }
 
   new_expr <- stringr::str_replace_all(new_expr, res_reg, "\\1simulate = TRUE, ")
