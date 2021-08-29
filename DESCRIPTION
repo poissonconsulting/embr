@@ -48,6 +48,8 @@ Suggests:
 RdMacros: 
     lifecycle
 Remotes: 
+    poissonconsulting/chk,
+    poissoconsulting/extras,
     poissonconsulting/mcmcdata,
     poissonconsulting/newdata,
     poissonconsulting/rescale,

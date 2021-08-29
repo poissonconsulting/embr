@@ -10,7 +10,7 @@
 #' @return The analysis data set with the residual values.
 #' @export
 residuals.mb_analysis <- function(object, type = NULL, ...) {
-  chk_null_or(type, vld_string)
+  chk_null_or(type, vld = vld_string)
   new_expr(object) <- edit_residuals_code(new_expr(object), type = type)
   predict(object, new_data = data_set(object), term = "residual")
 }
