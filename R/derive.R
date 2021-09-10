@@ -17,8 +17,13 @@ mcmc_derive.mb_analysis <- function(object,
                                beep = getOption("mb.beep", FALSE),
                                ...) {
   chk_flag(beep)
-  chkor(chk_data(new_data), chk_character(new_data))
-  chkor(chk_flag(ref_data), chk_data(ref_data))
+
+  if(!vld_data(new_data) && !vld_character(new_data)) {
+    chkor_vld(vld_data(new_data), vld_character(new_data))
+  }
+  if(!vld_flag(ref_data) && !vld_data(ref_data)) {
+    chkor_vld(vld_flag(ref_data), vld_data(ref_data))
+  }
 
   if (beep) on.exit(beepr::beep())
 
