@@ -18,6 +18,7 @@ knitr::opts_chunk$set(
 [![Coverage Status](https://img.shields.io/codecov/c/github/poissonconsulting/mbr/master.svg)](https://codecov.io/github/poissonconsulting/mbr?branch=master)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1162349.svg)](https://doi.org/10.5281/zenodo.1162349)
+[![R-CMD-check](https://github.com/poissonconsulting/mbr/workflows/R-CMD-check/badge.svg)](https://github.com/poissonconsulting/mbr/actions)
 <!-- badges: end -->
 
 # mbr
