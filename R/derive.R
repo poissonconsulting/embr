@@ -63,7 +63,7 @@ mcmc_derive.mb_analysis <- function(object,
   names(ref_data) <- names(new_data)
   class(ref_data) <- "mcmcr"
 
-  object <- combine_samples(new_data, ref_data, fun = ref_fun2)
+  object <- combine_samples(ref_data, new_data, fun = ref_fun2)
   object
 }
 
