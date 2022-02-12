@@ -12,6 +12,7 @@
   term = "prediction",
   modify_new_data = NULL,
   ref_data = FALSE,
+  ref_fun2 = proportional_change2,
   random_effects = NULL,
   parallel = getOption("mb.parallel", FALSE),
   quiet = getOption("mb.quiet", TRUE),
@@ -33,6 +34,8 @@
 \item{modify_new_data}{A single argument function to modify new data (in list form) immediately prior to calculating new_expr.}
 
 \item{ref_data}{A flag or a data frame with 1 row indicating the reference values for calculating the effects size.}
+
+\item{ref_fun2}{A function whose first argument takes a vector of two numbers and returns a scalar of a metric of the difference between them.}
 
 \item{random_effects}{A named list specifying the random effects and the associated factors.}
 

@@ -1,6 +1,7 @@
 #' @import chk mcmcr mcmcdata mcmcderive term nlist generics
 #' @importFrom rlang parse_expr !! .data
 #' @importFrom stats coef residuals
+#' @importFrom extras odds_ratio2 log_odds_ratio2 proportional_change2 proportional_difference2
 #' @importFrom foreach getDoParWorkers
 #' @importFrom graphics plot
 #' @importFrom lubridate dminutes dhours is.duration

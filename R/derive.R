@@ -12,12 +12,14 @@ mcmc_derive.mb_analysis <- function(object,
                                term = "prediction",
                                modify_new_data = NULL,
                                ref_data = FALSE,
+                               ref_fun2 = proportional_change2,
                                random_effects = NULL,
                                parallel = getOption("mb.parallel", FALSE),
                                quiet = getOption("mb.quiet", TRUE),
                                beep = getOption("mb.beep", FALSE),
                                ...) {
   chk_flag(beep)
+  chk_function(ref_fun2)
 
   if(!vld_data(new_data) && !vld_character(new_data)) {
     chkor_vld(vld_data(new_data), vld_character(new_data))
@@ -61,7 +63,7 @@ mcmc_derive.mb_analysis <- function(object,
   names(ref_data) <- names(new_data)
   class(ref_data) <- "mcmcr"
 
-  object <- combine_samples(new_data, ref_data, fun = function(x) {(x[1] - x[2]) / x[2]})
+  object <- combine_samples(new_data, ref_data, fun = ref_fun2)
   object
 }
 

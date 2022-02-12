@@ -56,6 +56,7 @@ mcmcdata::mcmc_derive_data
 #' @param term A string of the term in new_expr.
 #' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
 #' @param ref_data A flag or a data frame with 1 row indicating the reference values for calculating the effects size.
+#' @param ref_fun2 A function whose first argument takes a vector of two numbers and returns a scalar of a metric of the difference between them.
 #' @param random_effects A named list specifying the random effects and the associated factors.
 #' @param parallel A flag indicating whether to do predictions using parallel backend provided by foreach.
 #' @param quiet A flag indicating whether to disable tracing information.
@@ -70,6 +71,7 @@ mcmc_derive_data.mb_analysis <- function(object,
                         term = "prediction",
                         modify_new_data = NULL,
                         ref_data = FALSE,
+                        ref_fun2 = proportional_change2,
                         random_effects = random_effects(object),
                         parallel = getOption("mb.parallel", FALSE),
                         quiet = getOption("mb.quiet", TRUE),
@@ -84,7 +86,8 @@ mcmc_derive_data.mb_analysis <- function(object,
 
   object <- mcmc_derive(object, new_data = new_data, new_expr = new_expr, new_values = new_values,
                      term = term, modify_new_data = modify_new_data,
-                     ref_data = ref_data, random_effects = random_effects,
+                     ref_data = ref_data, ref_fun2 = ref_fun2,
+                     random_effects = random_effects,
                      parallel = parallel,
                      quiet = quiet, beep = beep, ...)
 
@@ -103,6 +106,7 @@ mcmc_derive_data.mb_analysis <- function(object,
 #' @param term A string of the term in new_expr.
 #' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
 #' @param ref_data A flag or a data frame with 1 row indicating the reference values for calculating the effects size.
+#' @param ref_fun2 A function whose first argument takes a vector of two numbers and returns a scalar of a metric of the difference between them.
 #' @param parallel A flag indicating whether to do predictions using parallel backend provided by foreach.
 #' @param quiet A flag indicating whether to disable tracing information.
 #' @param beep A flag indicating whether to beep on completion of the analysis.
@@ -116,6 +120,7 @@ mcmc_derive_data.mb_analyses <- function(object,
                                     term = "prediction",
                                     modify_new_data = NULL,
                                     ref_data = FALSE,
+                                    ref_fun2 = proportional_change2,
                                     parallel = getOption("mb.parallel", FALSE),
                                     quiet = getOption("mb.quiet", TRUE),
                                     beep = getOption("mb.beep", FALSE),
@@ -130,7 +135,8 @@ mcmc_derive_data.mb_analyses <- function(object,
 
   object <- mcmc_derive(object, new_data = new_data, new_expr = new_expr, new_values = new_values,
                      term = term, modify_new_data = modify_new_data,
-                     ref_data = ref_data, parallel = parallel,
+                     ref_data = ref_data, ref_fun2 = ref_fun2,
+                     parallel = parallel,
                      quiet = quiet, beep = beep, ...)
 
   mcmc_data(object, new_data)
