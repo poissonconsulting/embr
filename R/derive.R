@@ -12,6 +12,7 @@ mcmc_derive.mb_analysis <- function(object,
                                term = "prediction",
                                modify_new_data = NULL,
                                ref_data = FALSE,
+                               random_effects = NULL,
                                parallel = getOption("mb.parallel", FALSE),
                                quiet = getOption("mb.quiet", TRUE),
                                beep = getOption("mb.beep", FALSE),
@@ -35,6 +36,7 @@ mcmc_derive.mb_analysis <- function(object,
   new_data <- mcmc_derive_fun(object, new_data = new_data, new_expr = new_expr,
                       new_values = new_values, term = term,
                       modify_new_data = modify_new_data,
+                      random_effects = random_effects,
                       parallel = parallel,
                       quiet = quiet, beep = FALSE, ...)
 
@@ -47,6 +49,7 @@ mcmc_derive.mb_analysis <- function(object,
   ref_data <- mcmc_derive_fun(object, new_data = ref_data, new_expr = new_expr,
                            new_values = new_values, term = term,
                            modify_new_data = modify_new_data,
+                           random_effects = random_effects,
                            parallel = parallel,
                            quiet = quiet, beep = FALSE, ...)
 

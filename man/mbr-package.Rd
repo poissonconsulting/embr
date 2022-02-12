@@ -6,8 +6,7 @@
 \alias{mbr-package}
 \title{mbr: Model Builder Utility Functions and Virtual Classes}
 \description{
-Utility functions and virtual classes shared by model builder
-    packages such as tmbr, jmbr and smbr.
+Utility functions and virtual classes shared by model builder packages such as tmbr, jmbr and smbr.
 }
 \seealso{
 Useful links:

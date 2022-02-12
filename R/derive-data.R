@@ -4,11 +4,21 @@ mcmc_derive_fun <- function(object,
                        new_values = list(),
                        term = "prediction",
                        modify_new_data = NULL,
+                       random_effects = NULL,
                        parallel,
                        quiet,
                        ...) {
   chk_data(new_data)
+  if(is.null(random_effects) || isTRUE(random_effects)) {
+    random_effects <- random_effects(object)
+  } else if(isFALSE(random_effects)) {
+    random_effects <- list()
+  }
+
   check_uniquely_named_list(new_values)
+  check_uniquely_named_list(random_effects)
+  check_all_elements_class_character(random_effects)
+
   chk_flag(parallel)
   chk_flag(quiet)
 
@@ -22,7 +32,7 @@ mcmc_derive_fun <- function(object,
 
   object <- as.mcmcr(object)
 
-  object <- zero_random_effects(object, data, model$random_effects)
+  object <- zero_random_effects(object, data, random_effects)
 
   data <- numericize_factors(data)
   data <- c(data, new_values)
@@ -46,6 +56,7 @@ mcmcdata::mcmc_derive_data
 #' @param term A string of the term in new_expr.
 #' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
 #' @param ref_data A flag or a data frame with 1 row indicating the reference values for calculating the effects size.
+#' @param random_effects A named list specifying the random effects and the associated factors.
 #' @param parallel A flag indicating whether to do predictions using parallel backend provided by foreach.
 #' @param quiet A flag indicating whether to disable tracing information.
 #' @param beep A flag indicating whether to beep on completion of the analysis.
@@ -59,6 +70,7 @@ mcmc_derive_data.mb_analysis <- function(object,
                         term = "prediction",
                         modify_new_data = NULL,
                         ref_data = FALSE,
+                        random_effects = random_effects(object),
                         parallel = getOption("mb.parallel", FALSE),
                         quiet = getOption("mb.quiet", TRUE),
                         beep = getOption("mb.beep", FALSE),
@@ -72,7 +84,8 @@ mcmc_derive_data.mb_analysis <- function(object,
 
   object <- mcmc_derive(object, new_data = new_data, new_expr = new_expr, new_values = new_values,
                      term = term, modify_new_data = modify_new_data,
-                     ref_data = ref_data, parallel = parallel,
+                     ref_data = ref_data, random_effects = random_effects,
+                     parallel = parallel,
                      quiet = quiet, beep = beep, ...)
 
   object <- mcmc_data(object, new_data)
