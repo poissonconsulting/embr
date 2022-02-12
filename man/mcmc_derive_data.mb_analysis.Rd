@@ -13,7 +13,7 @@
   modify_new_data = NULL,
   ref_data = FALSE,
   ref_fun2 = proportional_change2,
-  random_effects = random_effects(object),
+  random_effects = NULL,
   parallel = getOption("mb.parallel", FALSE),
   quiet = getOption("mb.quiet", TRUE),
   beep = getOption("mb.beep", FALSE),
