@@ -6,7 +6,9 @@
 \usage{
 \method{model}{mb_code}(
   x,
-  gen_inits = function(data) {     list() },
+  gen_inits = function(data) {
+     list()
+ },
   random_effects = list(),
   fixed = getOption("mb.fixed", "^[^e]"),
   derived = character(0),
