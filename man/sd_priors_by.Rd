@@ -47,8 +47,8 @@ Multiply Standard Deviation of Priors By
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{mb_model}: Multiply Standard Deviation of Priors for an MB model
+\item \code{sd_priors_by(mb_model)}: Multiply Standard Deviation of Priors for an MB model
 
-\item \code{mb_analysis}: Multiply Standard Deviation of Priors for an MB analysis
+\item \code{sd_priors_by(mb_analysis)}: Multiply Standard Deviation of Priors for an MB analysis
+
 }}
-
