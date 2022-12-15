@@ -3,7 +3,7 @@ generics::tidy
 
 #' @export
 tidy.mb_analysis <- function(x, conf_level = getOption("mb.conf_level", 0.95), ...) {
-  coef <- coef(x, conf_level = conf_level, beep = FALSE)
+  coef <- coef(x, conf_level = conf_level, beep = FALSE, simplify = TRUE)
 
   coef <- coef[c("term", "estimate", "lower", "upper")]
 
