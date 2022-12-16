@@ -10,4 +10,5 @@
 #' @importFrom rescale check_valid_rescalers
 #' @importFrom dplyr select mutate
 #' @importFrom stats var fitted logLik median predict terms pnorm qnorm
+#' @importFrom universals estimates
 NULL
