@@ -31,8 +31,8 @@ coef.mb_null_analysis <- function(object, param_type = "fixed", include_constant
 
   if(simplify) {
     coef <- mutate(coef, svalue = -log(.data$pvalue, base = 2))
-    coef <- select(coef, .data$term, .data$estimate, .data$lower, .data$upper,
-                   .data$svalue)
+    coef <- select(coef, "term", "estimate", "lower", "upper",
+                   "svalue")
   }
 
   class(coef) <- c("mb_analysis_coef", class(coef))
@@ -78,8 +78,8 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
 
     if(simplify) {
       coef <- mutate(coef, svalue = -log(.data$pvalue, base = 2))
-      coef <- select(coef, .data$term, .data$estimate, .data$lower, .data$upper,
-                     .data$svalue)
+      coef <- select(coef, "term", "estimate", "lower", "upper",
+                     "svalue")
     }
 
     class(coef) <- c("mb_analysis_coef", class(coef))
@@ -108,8 +108,8 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
     if (!include_constant) coef <- dplyr::filter(coef, .data$lower != .data$upper)
     if(simplify) {
       coef <- mutate(coef, svalue = -log(.data$pvalue, base = 2))
-      coef <- select(coef, .data$term, .data$estimate, .data$lower, .data$upper,
-                     .data$svalue)
+      coef <- select(coef, "term", "estimate", "lower", "upper",
+                     "svalue")
     }
   }
 

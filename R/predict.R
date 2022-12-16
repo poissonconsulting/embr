@@ -120,11 +120,11 @@ predict.mb_analyses <- function(object,
                    zscore = NA_real_,
                    pvalue = NA_real_)
   prediction <- dplyr::arrange_(prediction, ~.row)
-  prediction <- dplyr::select(prediction, estimate = .data$estimate,
-                              sd = .data$sd, zscore = .data$zscore,
-                              lower = .data$lower,,
-                              upper = .data$upper,
-                              pvalue = .data$pvalue)
+  prediction <- dplyr::select(prediction, estimate = "estimate",
+                              sd = "sd", zscore = "zscore",
+                              lower = "lower",
+                              upper = "upper",
+                              pvalue = "pvalue")
   new_data <- dplyr::bind_cols(prediction, new_data, prediction)
   new_data
 }
