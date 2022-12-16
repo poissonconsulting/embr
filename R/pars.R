@@ -1,4 +1,3 @@
-#' @export
 pars.character <- function(x, param_type = "all", scalar = NULL, ...) {
   chk_string(param_type)
   chk_subset(param_type,  c("fixed", "random", "derived", "primary", "all"))
