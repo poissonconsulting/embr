@@ -1,3 +1,33 @@
+<!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
+
+# mbr 0.0.1.9031
+
+- Added `ref_fun2` argument.
+
+- Added random_effects argument to predict etc to control random effects.
+
+- Merge pull request #30 from poissonconsulting/changes_to_actions.
+
+Updating R CMD check Actions
+
+- Merge pull request #29 from poissonconsulting/chkor.
+
+replace chkor
+
+- Added zeros = FALSE argument to posterior_predictive_check() and type = NULL to residuals and simulate residuals.
+
+- Remove zeros from posterior predictive checks.
+
+- No longer export mcmc packages.
+
+- Merge branch 'master' of github.com:poissonconsulting/mbr.
+
+
+- Renamed `resample_residuals()` to `simulate_residuals()`.
+
+- Added resample residuals which alters residual code!
+
+
 # mbr 0.0.1.9030
 
 - Added `posterior_predictive_check()`.
