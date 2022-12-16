@@ -4,6 +4,7 @@
 #' @param ... Unused.
 #' @export
 plot_data <- function(x, ...) {
+  lifecycle::deprecate_soft("0.0.1.9031", "plot_data()")
   UseMethod("plot_data")
 }
 

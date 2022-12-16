@@ -3,7 +3,8 @@ test_that("plot_data", {
                      str = paste0("txt", 1:10), factor = factor(10:1),
                      stringsAsFactors = FALSE)
 
-  x <- plot_data(data)
+  expect_warning(
+  x <- plot_data(data))
 
   expect_identical(length(x), 6L)
   expect_true(all(vapply(x, inherits, TRUE, what = "ggplot")))
