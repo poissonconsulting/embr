@@ -53,56 +53,83 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for mb_analysis</span>
-<span class="fu"><a href="https://rdrr.io/pkg/mcmcdata/man/mcmc_derive_data.html" class="external-link">mcmc_derive_data</a></span><span class="op">(</span>
-  <span class="va">object</span>,
-  new_data <span class="op">=</span> <span class="fu"><a href="data_set.html">data_set</a></span><span class="op">(</span><span class="va">object</span><span class="op">)</span>,
-  new_expr <span class="op">=</span> <span class="cn">NULL</span>,
-  new_values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
-  term <span class="op">=</span> <span class="st">"prediction"</span>,
-  modify_new_data <span class="op">=</span> <span class="cn">NULL</span>,
-  ref_data <span class="op">=</span> <span class="cn">FALSE</span>,
-  ref_fun2 <span class="op">=</span> <span class="va">proportional_change2</span>,
-  random_effects <span class="op">=</span> <span class="cn">NULL</span>,
-  parallel <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.parallel"</span>, <span class="cn">FALSE</span><span class="op">)</span>,
-  quiet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.quiet"</span>, <span class="cn">TRUE</span><span class="op">)</span>,
-  beep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.beep"</span>, <span class="cn">FALSE</span><span class="op">)</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for mb_analysis</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/mcmcdata/man/mcmc_derive_data.html" class="external-link">mcmc_derive_data</a></span><span class="op">(</span></span>
+<span>  <span class="va">object</span>,</span>
+<span>  new_data <span class="op">=</span> <span class="fu"><a href="data_set.html">data_set</a></span><span class="op">(</span><span class="va">object</span><span class="op">)</span>,</span>
+<span>  new_expr <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  new_values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  term <span class="op">=</span> <span class="st">"prediction"</span>,</span>
+<span>  modify_new_data <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  ref_data <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  ref_fun2 <span class="op">=</span> <span class="va">proportional_change2</span>,</span>
+<span>  random_effects <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  parallel <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.parallel"</span>, <span class="cn">FALSE</span><span class="op">)</span>,</span>
+<span>  quiet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.quiet"</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  beep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.beep"</span>, <span class="cn">FALSE</span><span class="op">)</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>object</dt>
 <dd><p>An object inheriting from class mb_analysis.</p></dd>
+
+
 <dt>new_data</dt>
 <dd><p>The data frame to calculate the predictions for.</p></dd>
+
+
 <dt>new_expr</dt>
 <dd><p>A string of R code specifying the predictive relationship.</p></dd>
+
+
 <dt>new_values</dt>
 <dd><p>A named list of new or replacement values to pass to new_expr.</p></dd>
+
+
 <dt>term</dt>
 <dd><p>A string of the term in new_expr.</p></dd>
+
+
 <dt>modify_new_data</dt>
 <dd><p>A single argument function to modify new data (in list form) immediately prior to calculating new_expr.</p></dd>
+
+
 <dt>ref_data</dt>
 <dd><p>A flag or a data frame with 1 row indicating the reference values for calculating the effects size.</p></dd>
+
+
 <dt>ref_fun2</dt>
 <dd><p>A function whose first argument takes a vector of two numbers and returns a scalar of a metric of the difference between them.</p></dd>
+
+
 <dt>random_effects</dt>
 <dd><p>A named list specifying the random effects and the associated factors.</p></dd>
+
+
 <dt>parallel</dt>
 <dd><p>A flag indicating whether to do predictions using parallel backend provided by foreach.</p></dd>
+
+
 <dt>quiet</dt>
 <dd><p>A flag indicating whether to disable tracing information.</p></dd>
+
+
 <dt>beep</dt>
 <dd><p>A flag indicating whether to beep on completion of the analysis.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Additional arguments.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A object of class mcmc_data.</p>
+    
+
+<p>A object of class mcmc_data.</p>
     </div>
 
   </div>
@@ -117,7 +144,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>

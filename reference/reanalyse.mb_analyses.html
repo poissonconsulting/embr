@@ -53,43 +53,62 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="co"># S3 method for mb_analyses</span>
-<span class="fu"><a href="reanalyse.html">reanalyse</a></span><span class="op">(</span>
-  <span class="va">object</span>,
-  rhat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.rhat"</span>, <span class="fl">1.1</span><span class="op">)</span>,
-  esr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.esr"</span>, <span class="fl">0.33</span><span class="op">)</span>,
-  nreanalyses <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.nreanalyses"</span>, <span class="fl">1L</span><span class="op">)</span>,
-  duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.duration"</span>, <span class="fu">dhours</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span>,
-  parallel <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.parallel"</span>, <span class="cn">FALSE</span><span class="op">)</span>,
-  quiet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.quiet"</span>, <span class="cn">TRUE</span><span class="op">)</span>,
-  glance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.glance"</span>, <span class="cn">TRUE</span><span class="op">)</span>,
-  beep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.beep"</span>, <span class="cn">TRUE</span><span class="op">)</span>,
-  <span class="va">...</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for mb_analyses</span></span>
+<span><span class="fu"><a href="reanalyse.html">reanalyse</a></span><span class="op">(</span></span>
+<span>  <span class="va">object</span>,</span>
+<span>  rhat <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.rhat"</span>, <span class="fl">1.1</span><span class="op">)</span>,</span>
+<span>  esr <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.esr"</span>, <span class="fl">0.33</span><span class="op">)</span>,</span>
+<span>  nreanalyses <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.nreanalyses"</span>, <span class="fl">1L</span><span class="op">)</span>,</span>
+<span>  duration <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.duration"</span>, <span class="fu">dhours</span><span class="op">(</span><span class="fl">1</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  parallel <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.parallel"</span>, <span class="cn">FALSE</span><span class="op">)</span>,</span>
+<span>  quiet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.quiet"</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  glance <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.glance"</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  beep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.beep"</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  <span class="va">...</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>object</dt>
 <dd><p>The object to reanalyse.</p></dd>
+
+
 <dt>rhat</dt>
 <dd><p>A number specifying the rhat threshold.</p></dd>
+
+
 <dt>esr</dt>
 <dd><p>A number specifying the effective sampling rate.</p></dd>
+
+
 <dt>nreanalyses</dt>
 <dd><p>A count between 1 and 7 specifying the maximum number of reanalyses.</p></dd>
+
+
 <dt>duration</dt>
 <dd><p>The maximum total time to spend on analysis/reanalysis.</p></dd>
+
+
 <dt>parallel</dt>
 <dd><p>A flag indicating whether to perform the analysis in parallel if possible</p></dd>
+
+
 <dt>quiet</dt>
 <dd><p>A flag indicating whether to disable tracing information.</p></dd>
+
+
 <dt>glance</dt>
 <dd><p>A flag indicating whether to print summary of model.</p></dd>
+
+
 <dt>beep</dt>
 <dd><p>A flag indicating whether to beep on completion of the analysis.</p></dd>
+
+
 <dt>...</dt>
 <dd><p>Unused arguments.</p></dd>
+
 </dl></div>
 
   </div>
@@ -104,7 +123,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.9000.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
