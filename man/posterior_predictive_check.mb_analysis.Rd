@@ -4,7 +4,7 @@
 \alias{posterior_predictive_check.mb_analysis}
 \title{Posterior Predictive Check}
 \usage{
-\method{posterior_predictive_check}{mb_analysis}(x, zeros = FALSE, ...)
+\method{posterior_predictive_check}{mb_analysis}(x, zeros = TRUE, ...)
 }
 \arguments{
 \item{x}{The MB analysis object.}

@@ -18,7 +18,7 @@ posterior_predictive_check <- function(x, ...) {
 #' @param ... Unused.
 #' @return A tibble of the checks.
 #' @export
-posterior_predictive_check.mb_analysis <- function(x, zeros = FALSE, ...) {
+posterior_predictive_check.mb_analysis <- function(x, zeros = TRUE, ...) {
   chk_flag(zeros)
   chk_unused(...)
 
