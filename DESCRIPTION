@@ -42,10 +42,12 @@ Imports:
     universals
 Suggests:
     covr,
+    mbr,
     testthat
 RdMacros: 
     lifecycle
 Remotes: 
+    poissonconsulting/mbr,
     poissonconsulting/mcmcdata,
     poissonconsulting/newdata,
     poissonconsulting/rescale
