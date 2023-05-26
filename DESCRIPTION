@@ -43,7 +43,6 @@ Imports:
 Suggests:
     covr,
     jmbr,
-    rjags,
     testthat
 RdMacros: 
     lifecycle
