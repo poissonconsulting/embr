@@ -5,8 +5,7 @@
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![R-CMD-check](https://github.com/poissonconsulting/mbr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/poissonconsulting/mbr/actions/workflows/R-CMD-check.yaml)
-[![Coverage
-Status](https://img.shields.io/codecov/c/github/poissonconsulting/mbr/master.svg)](https://codecov.io/github/poissonconsulting/mbr?branch=master)
+[![codecov](https://codecov.io/github/poissonconsulting/mbr/branch/main/graph/badge.svg?token=RSs3t4kgR0)](https://codecov.io/github/poissonconsulting/mbr)
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
@@ -34,7 +33,6 @@ remotes::install_github("poissonconsulting/mbr")
 ```
 
 ## Citation
-
 
     To cite mbr in publications use:
 
