@@ -24,8 +24,8 @@ simulate_residuals <- function(x, type = NULL) {
   chk_s3_class(x, "mb_analysis")
   chk_null_or(type, vld = vld_string)
 
-  chk_string(new_expr(x))
   new_expr <- new_expr(x)
+  chk_string(new_expr, "new_expr(x)")
 
   pattern <- "(residual\\s*(\\[[^\\]\\}\n;]+\\]){0,1}\\s*<-\\s*res_[[:alnum:]_]+\\s*\\()"
   if(!stringr::str_detect(new_expr, pattern)) {
