@@ -31,7 +31,7 @@ model.character <- function(
     scale = scale,
     modify_data = modify_data,
     nthin = nthin,
-    new_expr = new_expr,
+    new_expr = {{ new_expr }},
     modify_new_data = modify_new_data,
     drops = drops
   )
@@ -113,7 +113,7 @@ model_mb_code <- function(
     scale = scale,
     random_effects =  random_effects,
     modify_data = modify_data,
-    new_expr = new_expr,
+    new_expr = {{ new_expr }},
     modify_new_data = modify_new_data,
     drops = drops,
     nthin = nthin
@@ -168,7 +168,7 @@ model.mb_code <- function(
     scale = scale,
     modify_data = modify_data,
     nthin = nthin,
-    new_expr = new_expr,
+    new_expr = {{ new_expr }},
     modify_new_data = modify_new_data,
     drops = drops
   )

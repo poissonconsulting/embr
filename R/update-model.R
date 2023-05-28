@@ -49,7 +49,7 @@ update_model.mb_model <- function(model, code = NULL, gen_inits = NULL,
     scale = scale,
     modify_data = modify_data,
     nthin = nthin,
-    new_expr = new_expr,
+    new_expr = {{ new_expr }},
     modify_new_data = modify_new_data,
     drops = drops
   )
