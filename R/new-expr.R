@@ -11,7 +11,6 @@ new_expr <- function(object, ...) {
 
 #' @export
 new_expr.mb_model <- function(object, ...) {
-  if (is.null(object$new_expr)) return(character(0))
   object$new_expr
 }
 
@@ -54,7 +53,12 @@ new_expr.mb_meta_analyses <- function(object, ...) {
 
 #' @export
 `new_expr<-.mb_model` <- function(object, value) {
-  chk_string(value)
+  if (is.character(value)) {
+    value <- parse(text = value)
+    chk_length(value)
+    value <- value[[1]]
+  }
+  chk_true(is.call(value))
   object$new_expr <- value
   object
 }
