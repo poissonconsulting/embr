@@ -5,5 +5,8 @@
 # roxygen namespace tags. Modify with care!
 ## usethis namespace: start
 #' @importFrom lifecycle deprecate_soft
+#' @importFrom rlang enquo
+#' @importFrom rlang inject
+#' @importFrom rlang quo_is_null
 ## usethis namespace: end
 NULL
