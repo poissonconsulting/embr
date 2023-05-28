@@ -9,8 +9,8 @@ Authors@R:
 Description: Utility functions and virtual classes shared by model builder
     packages such as tmbr, jmbr and smbr.
 License: MIT + file LICENSE
-URL: https://github.com/poissonconsulting/mbr
-BugReports: https://github.com/poissonconsulting/mbr/issues
+URL: https://github.com/poissonconsulting/embr
+BugReports: https://github.com/poissonconsulting/embr/issues
 Depends:
     R (>= 4.1)
 Imports:
