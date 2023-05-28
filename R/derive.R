@@ -35,12 +35,19 @@ mcmc_derive.mb_analysis <- function(object,
 
   nrow <- nrow(new_data)
 
-  new_data <- mcmc_derive_fun(object, new_data = new_data, new_expr = new_expr,
-                      new_values = new_values, term = term,
-                      modify_new_data = modify_new_data,
-                      random_effects = random_effects,
-                      parallel = parallel,
-                      quiet = quiet, beep = FALSE, ...)
+  new_data <- mcmc_derive_fun(
+    object,
+    new_data = new_data,
+    new_expr = new_expr,
+    new_values = new_values,
+    term = term,
+    modify_new_data = modify_new_data,
+    random_effects = random_effects,
+    parallel = parallel,
+    quiet = quiet,
+    beep = FALSE,
+    ...
+  )
 
   if (identical(ref_data, FALSE)) return(new_data)
 
@@ -48,12 +55,19 @@ mcmc_derive.mb_analysis <- function(object,
     ref_data <- data_set(object)
     ref_data <- newdata::new_data(ref_data)
   }
-  ref_data <- mcmc_derive_fun(object, new_data = ref_data, new_expr = new_expr,
-                           new_values = new_values, term = term,
-                           modify_new_data = modify_new_data,
-                           random_effects = random_effects,
-                           parallel = parallel,
-                           quiet = quiet, beep = FALSE, ...)
+  ref_data <- mcmc_derive_fun(
+    object,
+    new_data = ref_data,
+    new_expr = new_expr,
+    new_values = new_values,
+    term = term,
+    modify_new_data = modify_new_data,
+    random_effects = random_effects,
+    parallel = parallel,
+    quiet = quiet,
+    beep = FALSE,
+    ...
+  )
 
   ref_data <- rep(ref_data, nrow)
 
@@ -75,16 +89,16 @@ mcmc_derive.mb_analysis <- function(object,
 #' @return A object of class mcmcr.
 #' @export
 mcmc_derive.mb_analyses <- function(object,
-                               new_data = data_set(object),
-                               new_expr = NULL,
-                               new_values = list(),
-                               term = "prediction",
-                               modify_new_data = NULL,
-                               ref_data = FALSE,
-                               parallel = getOption("mb.parallel", FALSE),
-                               quiet = getOption("mb.quiet", TRUE),
-                               beep = getOption("mb.beep", FALSE),
-                               ...) {
+                                    new_data = data_set(object),
+                                    new_expr = NULL,
+                                    new_values = list(),
+                                    term = "prediction",
+                                    modify_new_data = NULL,
+                                    ref_data = FALSE,
+                                    parallel = getOption("mb.parallel", FALSE),
+                                    quiet = getOption("mb.quiet", TRUE),
+                                    beep = getOption("mb.beep", FALSE),
+                                    ...) {
 
   chk_flag(beep)
 
@@ -94,10 +108,19 @@ mcmc_derive.mb_analyses <- function(object,
 
   if (!all(is.finite(ic$IC))) err("non-finite IC values", tidy = FALSE)
 
-  object <- llply(object, mcmc_derive, new_data = new_data, new_expr = new_expr,
-                      new_values = new_values, term = term,
-                      modify_new_data = modify_new_data, ref_data = ref_data,
-                      parallel = parallel, quiet = quiet, beep = FALSE)
+  object <- llply(
+    object,
+    mcmc_derive,
+    new_data = new_data,
+    new_expr = new_expr,
+    new_values = new_values,
+    term = term,
+    modify_new_data = modify_new_data,
+    ref_data = ref_data,
+    parallel = parallel,
+    quiet = quiet,
+    beep = FALSE
+  )
 
   set_weight <- function(x, weight) mcmc_map(x, .f = function(x, weight) x * weight, weight = weight)
 

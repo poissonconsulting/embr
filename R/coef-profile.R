@@ -19,8 +19,15 @@ coef_profile.mb_null_analysis <- function(object, param_type = "fixed", include_
   chk_flag(beep)
   if (beep) on.exit(beepr::beep())
 
-  coef(object, param_type = param_type, include_constant = include_constant,
-       conf_level = conf_level, estimate = estimate, simplify = simplify, ...)
+  coef(
+    object,
+    param_type = param_type,
+    include_constant = include_constant,
+    conf_level = conf_level,
+    estimate = estimate,
+    simplify = simplify,
+    ...
+  )
 }
 
 #' Coef Profile Analysis

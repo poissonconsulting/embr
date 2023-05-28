@@ -45,13 +45,21 @@ predict.mb_analysis <- function(object,
 
   term <- p0("^", term, "$")
 
-  object <- mcmc_derive_data(object, new_data = new_data, new_expr = new_expr,
-                          new_values = new_values, term = term,
-                          modify_new_data = modify_new_data, ref_data = ref_data,
-                          ref_fun2 = ref_fun2,
-                          random_effects = random_effects,
-                          parallel = parallel, quiet = quiet,
-                          beep = FALSE, ...)
+  object <- mcmc_derive_data(
+    object,
+    new_data = new_data,
+    new_expr = new_expr,
+    new_values = new_values,
+    term = term,
+    modify_new_data = modify_new_data,
+    ref_data = ref_data,
+    ref_fun2 = ref_fun2,
+    random_effects = random_effects,
+    parallel = parallel,
+    quiet = quiet,
+    beep = FALSE,
+    ...
+  )
 
   object <- coef(object, conf_level = conf_level)
 
@@ -82,11 +90,21 @@ predict.mb_analyses <- function(object,
 
   ic <- IC(object)
 
-  prediction <- llply(object, predict, new_data = new_data, new_expr = new_expr,
-                      new_values = new_values, term = term, conf_level = conf_level,
-                      modify_new_data = modify_new_data, ref_data = ref_data,
-                      ref_fun2 = ref_fun2,
-                      parallel = parallel, quiet = quiet, beep = FALSE)
+  prediction <- llply(
+    object,
+    predict,
+    new_data = new_data,
+    new_expr = new_expr,
+    new_values = new_values,
+    term = term,
+    conf_level = conf_level,
+    modify_new_data = modify_new_data,
+    ref_data = ref_data,
+    ref_fun2 = ref_fun2,
+    parallel = parallel,
+    quiet = quiet,
+    beep = FALSE
+  )
 
   if (!all(is.finite(ic$IC))) {
     prediction <- dplyr::mutate(prediction[[1]], estimate = NA_real_,

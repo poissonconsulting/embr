@@ -20,11 +20,21 @@ model.character <- function(
 
   x <- mb_code(x)
 
-  model(x, gen_inits = gen_inits, fixed = fixed, derived = derived,
-        random_effects = random_effects, select_data = select_data,
-        center = center, scale = scale, modify_data = modify_data,
-        nthin = nthin, new_expr = new_expr, modify_new_data = modify_new_data,
-        drops = drops)
+  model(
+    x,
+    gen_inits = gen_inits,
+    fixed = fixed,
+    derived = derived,
+    random_effects = random_effects,
+    select_data = select_data,
+    center = center,
+    scale = scale,
+    modify_data = modify_data,
+    nthin = nthin,
+    new_expr = new_expr,
+    modify_new_data = modify_new_data,
+    drops = drops
+  )
 }
 
 model_mb_code <- function(
@@ -93,19 +103,21 @@ model_mb_code <- function(
   scale <- sort(scale)
   random_effects <- sort_nlist(random_effects)
 
-  obj <- list(code = x,
-              gen_inits = gen_inits,
-              fixed = fixed,
-              derived = derived,
-              select_data = select_data,
-              center = center,
-              scale = scale,
-              random_effects =  random_effects,
-              modify_data = modify_data,
-              new_expr = new_expr,
-              modify_new_data = modify_new_data,
-              drops = drops,
-              nthin = nthin)
+  obj <- list(
+    code = x,
+    gen_inits = gen_inits,
+    fixed = fixed,
+    derived = derived,
+    select_data = select_data,
+    center = center,
+    scale = scale,
+    random_effects =  random_effects,
+    modify_data = modify_data,
+    new_expr = new_expr,
+    modify_new_data = modify_new_data,
+    drops = drops,
+    nthin = nthin
+  )
   class(obj) <- class(x)
   class(obj) <- sub("code", "model", class(obj))
   obj
@@ -145,11 +157,21 @@ model.mb_code <- function(
   modify_data = identity, nthin = getOption("mb.nthin", 1L),
   new_expr = character(0), modify_new_data = identity, drops = list(), ...) {
 
-  model_mb_code(x = x, gen_inits = gen_inits, random_effects = random_effects,
-                fixed = fixed, derived = derived, select_data = select_data,
-                center = center, scale = scale, modify_data = modify_data,
-                nthin = nthin, new_expr = new_expr, modify_new_data = modify_new_data,
-                drops = drops)
+  model_mb_code(
+    x = x,
+    gen_inits = gen_inits,
+    random_effects = random_effects,
+    fixed = fixed,
+    derived = derived,
+    select_data = select_data,
+    center = center,
+    scale = scale,
+    modify_data = modify_data,
+    nthin = nthin,
+    new_expr = new_expr,
+    modify_new_data = modify_new_data,
+    drops = drops
+  )
 }
 
 #' @export
