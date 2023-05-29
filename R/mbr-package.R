@@ -7,6 +7,8 @@
 #' @importFrom lifecycle deprecate_soft
 #' @importFrom rlang enquo
 #' @importFrom rlang inject
+#' @importFrom rlang list2
+#' @importFrom rlang quo_get_expr
 #' @importFrom rlang quo_is_null
 ## usethis namespace: end
 NULL
