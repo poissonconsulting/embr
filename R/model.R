@@ -71,8 +71,17 @@ model_mb_code <- function(x,
   check_unique_character_vector(scale)
   check_single_arg_fun(modify_data)
   check_single_arg_fun(modify_new_data)
-  chk_s3_class(new_expr, "character")
-  chk_subset(length(new_expr), c(0, 1))
+  new_expr <- enquo(new_expr)
+  if (!quo_is_null(new_expr)) {
+    new_expr <- quo_get_expr(new_expr)
+    if (is.character(new_expr)) {
+      new_expr <- parse(text = new_expr)
+      chk_length(new_expr)
+      new_expr <- new_expr[[1]]
+    }
+  } else {
+    new_expr <- NULL
+  }
   chk_whole_number(nthin)
   chk_scalar(nthin)
   check_drops(drops)
@@ -128,7 +137,7 @@ model_mb_code <- function(x,
     scale = scale,
     random_effects =  random_effects,
     modify_data = modify_data,
-    new_expr = {{ new_expr }},
+    new_expr = new_expr,
     modify_new_data = modify_new_data,
     drops = drops,
     nthin = nthin

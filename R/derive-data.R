@@ -24,11 +24,18 @@ mcmc_derive_fun <- function(object,
 
   model <- model(object)
 
-  if (is.null(new_expr)) new_expr <- model$new_expr
-  chk_string(new_expr)
+  new_expr <- enquo(new_expr)
+  if (quo_is_null(new_expr)) {
+    new_expr <- model$new_expr
+  }
+  chk_true(is.call(new_expr))
 
-  data <- mbr::modify_new_data(new_data, data2 = data_set(object), model = model,
-                               modify_new_data = modify_new_data)
+  data <- mbr::modify_new_data(
+    new_data,
+    data2 = data_set(object),
+    model = model,
+    modify_new_data = modify_new_data
+  )
 
   object <- as.mcmcr(object)
 
@@ -37,8 +44,14 @@ mcmc_derive_fun <- function(object,
   data <- numericize_factors(data)
   data <- c(data, new_values)
 
-  object <- mcmc_derive(object, expr = new_expr, values = data, monitor = term,
-                     parallel = parallel, silent = quiet)
+  object <- inject(mcmc_derive(
+    object,
+    expr = !!new_expr,
+    values = data,
+    monitor = term,
+    parallel = parallel,
+    silent = quiet
+  ))
   object
 }
 
