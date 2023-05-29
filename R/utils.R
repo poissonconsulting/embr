@@ -22,7 +22,7 @@ coef_arg2to1 <- function(param_type, object, include_constant, conf_level, ...) 
 
 
 is_new_parameter <- function(x, parameter) {
-  # FIXME: Needs deeper fix in term package
+  # https://github.com/poissonconsulting/term/issues/57
   parameter %in% pars(paste(deparse(new_expr(x)), collapse = "\n"))
 }
 

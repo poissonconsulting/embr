@@ -25,6 +25,7 @@ simulate_residuals <- function(x, type = NULL) {
   chk_null_or(type, vld = vld_string)
 
   new_expr <- new_expr(x)
+  # FIXME
   chk_string(new_expr, "new_expr(x)")
 
   pattern <- "(residual\\s*(\\[[^\\]\\}\n;]+\\]){0,1}\\s*<-\\s*res_[[:alnum:]_]+\\s*\\()"
