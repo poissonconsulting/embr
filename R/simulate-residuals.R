@@ -35,5 +35,5 @@ simulate_residuals <- function(x, type = NULL) {
 
   new_expr <- edit_residuals_code(new_expr, type = type, simulate = TRUE)
 
-  inject(mcmc_derive_data(x, new_expr = !!new_expr, term = "^residual$"))
+  mcmc_derive_data(x, new_expr = new_expr, term = "^residual$")
 }
