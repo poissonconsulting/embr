@@ -24,8 +24,7 @@ mcmc_derive_fun <- function(object,
 
   model <- model(object)
 
-  new_expr <- enquo(new_expr)
-  if (quo_is_null(new_expr)) {
+  if (quo_is_null(enquo(new_expr))) {
     new_expr <- model$new_expr
   }
   chk_true(is.call(new_expr))
