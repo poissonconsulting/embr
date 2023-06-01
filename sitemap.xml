@@ -142,6 +142,9 @@
     <loc>/reference/elapsed.html</loc>
   </url>
   <url>
+    <loc>/reference/embr-package.html</loc>
+  </url>
+  <url>
     <loc>/reference/estimates.mb_analysis.html</loc>
   </url>
   <url>
@@ -203,9 +206,6 @@
   </url>
   <url>
     <loc>/reference/mb_code.html</loc>
-  </url>
-  <url>
-    <loc>/reference/mbr-package.html</loc>
   </url>
   <url>
     <loc>/reference/mcmc_derive.mb_analyses.html</loc>
