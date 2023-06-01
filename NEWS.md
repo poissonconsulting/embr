@@ -1,6 +1,6 @@
 <!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
 
-# mbr 0.0.1.9031
+# embr 0.0.1.9031
 
 - Added `ref_fun2` argument.
 
@@ -20,7 +20,7 @@ replace chkor
 
 - No longer export mcmc packages.
 
-- Merge branch 'master' of github.com:poissonconsulting/mbr.
+- Merge branch 'master' of github.com:poissonconsulting/embr.
 
 
 - Renamed `resample_residuals()` to `simulate_residuals()`.
@@ -28,12 +28,12 @@ replace chkor
 - Added resample residuals which alters residual code!
 
 
-# mbr 0.0.1.9030
+# embr 0.0.1.9030
 
 - Added `posterior_predictive_check()`.
 
 
-# mbr 0.0.1.9029
+# embr 0.0.1.9029
 
 - fix up simplify = TRUE
 - add `deltaIC` to `glance()`
@@ -49,6 +49,6 @@ and `rhat` has been decreased from `1.1` to `1.05` for report mode and from `1.0
 - Rename `derive()` and `derive_data()` to `mcmc_derive()` and `mcmc_derive_data()`.
 - Moved `pow()` to `mcmcderive` package.
 
-# mbr 0.0.1
+# embr 0.0.1
 
 - Added a `NEWS.md` file to track changes to the package.

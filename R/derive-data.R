@@ -27,7 +27,7 @@ mcmc_derive_fun <- function(object,
   if (is.null(new_expr)) new_expr <- model$new_expr
   chk_string(new_expr)
 
-  data <- mbr::modify_new_data(new_data, data2 = data_set(object), model = model,
+  data <- embr::modify_new_data(new_data, data2 = data_set(object), model = model,
                                modify_new_data = modify_new_data)
 
   object <- as.mcmcr(object)
