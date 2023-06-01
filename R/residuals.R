@@ -11,7 +11,10 @@
 #' @export
 residuals.mb_analysis <- function(object, type = NULL, ...) {
   chk_null_or(type, vld = vld_string)
-  new_expr(object) <- edit_residuals_code(new_expr(object), type = type)
+
+  new_expr <- paste(deparse(new_expr(object)), collapse = "\n")
+  new_expr(object) <- edit_residuals_code(new_expr, type = type)
+
   predict(object, new_data = data_set(object), term = "residual")
 }
 

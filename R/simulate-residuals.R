@@ -7,7 +7,8 @@ edit_residuals_code <- function(x, type = NULL, simulate = NULL) {
   if(!is.null(simulate)) {
     replacement <- paste0(replacement, "simulate = ", simulate, ", ")
   }
-  stringr::str_replace_all(x, pattern, replacement)
+  out <- stringr::str_replace_all(x, pattern, replacement)
+  parse_expr(out)
 }
 
 #' Simulate Residuals
@@ -35,5 +36,5 @@ simulate_residuals <- function(x, type = NULL) {
 
   new_expr <- edit_residuals_code(new_expr, type = type, simulate = TRUE)
 
-  mcmc_derive_data(x, new_expr = parse(text = new_expr)[[1]], term = "^residual$")
+  inject(mcmc_derive_data(x, new_expr = !!new_expr, term = "^residual$"))
 }
