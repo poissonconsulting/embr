@@ -1,6 +1,6 @@
-# Getting help with mbr
+# Getting help with embr
 
-Thanks for using mbr!
+Thanks for using embr!
 Before filing an issue, there are a few places to explore and pieces to put together to make the process as smooth as possible.
 
 ## Make sure its new

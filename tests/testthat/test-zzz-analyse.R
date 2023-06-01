@@ -3,7 +3,7 @@ test_that("analyse", {
 
   set_analysis_mode("quick")
 
-  data <- mbr::density99
+  data <- embr::density99
   data$YearFactor <- factor(data$Year)
 
   jags_template <- "model{

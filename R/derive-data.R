@@ -30,7 +30,7 @@ mcmc_derive_fun <- function(object,
   }
   chk_true(is.call(new_expr))
 
-  data <- mbr::modify_new_data(
+  data <- embr::modify_new_data(
     new_data,
     data2 = data_set(object),
     model = model,

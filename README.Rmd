@@ -14,16 +14,16 @@ knitr::opts_chunk$set(
 
 <!-- badges: start -->
 [![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![R-CMD-check](https://github.com/poissonconsulting/mbr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/poissonconsulting/mbr/actions/workflows/R-CMD-check.yaml)
-[![codecov](https://codecov.io/github/poissonconsulting/mbr/branch/main/graph/badge.svg?token=RSs3t4kgR0)](https://codecov.io/github/poissonconsulting/mbr)
+[![R-CMD-check](https://github.com/poissonconsulting/embr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/poissonconsulting/mbr/actions/workflows/R-CMD-check.yaml)
+[![codecov](https://codecov.io/github/poissonconsulting/embr/branch/main/graph/badge.svg?token=RSs3t4kgR0)](https://codecov.io/github/poissonconsulting/mbr)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
 
-# mbr
+# embr
 
 ## Introduction
 
-`mbr` (pronounced MBR) is an R package of utility functions and virtual classes for the model builder family of R packages.
+`embr` (pronounced EMBR) is an R package of utility functions and virtual classes for the model builder family of R packages.
 
 Currently there are packages which implement the functionality for JAGS ([jmbr](https://github.com/poissonconsulting/jmbr)), STAN ([smbr](https://github.com/poissonconsulting/smbr)) and TMB ([tmbr](https://github.com/poissonconsulting/tmbr)).
 
@@ -32,24 +32,24 @@ Currently there are packages which implement the functionality for JAGS ([jmbr](
 To install the latest development version from [GitHub](https://github.com/poissonconsulting/mbr)
 ```r
 # install.packages("remotes")
-remotes::install_github("poissonconsulting/mbr")
+remotes::install_github("poissonconsulting/embr")
 ```
 
 ## Citation
 
 ```{r, comment="", echo=FALSE}
-citation(package = 'mbr')
+citation(package = 'embr')
 ```
 
 ## Contribution
 
-Please report any [issues](https://github.com/poissonconsulting/mbr/issues).
+Please report any [issues](https://github.com/poissonconsulting/embr/issues).
 
-[Pull requests](https://github.com/poissonconsulting/mbr/pulls) are always welcome.
+[Pull requests](https://github.com/poissonconsulting/embr/pulls) are always welcome.
 
 ## Code of Conduct
 
-Please note that the mbr project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
+Please note that the embr project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
 
 
 ## Inspiration

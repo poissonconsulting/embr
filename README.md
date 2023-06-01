@@ -10,12 +10,12 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
 
-# mbr
+# embr
 
 ## Introduction
 
-`mbr` (pronounced MBR) is an R package of utility functions and virtual
-classes for the model builder family of R packages.
+`embr` (pronounced EMBR) is an R package of utility functions and
+virtual classes for the model builder family of R packages.
 
 Currently there are packages which implement the functionality for JAGS
 ([jmbr](https://github.com/poissonconsulting/jmbr)), STAN
@@ -29,7 +29,7 @@ To install the latest development version from
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("poissonconsulting/mbr")
+remotes::install_github("poissonconsulting/embr")
 ```
 
 ## Citation
@@ -51,9 +51,9 @@ remotes::install_github("poissonconsulting/mbr")
 ## Contribution
 
 Please report any
-[issues](https://github.com/poissonconsulting/mbr/issues).
+[issues](https://github.com/poissonconsulting/embr/issues).
 
-[Pull requests](https://github.com/poissonconsulting/mbr/pulls) are
+[Pull requests](https://github.com/poissonconsulting/embr/pulls) are
 always welcome.
 
 ## Code of Conduct
