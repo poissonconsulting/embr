@@ -179,7 +179,7 @@ model.mb_code <- function(
   derived = character(0),
   select_data = list(), center = character(0), scale = character(0),
   modify_data = identity, nthin = getOption("mb.nthin", 1L),
-  new_expr = character(0), modify_new_data = identity, drops = list(), ...) {
+  new_expr = NULL, modify_new_data = identity, drops = list(), ...) {
 
   model_mb_code(
     x = x,
