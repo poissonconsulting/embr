@@ -82,15 +82,17 @@ enexpr_new_expr <- function(new_expr, default = NULL) {
   if (quo_is_null(new_expr)) {
     new_expr <- default
   } else {
-    new_expr <- quo_get_expr(new_expr)
+    if (is.name(quo_get_expr(new_expr))) {
+      new_expr <- rlang::eval_tidy(new_expr)
+    } else {
+      new_expr <- quo_get_expr(new_expr)
+    }
   }
 
   if (is.character(new_expr)) {
     new_expr <- parse_expr(new_expr)
-    chk_length(new_expr)
-    new_expr <- new_expr[[1]]
   }
 
-  chk(is.call(new_expr))
+  chk_true(is.call(new_expr) || is.null(new_expr))
   new_expr
 }
