@@ -83,6 +83,8 @@ enexpr_new_expr <- function(new_expr, default = NULL) {
     new_expr <- default
   } else {
     if (is.name(quo_get_expr(new_expr))) {
+      # For the case where we pass new_expr as a string variable, or perhaps as a variable
+      # that holds a quoted expression
       new_expr <- rlang::eval_tidy(new_expr)
     } else {
       new_expr <- quo_get_expr(new_expr)
@@ -90,6 +92,7 @@ enexpr_new_expr <- function(new_expr, default = NULL) {
   }
 
   if (is.character(new_expr)) {
+    # FIXME: Add compatibility warning?
     new_expr <- parse_expr(new_expr)
   }
 
