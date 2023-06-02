@@ -71,17 +71,7 @@ model_mb_code <- function(x,
   check_unique_character_vector(scale)
   check_single_arg_fun(modify_data)
   check_single_arg_fun(modify_new_data)
-  new_expr <- enquo(new_expr)
-  if (!quo_is_null(new_expr)) {
-    new_expr <- quo_get_expr(new_expr)
-    if (is.character(new_expr)) {
-      new_expr <- parse(text = new_expr)
-      chk_length(new_expr)
-      new_expr <- new_expr[[1]]
-    }
-  } else {
-    new_expr <- NULL
-  }
+  new_expr <- enexpr_new_expr({{ new_expr }})
   chk_whole_number(nthin)
   chk_scalar(nthin)
   check_drops(drops)

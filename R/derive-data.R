@@ -24,13 +24,7 @@ mcmc_derive_fun <- function(object,
 
   model <- model(object)
 
-  new_expr <- enquo(new_expr)
-  if (quo_is_null(new_expr)) {
-    new_expr <- model$new_expr
-  } else {
-    new_expr <- quo_get_expr(new_expr)
-  }
-  chk_true(is.call(new_expr))
+  new_expr <- enexpr_new_expr({{ new_expr }}, default = model$new_expr)
 
   data <- embr::modify_new_data(
     new_data,

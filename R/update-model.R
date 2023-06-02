@@ -34,12 +34,7 @@ update_model.mb_model <- function(model, code = NULL, gen_inits = NULL,
   if (is.null(scale)) scale <- model$scale
   if (is.null(modify_data)) modify_data <- model$modify_data
   if (is.null(nthin)) nthin <- model$nthin
-  new_expr <- enquo(new_expr)
-  if (quo_is_null(new_expr)) {
-    new_expr <- model$new_expr
-  } else {
-    new_expr <- quo_get_expr(new_expr)
-  }
+  new_expr <- enexpr_new_expr({{ new_expr }}, default = model$new_expr)
   if (is.null(modify_new_data)) modify_new_data <- model$modify_new_data
   if (is.null(drops)) drops <- model$drops
 
