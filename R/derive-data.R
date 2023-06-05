@@ -24,11 +24,14 @@ mcmc_derive_fun <- function(object,
 
   model <- model(object)
 
-  if (is.null(new_expr)) new_expr <- model$new_expr
-  chk_string(new_expr)
+  new_expr <- enexpr_new_expr({{ new_expr }}, default = model$new_expr)
 
-  data <- embr::modify_new_data(new_data, data2 = data_set(object), model = model,
-                               modify_new_data = modify_new_data)
+  data <- embr::modify_new_data(
+    new_data,
+    data2 = data_set(object),
+    model = model,
+    modify_new_data = modify_new_data
+  )
 
   object <- as.mcmcr(object)
 
@@ -37,8 +40,14 @@ mcmc_derive_fun <- function(object,
   data <- numericize_factors(data)
   data <- c(data, new_values)
 
-  object <- mcmc_derive(object, expr = new_expr, values = data, monitor = term,
-                     parallel = parallel, silent = quiet)
+  object <- inject(mcmc_derive(
+    object,
+    expr = !!new_expr,
+    values = data,
+    monitor = term,
+    parallel = parallel,
+    silent = quiet
+  ))
   object
 }
 
@@ -84,12 +93,21 @@ mcmc_derive_data.mb_analysis <- function(object,
   if (is.character(new_data))
     new_data <- newdata::new_data(data_set(object), new_data)
 
-  object <- mcmc_derive(object, new_data = new_data, new_expr = new_expr, new_values = new_values,
-                     term = term, modify_new_data = modify_new_data,
-                     ref_data = ref_data, ref_fun2 = ref_fun2,
-                     random_effects = random_effects,
-                     parallel = parallel,
-                     quiet = quiet, beep = beep, ...)
+  object <- mcmc_derive(
+    object,
+    new_data = new_data,
+    new_expr = {{ new_expr }},
+    new_values = new_values,
+    term = term,
+    modify_new_data = modify_new_data,
+    ref_data = ref_data,
+    ref_fun2 = ref_fun2,
+    random_effects = random_effects,
+    parallel = parallel,
+    quiet = quiet,
+    beep = beep,
+    ...
+  )
 
   object <- mcmc_data(object, new_data)
   object
@@ -133,11 +151,20 @@ mcmc_derive_data.mb_analyses <- function(object,
   if (is.character(new_data))
     new_data <- newdata::new_data(data_set(object), new_data)
 
-  object <- mcmc_derive(object, new_data = new_data, new_expr = new_expr, new_values = new_values,
-                     term = term, modify_new_data = modify_new_data,
-                     ref_data = ref_data, ref_fun2 = ref_fun2,
-                     parallel = parallel,
-                     quiet = quiet, beep = beep, ...)
+  object <- mcmc_derive(
+    object,
+    new_data = new_data,
+    new_expr = {{ new_expr }},
+    new_values = new_values,
+    term = term,
+    modify_new_data = modify_new_data,
+    ref_data = ref_data,
+    ref_fun2 = ref_fun2,
+    parallel = parallel,
+    quiet = quiet,
+    beep = beep,
+    ...
+  )
 
   mcmc_data(object, new_data)
 }

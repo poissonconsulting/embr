@@ -11,29 +11,54 @@ model <- function(x, ...) {
 }
 
 #' @export
-model.character <- function(
-  x, gen_inits = function(data) {list()}, random_effects = list(),
-  fixed = getOption("mb.fixed", "^[^e]"),
-  derived = character(0), select_data = list(),
-  center = character(0), scale = character(0), modify_data = identity, nthin = getOption("mb.nthin", 1L),
-  new_expr = character(0), modify_new_data = identity, drops = list(), ...) {
+model.character <- function(x,
+                            gen_inits = function(data) {list()},
+                            random_effects = list(),
+                            fixed = getOption("mb.fixed", "^[^e]"),
+                            derived = character(0),
+                            select_data = list(),
+                            center = character(0),
+                            scale = character(0),
+                            modify_data = identity,
+                            nthin = getOption("mb.nthin", 1L),
+                            new_expr = NULL,
+                            modify_new_data = identity,
+                            drops = list(),
+                            ...) {
 
   x <- mb_code(x)
 
-  model(x, gen_inits = gen_inits, fixed = fixed, derived = derived,
-        random_effects = random_effects, select_data = select_data,
-        center = center, scale = scale, modify_data = modify_data,
-        nthin = nthin, new_expr = new_expr, modify_new_data = modify_new_data,
-        drops = drops)
+  model(
+    x,
+    gen_inits = gen_inits,
+    fixed = fixed,
+    derived = derived,
+    random_effects = random_effects,
+    select_data = select_data,
+    center = center,
+    scale = scale,
+    modify_data = modify_data,
+    nthin = nthin,
+    new_expr = {{ new_expr }},
+    modify_new_data = modify_new_data,
+    drops = drops
+  )
 }
 
-model_mb_code <- function(
-  x, gen_inits = function(data) {list()}, random_effects = list(),
-  fixed = getOption("mb.fixed", "^[^e]"),
-  derived = character(0),
-  select_data = list(), center = character(0), scale = character(0),
-  modify_data = identity, nthin = getOption("mb.nthin", 1L),
-  new_expr = character(0), modify_new_data = identity, drops = list(), ...) {
+model_mb_code <- function(x,
+                          gen_inits = function(data) {list()},
+                          random_effects = list(),
+                          fixed = getOption("mb.fixed", "^[^e]"),
+                          derived = character(0),
+                          select_data = list(),
+                          center = character(0),
+                          scale = character(0),
+                          modify_data = identity,
+                          nthin = getOption("mb.nthin", 1L),
+                          new_expr = NULL,
+                          modify_new_data = identity,
+                          drops = list(),
+                          ...) {
 
   check_mb_code(x)
   check_single_arg_fun(gen_inits)
@@ -46,8 +71,7 @@ model_mb_code <- function(
   check_unique_character_vector(scale)
   check_single_arg_fun(modify_data)
   check_single_arg_fun(modify_new_data)
-  chk_s3_class(new_expr, "character")
-  chk_subset(length(new_expr), c(0, 1))
+  new_expr <- enexpr_new_expr({{ new_expr }})
   chk_whole_number(nthin)
   chk_scalar(nthin)
   check_drops(drops)
@@ -93,19 +117,21 @@ model_mb_code <- function(
   scale <- sort(scale)
   random_effects <- sort_nlist(random_effects)
 
-  obj <- list(code = x,
-              gen_inits = gen_inits,
-              fixed = fixed,
-              derived = derived,
-              select_data = select_data,
-              center = center,
-              scale = scale,
-              random_effects =  random_effects,
-              modify_data = modify_data,
-              new_expr = new_expr,
-              modify_new_data = modify_new_data,
-              drops = drops,
-              nthin = nthin)
+  obj <- list(
+    code = x,
+    gen_inits = gen_inits,
+    fixed = fixed,
+    derived = derived,
+    select_data = select_data,
+    center = center,
+    scale = scale,
+    random_effects =  random_effects,
+    modify_data = modify_data,
+    new_expr = new_expr,
+    modify_new_data = modify_new_data,
+    drops = drops,
+    nthin = nthin
+  )
   class(obj) <- class(x)
   class(obj) <- sub("code", "model", class(obj))
   obj
@@ -143,13 +169,23 @@ model.mb_code <- function(
   derived = character(0),
   select_data = list(), center = character(0), scale = character(0),
   modify_data = identity, nthin = getOption("mb.nthin", 1L),
-  new_expr = character(0), modify_new_data = identity, drops = list(), ...) {
+  new_expr = NULL, modify_new_data = identity, drops = list(), ...) {
 
-  model_mb_code(x = x, gen_inits = gen_inits, random_effects = random_effects,
-                fixed = fixed, derived = derived, select_data = select_data,
-                center = center, scale = scale, modify_data = modify_data,
-                nthin = nthin, new_expr = new_expr, modify_new_data = modify_new_data,
-                drops = drops)
+  model_mb_code(
+    x = x,
+    gen_inits = gen_inits,
+    random_effects = random_effects,
+    fixed = fixed,
+    derived = derived,
+    select_data = select_data,
+    center = center,
+    scale = scale,
+    modify_data = modify_data,
+    nthin = nthin,
+    new_expr = {{ new_expr }},
+    modify_new_data = modify_new_data,
+    drops = drops
+  )
 }
 
 #' @export

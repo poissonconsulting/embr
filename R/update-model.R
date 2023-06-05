@@ -34,13 +34,23 @@ update_model.mb_model <- function(model, code = NULL, gen_inits = NULL,
   if (is.null(scale)) scale <- model$scale
   if (is.null(modify_data)) modify_data <- model$modify_data
   if (is.null(nthin)) nthin <- model$nthin
-  if (is.null(new_expr)) new_expr <- model$new_expr
+  new_expr <- enexpr_new_expr({{ new_expr }}, default = model$new_expr)
   if (is.null(modify_new_data)) modify_new_data <- model$modify_new_data
   if (is.null(drops)) drops <- model$drops
 
-  model(x = code, gen_inits = gen_inits,
-        random_effects = random_effects, fixed = fixed, derived = derived, select_data = select_data,
-        center = center, scale = scale, modify_data = modify_data,
-        nthin = nthin, new_expr = new_expr, modify_new_data = modify_new_data,
-        drops = drops)
+  inject(model(
+    x = code,
+    gen_inits = gen_inits,
+    random_effects = random_effects,
+    fixed = fixed,
+    derived = derived,
+    select_data = select_data,
+    center = center,
+    scale = scale,
+    modify_data = modify_data,
+    nthin = nthin,
+    new_expr = !!new_expr,
+    modify_new_data = modify_new_data,
+    drops = drops
+  ))
 }

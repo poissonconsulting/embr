@@ -11,7 +11,6 @@ new_expr <- function(object, ...) {
 
 #' @export
 new_expr.mb_model <- function(object, ...) {
-  if (is.null(object$new_expr)) return(character(0))
   object$new_expr
 }
 
@@ -54,7 +53,12 @@ new_expr.mb_meta_analyses <- function(object, ...) {
 
 #' @export
 `new_expr<-.mb_model` <- function(object, value) {
-  chk_string(value)
+  if (is.character(value)) {
+    value <- parse(text = value)
+    chk_length(value)
+    value <- value[[1]]
+  }
+  chk_true(is.call(value))
   object$new_expr <- value
   object
 }
@@ -63,4 +67,35 @@ new_expr.mb_meta_analyses <- function(object, ...) {
 `new_expr<-.mb_analysis` <- function(object, value) {
   new_expr(object$model) <- value
   object
+}
+
+#' Collect new_expr argument
+#'
+#' With compatibility support for passing the expression as a string.
+#'
+#' @param new_expr Must be passed as `{{ new_expr }}` by the caller.
+#' @param default A quoted expression to use as fallback.
+#' @return `new_expr` quoted and (if needed) parsed, or `default` if `new_expr` is `NULL`.
+#' @noRd
+enexpr_new_expr <- function(new_expr, default = NULL) {
+  new_expr <- enquo(new_expr)
+  if (quo_is_null(new_expr)) {
+    new_expr <- default
+  } else {
+    if (is.name(quo_get_expr(new_expr))) {
+      # For the case where we pass new_expr as a string variable, or perhaps as a variable
+      # that holds a quoted expression
+      new_expr <- rlang::eval_tidy(new_expr)
+    } else {
+      new_expr <- quo_get_expr(new_expr)
+    }
+  }
+
+  if (is.character(new_expr)) {
+    # FIXME: Add compatibility warning?
+    new_expr <- parse_expr(new_expr)
+  }
+
+  chk_true(is.call(new_expr) || is.null(new_expr))
+  new_expr
 }
