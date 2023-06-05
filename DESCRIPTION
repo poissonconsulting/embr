@@ -49,6 +49,7 @@ RdMacros:
 Remotes: 
     poissonconsulting/jmbr,
     poissonconsulting/mcmcdata,
+    poissonconsulting/mcmcderive,
     poissonconsulting/newdata,
     poissonconsulting/rescale
 Encoding: UTF-8
