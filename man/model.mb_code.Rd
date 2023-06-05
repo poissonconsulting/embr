@@ -17,7 +17,7 @@
   scale = character(0),
   modify_data = identity,
   nthin = getOption("mb.nthin", 1L),
-  new_expr = character(0),
+  new_expr = NULL,
   modify_new_data = identity,
   drops = list(),
   ...
