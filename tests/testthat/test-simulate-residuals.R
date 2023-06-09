@@ -13,6 +13,16 @@ test_that("edit_residuals_code", {
   expect_snapshot({
     edit_residuals_code(rlang::expr(residual[i] <- res_bern(x)), type = "data", simulate = TRUE)
   })
+  expect_snapshot({
+    edit_residuals_code(
+      rlang::expr({
+        foo <- bar
+        residual <- res_bern(x)
+      }),
+      type = "data",
+      simulate = TRUE
+    )
+  })
   expect_snapshot(error = TRUE, {
     edit_residuals_code("boo[i] <- res_bern(x)")
   })

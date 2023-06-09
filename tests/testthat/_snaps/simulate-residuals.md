@@ -30,6 +30,19 @@
 ---
 
     Code
+      edit_residuals_code(rlang::expr({
+        foo <- bar
+        residual <- res_bern(x)
+      }), type = "data", simulate = TRUE)
+    Output
+      {
+          foo <- bar
+          residual <- res_bern(type = "data", simulate = TRUE, x)
+      }
+
+---
+
+    Code
       edit_residuals_code("boo[i] <- res_bern(x)")
     Error <rlang_error>
       `new_expr` must include `residual <- res_xxx(` or `residual[i] <- res_xxx(`.
