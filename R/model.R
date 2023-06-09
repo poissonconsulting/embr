@@ -56,6 +56,7 @@ model_mb_code <- function(x,
                           modify_data = identity,
                           nthin = getOption("mb.nthin", 1L),
                           new_expr = NULL,
+                          new_expr_vec = NULL,
                           modify_new_data = identity,
                           drops = list(),
                           ...) {
@@ -71,7 +72,7 @@ model_mb_code <- function(x,
   check_unique_character_vector(scale)
   check_single_arg_fun(modify_data)
   check_single_arg_fun(modify_new_data)
-  new_expr <- enexpr_new_expr({{ new_expr }})
+  new_expr <- enexpr_new_expr({{ new_expr }}, vectorize = new_expr_vec)
   chk_whole_number(nthin)
   chk_scalar(nthin)
   check_drops(drops)
@@ -164,12 +165,22 @@ model_mb_code <- function(x,
 #' @seealso \code{\link[chk]{check_data}} \code{\link[rescale]{rescale_c}}
 #' @export
 model.mb_code <- function(
-  x, gen_inits = function(data) {list()}, random_effects = list(),
-  fixed = getOption("mb.fixed", "^[^e]"),
-  derived = character(0),
-  select_data = list(), center = character(0), scale = character(0),
-  modify_data = identity, nthin = getOption("mb.nthin", 1L),
-  new_expr = NULL, modify_new_data = identity, drops = list(), ...) {
+    x,
+    gen_inits = function(data) {list()},
+    random_effects = list(),
+    fixed = getOption("mb.fixed", "^[^e]"),
+    derived = character(0),
+    select_data = list(),
+    center = character(0),
+    scale = character(0),
+    modify_data = identity,
+    nthin = getOption("mb.nthin", 1L),
+    new_expr = NULL,
+    new_expr_vec = FALSE,
+    modify_new_data = identity,
+    drops = list(),
+    ...
+) {
 
   model_mb_code(
     x = x,
@@ -183,6 +194,7 @@ model.mb_code <- function(
     modify_data = modify_data,
     nthin = nthin,
     new_expr = {{ new_expr }},
+    new_expr_vec = new_expr_vec,
     modify_new_data = modify_new_data,
     drops = drops
   )

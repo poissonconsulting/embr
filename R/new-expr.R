@@ -73,11 +73,16 @@ new_expr.mb_meta_analyses <- function(object, ...) {
 #'
 #' With compatibility support for passing the expression as a string.
 #'
+#' Very similar code exists as `mcmcderive:::enexpr_expr()`, the superset of the functionality
+#' could be an exported function in mcmcderive.
+#'
 #' @param new_expr Must be passed as `{{ new_expr }}` by the caller.
 #' @param default A quoted expression to use as fallback.
+#' @param vectorize Set to `TRUE` to call `mcmcderive::expression_vectorize()` on the result.
+#'   The current default is to not vectorize, this can change later.
 #' @return `new_expr` quoted and (if needed) parsed, or `default` if `new_expr` is `NULL`.
 #' @noRd
-enexpr_new_expr <- function(new_expr, default = NULL) {
+enexpr_new_expr <- function(new_expr, default = NULL, vectorize = NULL) {
   new_expr <- enquo(new_expr)
   if (quo_is_null(new_expr)) {
     new_expr <- default
@@ -94,6 +99,11 @@ enexpr_new_expr <- function(new_expr, default = NULL) {
   if (is.character(new_expr)) {
     # FIXME: Add compatibility warning?
     new_expr <- parse_expr(new_expr)
+  }
+
+  # If we later want to change the default, change this code only.
+  if (!is.null(new_expr) && isTRUE(vectorize)) {
+    new_expr <- mcmcderive::expression_vectorize(new_expr)
   }
 
   chk_true(is.call(new_expr) || is.null(new_expr))
