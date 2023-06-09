@@ -18,6 +18,7 @@
   modify_data = identity,
   nthin = getOption("mb.nthin", 1L),
   new_expr = NULL,
+  new_expr_vec = FALSE,
   modify_new_data = identity,
   drops = list(),
   ...
@@ -46,6 +47,8 @@ returning a named list of initial values.}
 \item{nthin}{A count specifying the thinning interval.}
 
 \item{new_expr}{A string of R code specifying the predictive relationships.}
+
+\item{new_expr_vec}{A flag specifying whether to vectorize the new_expr code.}
 
 \item{modify_new_data}{A single argument function to modify new data (in list form) immediately prior to calculating new_expr.}
 

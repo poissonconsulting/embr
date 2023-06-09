@@ -158,6 +158,7 @@ model_mb_code <- function(x,
 #' @param modify_data A single argument function to modify the data (in list form) immediately prior to the analysis.
 #' @param nthin A count specifying the thinning interval.
 #' @param new_expr A string of R code specifying the predictive relationships.
+#' @param new_expr_vec A flag specifying whether to vectorize the new_expr code.
 #' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
 #' @param drops A list of character vector of possible scalar pars to drop (fix at 0).
 #' @param ... Unused arguments.
