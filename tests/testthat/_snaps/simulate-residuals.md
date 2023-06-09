@@ -1,4 +1,4 @@
-# simulate_residuals
+# edit_residuals_code
 
     Code
       edit_residuals_code("residual <- res_bern(x)")
@@ -25,4 +25,11 @@
       edit_residuals_code("residual[i] <- res_bern(x)", type = "data", simulate = TRUE)
     Output
       residual[i] <- res_bern(type = "data", simulate = TRUE, x)
+
+---
+
+    Code
+      edit_residuals_code("boo[i] <- res_bern(x)")
+    Error <rlang_error>
+      `new_expr` must include `residual <- res_xxx(` or `residual[i] <- res_xxx(`.
 

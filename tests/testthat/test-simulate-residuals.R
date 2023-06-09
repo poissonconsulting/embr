@@ -1,4 +1,4 @@
-test_that("simulate_residuals", {
+test_that("edit_residuals_code", {
   local_edition(3)
 
   expect_snapshot({
@@ -12,5 +12,8 @@ test_that("simulate_residuals", {
   })
   expect_snapshot({
     edit_residuals_code("residual[i] <- res_bern(x)", type = "data", simulate = TRUE)
+  })
+  expect_snapshot(error = TRUE, {
+    edit_residuals_code("boo[i] <- res_bern(x)")
   })
 })

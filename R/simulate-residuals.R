@@ -1,5 +1,9 @@
-edit_residuals_code <- function(x, type = NULL, simulate = NULL) {
+edit_residuals_code <- function(new_expr, type = NULL, simulate = NULL) {
   pattern <- "(residual\\s*(\\[[^\\]\\}\n;]+\\]){0,1}\\s*<-\\s*res_[[:alnum:]_]+\\s*\\()"
+  if(!stringr::str_detect(new_expr, pattern)) {
+    err("`new_expr` must include `residual <- res_xxx(` or `residual[i] <- res_xxx(`.")
+  }
+
   replacement <- "\\1"
   if(!is.null(type)) {
     replacement <- paste0(replacement, "type = '", type, "', ")
@@ -7,7 +11,7 @@ edit_residuals_code <- function(x, type = NULL, simulate = NULL) {
   if(!is.null(simulate)) {
     replacement <- paste0(replacement, "simulate = ", simulate, ", ")
   }
-  out <- stringr::str_replace_all(x, pattern, replacement)
+  out <- stringr::str_replace_all(new_expr, pattern, replacement)
   parse_expr(out)
 }
 
@@ -27,12 +31,6 @@ simulate_residuals <- function(x, type = NULL) {
 
   new_expr <- paste(deparse(new_expr(x)), collapse = "\n")
   chk_string(new_expr, "new_expr(x)")
-
-  # FIXME: use AST matching and editing
-  pattern <- "(residual\\s*(\\[[^\\]\\}\n;]+\\]){0,1}\\s*<-\\s*res_[[:alnum:]_]+\\s*\\()"
-  if(!stringr::str_detect(new_expr, pattern)) {
-    err("`new_expr` must include `residual <- res_xxx(` or `residual[i] <- res_xxx(`.")
-  }
 
   new_expr <- edit_residuals_code(new_expr, type = type, simulate = TRUE)
 
