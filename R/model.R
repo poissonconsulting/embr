@@ -76,6 +76,7 @@ model_mb_code <- function(x,
   check_unique_character_vector(scale)
   check_single_arg_fun(modify_data)
   check_single_arg_fun(modify_new_data)
+  chk_null_or(new_expr_vec, vld = vld_logical)
   new_expr <- enexpr_new_expr({{ new_expr }}, vectorize = new_expr_vec)
   chk_whole_number(nthin)
   chk_scalar(nthin)
