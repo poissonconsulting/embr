@@ -4,8 +4,8 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![R-CMD-check](https://github.com/poissonconsulting/mbr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/poissonconsulting/mbr/actions/workflows/R-CMD-check.yaml)
-[![codecov](https://codecov.io/github/poissonconsulting/mbr/branch/main/graph/badge.svg?token=RSs3t4kgR0)](https://codecov.io/github/poissonconsulting/mbr)
+[![R-CMD-check](https://github.com/poissonconsulting/embr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/poissonconsulting/mbr/actions/workflows/R-CMD-check.yaml)
+[![codecov](https://codecov.io/github/poissonconsulting/embr/branch/main/graph/badge.svg?token=RSs3t4kgR0)](https://codecov.io/github/poissonconsulting/mbr)
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 <!-- badges: end -->
@@ -25,7 +25,7 @@ Currently there are packages which implement the functionality for JAGS
 ## Installation
 
 To install the latest development version from
-[GitHub](https://github.com/poissonconsulting/mbr)
+[GitHub](https://github.com/poissonconsulting/embr)
 
 ``` r
 # install.packages("remotes")
@@ -34,18 +34,21 @@ remotes::install_github("poissonconsulting/embr")
 
 ## Citation
 
-    To cite mbr in publications use:
+    Warning in citation(package = "embr"): could not determine year for 'embr' from
+    package DESCRIPTION file
+    To cite package 'embr' in publications use:
 
-      Joe Thorley (2018) mbr: Model Builder Utility Functions and Virtual
-      Classes. doi: https://doi.org/10.5281/zenodo.1162349.
+      Thorley J (????). _embr: Model Builder Utility Functions and Virtual
+      Classes_. R package version 0.0.1.9031,
+      <https://github.com/poissonconsulting/embr>.
 
     A BibTeX entry for LaTeX users is
 
-      @Misc{,
+      @Manual{,
+        title = {embr: Model Builder Utility Functions and Virtual Classes},
         author = {Joe Thorley},
-        year = {2018},
-        title = {mbr: Model Builder Utility Functions and Virtual Classes},
-        doi = {https://doi.org/10.5281/zenodo.1162349},
+        note = {R package version 0.0.1.9031},
+        url = {https://github.com/poissonconsulting/embr},
       }
 
 ## Contribution
@@ -58,7 +61,8 @@ always welcome.
 
 ## Code of Conduct
 
-Please note that the mbr project is released with a [Contributor Code of
+Please note that the embr project is released with a [Contributor Code
+of
 Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.
 
