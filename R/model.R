@@ -11,20 +11,23 @@ model <- function(x, ...) {
 }
 
 #' @export
-model.character <- function(x,
-                            gen_inits = function(data) {list()},
-                            random_effects = list(),
-                            fixed = getOption("mb.fixed", "^[^e]"),
-                            derived = character(0),
-                            select_data = list(),
-                            center = character(0),
-                            scale = character(0),
-                            modify_data = identity,
-                            nthin = getOption("mb.nthin", 1L),
-                            new_expr = NULL,
-                            modify_new_data = identity,
-                            drops = list(),
-                            ...) {
+model.character <- function(
+    x,
+    gen_inits = function(data) {list()},
+    random_effects = list(),
+    fixed = getOption("mb.fixed", "^[^e]"),
+    derived = character(0),
+    select_data = list(),
+    center = character(0),
+    scale = character(0),
+    modify_data = identity,
+    nthin = getOption("mb.nthin", 1L),
+    new_expr = NULL,
+    new_expr_vec = NULL,
+    modify_new_data = identity,
+    drops = list(),
+    ...
+) {
 
   x <- mb_code(x)
 
@@ -40,6 +43,7 @@ model.character <- function(x,
     modify_data = modify_data,
     nthin = nthin,
     new_expr = {{ new_expr }},
+    new_expr_vec = new_expr_vec,
     modify_new_data = modify_new_data,
     drops = drops
   )
@@ -56,6 +60,7 @@ model_mb_code <- function(x,
                           modify_data = identity,
                           nthin = getOption("mb.nthin", 1L),
                           new_expr = NULL,
+                          new_expr_vec = NULL,
                           modify_new_data = identity,
                           drops = list(),
                           ...) {
@@ -71,7 +76,8 @@ model_mb_code <- function(x,
   check_unique_character_vector(scale)
   check_single_arg_fun(modify_data)
   check_single_arg_fun(modify_new_data)
-  new_expr <- enexpr_new_expr({{ new_expr }})
+  chk_null_or(new_expr_vec, vld = vld_logical)
+  new_expr <- enexpr_new_expr({{ new_expr }}, vectorize = new_expr_vec)
   chk_whole_number(nthin)
   chk_scalar(nthin)
   check_drops(drops)
@@ -157,6 +163,7 @@ model_mb_code <- function(x,
 #' @param modify_data A single argument function to modify the data (in list form) immediately prior to the analysis.
 #' @param nthin A count specifying the thinning interval.
 #' @param new_expr A string of R code specifying the predictive relationships.
+#' @param new_expr_vec A flag specifying whether to vectorize the new_expr code.
 #' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
 #' @param drops A list of character vector of possible scalar pars to drop (fix at 0).
 #' @param ... Unused arguments.
@@ -164,12 +171,22 @@ model_mb_code <- function(x,
 #' @seealso \code{\link[chk]{check_data}} \code{\link[rescale]{rescale_c}}
 #' @export
 model.mb_code <- function(
-  x, gen_inits = function(data) {list()}, random_effects = list(),
-  fixed = getOption("mb.fixed", "^[^e]"),
-  derived = character(0),
-  select_data = list(), center = character(0), scale = character(0),
-  modify_data = identity, nthin = getOption("mb.nthin", 1L),
-  new_expr = NULL, modify_new_data = identity, drops = list(), ...) {
+    x,
+    gen_inits = function(data) {list()},
+    random_effects = list(),
+    fixed = getOption("mb.fixed", "^[^e]"),
+    derived = character(0),
+    select_data = list(),
+    center = character(0),
+    scale = character(0),
+    modify_data = identity,
+    nthin = getOption("mb.nthin", 1L),
+    new_expr = NULL,
+    new_expr_vec = NULL,
+    modify_new_data = identity,
+    drops = list(),
+    ...
+) {
 
   model_mb_code(
     x = x,
@@ -183,6 +200,7 @@ model.mb_code <- function(
     modify_data = modify_data,
     nthin = nthin,
     new_expr = {{ new_expr }},
+    new_expr_vec = new_expr_vec,
     modify_new_data = modify_new_data,
     drops = drops
   )
