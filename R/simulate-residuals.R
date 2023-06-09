@@ -1,4 +1,6 @@
 edit_residuals_code <- function(new_expr, type = NULL, simulate = NULL) {
+  new_expr <- paste(deparse(new_expr), collapse = "\n")
+
   pattern <- "(residual\\s*(\\[[^\\]\\}\n;]+\\]){0,1}\\s*<-\\s*res_[[:alnum:]_]+\\s*\\()"
   if(!stringr::str_detect(new_expr, pattern)) {
     err("`new_expr` must include `residual <- res_xxx(` or `residual[i] <- res_xxx(`.")
@@ -29,8 +31,8 @@ simulate_residuals <- function(x, type = NULL) {
   chk_s3_class(x, "mb_analysis")
   chk_null_or(type, vld = vld_string)
 
-  new_expr <- paste(deparse(new_expr(x)), collapse = "\n")
-  chk_string(new_expr, "new_expr(x)")
+  new_expr <- new_expr(x)
+  chk_true(is.call(new_expr))
 
   new_expr <- edit_residuals_code(new_expr, type = type, simulate = TRUE)
 
