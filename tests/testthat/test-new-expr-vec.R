@@ -66,15 +66,8 @@ random_effects = list(bSiteYear = c("Site", "YearFactor")))
   dd <- mcmc_derive_data(analysis, new_data = c("Site", "Year"), ref_data = TRUE)
   expect_true(mcmcdata::is.mcmc_data(dd))
 
-  # not vectorized.....
-  #  expect_identical(new_expr(analysis), )
-  # >   new_expr(analysis)
-  # for (i in 1:length(Density)) {
-  #   fit[i] <- bIntercept + bYear * Year[i] + bHabitatQuality[HabitatQuality[i]] +
-  #     bSiteYear[Site[i], YearFactor[i]]
-  #   log(prediction[i]) <- fit[i]
-  #   residual[i] <- res_lnorm(Density[i], fit[i], exp(log_sDensity))
-  # }
+  local_edition(3)
+  expect_snapshot(new_expr(analysis))
 })
 
 test_that("vectorize predict bare expression", {
@@ -145,13 +138,6 @@ random_effects = list(bSiteYear = c("Site", "YearFactor")))
   dd <- mcmc_derive_data(analysis, new_data = c("Site", "Year"), ref_data = TRUE)
   expect_true(mcmcdata::is.mcmc_data(dd))
 
-  # not vectorized.....
-  #  expect_identical(new_expr(analysis), )
-  # >   new_expr(analysis)
-  # for (i in 1:length(Density)) {
-  #   fit[i] <- bIntercept + bYear * Year[i] + bHabitatQuality[HabitatQuality[i]] +
-  #     bSiteYear[Site[i], YearFactor[i]]
-  #   log(prediction[i]) <- fit[i]
-  #   residual[i] <- res_lnorm(Density[i], fit[i], exp(log_sDensity))
-  # }
+  local_edition(3)
+  expect_snapshot(new_expr(analysis))
 })
