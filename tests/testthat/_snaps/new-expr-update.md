@@ -46,3 +46,15 @@
           residual <- res_lnorm(Density, fit, exp(log_sDensity))
       }
 
+# cannot undo the vectorization if orignally set in the model
+
+    Code
+      new_expr(analysis)
+    Output
+      {
+          fit <- bIntercept + bYear * Year + bHabitatQuality[HabitatQuality] + 
+              bSiteYear[cbind(Site, YearFactor)]
+          log(prediction) <- fit
+          residual <- res_lnorm(Density, fit, exp(log_sDensity))
+      }
+
