@@ -82,7 +82,7 @@ new_expr.mb_meta_analyses <- function(object, ...) {
 #'   The current default is to not vectorize, this can change later.
 #' @return `new_expr` quoted and (if needed) parsed, or `default` if `new_expr` is `NULL`.
 #' @noRd
-enexpr_new_expr <- function(new_expr, default = NULL, vectorize = NULL) {
+enexpr_new_expr <- function(new_expr, default = NULL, vectorize = TRUE) {
   new_expr <- enquo(new_expr)
   if (quo_is_null(new_expr)) {
     new_expr <- default
