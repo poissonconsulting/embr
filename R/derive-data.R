@@ -24,7 +24,11 @@ mcmc_derive_fun <- function(object,
 
   model <- model(object)
 
-  new_expr <- enexpr_new_expr({{ new_expr }}, default = model$new_expr)
+  new_expr <- enexpr_new_expr(
+    {{ new_expr }},
+    default = model$new_expr,
+    vectorize = FALSE
+  )
 
   data <- embr::modify_new_data(
     new_data,

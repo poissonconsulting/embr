@@ -102,6 +102,10 @@ enexpr_new_expr <- function(new_expr, default = NULL, vectorize = NULL) {
   }
 
   # If we later want to change the default, change this code only.
+  if (is.null(vectorize)) {
+    vectorize <- TRUE
+  }
+
   if (!is.null(new_expr) && isTRUE(vectorize)) {
     new_expr <- mcmcderive::expression_vectorize(new_expr)
   }
