@@ -34,3 +34,15 @@
           residual[i] <- res_lnorm(Density[i], fit[i], exp(log_sDensity))
       }
 
+# add new_expr_vec argument to update model and updates original new_expr
+
+    Code
+      new_expr(analysis)
+    Output
+      {
+          fit <- bIntercept + bYear * Year + bHabitatQuality[HabitatQuality] + 
+              bSiteYear[cbind(Site, YearFactor)]
+          log(prediction) <- fit
+          residual <- res_lnorm(Density, fit, exp(log_sDensity))
+      }
+
