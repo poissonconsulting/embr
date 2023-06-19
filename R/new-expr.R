@@ -79,7 +79,7 @@ new_expr.mb_meta_analyses <- function(object, ...) {
 #' @param new_expr Must be passed as `{{ new_expr }}` by the caller.
 #' @param default A quoted expression to use as fallback.
 #' @param vectorize Set to `TRUE` to call `mcmcderive::expression_vectorize()` on the result.
-#'   The current default is to not vectorize, this can change later.
+#'   The current default is to vectorize. Change to FALSE to turn off.
 #' @return `new_expr` quoted and (if needed) parsed, or `default` if `new_expr` is `NULL`.
 #' @noRd
 enexpr_new_expr <- function(new_expr, default = NULL, vectorize = TRUE) {
