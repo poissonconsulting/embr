@@ -7,20 +7,44 @@
 #' @inheritParams model.mb_code
 #' @return An object inheriting from class mb_model.
 #' @export
-update_model <- function(model, code = NULL, gen_inits = NULL,
-                         random_effects = NULL, fixed = NULL, derived = NULL, select_data = NULL,
-                         center = NULL, scale = NULL, modify_data = NULL,
-                         nthin = NULL, new_expr = NULL, new_expr_vec = NULL, modify_new_data = NULL,
-                         drops = NULL, ...) {
+update_model <- function(
+    model,
+    code = NULL,
+    gen_inits = NULL,
+    random_effects = NULL,
+    fixed = NULL,
+    derived = NULL,
+    select_data = NULL,
+    center = NULL,
+    scale = NULL,
+    modify_data = NULL,
+    nthin = NULL,
+    new_expr = NULL,
+    new_expr_vec = NULL,
+    modify_new_data = NULL,
+    drops = NULL,
+    ...) {
   UseMethod("update_model")
 }
 
 #' @export
-update_model.mb_model <- function(model, code = NULL, gen_inits = NULL,
-                                  random_effects = NULL, fixed = NULL, derived = NULL, select_data = NULL,
-                                  center = NULL, scale = NULL, modify_data = NULL,
-                                  nthin = NULL, new_expr = NULL, new_expr_vec = NULL, modify_new_data = NULL,
-                                  drops = NULL, ...) {
+update_model.mb_model <- function(
+    model,
+    code = NULL,
+    gen_inits = NULL,
+    random_effects = NULL,
+    fixed = NULL,
+    derived = NULL,
+    select_data = NULL,
+    center = NULL,
+    scale = NULL,
+    modify_data = NULL,
+    nthin = NULL,
+    new_expr = NULL,
+    new_expr_vec = NULL,
+    modify_new_data = NULL,
+    drops = NULL,
+    ...) {
 
   if (is.null(code)) code <- code(model)
   if (is.null(gen_inits)) gen_inits <- model$gen_inits
