@@ -66,6 +66,7 @@
 <span>  modify_data <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  nthin <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  new_expr <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  new_expr_vec <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  modify_new_data <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  drops <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  <span class="va">...</span></span>
@@ -121,6 +122,10 @@ returning a named list of initial values.</p></dd>
 
 <dt>new_expr</dt>
 <dd><p>A string of R code specifying the predictive relationships.</p></dd>
+
+
+<dt>new_expr_vec</dt>
+<dd><p>A flag specifying whether to vectorize the new_expr code.</p></dd>
 
 
 <dt>modify_new_data</dt>
