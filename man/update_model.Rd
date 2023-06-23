@@ -17,6 +17,7 @@ update_model(
   modify_data = NULL,
   nthin = NULL,
   new_expr = NULL,
+  new_expr_vec = NULL,
   modify_new_data = NULL,
   drops = NULL,
   ...
@@ -47,6 +48,8 @@ returning a named list of initial values.}
 \item{nthin}{A count specifying the thinning interval.}
 
 \item{new_expr}{A string of R code specifying the predictive relationships.}
+
+\item{new_expr_vec}{A flag specifying whether to vectorize the new_expr code.}
 
 \item{modify_new_data}{A single argument function to modify new data (in list form) immediately prior to calculating new_expr.}
 
