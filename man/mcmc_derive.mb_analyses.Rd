@@ -12,6 +12,7 @@
   term = "prediction",
   modify_new_data = NULL,
   ref_data = FALSE,
+  new_expr_vec = FALSE,
   parallel = getOption("mb.parallel", FALSE),
   quiet = getOption("mb.quiet", TRUE),
   beep = getOption("mb.beep", FALSE),
@@ -32,6 +33,8 @@
 \item{modify_new_data}{A single argument function to modify new data (in list form) immediately prior to calculating new_expr.}
 
 \item{ref_data}{A flag or a data frame with 1 row indicating the reference values for calculating the effects size.}
+
+\item{new_expr_vec}{A flag specifying whether to vectorize the new_expr code.}
 
 \item{parallel}{A flag indicating whether to do predictions using parallel backend provided by foreach.}
 
