@@ -14,6 +14,7 @@
   ref_data = FALSE,
   ref_fun2 = proportional_change2,
   random_effects = NULL,
+  new_expr_vec = FALSE,
   parallel = getOption("mb.parallel", FALSE),
   quiet = getOption("mb.quiet", TRUE),
   beep = getOption("mb.beep", FALSE),
@@ -38,6 +39,8 @@
 \item{ref_fun2}{A function whose first argument takes a vector of two numbers and returns a scalar of a metric of the difference between them.}
 
 \item{random_effects}{A named list specifying the random effects and the associated factors.}
+
+\item{new_expr_vec}{A flag specifying whether to vectorize the new_expr code.}
 
 \item{parallel}{A flag indicating whether to do predictions using parallel backend provided by foreach.}
 

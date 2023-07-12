@@ -5,6 +5,7 @@ mcmc_derive_fun <- function(object,
                        term = "prediction",
                        modify_new_data = NULL,
                        random_effects = NULL,
+                       new_expr_vec = NULL,
                        parallel,
                        quiet,
                        ...) {
@@ -24,7 +25,7 @@ mcmc_derive_fun <- function(object,
 
   model <- model(object)
 
-  new_expr <- enexpr_new_expr({{ new_expr }}, default = model$new_expr)
+  new_expr <- enexpr_new_expr({{ new_expr }}, default = model$new_expr, vectorize = new_expr_vec)
 
   data <- embr::modify_new_data(
     new_data,
@@ -67,6 +68,7 @@ mcmcdata::mcmc_derive_data
 #' @param ref_data A flag or a data frame with 1 row indicating the reference values for calculating the effects size.
 #' @param ref_fun2 A function whose first argument takes a vector of two numbers and returns a scalar of a metric of the difference between them.
 #' @param random_effects A named list specifying the random effects and the associated factors.
+#' @param new_expr_vec A flag specifying whether to vectorize the new_expr code.
 #' @param parallel A flag indicating whether to do predictions using parallel backend provided by foreach.
 #' @param quiet A flag indicating whether to disable tracing information.
 #' @param beep A flag indicating whether to beep on completion of the analysis.
@@ -81,6 +83,7 @@ mcmc_derive_data.mb_analysis <- function(object,
                         modify_new_data = NULL,
                         ref_data = FALSE,
                         ref_fun2 = proportional_change2,
+                        new_expr_vec = FALSE,
                         random_effects = NULL,
                         parallel = getOption("mb.parallel", FALSE),
                         quiet = getOption("mb.quiet", TRUE),
@@ -102,6 +105,7 @@ mcmc_derive_data.mb_analysis <- function(object,
     modify_new_data = modify_new_data,
     ref_data = ref_data,
     ref_fun2 = ref_fun2,
+    new_expr_vec = new_expr_vec,
     random_effects = random_effects,
     parallel = parallel,
     quiet = quiet,
@@ -125,6 +129,7 @@ mcmc_derive_data.mb_analysis <- function(object,
 #' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
 #' @param ref_data A flag or a data frame with 1 row indicating the reference values for calculating the effects size.
 #' @param ref_fun2 A function whose first argument takes a vector of two numbers and returns a scalar of a metric of the difference between them.
+#' @param new_expr_vec A flag specifying whether to vectorize the new_expr code.
 #' @param parallel A flag indicating whether to do predictions using parallel backend provided by foreach.
 #' @param quiet A flag indicating whether to disable tracing information.
 #' @param beep A flag indicating whether to beep on completion of the analysis.
@@ -139,6 +144,7 @@ mcmc_derive_data.mb_analyses <- function(object,
                                     modify_new_data = NULL,
                                     ref_data = FALSE,
                                     ref_fun2 = proportional_change2,
+                                    new_expr_vec = FALSE,
                                     parallel = getOption("mb.parallel", FALSE),
                                     quiet = getOption("mb.quiet", TRUE),
                                     beep = getOption("mb.beep", FALSE),
@@ -160,6 +166,7 @@ mcmc_derive_data.mb_analyses <- function(object,
     modify_new_data = modify_new_data,
     ref_data = ref_data,
     ref_fun2 = ref_fun2,
+    new_expr_vec = new_expr_vec,
     parallel = parallel,
     quiet = quiet,
     beep = beep,

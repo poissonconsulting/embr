@@ -11,6 +11,7 @@ update_model <- function(model, code = NULL, gen_inits = NULL,
                          random_effects = NULL, fixed = NULL, derived = NULL, select_data = NULL,
                          center = NULL, scale = NULL, modify_data = NULL,
                          nthin = NULL, new_expr = NULL, modify_new_data = NULL,
+                         new_expr_vec = NULL,
                          drops = NULL, ...) {
   UseMethod("update_model")
 }
@@ -20,6 +21,7 @@ update_model.mb_model <- function(model, code = NULL, gen_inits = NULL,
                                   random_effects = NULL, fixed = NULL, derived = NULL, select_data = NULL,
                                   center = NULL, scale = NULL, modify_data = NULL,
                                   nthin = NULL, new_expr = NULL, modify_new_data = NULL,
+                                  new_expr_vec = NULL,
                                   drops = NULL, ...) {
 
 
@@ -34,7 +36,7 @@ update_model.mb_model <- function(model, code = NULL, gen_inits = NULL,
   if (is.null(scale)) scale <- model$scale
   if (is.null(modify_data)) modify_data <- model$modify_data
   if (is.null(nthin)) nthin <- model$nthin
-  new_expr <- enexpr_new_expr({{ new_expr }}, default = model$new_expr)
+  new_expr <- enexpr_new_expr({{ new_expr }}, default = model$new_expr, vectorize = new_expr_vec)
   if (is.null(modify_new_data)) modify_new_data <- model$modify_new_data
   if (is.null(drops)) drops <- model$drops
 
