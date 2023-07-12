@@ -1,6 +1,6 @@
 Package: embr
 Title: Model Builder Utility Functions and Virtual Classes
-Version: 0.0.1.9031
+Version: 0.0.1.9032
 Authors@R: 
     person(given = "Joe",
            family = "Thorley",

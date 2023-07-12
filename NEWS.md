@@ -1,5 +1,14 @@
 <!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
 
+# embr 0.0.1.9032
+
+- `mcmc_derive()` and `mcmc_derive_data()` no longer vectorize new expression by default
+- Rename from mbr to embr.
+- `posterior_predictive_check()` now gives zeros by default.
+- soft deprecated `plot_data()`.
+- make `pars.character()` internal only.
+
+
 # embr 0.0.1.9031
 
 - Added `ref_fun2` argument.
