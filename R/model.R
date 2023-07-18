@@ -23,7 +23,7 @@ model.character <- function(
     modify_data = identity,
     nthin = getOption("mb.nthin", 1L),
     new_expr = NULL,
-    new_expr_vec = NULL,
+    new_expr_vec = FALSE,
     modify_new_data = identity,
     drops = list(),
     ...
@@ -60,7 +60,7 @@ model_mb_code <- function(x,
                           modify_data = identity,
                           nthin = getOption("mb.nthin", 1L),
                           new_expr = NULL,
-                          new_expr_vec = NULL,
+                          new_expr_vec = FALSE,
                           modify_new_data = identity,
                           drops = list(),
                           ...) {
@@ -76,7 +76,7 @@ model_mb_code <- function(x,
   check_unique_character_vector(scale)
   check_single_arg_fun(modify_data)
   check_single_arg_fun(modify_new_data)
-  chk_null_or(new_expr_vec, vld = vld_logical)
+  chk_flag(new_expr_vec)
   new_expr <- enexpr_new_expr({{ new_expr }}, vectorize = new_expr_vec)
   chk_whole_number(nthin)
   chk_scalar(nthin)
@@ -182,7 +182,7 @@ model.mb_code <- function(
     modify_data = identity,
     nthin = getOption("mb.nthin", 1L),
     new_expr = NULL,
-    new_expr_vec = NULL,
+    new_expr_vec = FALSE,
     modify_new_data = identity,
     drops = list(),
     ...

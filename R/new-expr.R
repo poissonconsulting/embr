@@ -78,11 +78,10 @@ new_expr.mb_meta_analyses <- function(object, ...) {
 #'
 #' @param new_expr Must be passed as `{{ new_expr }}` by the caller.
 #' @param default A quoted expression to use as fallback.
-#' @param vectorize The current default is to vectorize. Set to `FALSE` to not
+#' @param vectorize A flag specifying whether to vectorize the new_expr code.
 #'  vectorize.
-#' @return `new_expr` quoted and (if needed) parsed, or `default` if `new_expr` is `NULL`.
 #' @noRd
-enexpr_new_expr <- function(new_expr, default = NULL, vectorize = NULL) {
+enexpr_new_expr <- function(new_expr, default = NULL, vectorize = FALSE) {
   new_expr <- enquo(new_expr)
   if (quo_is_null(new_expr)) {
     new_expr <- default
@@ -100,12 +99,6 @@ enexpr_new_expr <- function(new_expr, default = NULL, vectorize = NULL) {
     # FIXME: Add compatibility warning?
     new_expr <- parse_expr(new_expr)
   }
-
-  # If we later want to change the default, change this code only.
-  if (is.null(vectorize)) {
-    vectorize <- TRUE
-  }
-
   if (!is.null(new_expr) && isTRUE(vectorize)) {
     new_expr <- mcmcderive::expression_vectorize(new_expr)
   }

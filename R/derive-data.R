@@ -5,7 +5,7 @@ mcmc_derive_fun <- function(object,
                        term = "prediction",
                        modify_new_data = NULL,
                        random_effects = NULL,
-                       new_expr_vec = NULL,
+                       new_expr_vec = FALSE,
                        parallel,
                        quiet,
                        ...) {
