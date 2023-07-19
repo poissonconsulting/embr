@@ -1,5 +1,12 @@
 <!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
 
+# embr 0.0.1.9033
+
+- Automatically wrap new expression if more than one.
+- Set `new_expr_vec` to be flag that FALSE by default.
+- Add `new_expr = FALSE` argument to mcmc_derive.mb_analyses.
+
+
 # embr 0.0.1.9032
 
 - `mcmc_derive()` and `mcmc_derive_data()` no longer vectorize new expression by default
