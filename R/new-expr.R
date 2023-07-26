@@ -97,7 +97,7 @@ enexpr_new_expr <- function(new_expr, default = NULL, vectorize = FALSE) {
 
   if (is.character(new_expr)) {
     # FIXME: Add compatibility warning?
-    try_new_expr <- try(parse_expr(new_expr))
+    try_new_expr <- try(parse_expr(new_expr), silent = TRUE)
     if(inherits(try_new_expr, "try-error") && stringr::str_detect(try_new_expr, "must contain exactly 1 expression") && vld_string(new_expr)) {
       new_expr <- paste0("{\n", new_expr, "\n}")
     }
