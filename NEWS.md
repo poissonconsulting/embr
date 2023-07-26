@@ -1,5 +1,11 @@
 <!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
 
+# embr 0.0.1.9034
+
+- Set default value of `new_expr_vec` to be `getOption("mb.new_expr_vec", FALSE)`
+- Add `new_expr_vec = FALSE` to `predict()`.
+
+
 # embr 0.0.1.9033
 
 - Automatically wrap new expression if more than one.
