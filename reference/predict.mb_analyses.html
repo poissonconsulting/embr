@@ -64,6 +64,7 @@
 <span>  modify_new_data <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  ref_data <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  ref_fun2 <span class="op">=</span> <span class="va">proportional_change2</span>,</span>
+<span>  new_expr_vec <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  parallel <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.parallel"</span>, <span class="cn">FALSE</span><span class="op">)</span>,</span>
 <span>  quiet <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.quiet"</span>, <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>  beep <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.beep"</span>, <span class="cn">FALSE</span><span class="op">)</span>,</span>
@@ -107,6 +108,10 @@
 
 <dt>ref_fun2</dt>
 <dd><p>A function whose first argument takes a vector of two numbers and returns a scalar of a metric of the difference between them.</p></dd>
+
+
+<dt>new_expr_vec</dt>
+<dd><p>A flag specifying whether to vectorize the new_expr code.</p></dd>
 
 
 <dt>parallel</dt>
