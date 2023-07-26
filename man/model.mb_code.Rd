@@ -18,7 +18,7 @@
   modify_data = identity,
   nthin = getOption("mb.nthin", 1L),
   new_expr = NULL,
-  new_expr_vec = FALSE,
+  new_expr_vec = getOption("mb.new_expr_vec", FALSE),
   modify_new_data = identity,
   drops = list(),
   ...

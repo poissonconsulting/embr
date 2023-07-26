@@ -14,7 +14,7 @@
   ref_data = FALSE,
   ref_fun2 = proportional_change2,
   random_effects = NULL,
-  new_expr_vec = FALSE,
+  new_expr_vec = getOption("mb.new_expr_vec", FALSE),
   parallel = getOption("mb.parallel", FALSE),
   quiet = getOption("mb.quiet", TRUE),
   beep = getOption("mb.beep", FALSE),

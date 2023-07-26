@@ -13,7 +13,7 @@
   modify_new_data = NULL,
   ref_data = FALSE,
   ref_fun2 = proportional_change2,
-  new_expr_vec = FALSE,
+  new_expr_vec = getOption("mb.new_expr_vec", FALSE),
   random_effects = NULL,
   parallel = getOption("mb.parallel", FALSE),
   quiet = getOption("mb.quiet", TRUE),

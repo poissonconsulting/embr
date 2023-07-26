@@ -20,7 +20,7 @@ update_model <- function(
     modify_data = NULL,
     nthin = NULL,
     new_expr = NULL,
-    new_expr_vec = FALSE,
+    new_expr_vec = getOption("mb.new_expr_vec", FALSE),
     modify_new_data = NULL,
     drops = NULL,
     ...) {
@@ -41,7 +41,7 @@ update_model.mb_model <- function(
     modify_data = NULL,
     nthin = NULL,
     new_expr = NULL,
-    new_expr_vec = FALSE,
+    new_expr_vec = getOption("mb.new_expr_vec", FALSE),
     modify_new_data = NULL,
     drops = NULL,
     ...) {

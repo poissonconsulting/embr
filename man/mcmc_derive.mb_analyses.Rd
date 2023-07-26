@@ -12,7 +12,7 @@
   term = "prediction",
   modify_new_data = NULL,
   ref_data = FALSE,
-  new_expr_vec = FALSE,
+  new_expr_vec = getOption("mb.new_expr_vec", FALSE),
   parallel = getOption("mb.parallel", FALSE),
   quiet = getOption("mb.quiet", TRUE),
   beep = getOption("mb.beep", FALSE),

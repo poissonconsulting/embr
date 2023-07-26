@@ -17,7 +17,7 @@ update_model(
   modify_data = NULL,
   nthin = NULL,
   new_expr = NULL,
-  new_expr_vec = FALSE,
+  new_expr_vec = getOption("mb.new_expr_vec", FALSE),
   modify_new_data = NULL,
   drops = NULL,
   ...
