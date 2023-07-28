@@ -28,10 +28,10 @@ pars.mb_code <- function(x, param_type = "all", scalar = NULL, ...) {
   chk_unused(...)
 
   if (param_type != "all")
-    err("pars.character is not able to identify parameter types - set param_type = 'all' instead", tidy = FALSE)
+    err("pars.mb_code is not able to identify parameter types - set param_type = 'all' instead", tidy = FALSE)
 
   if (!is.null(scalar))
-    err("pars.character is not able to identify scalar pars - set scalar = NULL instead", tidy = FALSE)
+    err("pars.mb_code is not able to identify scalar pars - set scalar = NULL instead", tidy = FALSE)
 
   x <- template(x)
   x <- rm_comments(x)
