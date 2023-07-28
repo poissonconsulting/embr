@@ -55,11 +55,17 @@ random_effects = list(bSiteYear = c("Site", "YearFactor")))
           residual <- res_lnorm(Density, fit, exp(log_sDensity))
       }"
                              )
-  expect_output(expect_warning(analysis <- analyse(model, data = data)))
+  expect_warning(analysis <- analyse(model, data = data, glance = FALSE))
+
+  expect_identical(pars(analysis, "derived"), "eDensity")
+  expect_identical(pars(analysis, "random"), "bSiteYear")
+  expect_identical(length(pars(analysis, "raw")), 26L)
+  expect_identical(length(pars(analysis, "all")), 7L)
+  expect_identical(length(pars(analysis, "fixed")), 5L)
 
   year <- predict(analysis, new_data = "Year")
 
-  expect_is(year, "tbl")
+  expect_s3_class(year, "tbl")
   expect_identical(colnames(year), c("Site", "HabitatQuality", "Year", "Visit",
                                      "Density", "YearFactor",
                                      "estimate", "lower", "upper", "svalue"))

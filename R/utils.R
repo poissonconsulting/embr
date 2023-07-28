@@ -12,7 +12,10 @@ as_mb_meta_analysis <- function(x, text = names(x)) {
   x
 }
 
-pars_arg2to1 <- function(param_type, x, scalar) {
+pars_arg2to1 <- function(param_type, x, scalar = NULL) {
+  if(missing(scalar)) {
+    return(pars(x = x, param_type = param_type))
+  }
   pars(x = x, param_type = param_type, scalar = scalar)
 }
 
