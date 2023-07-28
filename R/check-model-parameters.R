@@ -32,5 +32,5 @@ check_model_pars.mb_code <- function(x, fixed, random, derived, drops) {
   if (length(drops) && !all(unlist(drops) %in% pars))
     err("drops parameters missing from code parameters", tidy = FALSE)
 
-  derived
+  invisible(x)
 }
