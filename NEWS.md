@@ -1,5 +1,10 @@
 <!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
 
+# embr 0.0.1.9035
+
+- Remove `param_type` and `scalar` arguments from `pars.character()` and `pars.mb_code()` and `scalar` from `pars.model()` and add `"raw"` parameter type to `pars.mb_model()` and pars.mb_analysis().
+
+
 # embr 0.0.1.9034
 
 - Set default value of `new_expr_vec` to be `getOption("mb.new_expr_vec", FALSE)`
