@@ -136,7 +136,13 @@ coef.mb_analyses <- function(object, param_type = "fixed", include_constant = TR
                              estimate = getOption("mb.estimate", median),
                              ...) {
   ic <- IC(object)
-  coef <- llply(object, coef, param_type = param_type, include_constant = include_constant, conf_level = conf_level)
+  coef <- lapply(
+    object,
+    coef,
+    param_type = param_type,
+    include_constant = include_constant,
+    conf_level = conf_level
+  )
 
   coef <- coef[is.finite(ic$IC)]
   ic <- ic[is.finite(ic$IC),,drop = FALSE]
@@ -207,7 +213,15 @@ coef.mb_meta_analysis <- function(object, param_type = "fixed", include_constant
                                   conf_level = getOption("mb.conf_level", 0.95),
                                   estimate = getOption("mb.estimate", median),
                                   ...) {
-  llply(object, coef, param_type = param_type, include_constant = include_constant, conf_level = conf_level, estimate = estimate, ...)
+  lapply(
+    object,
+    coef,
+    param_type = param_type,
+    include_constant = include_constant,
+    conf_level = conf_level,
+    estimate = estimate,
+    ...
+  )
 }
 
 #' Coef TMB Meta Analyses
@@ -224,5 +238,13 @@ coef.mb_meta_analyses <- function(object, param_type = "fixed", include_constant
                                   conf_level = getOption("mb.conf_level", 0.95),
                                   estimate = getOption("mb.estimate", median),
                                   ...) {
-  llply(object, coef, param_type = param_type, include_constant = include_constant, conf_level = conf_level, estimate = estimate, ...)
+  lapply(
+    object,
+    coef,
+    param_type = param_type,
+    include_constant = include_constant,
+    conf_level = conf_level,
+    estimate = estimate,
+    ...
+  )
 }

@@ -17,5 +17,5 @@ sort_by_ic.mb_analyses <- function(x, ...) {
 
 #' @export
 sort_by_ic.mb_meta_analyses <- function(x, ...) {
-  llply(x, sort_by_ic)
+  lapply(x, sort_by_ic)
 }

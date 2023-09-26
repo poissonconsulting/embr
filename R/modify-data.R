@@ -3,7 +3,7 @@ add_nfactors <- function(data) {
 
   if (!length(factor)) return(data)
 
-  factor <- llply(factor, nlevels)
+  factor <- lapply(factor, nlevels)
   names(factor) <- p0("n", names(factor))
 
   if (any(names(factor) %in% names(data)))

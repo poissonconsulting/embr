@@ -19,14 +19,14 @@ not_last <- function(x) {
 eliminate_drop <- function(drops, drop) {
   check_drops(drops)
   chk_s3_class(drop, "character")
-  drops <- llply(drops, eliminate, drop)
+  drops <- lapply(drops, eliminate, drop)
   drops <- drops[vapply(drops, length, 1L) > 0]
   drops
 }
 
 possible_drop <- function(drops) {
   if (!length(drops)) return(character(0))
-  drops <- llply(drops, dplyr::last)
+  drops <- lapply(drops, dplyr::last)
   drops <- unlist(drops)
   drops <- unique(drops)
   drops <- sort(drops)
@@ -35,7 +35,7 @@ possible_drop <- function(drops) {
 
 impossible_drop <- function(drops) {
   if (!length(drops)) return(character(0))
-  drops <- llply(drops, not_last)
+  drops <- lapply(drops, not_last)
   drops <- unlist(drops)
   drops <- unique(drops)
   drops <- sort(drops)
@@ -57,7 +57,7 @@ make_all_drops <- function(drops) {
   check_drops(drops)
   if (!length(drops)) return(list("base" = character(0)))
   drop <- recursive_drop(drops, character(0))
-  drop <- llply(drop, sort)
+  drop <- lapply(drop, sort)
   drop <- unique(drop)
   drop <- drop[order(vapply(drop, length, 1L))]
   names(drop) <- model_names(drop, drops)

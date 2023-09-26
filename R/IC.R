@@ -48,11 +48,11 @@ IC.mb_analyses <- function(object, ...) {
 
   if (anyDuplicated(names(object))) err("objects must be uniquely named", tidy = FALSE)
 
-  data <- llply(object, data_set)
+  data <- lapply(object, data_set)
   if (!all(vapply(data, identical, TRUE, data[[1]]))) err("all elements of object must have the same data", tidy = FALSE)
 
-  random_effects <- llply(object, random_effects)
-  random_effects <- llply(random_effects, sort_random_effects)
+  random_effects <- lapply(object, random_effects)
+  random_effects <- lapply(random_effects, sort_random_effects)
   if (!all(vapply(data, identical, TRUE, data[[1]]))) err("all elements of object must have the same random effects", tidy = FALSE)
 
   tibble <- tibble(model = names(object))
@@ -71,6 +71,6 @@ IC.mb_analyses <- function(object, ...) {
 
 #' @export
 IC.mb_meta_analyses <- function(object, ...) {
-  llply(object, IC, ...)
+  lapply(object, IC, ...)
 }
 

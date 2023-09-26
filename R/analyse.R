@@ -98,7 +98,7 @@ analyse.mb_model <- function(x, data,
   if (is.data.frame(data)) {
     chk_data(data)
   } else if (is.list(data)) {
-    llply(data, chk_data)
+    lapply(data, chk_data)
   } else err("data must be a data.frame or a list of data.frames", tidy = FALSE)
 
   chk_whole_number(nchains)

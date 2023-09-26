@@ -6,7 +6,6 @@
 #' @importFrom graphics plot
 #' @importFrom lubridate dminutes dhours is.duration
 #' @importFrom matrixStats colLogSumExps
-#' @importFrom plyr llply
 #' @importFrom rescale check_valid_rescalers
 #' @importFrom dplyr select mutate
 #' @importFrom stats var fitted logLik median predict terms pnorm qnorm
