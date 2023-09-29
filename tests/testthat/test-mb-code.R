@@ -10,3 +10,10 @@ test_that("template", {
   template(code) <- gsub("nll", "negll", template(code))
   expect_identical(template(code), gsub("nll", "negll", .tmb_template))
 })
+
+test_that("expression templates", {
+  expect_equal(
+    mb_code({}),
+    new_mb_code(quote({}), "pmb_code")
+  )
+})
