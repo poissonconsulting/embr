@@ -13,3 +13,24 @@ test_that("drop_pars", {
   expect_error(drop_pars(new_expr, c("bYear")), "pars must be scalar")
   expect_error(drop_pars(new_expr, c("bYear[1]")), "pars must be scalar")
 })
+
+test_that("drop_pars for expressions", {
+  local_edition(3)
+
+  new_expr = rlang::expr({
+    fit2 <- a + b * x
+    fit <- a + b * x + bYear[Year]
+    residual <- y - fit
+    prediction <- fit
+  })
+
+  expect_snapshot({
+    drop_pars(new_expr)
+    drop_pars(new_expr, "ab")
+    drop_pars(new_expr, "a")
+    drop_pars(new_expr, c("a", "b"))
+  })
+
+  expect_error(drop_pars(new_expr, c("bYear")), "pars must be scalar")
+  expect_error(drop_pars(new_expr, c("bYear[1]")), "pars must be scalar")
+})
