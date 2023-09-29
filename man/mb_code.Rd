@@ -2,12 +2,19 @@
 % Please edit documentation in R/mb-code.R
 \name{mb_code}
 \alias{mb_code}
+\alias{new_mb_code}
 \title{MB Code}
 \usage{
 mb_code(template)
+
+new_mb_code(x, class)
 }
 \arguments{
 \item{template}{A string of the model template.}
+
+\item{x}{A string or a language object.}
+
+\item{class}{The class of the new object.}
 }
 \value{
 An object inheriting from class mb_code.

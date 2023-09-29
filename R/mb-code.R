@@ -3,6 +3,8 @@
 #' Identifies the type of the code and creates an object of the appropriate class.
 #'
 #' @param template A string of the model template.
+#' @param x A string or a language object.
+#' @param class The class of the new object.
 #'
 #' @return An object inheriting from class mb_code.
 #' @export
@@ -29,19 +31,26 @@
 mb_code <- function(template) {
   chk_string(template)
 
-  class <- "mb_code"
   if (grepl("#include <TMB.hpp>", template)) {
-    class <- c("tmb_code", "mb_code")
+    class <- "tmb_code"
   } else if (grepl("parameters\\s*[{]", template)) {
-    class <- c("smb_code", "mb_code")
+    class <- "smb_code"
   } else if (grepl("model\\s*[{]", template)) {
-    class <- c("jmb_code", "mb_code")
+    class <- "jmb_code"
   } else if (grepl("^\\s*function\\s*[(]\\s*[)]", template)) {
-    class <- c("lmb_code", "mb_code")
-  } else wrn("template type is unrecognised", tidy = FALSE)
+    class <- "lmb_code"
+  } else {
+    wrn("template type is unrecognised", tidy = FALSE)
+    class <- NULL
+  }
 
-  object <- list()
-  object$template <- template
-  class(object) <- class
-  object
+  new_mb_code(template, class)
+}
+
+#' @rdname mb_code
+#' @export
+new_mb_code <- function(x, class) {
+  chk_true(vld_string(x) || is.language(x))
+  class <- c(setdiff(class, "mb_code"), "mb_code")
+  structure(list(template = x), class = class)
 }
