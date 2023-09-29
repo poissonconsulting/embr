@@ -1,3 +1,15 @@
+test_that("model construction", {
+  local_edition(3)
+
+  template <- "model{"
+
+  lifecycle::expect_deprecated(old_model <- model(template))
+  expect_equal(
+    old_model,
+    model(code = template)
+  )
+})
+
 test_that("model pars", {
   skip_if_not_installed("jmbr")
 
@@ -34,7 +46,7 @@ test_that("model pars", {
     prediction[i] <- exp(bIntercept + bYear * Year[i] + bHabitatQuality[HabitatQuality[i]] + bSiteYear[Site[i], YearFactor[i]])
 } "
 
-  model <- model(template,
+  model <- model(code = template,
                  select_data = list("Year+" = numeric(), YearFactor = factor(),
                                     Site = factor(), Density = numeric(),
                                     HabitatQuality = factor()),
@@ -88,7 +100,7 @@ test_that("model pars ", {
     prediction[i] <- exp(bIntercept + bYear * Year[i] + bHabitatQuality[HabitatQuality[i]] + rSiteYear[Site[i], YearFactor[i]])
 } "
 
-  model <- model(template,
+  model <- model(code = template,
                  select_data = list("Year+" = numeric(), YearFactor = factor(),
                                     Site = factor(), Density = numeric(),
                                     HabitatQuality = factor()),

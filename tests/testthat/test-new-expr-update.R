@@ -6,7 +6,7 @@ test_that("update new expr string expression", {
   data <- embr::density99
   data$YearFactor <- factor(data$Year)
 
-  model <- model("model{
+  model <- model(code = "model{
 
   bIntercept ~ dnorm(0, 5^-2)
   bYear ~ dnorm(0, .5^-2) # bYear2 ~ dnorm(0, .5^-2)
@@ -85,7 +85,7 @@ test_that("update new expr bare expression", {
   data <- embr::density99
   data$YearFactor <- factor(data$Year)
 
-  model <- model("model{
+  model <- model(code = "model{
 
   bIntercept ~ dnorm(0, 5^-2)
   bYear ~ dnorm(0, .5^-2) # bYear2 ~ dnorm(0, .5^-2)
@@ -157,7 +157,7 @@ test_that("add new_expr_vec argument to update model", {
   data <- embr::density99
   data$YearFactor <- factor(data$Year)
 
-  model <- model("model{
+  model <- model(code = "model{
 
   bIntercept ~ dnorm(0, 5^-2)
   bYear ~ dnorm(0, .5^-2) # bYear2 ~ dnorm(0, .5^-2)
@@ -231,7 +231,7 @@ test_that("add new_expr_vec argument to update model and updates original new_ex
   data <- embr::density99
   data$YearFactor <- factor(data$Year)
 
-  model <- model("model{
+  model <- model(code = "model{
 
   bIntercept ~ dnorm(0, 5^-2)
   bYear ~ dnorm(0, .5^-2) # bYear2 ~ dnorm(0, .5^-2)
@@ -298,7 +298,7 @@ test_that("cannot undo the vectorization if orignally set in the model", {
   data <- embr::density99
   data$YearFactor <- factor(data$Year)
 
-  model <- model("model{
+  model <- model(code = "model{
 
   bIntercept ~ dnorm(0, 5^-2)
   bYear ~ dnorm(0, .5^-2) # bYear2 ~ dnorm(0, .5^-2)

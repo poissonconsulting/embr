@@ -6,7 +6,7 @@ test_that("predict string expression", {
   data <- embr::density99
   data$YearFactor <- factor(data$Year)
 
-  model <- model("model{
+  model <- model(code = "model{
 
   bIntercept ~ dnorm(0, 5^-2)
   bYear ~ dnorm(0, .5^-2) # bYear2 ~ dnorm(0, .5^-2)
@@ -78,7 +78,7 @@ test_that("predict bare expression", {
   data <- embr::density99
   data$YearFactor <- factor(data$Year)
 
-  model <- model("model{
+  model <- model(code = "model{
 
   bIntercept ~ dnorm(0, 5^-2)
   bYear ~ dnorm(0, .5^-2) # bYear2 ~ dnorm(0, .5^-2)

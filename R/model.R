@@ -7,8 +7,10 @@
 #'
 #' For jmb models unspecified the initial values for each chain are drawn from the prior distributions.
 #'
-#' @param x An object inheriting from class mb_code.
+#' @param x A string, or an object inheriting from class `"mb_code"`.
 #' @inheritParams rlang::args_dots_empty
+#' @param code Passed on to [mb_code()]. If `x` is not `NULL`, `code` must be `NULL`,
+#'   and vice versa.
 #' @param gen_inits A single argument function taking the modified data and
 #'   returning a named list of initial values.
 #' @param random_effects A named list specifying the random effects and the associated factors.
@@ -27,9 +29,10 @@
 #' @seealso \code{\link[chk]{check_data}} \code{\link[rescale]{rescale_c}}
 #' @export
 model <- function(
-    x,
+    x = NULL,
     ...,
-    gen_inits = function(data) {list()},
+    code = NULL,
+    gen_inits = NULL,
     random_effects = list(),
     fixed = getOption("mb.fixed", "^[^e]"),
     derived = character(0),
@@ -45,23 +48,40 @@ model <- function(
 
   check_dots_empty()
 
-  if (is.character(x)) {
-    deprecate_soft(
-      "0.0.1.9036",
-      "model(x = 'character()')",
-      details = "Passing a string to model() is deprecated. Use model(mb_code(), ...) instead."
-    )
-    x <- mb_code(x)
-  } else if (is.mb_analysis(x)) {
-    deprecate_soft(
-      "0.0.1.9036",
-      "model(x = 'new_analysis()')",
-      details = "Passing an mb_analysis object to model() is deprecated. Use get_model() instead."
-    )
-    return(get_model(x))
+  if (is.null(x)) {
+    x <- mb_code({{ code }})
+  } else {
+    chk_null(code)
+    if (is.character(x)) {
+      deprecate_soft(
+        "0.0.1.9036",
+        "model(x = 'character()')",
+        "model(code = 'character()')",
+        details = 'Passing a string to model() is deprecated. Use model(code = ...) or model(mb_code("..."), ...) instead.'
+      )
+      x <- mb_code(x)
+    } else if (is.mb_analysis(x)) {
+      deprecate_soft(
+        "0.0.1.9036",
+        "model(x = 'new_analysis()')",
+        details = "Passing an mb_analysis object to model() is deprecated. Use get_model() instead."
+      )
+      return(get_model(x))
+    }
   }
 
   check_mb_code(x)
+
+  # For test stability
+  code <- NULL
+
+  if (is.null(gen_inits)) {
+    # Need to initialize here, for test stability
+    gen_inits <- function(data) {
+      list()
+    }
+  }
+
   check_single_arg_fun(gen_inits)
   check_uniquely_named_list(random_effects)
   chk_string(fixed)

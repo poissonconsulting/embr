@@ -5,11 +5,10 @@
 \title{MB Model}
 \usage{
 model(
-  x,
+  x = NULL,
   ...,
-  gen_inits = function(data) {
-     list()
- },
+  code = NULL,
+  gen_inits = NULL,
   random_effects = list(),
   fixed = getOption("mb.fixed", "^[^e]"),
   derived = character(0),
@@ -25,9 +24,12 @@ model(
 )
 }
 \arguments{
-\item{x}{An object inheriting from class mb_code.}
+\item{x}{A string, or an object inheriting from class `"mb_code"`.}
 
 \item{...}{Unused arguments.}
+
+\item{code}{Passed on to [mb_code()]. If `x` is not `NULL`, `code` must be `NULL`,
+and vice versa.}
 
 \item{gen_inits}{A single argument function taking the modified data and
 returning a named list of initial values.}
