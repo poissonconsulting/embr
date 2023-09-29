@@ -93,7 +93,7 @@ predict.mb_analyses <- function(object,
 
   ic <- IC(object)
 
-  prediction <- llply(
+  prediction <- lapply(
     object,
     predict,
     new_data = new_data,

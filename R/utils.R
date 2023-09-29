@@ -67,7 +67,7 @@ is.syntactic <- function(x) {
 sort_random_effects <- function(x) {
   x <- sort_nlist(x)
   check_all_elements_class_character(x)
-  x <- llply(x, function(x) sort(x))
+  x <- lapply(x, function(x) sort(x))
   x
 }
 
@@ -136,9 +136,9 @@ remainder <- function(x, y) {
 model_names <- function(x, drops) {
   drops <- full_drop(drops)
   stopifnot(all(unique(unlist((x))) %in% drops))
-  x <- llply(x, remainder, drops)
+  x <- lapply(x, remainder, drops)
   x[vapply(x, length, 1L) == 0] <- "base"
-  x <- llply(x, p0, collapse = "+")
+  x <- lapply(x, p0, collapse = "+")
   x <- unlist(x)
   x <- vapply(x, function(x) p0("base+", x, collapse = ""), "")
   x[x == "base+base"] <- "base"

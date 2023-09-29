@@ -104,9 +104,15 @@ coef_profile.mb_analyses <- function(
   beep <- FALSE
 
   ic <- IC(object)
-  coef <- llply(object, coef_profile, param_type = param_type,
-                include_constant = include_constant, conf_level = conf_level,
-                parallel = parallel, beep = beep)
+  coef <- lapply(
+    object,
+    coef_profile,
+    param_type = param_type,
+    include_constant = include_constant,
+    conf_level = conf_level,
+    parallel = parallel,
+    beep = beep
+  )
 
   coef <- coef[is.finite(ic$IC)]
   ic <- ic[is.finite(ic$IC),,drop = FALSE]
@@ -185,7 +191,17 @@ coef_profile.mb_meta_analysis <- function(object, param_type = "fixed", include_
   if (beep) on.exit(beepr::beep())
   beep <- FALSE
 
-  llply(object, coef_profile, param_type = param_type, include_constant = include_constant, conf_level = conf_level, estimate = estimate, parallel = parallel, beep = beep, ...)
+  lapply(
+    object,
+    coef_profile,
+    param_type = param_type,
+    include_constant = include_constant,
+    conf_level = conf_level,
+    estimate = estimate,
+    parallel = parallel,
+    beep = beep,
+    ...
+  )
 }
 
 #' Coef TMB Meta Analyses
@@ -210,5 +226,15 @@ coef_profile.mb_meta_analyses <- function(object, param_type = "fixed", include_
   if (beep) on.exit(beepr::beep())
   beep <- FALSE
 
-  llply(object, coef_profile, param_type = param_type, include_constant = include_constant, conf_level = conf_level, estimate = estimate, parallel = parallel, beep = beep, ...)
+  lapply(
+    object,
+    coef_profile,
+    param_type = param_type,
+    include_constant = include_constant,
+    conf_level = conf_level,
+    estimate = estimate,
+    parallel = parallel,
+    beep = beep,
+    ...
+  )
 }

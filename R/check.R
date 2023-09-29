@@ -125,7 +125,7 @@ check_all_elements_class_character <- function(x, x_name = substitute(x)) {
 
   if (!length(x)) return(x)
 
-  if (!all(unlist(llply(x, class)) == "character"))
+  if (!all(unlist(lapply(x, class)) == "character"))
     err("elements of ", x_name, "must be character vectors", tidy = FALSE)
   x
 }
