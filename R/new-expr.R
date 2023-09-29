@@ -21,7 +21,7 @@ new_expr.mb_models <- function(object, ...) {
 
 #' @export
 new_expr.mb_analysis <- function(object, ...) {
-  new_expr(model(object))
+  new_expr(get_model(object))
 }
 
 #' @export

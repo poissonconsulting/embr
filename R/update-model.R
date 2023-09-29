@@ -4,7 +4,7 @@
 #'
 #' @param model The model to update.
 #' @param code A string of the model template or an object inheriting from class mb_code.
-#' @inheritParams model.mb_code
+#' @inheritParams model
 #' @return An object inheriting from class mb_model.
 #' @export
 update_model <- function(

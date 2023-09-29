@@ -71,7 +71,7 @@ pars.mb_analysis <- function(x, param_type = "all", scalar = NULL, ...) {
   if(!is.null(scalar)) chk_flag(scalar)
 
   if(param_type == "raw") {
-    return(pars(model(x), param_type = "raw"))
+    return(pars(get_model(x), param_type = "raw"))
   }
 
   if (param_type %in% c("primary", "all")) {

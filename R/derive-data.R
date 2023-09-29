@@ -23,7 +23,7 @@ mcmc_derive_fun <- function(object,
   chk_flag(parallel)
   chk_flag(quiet)
 
-  model <- model(object)
+  model <- get_model(object)
 
   new_expr <- enexpr_new_expr(
     {{ new_expr }},
