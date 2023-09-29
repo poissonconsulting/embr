@@ -116,8 +116,13 @@ model_mb_code <- function(x,
   check_x_in_y(center, select_colnames, y_name = "select_data", type_y = "names")
   check_x_in_y(scale, select_colnames, y_name = "select_data", type_y = "names")
 
-  check_model_pars(x, fixed, random = names(random_effects),
-                         derived = derived, drops = unlist(drops))
+  derived <- check_model_pars(
+    x,
+    fixed,
+    random = names(random_effects),
+    derived = derived,
+    drops = unlist(drops)
+  )
 
   center <- sort(center)
   scale <- sort(scale)
