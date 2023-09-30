@@ -26,7 +26,7 @@ Imports:
     lubridate,
     mcmcdata,
     mcmcderive,
-    mcmcr,
+    mcmcr (>= 0.6.1.9001),
     matrixStats,
     newdata,
     nlist,
@@ -49,6 +49,7 @@ RdMacros:
     lifecycle
 Remotes: 
     poissonconsulting/jmbr,
+    poissonconsulting/mcmcr,
     poissonconsulting/mcmcdata,
     poissonconsulting/mcmcderive,
     poissonconsulting/newdata,
