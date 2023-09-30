@@ -43,7 +43,8 @@ glance.mb_analyses <- function(
     rhat <- matrix(rhat$rhat, nrow = 1, dimnames = list("1", rhat$model))
     rhat <- as.data.frame(rhat)
     glance <- cbind(glance, rhat)
-    glance$rhat_all <- rhat_all
+    glance$rhat_all <- rhat_all$bound
+
     glance$converged <- converged
 
     return(as_tibble(glance))
