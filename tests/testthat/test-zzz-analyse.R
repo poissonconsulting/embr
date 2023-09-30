@@ -131,13 +131,16 @@ test_that("analyse", {
   dd <- mcmc_derive_data(analysis, new_data = c("Site", "Year"), ref_data = TRUE)
   expect_true(mcmcdata::is.mcmc_data(dd))
 
-  sensitivity <- sd_priors_by(analysis, by = 10, glance = FALSE)
+  expect_warning(sensitivity <- sd_priors_by(analysis, by = 10, glance = FALSE),
+                 "incomplete adaptation")
 
   analyses <- analyses(analysis, sensitivity)
 
   rhat2 <- rhat(analyses)
   expect_is(rhat2, "list")
   expect_identical(names(rhat2), c("mcmcr1", "mcmcr2"))
+
+  skip_if_not_installed("mcmcr", "0.6.1.9001")
 
   lifecycle::expect_deprecated(
     rhat2 <- rhat(analyses, bound = TRUE),
