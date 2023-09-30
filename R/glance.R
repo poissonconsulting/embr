@@ -44,6 +44,7 @@ glance.mb_analyses <- function(
     rhat <- as.data.frame(rhat)
     glance <- cbind(glance, rhat)
     glance$rhat_all <- rhat_all
+
     glance$converged <- converged
 
     return(as_tibble(glance))
