@@ -4,7 +4,7 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
-[![R-CMD-check](https://github.com/poissonconsulting/embr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/poissonconsulting/mbr/actions/workflows/R-CMD-check.yaml)
+[![R-CMD-check](https://github.com/poissonconsulting/embr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/poissonconsulting/embr/actions/workflows/R-CMD-check.yaml)
 [![codecov](https://codecov.io/github/poissonconsulting/embr/branch/main/graph/badge.svg?token=RSs3t4kgR0)](https://codecov.io/github/poissonconsulting/mbr)
 [![License:
 MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
@@ -39,7 +39,7 @@ remotes::install_github("poissonconsulting/embr")
     To cite package 'embr' in publications use:
 
       Thorley J (????). _embr: Model Builder Utility Functions and Virtual
-      Classes_. R package version 0.0.1.9031,
+      Classes_. R package version 0.0.1.9035,
       <https://github.com/poissonconsulting/embr>.
 
     A BibTeX entry for LaTeX users is
@@ -47,7 +47,7 @@ remotes::install_github("poissonconsulting/embr")
       @Manual{,
         title = {embr: Model Builder Utility Functions and Virtual Classes},
         author = {Joe Thorley},
-        note = {R package version 0.0.1.9031},
+        note = {R package version 0.0.1.9035},
         url = {https://github.com/poissonconsulting/embr},
       }
 
