@@ -11,5 +11,6 @@
 #' @importFrom rlang list2
 #' @importFrom rlang quo_get_expr
 #' @importFrom rlang quo_is_null
+#' @importFrom utils packageVersion
 ## usethis namespace: end
 NULL

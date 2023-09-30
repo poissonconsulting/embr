@@ -35,6 +35,11 @@ glance.mb_analyses <- function(
 
     glance <- glance(x, rhat = rhat)
     rhat_all <- rhat(x, bound = TRUE)
+
+    if(packageVersion("mcmcr") >= "0.6.1.9001") {
+      rhat_all <- rhat_all$bound
+    }
+
     converged <- all(glance$rhat <= rhat) && rhat_all <= rhat
 
     rhat <- glance[c("model", "rhat")]
@@ -43,6 +48,7 @@ glance.mb_analyses <- function(
     rhat <- matrix(rhat$rhat, nrow = 1, dimnames = list("1", rhat$model))
     rhat <- as.data.frame(rhat)
     glance <- cbind(glance, rhat)
+
     glance$rhat_all <- rhat_all
 
     glance$converged <- converged

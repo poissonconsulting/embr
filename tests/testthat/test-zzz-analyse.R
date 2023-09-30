@@ -135,7 +135,20 @@ test_that("analyse", {
 
   analyses <- analyses(analysis, sensitivity)
 
-  glance <- glance(analyses, bound = TRUE)
+  rhat2 <- rhat(analyses)
+  expect_is(rhat2, "list")
+  expect_identical(names(rhat2), c("mcmcr1", "mcmcr2"))
+
+  lifecycle::expect_deprecated(
+    rhat2 <- rhat(analyses, bound = TRUE),
+    "`rhat.mcmcrs\\(x, bound = TRUE\\)`")
+
+  expect_is(rhat2, "list")
+  expect_identical(names(rhat2), c("mcmcr1", "mcmcr2", "bound"))
+
+  lifecycle::expect_deprecated(
+    glance <- glance(analyses, bound = TRUE),
+    "`rhat.mcmcrs\\(x, bound = TRUE\\)`")
 
   expect_is(glance, "tbl")
   expect_identical(nrow(glance), 1L)

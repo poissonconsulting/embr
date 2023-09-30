@@ -39,7 +39,8 @@ Imports:
     term,
     tibble,
     tidyr,
-    universals
+    universals,
+    utils
 Suggests:
     covr,
     jmbr,
