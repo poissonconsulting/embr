@@ -29,27 +29,8 @@ To install the latest development version from
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("poissonconsulting/embr")
+pak::pak("poissonconsulting/embr")
 ```
-
-## Citation
-
-    Warning in citation(package = "embr"): could not determine year for 'embr' from
-    package DESCRIPTION file
-    To cite package 'embr' in publications use:
-
-      Thorley J (????). _embr: Model Builder Utility Functions and Virtual
-      Classes_. R package version 0.0.1.9035,
-      <https://github.com/poissonconsulting/embr>.
-
-    A BibTeX entry for LaTeX users is
-
-      @Manual{,
-        title = {embr: Model Builder Utility Functions and Virtual Classes},
-        author = {Joe Thorley},
-        note = {R package version 0.0.1.9035},
-        url = {https://github.com/poissonconsulting/embr},
-      }
 
 ## Contribution
 

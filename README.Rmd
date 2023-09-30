@@ -32,13 +32,7 @@ Currently there are packages which implement the functionality for JAGS ([jmbr](
 To install the latest development version from [GitHub](https://github.com/poissonconsulting/embr)
 ```r
 # install.packages("remotes")
-remotes::install_github("poissonconsulting/embr")
-```
-
-## Citation
-
-```{r, comment="", echo=FALSE}
-citation(package = 'embr')
+pak::pak("poissonconsulting/embr")
 ```
 
 ## Contribution
