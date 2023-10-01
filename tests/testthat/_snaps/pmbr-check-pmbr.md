@@ -11,7 +11,7 @@
         }
       }))
     Error <rlang_error>
-      `dnorm` must be used with a named argument `sd`.
+      `dnorm()` must be used with a named argument `sd`.
 
 ---
 
@@ -20,7 +20,7 @@
         bY ~ dnorm(0, sd = 2^(-2))
       }))
     Error <rlang_error>
-      The `sd` argument to `dnorm` must be a standard deviation, not a term like `... ^ (-2)`.
+      The `sd` argument to `dnorm()` must be a standard deviation, not a term like `... ^ (-2)`.
 
 ---
 
@@ -29,5 +29,5 @@
         bY ~ dnorm(0, sd = 1 / 2^2)
       }))
     Error <rlang_error>
-      The `sd` argument to `dnorm` must be a standard deviation, not a term like `1 / ...`.
+      The `sd` argument to `dnorm()` must be a standard deviation, not a term like `1 / ...`.
 

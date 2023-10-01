@@ -6,7 +6,7 @@ check_pmbr <- function(expr) {
     call = {
       if (as.character(expr[[1]]) %in% sd_dists) {
         if (names2(as.list(expr))[[3]] != "sd") {
-          err("`", as.character(expr[[1]]), "` must be used with a named argument `sd`")
+          err("`", as.character(expr[[1]]), "()` must be used with a named argument `sd`")
         }
         if (is.call(expr[[3]])) {
           if (expr[[3]][[1]] == "^") {
@@ -14,14 +14,14 @@ check_pmbr <- function(expr) {
               err(
                 "The `sd` argument to `",
                 as.character(expr[[1]]),
-                "` must be a standard deviation, not a term like `... ^ -2`"
+                "()` must be a standard deviation, not a term like `... ^ -2`"
               )
             }
             if (expr[[3]][[3]][[1]] == "(" && expr[[3]][[3]][[2]][[1]] == "-" && expr[[3]][[3]][[2]][[2]] == 2) {
               err(
                 "The `sd` argument to `",
                 as.character(expr[[1]]),
-                "` must be a standard deviation, not a term like `... ^ (-2)`"
+                "()` must be a standard deviation, not a term like `... ^ (-2)`"
               )
             }
           }
@@ -29,7 +29,7 @@ check_pmbr <- function(expr) {
             err(
               "The `sd` argument to `",
               as.character(expr[[1]]),
-              "` must be a standard deviation, not a term like `1 / ...`"
+              "()` must be a standard deviation, not a term like `1 / ...`"
             )
           }
         }
