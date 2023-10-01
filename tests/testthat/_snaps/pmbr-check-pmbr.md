@@ -13,3 +13,21 @@
     Error <rlang_error>
       `dnorm` must be used with a named argument `sd`.
 
+---
+
+    Code
+      check_pmbr(expr({
+        bY ~ dnorm(0, sd = 2^(-2))
+      }))
+    Error <rlang_error>
+      The `sd` argument to `dnorm` must be a standard deviation, not a term like `... ^ (-2)`.
+
+---
+
+    Code
+      check_pmbr(expr({
+        bY ~ dnorm(0, sd = 1 / 2^2)
+      }))
+    Error <rlang_error>
+      The `sd` argument to `dnorm` must be a standard deviation, not a term like `1 / ...`.
+
