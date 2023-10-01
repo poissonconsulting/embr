@@ -1,4 +1,9 @@
 #' @export
 print.mb_code <- function(x, ...) {
-  cat(template(x))
+  template <- template(x)
+  if (is.language(template)) {
+    print(template)
+  } else {
+    cat(template)
+  }
 }

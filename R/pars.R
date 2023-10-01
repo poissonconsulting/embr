@@ -1,5 +1,5 @@
 pars.character <- function(x, ...) {
-  chk_unused(...)
+  check_dots_empty()
   if(is.null(x)) return(character(0))
 
   x <- rm_comments(x)
@@ -13,7 +13,7 @@ pars.character <- function(x, ...) {
 
 #' @export
 pars.mb_code <- function(x, ...) {
-  chk_unused(...)
+  check_dots_empty()
 
   pars(template(x))
 }
@@ -22,7 +22,7 @@ pars.mb_code <- function(x, ...) {
 pars.mb_model <- function(x, param_type = "all", ...) {
   chk_string(param_type)
   chk_subset(param_type,  c("fixed", "random", "derived", "primary", "all", "raw"))
-  chk_unused(...)
+  check_dots_empty()
 
   if(param_type == "raw") {
     return(pars(code(x)))
@@ -71,7 +71,7 @@ pars.mb_analysis <- function(x, param_type = "all", scalar = NULL, ...) {
   if(!is.null(scalar)) chk_flag(scalar)
 
   if(param_type == "raw") {
-    return(pars(model(x), param_type = "raw"))
+    return(pars(get_model(x), param_type = "raw"))
   }
 
   if (param_type %in% c("primary", "all")) {

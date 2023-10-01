@@ -15,5 +15,5 @@ random_effects.mb_model <- function(object, ...) {
 
 #' @export
 random_effects.mb_analysis <- function(object, ...) {
-  random_effects(model(object))
+  random_effects(get_model(object))
 }

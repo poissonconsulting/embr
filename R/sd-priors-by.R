@@ -17,7 +17,7 @@ sd_priors_by <- function(x, by = 10, distributions = c("normal", "lognormal", "t
 sd_priors_by.mb_model <- function(x, by = 10, distributions = c("normal", "lognormal", "t"), ...) {
   chk_number(by)
   chk_range(by, c(0.001, 1000))
-  chk_unused(...)
+  check_dots_empty()
 
   x$code <- sd_priors_by(x$code, by = by, distributions = distributions)
   x
@@ -31,7 +31,7 @@ sd_priors_by.mb_analysis <- function(x, by = 10, distributions = c("normal", "lo
                                   glance = getOption("mb.glance", TRUE),
                                   beep = getOption("mb.beep", TRUE),
                                   ...) {
-  chk_unused(...)
+  check_dots_empty()
 
   analyse(sd_priors_by(model(x), by = by, distributions = distributions),
           data = data_set(x),

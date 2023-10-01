@@ -41,7 +41,7 @@ test_that("analyse", {
     residual[i] <- res_lnorm(Density[i], fit[i], exp(log_sDensity))
 }"
 
-  model <- model(jags_template,
+  model <- model(code = jags_template,
                  select_data = list("Year+" = numeric(), YearFactor = factor(),
                                     Site = factor(), Density = numeric(),
                                     HabitatQuality = factor()),

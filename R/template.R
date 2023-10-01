@@ -23,8 +23,13 @@ template <- function(object, ...) {
 
 #' @export
 template.mb_code <- function(object, ...) {
-  
-  object$template
+  # FIXME: Return a language object once all components support this
+
+  if (is.call(object$template)) {
+    paste(deparse(object$template), collapse = "\n")
+  } else {
+    object$template
+  }
 }
 
 #' @export
