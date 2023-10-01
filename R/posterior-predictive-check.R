@@ -20,7 +20,7 @@ posterior_predictive_check <- function(x, ...) {
 #' @export
 posterior_predictive_check.mb_analysis <- function(x, zeros = TRUE, ...) {
   chk_flag(zeros)
-  chk_unused(...)
+  check_dots_empty()
 
   simulate_residuals <- simulate_residuals(x)
   if(zeros) {
