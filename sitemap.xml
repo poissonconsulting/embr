@@ -151,6 +151,9 @@
     <loc>/reference/fitted.mb_analysis.html</loc>
   </url>
   <url>
+    <loc>/reference/get_model.html</loc>
+  </url>
+  <url>
     <loc>/reference/index.html</loc>
   </url>
   <url>
@@ -223,9 +226,6 @@
     <loc>/reference/model.html</loc>
   </url>
   <url>
-    <loc>/reference/model.mb_code.html</loc>
-  </url>
-  <url>
     <loc>/reference/models.html</loc>
   </url>
   <url>
@@ -236,6 +236,9 @@
   </url>
   <url>
     <loc>/reference/monitor.html</loc>
+  </url>
+  <url>
+    <loc>/reference/new_analysis.html</loc>
   </url>
   <url>
     <loc>/reference/new_expr-set.html</loc>
