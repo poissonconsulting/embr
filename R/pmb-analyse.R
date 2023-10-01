@@ -6,11 +6,11 @@ analyse.pmb_model <- function(
     engine = NULL) {
 
   # FIXME: Generic translation
-  if (identical(engine, "jmbr")) {
+  if (identical(engine, "rjags")) {
     x$code <- translate_jmbr(x$code)
     x <- new_mb_model(x, class(x$code))
   } else {
-    err('Must specify `engine = "jmbr"` for analysing engine-agnostic code')
+    err('Must specify `engine = "rjags"` for analysing engine-agnostic code')
   }
 
   analyse(x, data, ...)
