@@ -32,8 +32,10 @@ mb_code <- function(template) {
 
   if (is.call(template_expr) && template_expr[[1]] == "{") {
     template <- template_expr
+    check_pmbr(template)
     class <- "pmb_code"
   } else if (is.call(template) && template[[1]] == "{") {
+    check_pmbr(template)
     class <- "pmb_code"
   } else if (is.mb_code(template)) {
     return(template)
