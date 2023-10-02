@@ -54,7 +54,7 @@ Suggests:
 RdMacros: 
     lifecycle
 Remotes: 
-    poissonconsulting/jmbr@pmbr,
+    poissonconsulting/jmbr,
     poissonconsulting/mcmcr,
     poissonconsulting/mcmcdata,
     poissonconsulting/mcmcderive,
