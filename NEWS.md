@@ -1,4 +1,23 @@
-<!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
+<!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
+
+# embr 0.0.1.9036
+
+## Features
+
+- Implement `"pmb_code"` class to support a strict subset of the nimble language (#64).
+
+- `check_model_pars()` returns `derived` (#62).
+
+## Chore
+
+- `engine = "jags"`.
+
+- Use raw GitHub file.
+
+- Get JAGS.exe from S3 bucket.
+
+- Relax test.
+
 
 # embr 0.0.1.9035
 
