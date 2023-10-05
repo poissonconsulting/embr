@@ -31,7 +31,7 @@ Imports:
     lifecycle,
     lubridate,
     mcmcdata,
-    mcmcderive,
+    mcmcderive (>= 0.1.2.9002),
     mcmcr (>= 0.6.1.9001),
     matrixStats,
     newdata,
