@@ -47,7 +47,7 @@ mcmc_derive_fun <- function(object,
 
   object <- inject(mcmc_derive(
     object,
-    expr = {{ new_expr }},
+    expr = !!new_expr,
     values = data,
     monitor = term,
     parallel = parallel,
