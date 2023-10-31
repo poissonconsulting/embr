@@ -14,23 +14,27 @@ check_model_pars <- function(x, fixed, random, derived, drops) {
 #' @export
 check_model_pars.mb_code <- function(x, fixed, random, derived, drops) {
   chk_string(fixed)
-  if(!is.null(random)) chk_character(random)
-  if(!is.null(derived)) chk_character(derived)
-  if(!is.null(drops)) chk_character(drops)
+  chk_null_or(random, vld = vld_character)
+  chk_null_or(derived, vld = vld_character)
+  chk_null_or(drops, vld = vld_character)
 
   pars <- pars(x)
 
-  if (!any(grepl(fixed, pars)))
+  if (!any(grepl(fixed, pars))) {
     err("fixed does not match any code parameters", tidy = FALSE)
+  }
 
-  if (length(random) && !all(random %in% pars))
+  if (length(random) && !all(random %in% pars)) {
     err("random effects parameters missing from code parameters", tidy = FALSE)
+  }
 
-  if (length(derived) && !all(derived %in% pars))
+  if (length(derived) && !all(derived %in% pars)) {
     err("derived parameters missing from code parameters", tidy = FALSE)
+  }
 
-  if (length(drops) && !all(unlist(drops) %in% pars))
+  if (length(drops) && !all(unlist(drops) %in% pars)) {
     err("drops parameters missing from code parameters", tidy = FALSE)
+  }
 
   # This should return the derived parameters for compatibility with
   # packages that implement embr methods
