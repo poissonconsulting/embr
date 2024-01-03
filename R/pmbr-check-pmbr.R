@@ -1,5 +1,5 @@
 # From Nimble user manual
-sd_dists <- c("dnorm", "dlnorm", "dt", "dbeta", "dgamma")
+sd_dists <- c("dnorm")
 
 check_pmbr <- function(expr) {
   switch(expr_type(expr),
