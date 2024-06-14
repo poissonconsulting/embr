@@ -10,8 +10,9 @@
           Y[i] ~ dnorm(eY[i], sY^(-2))
         }
       }))
-    Error <rlang_error>
-      `dnorm()` must be used with a named argument `sd`.
+    Condition
+      [1m[33mError[39m in `map()`:[22m
+      [33m![39m `dnorm()` must be used with a named argument `sd`.
 
 ---
 
@@ -19,8 +20,9 @@
       check_pmbr(expr({
         bY ~ dnorm(0, sd = 2^(-2))
       }))
-    Error <rlang_error>
-      The `sd` argument to `dnorm()` must be a standard deviation, not a term like `... ^ (-2)`.
+    Condition
+      [1m[33mError[39m in `map()`:[22m
+      [33m![39m The `sd` argument to `dnorm()` must be a standard deviation, not a term like `... ^ (-2)`.
 
 ---
 
@@ -28,6 +30,7 @@
       check_pmbr(expr({
         bY ~ dnorm(0, sd = 1 / 2^2)
       }))
-    Error <rlang_error>
-      The `sd` argument to `dnorm()` must be a standard deviation, not a term like `1 / ...`.
+    Condition
+      [1m[33mError[39m in `map()`:[22m
+      [33m![39m The `sd` argument to `dnorm()` must be a standard deviation, not a term like `1 / ...`.
 

@@ -44,6 +44,7 @@
 
     Code
       edit_residuals_code("boo[i] <- res_bern(x)")
-    Error <rlang_error>
-      `new_expr` must include `residual <- res_xxx(` or `residual[i] <- res_xxx(`.
+    Condition
+      [1m[33mError[39m:[22m
+      [33m![39m `new_expr` must include `residual <- res_xxx(` or `residual[i] <- res_xxx(`.
 
