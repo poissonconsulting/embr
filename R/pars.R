@@ -1,3 +1,4 @@
+#' @export
 pars.character <- function(x, ...) {
   check_dots_empty()
   if(is.null(x)) return(character(0))
