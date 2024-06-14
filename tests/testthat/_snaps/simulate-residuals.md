@@ -22,7 +22,8 @@
 ---
 
     Code
-      edit_residuals_code(rlang::expr(residual[i] <- res_bern(x)), type = "data", simulate = TRUE)
+      edit_residuals_code(rlang::expr(residual[i] <- res_bern(x)), type = "data",
+      simulate = TRUE)
     Output
       residual[i] <- res_bern(x, type = "data", simulate = TRUE)
 
