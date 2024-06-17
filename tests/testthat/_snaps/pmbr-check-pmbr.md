@@ -1,4 +1,4 @@
-# check_pmbr()
+# check_pmbr() errors [plain]
 
     Code
       check_pmbr(expr({
@@ -10,8 +10,9 @@
           Y[i] ~ dnorm(eY[i], sY^(-2))
         }
       }))
-    Error <rlang_error>
-      `dnorm()` must be used with a named argument `sd`.
+    Condition
+      Error in `map()`:
+      ! `dnorm()` must be used with a named argument `sd`.
 
 ---
 
@@ -19,8 +20,9 @@
       check_pmbr(expr({
         bY ~ dnorm(0, sd = 2^(-2))
       }))
-    Error <rlang_error>
-      The `sd` argument to `dnorm()` must be a standard deviation, not a term like `... ^ (-2)`.
+    Condition
+      Error in `map()`:
+      ! The `sd` argument to `dnorm()` must be a standard deviation, not a term like `... ^ (-2)`.
 
 ---
 
@@ -28,6 +30,7 @@
       check_pmbr(expr({
         bY ~ dnorm(0, sd = 1 / 2^2)
       }))
-    Error <rlang_error>
-      The `sd` argument to `dnorm()` must be a standard deviation, not a term like `1 / ...`.
+    Condition
+      Error in `map()`:
+      ! The `sd` argument to `dnorm()` must be a standard deviation, not a term like `1 / ...`.
 

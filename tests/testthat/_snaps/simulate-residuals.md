@@ -40,10 +40,11 @@
           residual <- res_bern(x, type = "data", simulate = TRUE)
       }
 
----
+# edit_residuals_code errors when lhs does not start with res [plain]
 
     Code
       edit_residuals_code("boo[i] <- res_bern(x)")
-    Error <rlang_error>
-      `new_expr` must include `residual <- res_xxx(` or `residual[i] <- res_xxx(`.
+    Condition
+      Error:
+      ! `new_expr` must include `residual <- res_xxx(` or `residual[i] <- res_xxx(`.
 
