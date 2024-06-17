@@ -48,6 +48,7 @@ Imports:
     universals,
     utils
 Suggests:
+    cli,
     covr,
     jmbr,
     testthat
