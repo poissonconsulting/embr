@@ -28,9 +28,6 @@
     <loc>/news/index.html</loc>
   </url>
   <url>
-    <loc>/pull_request_template.html</loc>
-  </url>
-  <url>
     <loc>/reference/IC.html</loc>
   </url>
   <url>
@@ -149,6 +146,9 @@
   </url>
   <url>
     <loc>/reference/fitted.mb_analysis.html</loc>
+  </url>
+  <url>
+    <loc>/reference/get_analysis_mode.html</loc>
   </url>
   <url>
     <loc>/reference/get_model.html</loc>
