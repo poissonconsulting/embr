@@ -1,5 +1,22 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# embr 0.1.0
+
+## Bug fixes
+
+- Moonshot.
+
+## Uncategorized
+
+- Merge pull request #75 from poissonconsulting/f-get-analysis-mode.
+
+  Add `get_analysis_mode()` function to get current package options
+
+- Only test sd for dnorm.
+
+- Merge branch 'main' of github.com:poissonconsulting/embr.
+
+
 # embr 0.0.1.9036
 
 ## Features
