@@ -15,7 +15,6 @@ test_that("check_pmbr()", {
 
 cli::test_that_cli("check_pmbr() errors", {
     local_edition(3)
-
     expect_snapshot(error = TRUE, {
       check_pmbr(expr({
         bY ~ dnorm(0, 2^-2)
