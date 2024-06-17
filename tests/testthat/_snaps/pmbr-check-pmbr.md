@@ -1,4 +1,4 @@
-# check_pmbr()
+# check_pmbr() errors [plain]
 
     Code
       check_pmbr(expr({
@@ -11,8 +11,8 @@
         }
       }))
     Condition
-      [1m[33mError[39m in `map()`:[22m
-      [33m![39m `dnorm()` must be used with a named argument `sd`.
+      Error in `map()`:
+      ! `dnorm()` must be used with a named argument `sd`.
 
 ---
 
@@ -21,8 +21,8 @@
         bY ~ dnorm(0, sd = 2^(-2))
       }))
     Condition
-      [1m[33mError[39m in `map()`:[22m
-      [33m![39m The `sd` argument to `dnorm()` must be a standard deviation, not a term like `... ^ (-2)`.
+      Error in `map()`:
+      ! The `sd` argument to `dnorm()` must be a standard deviation, not a term like `... ^ (-2)`.
 
 ---
 
@@ -31,6 +31,6 @@
         bY ~ dnorm(0, sd = 1 / 2^2)
       }))
     Condition
-      [1m[33mError[39m in `map()`:[22m
-      [33m![39m The `sd` argument to `dnorm()` must be a standard deviation, not a term like `1 / ...`.
+      Error in `map()`:
+      ! The `sd` argument to `dnorm()` must be a standard deviation, not a term like `1 / ...`.
 
