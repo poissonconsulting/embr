@@ -111,42 +111,54 @@ predict.mb_analyses <- function(object,
   )
 
   if (!all(is.finite(ic$IC))) {
-    prediction <- dplyr::mutate(prediction[[1]], estimate = NA_real_,
-                     sd = NA_real_,
-                     zscore = NA_real_,
-                     lower = NA_real_,
-                     upper = NA_real_,
-                     pvalue = NA_real_
+    prediction <- dplyr::mutate(prediction[[1]],
+      estimate = NA_real_,
+      sd = NA_real_,
+      zscore = NA_real_,
+      lower = NA_real_,
+      upper = NA_real_,
+      pvalue = NA_real_
     )
     return(prediction)
   }
 
   new_data <- prediction[[1]]
-  new_data <- dplyr::select_(new_data, ~-estimate, ~-sd, ~-zscore, ~-lower, ~-upper, ~-pvalue)
+  new_data <- dplyr::select_(new_data, ~ -estimate, ~ -sd, ~ -zscore, ~ -lower, ~ -upper, ~ -pvalue)
 
   prediction <- prediction[is.finite(ic$IC)]
-  ic <- ic[is.finite(ic$IC),,drop = FALSE]
+  ic <- ic[is.finite(ic$IC), , drop = FALSE]
 
-  prediction <- purrr::map2(prediction, ic$ICWt, function(x, y) {x$ICWt <- y; x})
+  prediction <- purrr::map2(prediction, ic$ICWt, function(x, y) {
+    x$ICWt <- y
+    x
+  })
 
-  prediction <- purrr::map_df(prediction, function(x) {x$.row <- 1:nrow(x); x})
+  prediction <- purrr::map_df(prediction, function(x) {
+    x$.row <- 1:nrow(x)
+    x
+  })
 
   prediction <- dplyr::bind_rows(prediction, .id = ".model")
   prediction <- dplyr::group_by_(prediction, ~.row)
   prediction <- dplyr::summarise_(prediction,
-      estimate = ~sum(ICWt * estimate))
+    estimate = ~ sum(ICWt * estimate)
+  )
   prediction <- dplyr::ungroup(prediction)
-  prediction <- dplyr::mutate(prediction, lower = NA_real_,
-                   upper = NA_real_,
-                   sd = NA_real_,
-                   zscore = NA_real_,
-                   pvalue = NA_real_)
+  prediction <- dplyr::mutate(prediction,
+    lower = NA_real_,
+    upper = NA_real_,
+    sd = NA_real_,
+    zscore = NA_real_,
+    pvalue = NA_real_
+  )
   prediction <- dplyr::arrange_(prediction, ~.row)
-  prediction <- dplyr::select(prediction, estimate = "estimate",
-                              sd = "sd", zscore = "zscore",
-                              lower = "lower",
-                              upper = "upper",
-                              pvalue = "pvalue")
+  prediction <- dplyr::select(prediction,
+    estimate = "estimate",
+    sd = "sd", zscore = "zscore",
+    lower = "lower",
+    upper = "upper",
+    pvalue = "pvalue"
+  )
   new_data <- dplyr::bind_cols(prediction, new_data, prediction)
   new_data
 }

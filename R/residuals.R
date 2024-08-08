@@ -50,10 +50,12 @@ plot_residuals.default <- function(x, name, residuals, ...) {
   data <- tibble(x, residuals)
   data <- dplyr::filter(data, !is.na(x), !is.na(residuals))
 
-  if (length(unique(data$x)) <= 1) return(invisible(NULL))
+  if (length(unique(data$x)) <= 1) {
+    return(invisible(NULL))
+  }
 
   gp <- ggplot_residuals(data, name) +
-    ggplot2::geom_point(alpha = 1/3)
+    ggplot2::geom_point(alpha = 1 / 3)
   gp
 }
 
@@ -62,10 +64,12 @@ plot_residuals.factor <- function(x, name, residuals, ...) {
   data <- tibble(x, residuals)
   data <- dplyr::filter(data, !is.na(x), !is.na(residuals))
 
-  if (length(unique(data$x)) <= 1) return(invisible(NULL))
+  if (length(unique(data$x)) <= 1) {
+    return(invisible(NULL))
+  }
 
   gp <- ggplot_residuals(data, name) +
-    ggplot2::geom_jitter(alpha = 1/3, width = 0.20) +
+    ggplot2::geom_jitter(alpha = 1 / 3, width = 0.20) +
     ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust = 1))
   gp
 }
@@ -78,8 +82,10 @@ is_multiple_values <- function(x) {
 plot_residuals.mb_analysis <- function(x, ...) {
   residuals <- residuals(x)
   fit <- fitted(x)
-  variables <- dplyr::select_(residuals, ~-estimate, ~-sd, ~-zscore,
-                              ~-lower, ~-upper, ~-pvalue)
+  variables <- dplyr::select_(
+    residuals, ~ -estimate, ~ -sd, ~ -zscore,
+    ~ -lower, ~ -upper, ~ -pvalue
+  )
   variables$fit <- fit$estimate
 
   residuals <- residuals$estimate
@@ -98,7 +104,6 @@ plot_residuals.mb_analysis <- function(x, ...) {
 #' @param x The mb_analysis object to analyse the residuals for.
 #' @export
 analyse_residuals <- function(x) {
-
   .NotYetImplemented()
   # residuals <- residuals(x)
   # data <- dplyr::select_(residuals, ~-estimate, ~-sd, ~-zscore, ~-lower, ~-upper, ~-pvalue)

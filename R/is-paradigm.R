@@ -13,7 +13,7 @@ is_bayesian <- function(x, ...) {
 #' @param x the object.
 #' @return A flag indicating whether frequentist
 #' @export
-is_frequentist<- function(x) {
+is_frequentist <- function(x) {
   !is_bayesian(x)
 }
 

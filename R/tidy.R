@@ -7,7 +7,9 @@ tidy.mb_analysis <- function(x, conf_level = getOption("mb.conf_level", 0.95), .
 
   coef <- coef[c("term", "estimate", "lower", "upper")]
 
-  if (!nrow(coef)) return(coef)
+  if (!nrow(coef)) {
+    return(coef)
+  }
 
   if (is_bayesian(x)) {
     mcmcr <- as.mcmcr(x)

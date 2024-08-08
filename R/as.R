@@ -28,8 +28,8 @@ as.analyses <- function(x, ...) {
 #' @export
 as.mcmcr.mb_analysis_coef <- function(x, ...) {
   x <- dplyr::select(x, "term", "estimate")
-  x <- dplyr::mutate_(x, parameter = ~sub("^(\\w+)(.*)", "\\1", term))
-  x <-  plyr::dlply(x,~parameter, lmcmcarray)
+  x <- dplyr::mutate_(x, parameter = ~ sub("^(\\w+)(.*)", "\\1", term))
+  x <- plyr::dlply(x, ~parameter, lmcmcarray)
 
   class(x) <- "mcmcr"
 
@@ -39,7 +39,9 @@ as.mcmcr.mb_analysis_coef <- function(x, ...) {
 
 #' @export
 as.mcmcr.mb_analysis <- function(x, ...) {
-  if (!is.null(x$mcmcr)) return(x$mcmcr)
+  if (!is.null(x$mcmcr)) {
+    return(x$mcmcr)
+  }
 
   # this needs switching off by removing lm and replacing R function based optimizer
   x <- coef(x, "all")
@@ -62,13 +64,14 @@ as.models.list <- function(x, ...) {
   if (!is.list(x)) err("x must be a list", tidy = FALSE)
 
   if (length(x)) {
-    if (!all(purrr::map_lgl(x, is.mb_model)))
+    if (!all(purrr::map_lgl(x, is.mb_model))) {
       err("all elements must inherit from 'mb_model'", tidy = FALSE)
+    }
 
     class <- purrr::map(x, class)
-    if (!identical(length(unique(class)), 1L))
+    if (!identical(length(unique(class)), 1L)) {
       err("all model objects must have the same class", tidy = FALSE)
-
+    }
   }
   class(x) <- "mb_models"
   x
@@ -96,11 +99,13 @@ as.analyses.list <- function(x, ...) {
   if (!is.list(x)) err("x must be a list", tidy = FALSE)
 
   if (length(x)) {
-    if (!all(purrr::map_lgl(x, is.mb_analysis)))
+    if (!all(purrr::map_lgl(x, is.mb_analysis))) {
       err("all objects must inherit from 'mb_analysis'", tidy = FALSE)
+    }
     data <- purrr::map(x, data_set)
-    if (!identical(length(unique(data)), 1L))
+    if (!identical(length(unique(data)), 1L)) {
       err("all analysis objects must have the same data", tidy = FALSE)
+    }
   }
   class(x) <- "mb_analyses"
   x

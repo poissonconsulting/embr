@@ -1,13 +1,16 @@
 add_nfactors <- function(data) {
   factor <- data[vapply(data, is.factor, TRUE)]
 
-  if (!length(factor)) return(data)
+  if (!length(factor)) {
+    return(data)
+  }
 
   factor <- lapply(factor, nlevels)
   names(factor) <- p0("n", names(factor))
 
-  if (any(names(factor) %in% names(data)))
+  if (any(names(factor) %in% names(data))) {
     err("nFactor names are reserved", tidy = FALSE)
+  }
 
   data <- c(data, factor)
   data
@@ -22,10 +25,11 @@ select_data <- function(data, select_data, center, scale, random_effects) {
   }
 
   names(select_data) <- rescale::get_rescaler_colnames(names(select_data))
-  if(is.character(select_data)) {
+  if (is.character(select_data)) {
     check_names(data, select_data)
-  } else
+  } else {
     check_data(data, select_data)
+  }
   data <- data[names(select_data)]
   data
 }
@@ -48,10 +52,11 @@ select_rescale_data <- function(data, model, data2 = data) {
   data <- select_data(data, model$select_data, model$center, model$scale, model$random_effects)
   data2 <- select_data(data2, model$select_data, model$center, model$scale, model$random_effects)
 
-  if (!identical(model$center, character(0)) || !identical(model$scale, character(0)))  {
+  if (!identical(model$center, character(0)) || !identical(model$scale, character(0))) {
     data <- rescale::rescale(data, data2 = data2, center = model$center, scale = model$scale)
-  } else if (length(model$select_data))
+  } else if (length(model$select_data)) {
     data <- rescale::rescale_c(data, data2 = data2, colnames = names(model$select_data))
+  }
   data
 }
 
@@ -69,8 +74,9 @@ modify_data <- function(data, model, numericize_factors = FALSE) {
   chk_not_empty(data)
   check_mb_model(model)
   chk_flag(numericize_factors)
-  if (any(c("nObs", "Obs") %in% colnames(data)))
-     err("Obs and nObs are reserved column names", tidy = FALSE)
+  if (any(c("nObs", "Obs") %in% colnames(data))) {
+    err("Obs and nObs are reserved column names", tidy = FALSE)
+  }
 
   nobs <- nrow(data)
 
@@ -107,8 +113,9 @@ modify_new_data <- function(data, data2, model, modify_new_data = NULL, numerici
   if (is.null(modify_new_data)) modify_new_data <- model$modify_new_data
   check_single_arg_fun(modify_new_data)
 
-  if (any(c("nObs", "Obs") %in% colnames(data)))
-     err("Obs and nObs are reserved column names", tidy = FALSE)
+  if (any(c("nObs", "Obs") %in% colnames(data))) {
+    err("Obs and nObs are reserved column names", tidy = FALSE)
+  }
 
   nobs <- nrow(data)
 

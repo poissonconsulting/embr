@@ -25,10 +25,12 @@ test_that("edit_residuals_code", {
   })
 })
 
-cli::test_that_cli("edit_residuals_code errors when lhs does not start with res", {
-  local_edition(3)
-  expect_snapshot(error = TRUE, {
-    edit_residuals_code("boo[i] <- res_bern(x)")
-  })},
+cli::test_that_cli("edit_residuals_code errors when lhs does not start with res",
+  {
+    local_edition(3)
+    expect_snapshot(error = TRUE, {
+      edit_residuals_code("boo[i] <- res_bern(x)")
+    })
+  },
   configs = "plain"
 )

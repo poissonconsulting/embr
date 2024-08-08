@@ -41,13 +41,17 @@ test_that("analyse", {
     residual[i] <- res_lnorm(Density[i], fit[i], exp(log_sDensity))
 }"
 
-  model <- model(code = jags_template,
-                 select_data = list("Year+" = numeric(), YearFactor = factor(),
-                                    Site = factor(), Density = numeric(),
-                                    HabitatQuality = factor()),
-                 fixed = "^(b|l)", derived = "eDensity",
-                 random_effects = list(bSiteYear = c("Site", "YearFactor")),
-                 new_expr = new_expr)
+  model <- model(
+    code = jags_template,
+    select_data = list(
+      "Year+" = numeric(), YearFactor = factor(),
+      Site = factor(), Density = numeric(),
+      HabitatQuality = factor()
+    ),
+    fixed = "^(b|l)", derived = "eDensity",
+    random_effects = list(bSiteYear = c("Site", "YearFactor")),
+    new_expr = new_expr
+  )
 
   expect_output(expect_warning(analysis <- analyse(model, data = data)))
 
@@ -80,10 +84,14 @@ test_that("analyse", {
   expect_identical(pars(analysis, "fixed"), sort(c("bHabitatQuality", "bIntercept", "bYear", "log_sDensity", "log_sSiteYear")))
   expect_identical(pars(analysis, "random"), "bSiteYear")
   expect_identical(pars(analysis, "derived"), "eDensity")
-  expect_identical(pars(analysis, "primary"),
-                   c("bHabitatQuality", "bIntercept", "bSiteYear", "bYear", "log_sDensity", "log_sSiteYear"))
-  expect_identical(pars(analysis),
-                   c("bHabitatQuality", "bIntercept", "bSiteYear", "bYear", "eDensity", "log_sDensity", "log_sSiteYear"))
+  expect_identical(
+    pars(analysis, "primary"),
+    c("bHabitatQuality", "bIntercept", "bSiteYear", "bYear", "log_sDensity", "log_sSiteYear")
+  )
+  expect_identical(
+    pars(analysis),
+    c("bHabitatQuality", "bIntercept", "bSiteYear", "bYear", "eDensity", "log_sDensity", "log_sSiteYear")
+  )
 
   expect_is(as.mcmcr(analysis), "mcmcr")
 
@@ -103,9 +111,11 @@ test_that("analyse", {
   expect_is(coef, "tbl")
   expect_identical(colnames(coef), c("term", "estimate", "lower", "upper", "svalue"))
 
-  expect_identical(coef$term, as.term(c("bHabitatQuality[1]", "bHabitatQuality[2]",
-                                "bIntercept", "bYear",
-                                "log_sDensity", "log_sSiteYear")))
+  expect_identical(coef$term, as.term(c(
+    "bHabitatQuality[1]", "bHabitatQuality[2]",
+    "bIntercept", "bYear",
+    "log_sDensity", "log_sSiteYear"
+  )))
 
   expect_identical(nrow(coef(analysis, "primary", simplify = TRUE)), 66L)
   expect_identical(nrow(coef(analysis, "all", simplify = TRUE)), 366L)
@@ -119,20 +129,26 @@ test_that("analyse", {
 
   expect_is(ppc, "tbl_df")
   expect_identical(colnames(ppc), c("moment", "observed", "median", "lower", "upper", "svalue"))
-  expect_identical(ppc$moment, structure(1:5, .Label = c("zeros", "mean", "variance", "skewness",
-                                                         "kurtosis"), class = "factor"))
+  expect_identical(ppc$moment, structure(1:5, .Label = c(
+    "zeros", "mean", "variance", "skewness",
+    "kurtosis"
+  ), class = "factor"))
   expect_is(year, "tbl")
-  expect_identical(colnames(year), c("Site", "HabitatQuality", "Year", "Visit",
-                                        "Density", "YearFactor",
-                                     "estimate", "lower", "upper", "svalue"))
+  expect_identical(colnames(year), c(
+    "Site", "HabitatQuality", "Year", "Visit",
+    "Density", "YearFactor",
+    "estimate", "lower", "upper", "svalue"
+  ))
   expect_true(all(year$lower < year$estimate))
   expect_false(is.unsorted(year$estimate))
 
   dd <- mcmc_derive_data(analysis, new_data = c("Site", "Year"), ref_data = TRUE)
   expect_true(mcmcdata::is.mcmc_data(dd))
 
-  expect_warning(sensitivity <- sd_priors_by(analysis, by = 10, glance = FALSE),
-                 "incomplete adaptation")
+  expect_warning(
+    sensitivity <- sd_priors_by(analysis, by = 10, glance = FALSE),
+    "incomplete adaptation"
+  )
 
   analyses <- analyses(analysis, sensitivity)
 
@@ -144,14 +160,16 @@ test_that("analyse", {
 
   lifecycle::expect_deprecated(
     rhat2 <- rhat(analyses, bound = TRUE),
-    "`rhat.mcmcrs\\(x, bound = TRUE\\)`")
+    "`rhat.mcmcrs\\(x, bound = TRUE\\)`"
+  )
 
   expect_is(rhat2, "list")
   expect_identical(names(rhat2), c("mcmcr1", "mcmcr2", "bound"))
 
   lifecycle::expect_deprecated(
     glance <- glance(analyses, bound = TRUE),
-    "`rhat.mcmcrs\\(x, bound = TRUE\\)`")
+    "`rhat.mcmcrs\\(x, bound = TRUE\\)`"
+  )
 
   expect_is(glance, "tbl")
   expect_identical(nrow(glance), 1L)

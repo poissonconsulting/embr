@@ -1,7 +1,7 @@
 test_that("eliminate", {
-  expect_equal(eliminate(1:3, 2), c(1,3))
-  expect_equal(eliminate(c(2,1:3,2,2), 2), c(1,3))
-  expect_equal(eliminate(c(2,1:3,2,2), c(1,3)), rep(2L,4))
+  expect_equal(eliminate(1:3, 2), c(1, 3))
+  expect_equal(eliminate(c(2, 1:3, 2, 2), 2), c(1, 3))
+  expect_equal(eliminate(c(2, 1:3, 2, 2), c(1, 3)), rep(2L, 4))
 })
 
 test_that("not_last", {
@@ -14,29 +14,29 @@ test_that("possible_drop", {
   expect_identical(possible_drop(list()), character(0))
   expect_identical(possible_drop(list("1")), "1")
   expect_identical(possible_drop(list("2", "1")), sort(c("1", "2")))
-  expect_identical(possible_drop(list("2", c("1","3"))), sort(c("2", "3")))
+  expect_identical(possible_drop(list("2", c("1", "3"))), sort(c("2", "3")))
 })
 
 test_that("impossible_drop", {
   expect_identical(impossible_drop(list()), character(0))
   expect_identical(impossible_drop(list("1")), character(0))
   expect_identical(impossible_drop(list("2", "1")), character(0))
-  expect_identical(impossible_drop(list("2", c("1","3"))), "1")
-  expect_identical(impossible_drop(list(c("1","2"), c("1","3"))), "1")
+  expect_identical(impossible_drop(list("2", c("1", "3"))), "1")
+  expect_identical(impossible_drop(list(c("1", "2"), c("1", "3"))), "1")
 })
 
 test_that("eliminate_drop", {
   expect_identical(eliminate_drop(list("1"), "1"), list())
   expect_identical(eliminate_drop(list("1"), character(0)), list("1"))
-  expect_identical(eliminate_drop(list("1", c("2", "3")), "1") ,list(c("2", "3")))
-  expect_identical(eliminate_drop(list("1", c("2", "3")), c("1", "2")) ,list("3"))
-  expect_identical(eliminate_drop(list(c("1","2"), c("1","3")), "1"),list("2", "3"))
+  expect_identical(eliminate_drop(list("1", c("2", "3")), "1"), list(c("2", "3")))
+  expect_identical(eliminate_drop(list("1", c("2", "3")), c("1", "2")), list("3"))
+  expect_identical(eliminate_drop(list(c("1", "2"), c("1", "3")), "1"), list("2", "3"))
 })
 
 test_that("full_drop", {
   expect_equal(full_drop(list()), character(0))
   expect_equal(full_drop(list("1")), "1")
-  expect_equal(full_drop(list(c("1","2"), c("1","3"))), sort(c("1","2","3")))
+  expect_equal(full_drop(list(c("1", "2"), c("1", "3"))), sort(c("1", "2", "3")))
 })
 
 

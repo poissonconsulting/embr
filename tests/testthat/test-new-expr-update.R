@@ -6,7 +6,8 @@ test_that("update new expr string expression", {
   data <- embr::density99
   data$YearFactor <- factor(data$Year)
 
-  model <- model(code = "model{
+  model <- model(
+    code = "model{
 
   bIntercept ~ dnorm(0, 5^-2)
   bYear ~ dnorm(0, .5^-2) # bYear2 ~ dnorm(0, .5^-2)
@@ -33,28 +34,31 @@ test_that("update new expr string expression", {
     Density[i] ~ dlnorm(eDensity[i], sDensity^-2)
   }
 }",
-new_expr = "
+    new_expr = "
   for(i in 1:length(Density)) {
     fit[i] <- bIntercept + bYear * Year[i] + bHabitatQuality[HabitatQuality[i]] + bSiteYear[Site[i], YearFactor[i]]
     log(prediction[i]) <- fit[i]
     residual[i] <- res_lnorm(Density[i], fit[i], exp(log_sDensity))
   }",
-new_expr_vec = FALSE,
-select_data = list("Year+" = numeric(), YearFactor = factor(),
-                   Site = factor(), Density = numeric(),
-                   HabitatQuality = factor()),
-fixed = "^(b|l)", derived = "eDensity",
-random_effects = list(bSiteYear = c("Site", "YearFactor")))
+    new_expr_vec = FALSE,
+    select_data = list(
+      "Year+" = numeric(), YearFactor = factor(),
+      Site = factor(), Density = numeric(),
+      HabitatQuality = factor()
+    ),
+    fixed = "^(b|l)", derived = "eDensity",
+    random_effects = list(bSiteYear = c("Site", "YearFactor"))
+  )
 
   model <- update_model(model,
-                             new_expr = "
+    new_expr = "
             {
           fit <- bIntercept + bYear * Year + bHabitatQuality[HabitatQuality] +
               bSiteYear[cbind(Site, YearFactor)]
           log(prediction) <- fit
           residual <- res_lnorm(Density, fit, exp(log_sDensity))
       }"
-                             )
+  )
   expect_warning(analysis <- analyse(model, data = data, glance = FALSE))
 
   expect_identical(pars(analysis, "derived"), "eDensity")
@@ -66,9 +70,11 @@ random_effects = list(bSiteYear = c("Site", "YearFactor")))
   year <- predict(analysis, new_data = "Year")
 
   expect_s3_class(year, "tbl")
-  expect_identical(colnames(year), c("Site", "HabitatQuality", "Year", "Visit",
-                                     "Density", "YearFactor",
-                                     "estimate", "lower", "upper", "svalue"))
+  expect_identical(colnames(year), c(
+    "Site", "HabitatQuality", "Year", "Visit",
+    "Density", "YearFactor",
+    "estimate", "lower", "upper", "svalue"
+  ))
   expect_true(all(year$lower < year$estimate))
   expect_false(is.unsorted(year$estimate))
 
@@ -85,7 +91,8 @@ test_that("update new expr bare expression", {
   data <- embr::density99
   data$YearFactor <- factor(data$Year)
 
-  model <- model(code = "model{
+  model <- model(
+    code = "model{
 
   bIntercept ~ dnorm(0, 5^-2)
   bYear ~ dnorm(0, .5^-2) # bYear2 ~ dnorm(0, .5^-2)
@@ -112,36 +119,40 @@ test_that("update new expr bare expression", {
     Density[i] ~ dlnorm(eDensity[i], sDensity^-2)
   }
 }",
-new_expr = "
+    new_expr = "
   for(i in 1:length(Density)) {
     fit[i] <- bIntercept + bYear * Year[i] + bHabitatQuality[HabitatQuality[i]] + bSiteYear[Site[i], YearFactor[i]]
     log(prediction[i]) <- fit[i]
     residual[i] <- res_lnorm(Density[i], fit[i], exp(log_sDensity))
   }",
-new_expr_vec = FALSE,
-select_data = list("Year+" = numeric(), YearFactor = factor(),
-                   Site = factor(), Density = numeric(),
-                   HabitatQuality = factor()),
-fixed = "^(b|l)", derived = "eDensity",
-random_effects = list(bSiteYear = c("Site", "YearFactor")))
+    new_expr_vec = FALSE,
+    select_data = list(
+      "Year+" = numeric(), YearFactor = factor(),
+      Site = factor(), Density = numeric(),
+      HabitatQuality = factor()
+    ),
+    fixed = "^(b|l)", derived = "eDensity",
+    random_effects = list(bSiteYear = c("Site", "YearFactor"))
+  )
 
   model <- update_model(model,
-                             new_expr =
-            {
-          fit <- bIntercept + bYear * Year + bHabitatQuality[HabitatQuality] +
-              bSiteYear[cbind(Site, YearFactor)]
-          log(prediction) <- fit
-          residual <- res_lnorm(Density, fit, exp(log_sDensity))
-      }
+    new_expr = {
+      fit <- bIntercept + bYear * Year + bHabitatQuality[HabitatQuality] +
+        bSiteYear[cbind(Site, YearFactor)]
+      log(prediction) <- fit
+      residual <- res_lnorm(Density, fit, exp(log_sDensity))
+    }
   )
   expect_output(expect_warning(analysis <- analyse(model, data = data)))
 
   year <- predict(analysis, new_data = "Year")
 
   expect_is(year, "tbl")
-  expect_identical(colnames(year), c("Site", "HabitatQuality", "Year", "Visit",
-                                     "Density", "YearFactor",
-                                     "estimate", "lower", "upper", "svalue"))
+  expect_identical(colnames(year), c(
+    "Site", "HabitatQuality", "Year", "Visit",
+    "Density", "YearFactor",
+    "estimate", "lower", "upper", "svalue"
+  ))
   expect_true(all(year$lower < year$estimate))
   expect_false(is.unsorted(year$estimate))
 
@@ -157,7 +168,8 @@ test_that("add new_expr_vec argument to update model", {
   data <- embr::density99
   data$YearFactor <- factor(data$Year)
 
-  model <- model(code = "model{
+  model <- model(
+    code = "model{
 
   bIntercept ~ dnorm(0, 5^-2)
   bYear ~ dnorm(0, .5^-2) # bYear2 ~ dnorm(0, .5^-2)
@@ -184,18 +196,21 @@ test_that("add new_expr_vec argument to update model", {
     Density[i] ~ dlnorm(eDensity[i], sDensity^-2)
   }
   }",
-  new_expr = "
+    new_expr = "
   for(i in 1:length(Density)) {
     fit[i] <- bIntercept + bYear * Year[i] + bHabitatQuality[HabitatQuality[i]] + bSiteYear[Site[i], YearFactor[i]]
     log(prediction[i]) <- fit[i]
     residual[i] <- res_lnorm(Density[i], fit[i], exp(log_sDensity))
   }",
-  new_expr_vec = TRUE,
-  select_data = list("Year+" = numeric(), YearFactor = factor(),
-                   Site = factor(), Density = numeric(),
-                   HabitatQuality = factor()),
-  fixed = "^(b|l)", derived = "eDensity",
-  random_effects = list(bSiteYear = c("Site", "YearFactor")))
+    new_expr_vec = TRUE,
+    select_data = list(
+      "Year+" = numeric(), YearFactor = factor(),
+      Site = factor(), Density = numeric(),
+      HabitatQuality = factor()
+    ),
+    fixed = "^(b|l)", derived = "eDensity",
+    random_effects = list(bSiteYear = c("Site", "YearFactor"))
+  )
 
   model <- update_model(
     model,
@@ -207,15 +222,17 @@ test_that("add new_expr_vec argument to update model", {
         residual[i] <- res_lnorm(Density[i], fit[i], exp(log_sDensity))
       }",
     new_expr_vec = FALSE
-    )
+  )
   expect_output(expect_warning(analysis <- analyse(model, data = data)))
 
   year <- predict(analysis, new_data = "Year")
 
   expect_is(year, "tbl")
-  expect_identical(colnames(year), c("Site", "HabitatQuality", "Year", "Visit",
-                                     "Density", "YearFactor",
-                                     "estimate", "lower", "upper", "svalue"))
+  expect_identical(colnames(year), c(
+    "Site", "HabitatQuality", "Year", "Visit",
+    "Density", "YearFactor",
+    "estimate", "lower", "upper", "svalue"
+  ))
   expect_true(all(year$lower < year$estimate))
   expect_false(is.unsorted(year$estimate))
 
@@ -231,7 +248,8 @@ test_that("add new_expr_vec argument to update model and updates original new_ex
   data <- embr::density99
   data$YearFactor <- factor(data$Year)
 
-  model <- model(code = "model{
+  model <- model(
+    code = "model{
 
   bIntercept ~ dnorm(0, 5^-2)
   bYear ~ dnorm(0, .5^-2) # bYear2 ~ dnorm(0, .5^-2)
@@ -258,18 +276,21 @@ test_that("add new_expr_vec argument to update model and updates original new_ex
     Density[i] ~ dlnorm(eDensity[i], sDensity^-2)
   }
   }",
-  new_expr = "
+    new_expr = "
   for(i in 1:length(Density)) {
     fit[i] <- bIntercept + bYear * Year[i] + bHabitatQuality[HabitatQuality[i]] + bSiteYear[Site[i], YearFactor[i]]
     log(prediction[i]) <- fit[i]
     residual[i] <- res_lnorm(Density[i], fit[i], exp(log_sDensity))
   }",
-  new_expr_vec = FALSE,
-  select_data = list("Year+" = numeric(), YearFactor = factor(),
-                     Site = factor(), Density = numeric(),
-                     HabitatQuality = factor()),
-  fixed = "^(b|l)", derived = "eDensity",
-  random_effects = list(bSiteYear = c("Site", "YearFactor")))
+    new_expr_vec = FALSE,
+    select_data = list(
+      "Year+" = numeric(), YearFactor = factor(),
+      Site = factor(), Density = numeric(),
+      HabitatQuality = factor()
+    ),
+    fixed = "^(b|l)", derived = "eDensity",
+    random_effects = list(bSiteYear = c("Site", "YearFactor"))
+  )
 
   model <- update_model(
     model,
@@ -280,9 +301,11 @@ test_that("add new_expr_vec argument to update model and updates original new_ex
   year <- predict(analysis, new_data = "Year")
 
   expect_is(year, "tbl")
-  expect_identical(colnames(year), c("Site", "HabitatQuality", "Year", "Visit",
-                                     "Density", "YearFactor",
-                                     "estimate", "lower", "upper", "svalue"))
+  expect_identical(colnames(year), c(
+    "Site", "HabitatQuality", "Year", "Visit",
+    "Density", "YearFactor",
+    "estimate", "lower", "upper", "svalue"
+  ))
   expect_true(all(year$lower < year$estimate))
   expect_false(is.unsorted(year$estimate))
 
@@ -298,7 +321,8 @@ test_that("cannot undo the vectorization if orignally set in the model", {
   data <- embr::density99
   data$YearFactor <- factor(data$Year)
 
-  model <- model(code = "model{
+  model <- model(
+    code = "model{
 
   bIntercept ~ dnorm(0, 5^-2)
   bYear ~ dnorm(0, .5^-2) # bYear2 ~ dnorm(0, .5^-2)
@@ -325,18 +349,21 @@ test_that("cannot undo the vectorization if orignally set in the model", {
     Density[i] ~ dlnorm(eDensity[i], sDensity^-2)
   }
   }",
-  new_expr = "
+    new_expr = "
   for(i in 1:length(Density)) {
     fit[i] <- bIntercept + bYear * Year[i] + bHabitatQuality[HabitatQuality[i]] + bSiteYear[Site[i], YearFactor[i]]
     log(prediction[i]) <- fit[i]
     residual[i] <- res_lnorm(Density[i], fit[i], exp(log_sDensity))
   }",
-  new_expr_vec = TRUE,
-  select_data = list("Year+" = numeric(), YearFactor = factor(),
-                     Site = factor(), Density = numeric(),
-                     HabitatQuality = factor()),
-  fixed = "^(b|l)", derived = "eDensity",
-  random_effects = list(bSiteYear = c("Site", "YearFactor")))
+    new_expr_vec = TRUE,
+    select_data = list(
+      "Year+" = numeric(), YearFactor = factor(),
+      Site = factor(), Density = numeric(),
+      HabitatQuality = factor()
+    ),
+    fixed = "^(b|l)", derived = "eDensity",
+    random_effects = list(bSiteYear = c("Site", "YearFactor"))
+  )
 
   model <- update_model(
     model,
@@ -347,13 +374,14 @@ test_that("cannot undo the vectorization if orignally set in the model", {
   year <- predict(analysis, new_data = "Year")
 
   expect_is(year, "tbl")
-  expect_identical(colnames(year), c("Site", "HabitatQuality", "Year", "Visit",
-                                     "Density", "YearFactor",
-                                     "estimate", "lower", "upper", "svalue"))
+  expect_identical(colnames(year), c(
+    "Site", "HabitatQuality", "Year", "Visit",
+    "Density", "YearFactor",
+    "estimate", "lower", "upper", "svalue"
+  ))
   expect_true(all(year$lower < year$estimate))
   expect_false(is.unsorted(year$estimate))
 
   local_edition(3)
   expect_snapshot(new_expr(analysis))
 })
-

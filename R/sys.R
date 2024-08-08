@@ -1,6 +1,6 @@
 . <- NULL
 
-.gen_inits = function(data) list(bIntercept = 1)
+.gen_inits <- function(data) list(bIntercept = 1)
 
 .tmb_template <- "#include <TMB.hpp>
 

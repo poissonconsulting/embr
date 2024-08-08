@@ -17,7 +17,7 @@ rhat.mb_null_analysis <- function(x, ...) Inf
 
 #' @export
 rhat.mb_analyses <- function(x, by = "all", param_type = "all", as_df = FALSE,
-                             bound = FALSE,  ...) {
+                             bound = FALSE, ...) {
   chk_string(param_type)
   chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
   check_dots_empty()
@@ -31,7 +31,7 @@ rhat.mb_analyses <- function(x, by = "all", param_type = "all", as_df = FALSE,
 }
 
 #' @export
-esr.mb_analysis <- function(x,  by = "all", as_df = FALSE, param_type = "all", ...) {
+esr.mb_analysis <- function(x, by = "all", as_df = FALSE, param_type = "all", ...) {
   chk_string(param_type)
   chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
   check_dots_empty()
@@ -47,7 +47,7 @@ esr.mb_analysis <- function(x,  by = "all", as_df = FALSE, param_type = "all", .
 esr.mb_null_analysis <- function(x, ...) 0
 
 #' @export
-esr.mb_analyses <- function(x,  by = "all", as_df = FALSE, param_type = "all", ...) {
+esr.mb_analyses <- function(x, by = "all", as_df = FALSE, param_type = "all", ...) {
   chk_string(param_type)
   chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
   check_dots_empty()
@@ -98,7 +98,9 @@ converged.mb_analyses <- function(x, rhat = 1.1, esr = 0.33, by = "all",
 #' @export
 nchains.mb_analysis <- function(x, ...) {
   check_dots_empty()
-  if (is.mb_null_analysis(x)) return(0L)
+  if (is.mb_null_analysis(x)) {
+    return(0L)
+  }
   nchains(as.mcmcr(x))
 }
 

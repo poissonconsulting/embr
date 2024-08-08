@@ -15,8 +15,8 @@ expr_type <- function(x) {
 
 switch_expr <- function(x, ...) {
   switch(expr_type(x),
-         ...,
-         stop("Don't know how to handle type ", typeof(x), call. = FALSE)
+    ...,
+    stop("Don't know how to handle type ", typeof(x), call. = FALSE)
   )
 }
 
@@ -41,10 +41,10 @@ edit_residuals_code <- function(new_expr, type = NULL, simulate = NULL) {
 
   tweak_res_call <- function(xx) {
     args <- as.list(xx)[-1]
-    if(!is.null(type)) {
+    if (!is.null(type)) {
       args <- c(args, list(type = type))
     }
-    if(!is.null(simulate)) {
+    if (!is.null(simulate)) {
       args <- c(args, list(simulate = simulate))
     }
 
@@ -78,7 +78,7 @@ edit_residuals_code <- function(new_expr, type = NULL, simulate = NULL) {
 
   new_expr <- walk_ast(new_expr)
 
-  if(!residual_assignment_found) {
+  if (!residual_assignment_found) {
     err("`new_expr` must include `residual <- res_xxx(` or `residual[i] <- res_xxx(`.")
   }
 

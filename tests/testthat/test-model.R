@@ -46,13 +46,17 @@ test_that("model pars", {
     prediction[i] <- exp(bIntercept + bYear * Year[i] + bHabitatQuality[HabitatQuality[i]] + bSiteYear[Site[i], YearFactor[i]])
 } "
 
-  model <- model(code = template,
-                 select_data = list("Year+" = numeric(), YearFactor = factor(),
-                                    Site = factor(), Density = numeric(),
-                                    HabitatQuality = factor()),
-                 fixed = "^(b|l)", derived = "eDensity",
-                 random_effects = list(bSiteYear = c("Site", "YearFactor")),
-                 new_expr = new_expr)
+  model <- model(
+    code = template,
+    select_data = list(
+      "Year+" = numeric(), YearFactor = factor(),
+      Site = factor(), Density = numeric(),
+      HabitatQuality = factor()
+    ),
+    fixed = "^(b|l)", derived = "eDensity",
+    random_effects = list(bSiteYear = c("Site", "YearFactor")),
+    new_expr = new_expr
+  )
 
   expect_identical(class(model), c("jmb_model", "mb_model"))
 
@@ -100,13 +104,17 @@ test_that("model pars ", {
     prediction[i] <- exp(bIntercept + bYear * Year[i] + bHabitatQuality[HabitatQuality[i]] + rSiteYear[Site[i], YearFactor[i]])
 } "
 
-  model <- model(code = template,
-                 select_data = list("Year+" = numeric(), YearFactor = factor(),
-                                    Site = factor(), Density = numeric(),
-                                    HabitatQuality = factor()),
-                 fixed = "^(b|log_)", derived = "bDensity",
-                 random_effects = list(rSiteYear = c("Site", "YearFactor")),
-                 new_expr = new_expr)
+  model <- model(
+    code = template,
+    select_data = list(
+      "Year+" = numeric(), YearFactor = factor(),
+      Site = factor(), Density = numeric(),
+      HabitatQuality = factor()
+    ),
+    fixed = "^(b|log_)", derived = "bDensity",
+    random_effects = list(rSiteYear = c("Site", "YearFactor")),
+    new_expr = new_expr
+  )
 
   expect_identical(class(model), c("jmb_model", "mb_model"))
 
@@ -117,4 +125,3 @@ test_that("model pars ", {
   expect_identical(pars(model, "random"), "rSiteYear")
   expect_identical(pars(model, "derived"), "bDensity")
 })
-

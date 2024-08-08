@@ -12,16 +12,18 @@ ggplot_data <- function(x, y, x_name, y_name) {
   data <- tibble(x, y)
   data <- dplyr::filter(data, !is.na(x), !is.na(y))
 
-  if (length(unique(data$x)) <= 1) return(invisible(NULL))
+  if (length(unique(data$x)) <= 1) {
+    return(invisible(NULL))
+  }
 
-  width <- if(is.numeric(x)) 0 else 0.2
-  height <- if(is.numeric(y)) 0 else 0.2
+  width <- if (is.numeric(x)) 0 else 0.2
+  height <- if (is.numeric(y)) 0 else 0.2
 
   gp <- ggplot2::ggplot(data = data) +
     ggplot2::aes_string(x = "x", y = "y") +
     ggplot2::xlab(x_name) +
     ggplot2::ylab(y_name) +
-    ggplot2::geom_jitter(alpha = 1/3, width = width, height = height)
+    ggplot2::geom_jitter(alpha = 1 / 3, width = width, height = height)
 
   gp
 }
@@ -43,14 +45,18 @@ plot_data.data.frame <- function(x, ...) {
   x <- purrr::discard(x, is.character)
   x <- purrr::keep(x, is_multiple_values)
 
-  if(!ncol(x)) return(invisible(NULL))
+  if (!ncol(x)) {
+    return(invisible(NULL))
+  }
 
   plots <- list()
   for (x_name in names(x)) {
     for (y_name in names(x)) {
       if (!identical(x_name, y_name)) {
-        plot <- plot_data(x = x[[x_name]], y = x[[y_name]],
-                               x_name = x_name, y_name = y_name)
+        plot <- plot_data(
+          x = x[[x_name]], y = x[[y_name]],
+          x_name = x_name, y_name = y_name
+        )
         plot <- list(plot)
         plot <- stats::setNames(plot, paste(x_name, y_name))
         plots <- c(plots, plot)

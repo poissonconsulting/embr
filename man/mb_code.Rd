@@ -25,7 +25,7 @@ Identifies the type of the code and creates an object of the appropriate class.
 }
 \examples{
 x <- mb_code(
-"#include <TMB.hpp>
+  "#include <TMB.hpp>
 
 template<class Type>
 
@@ -41,6 +41,7 @@ for(int i = 0; i < n; i++){
 }
 return nll;
 }
-")
+"
+)
 class(x)
 }

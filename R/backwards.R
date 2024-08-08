@@ -24,7 +24,6 @@ backwards <- function(model, data, drops = list(), conf_level = getOption("mb.co
 #' @export
 backwards.mb_model <- function(model, data, drops = list(), conf_level = getOption("mb.conf_level", 0.95),
                                beep = getOption("mb.beep", TRUE), ...) {
-
   .NotYetImplemented()
 
   chk_flag(beep)

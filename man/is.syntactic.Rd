@@ -16,5 +16,5 @@ A logical vector indicating whether a syntactically correct variable name.
 Is syntactic
 }
 \examples{
-is.syntactic(c("0", "x", "1x","x y", "x1"))
+is.syntactic(c("0", "x", "1x", "x y", "x1"))
 }

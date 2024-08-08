@@ -7,7 +7,9 @@
 #' @param ... Not used.
 #' @return The updated object.
 #' @export
-drop_pars <- function(x, pars = character(0), ...) {UseMethod("drop_pars")}
+drop_pars <- function(x, pars = character(0), ...) {
+  UseMethod("drop_pars")
+}
 
 #' @export
 drop_pars.character <- function(x, pars = character(0), ...) {
@@ -16,14 +18,16 @@ drop_pars.character <- function(x, pars = character(0), ...) {
   chk_unique(pars)
 
 
-  if (!length(pars))
+  if (!length(pars)) {
     return(x)
+  }
 
   # check that [ not in parameter name or followed by [ in x
   if (any(grepl("\\[", pars))) err("pars must be scalar", tidy = FALSE)
-  if(length(x) & length(pars)) {
-    if (length(x) && any(stringr::str_detect(x, p0(pars, "\\s*\\["))))
+  if (length(x) & length(pars)) {
+    if (length(x) && any(stringr::str_detect(x, p0(pars, "\\s*\\[")))) {
       err("pars must be scalar", tidy = FALSE)
+    }
   }
   for (parameter in pars) {
     x <- gsub(p0("\\b", parameter, "\\s+"), p0("0 "), x)
@@ -44,8 +48,9 @@ drop_pars_language <- function(expr, pars = character(0), ...) {
   chk_not_any_na(pars)
   chk_unique(pars)
 
-  if (!length(pars))
+  if (!length(pars)) {
     return(expr)
+  }
 
   # check that [ not in parameter name or followed by [ in x
   if (any(grepl("\\[", pars))) err("pars must be scalar", tidy = FALSE)
@@ -89,7 +94,9 @@ drop_pars.mb_model <- function(x, pars = character(0), ...) {
   chk_unique(pars)
 
 
-  if (!length(pars)) return(x)
+  if (!length(pars)) {
+    return(x)
+  }
 
   x$code <- drop_pars(x$code, pars = pars)
   x$new_expr <- drop_pars(x$new_expr, pars = pars)
@@ -102,4 +109,3 @@ drop_pars.lmb_code <- function(x, pars = character(0), ...) {
   .NotYetImplemented()
   x
 }
-

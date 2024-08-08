@@ -1,8 +1,8 @@
 test_that("check_drops", {
-  expect_identical(check_drops(list()),list())
-  expect_identical(check_drops(list("1")),list("1"))
-  expect_identical(check_drops(list("1", c("2", "3"))),list("1", c("2", "3")))
-  expect_identical(check_drops(list(c("1","2"), c("1","3"))),list(c("1","2"), c("1","3")))
+  expect_identical(check_drops(list()), list())
+  expect_identical(check_drops(list("1")), list("1"))
+  expect_identical(check_drops(list("1", c("2", "3"))), list("1", c("2", "3")))
+  expect_identical(check_drops(list(c("1", "2"), c("1", "3"))), list(c("1", "2"), c("1", "3")))
   expect_error(check_drops(list(character(0))), "drops must be a list of non-zero length character vectors")
   expect_error(check_drops("1"), "drops must be a list")
   expect_error(check_drops(list(1)), "drops must be a list of character vectors")

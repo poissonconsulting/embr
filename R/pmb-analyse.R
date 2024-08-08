@@ -4,7 +4,6 @@ analyse.pmb_model <- function(
     data,
     ...,
     engine = NULL) {
-
   # FIXME: Generic translation
   if (identical(engine, "jags")) {
     x$code <- translate_jmbr(x$code)

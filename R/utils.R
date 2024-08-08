@@ -13,7 +13,7 @@ as_mb_meta_analysis <- function(x, text = names(x)) {
 }
 
 pars_arg2to1 <- function(param_type, x, scalar = NULL) {
-  if(missing(scalar)) {
+  if (missing(scalar)) {
     return(pars(x = x, param_type = param_type))
   }
   pars(x = x, param_type = param_type, scalar = scalar)
@@ -47,9 +47,15 @@ logColMeansExp <- function(x) {
 #' is_namedlist(list(x = 1))
 #' is_namedlist(list(x = list(y = 2)))
 is_namedlist <- function(x) {
-  if (!is.list(x)) return(FALSE)
-  if (!length(x)) return(TRUE)
-  if (is.null(names(x))) return(FALSE)
+  if (!is.list(x)) {
+    return(FALSE)
+  }
+  if (!length(x)) {
+    return(TRUE)
+  }
+  if (is.null(names(x))) {
+    return(FALSE)
+  }
   return(!any(vapply(x, is.list, TRUE)))
 }
 
@@ -59,7 +65,7 @@ is_namedlist <- function(x) {
 #' @return A logical vector indicating whether a syntactically correct variable name.
 #' @export
 #' @examples
-#' is.syntactic(c("0", "x", "1x","x y", "x1"))
+#' is.syntactic(c("0", "x", "1x", "x y", "x1"))
 is.syntactic <- function(x) {
   x == make.names(x)
 }
@@ -83,7 +89,9 @@ sort_random_effects <- function(x) {
 sort_nlist <- function(x) {
   stopifnot(is_namedlist(x))
 
-  if (!length(x)) return(x)
+  if (!length(x)) {
+    return(x)
+  }
   x[order(names(x))]
 }
 
@@ -115,11 +123,13 @@ lmcmcarray <- function(x) {
 #' @return The sorted named list.
 #' @export
 #' @examples
-#' scalar_nlist(list(y = 2, x = 1, a = c(10,1)))
+#' scalar_nlist(list(y = 2, x = 1, a = c(10, 1)))
 scalar_nlist <- function(x) {
   stopifnot(is_namedlist(x))
 
-  if (!length(x)) return(x)
+  if (!length(x)) {
+    return(x)
+  }
   x[vapply(x, dims, 0L) == 1]
 }
 
@@ -161,10 +171,11 @@ response_lm <- function(x) {
 all_first_level <- function(x) {
   stopifnot(is.factor(x))
   levels <- levels(x)
-  if(is.ordered(x)) return(ordered(rep(levels[1], length(x)), levels = levels))
+  if (is.ordered(x)) {
+    return(ordered(rep(levels[1], length(x)), levels = levels))
+  }
   factor(rep(levels[1], length(x)), levels = levels)
 }
 
 # from https://recology.info/2018/10/limiting-dependencies/
 str_extract_all <- function(x, y) regmatches(x, gregexpr(y, x))
-

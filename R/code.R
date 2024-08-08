@@ -12,7 +12,6 @@ code <- function(object, ...) {
 
 #' @export
 code.mb_model <- function(object, ...) {
-  
   object$code
 }
 

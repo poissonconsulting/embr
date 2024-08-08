@@ -3,40 +3,41 @@ generics::glance
 
 #' @export
 glance.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), esr = getOption("mb.esr", 0.33), ...) {
-
   glance <- tibble(
     n = sample_size(x),
-    K = nterms(x, include_constant = FALSE))
+    K = nterms(x, include_constant = FALSE)
+  )
 
   if (is_frequentist(x) || is_new_parameter(x, "log_lik")) {
-    glance$logLik = logLik(x)
-    glance$IC = round(IC(x),2)
+    glance$logLik <- logLik(x)
+    glance$IC <- round(IC(x), 2)
   }
 
   if (is_bayesian(x)) {
-    glance$nchains = nchains(x)
-    glance$niters = niters(x)
-    glance$nthin = nthin(x)
-    glance$ess = ess(x)
-    glance$rhat = rhat(x)
+    glance$nchains <- nchains(x)
+    glance$niters <- niters(x)
+    glance$nthin <- nthin(x)
+    glance$ess <- ess(x)
+    glance$rhat <- rhat(x)
   }
 
-  glance$converged = converged(x, rhat = rhat, esr = esr)
+  glance$converged <- converged(x, rhat = rhat, esr = esr)
   glance
 }
 
 #' @export
 glance.mb_analyses <- function(
-  x, rhat = getOption("mb.rhat", 1.1), bound = FALSE, ...) {
+    x, rhat = getOption("mb.rhat", 1.1), bound = FALSE, ...) {
   chk_flag(bound)
-  if(bound) {
-    if (!is_bayesian(x))
+  if (bound) {
+    if (!is_bayesian(x)) {
       err("glance with bound = TRUE is only defined for Bayesian analyses.", tidy = FALSE)
+    }
 
     glance <- glance(x, rhat = rhat)
     rhat_all <- rhat(x, bound = TRUE)
 
-    if(packageVersion("mcmcr") >= "0.6.1.9001") {
+    if (packageVersion("mcmcr") >= "0.6.1.9001") {
       rhat_all <- rhat_all$bound
     }
 
@@ -56,11 +57,11 @@ glance.mb_analyses <- function(
     return(as_tibble(glance))
   }
   x <- purrr::map_dfr(x, glance, .id = "model")
-  if("IC" %in% colnames(x)) {
+  if ("IC" %in% colnames(x)) {
     x$deltaIC <- x$IC - min(x$IC)
     colnames <- colnames(x)
     n <- length(colnames)
-    colnames <- colnames[c(1:5,n,6:(n-1))]
+    colnames <- colnames[c(1:5, n, 6:(n - 1))]
     x <- x[colnames]
   }
   x

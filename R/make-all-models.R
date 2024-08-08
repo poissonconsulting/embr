@@ -10,7 +10,9 @@ make_all_models <- function(model, drops = list()) {
 
   if (!length(drops)) drops <- model$drops
 
-  if (!length(drops)) return(models(full = model))
+  if (!length(drops)) {
+    return(models(full = model))
+  }
 
   drops <- make_all_drops(drops)
   models <- rep(list(model), length(drops))
