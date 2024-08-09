@@ -10,7 +10,9 @@
 #' @return The data set as a tibble.
 #' @export
 data_set <- function(x, modify = FALSE, numericize_factors = FALSE,
-                     marginalize_random_effects = FALSE, ...) {UseMethod("data_set")}
+                     marginalize_random_effects = FALSE, ...) {
+  UseMethod("data_set")
+}
 
 #' @export
 data_set.mb_analysis <- function(x, modify = FALSE, numericize_factors = FALSE,
@@ -21,37 +23,45 @@ data_set.mb_analysis <- function(x, modify = FALSE, numericize_factors = FALSE,
 
   data <- x$data
 
-  if(marginalize_random_effects) {
-    for(random_effect in random_effects(x)) {
-      for(factor in random_effect)
+  if (marginalize_random_effects) {
+    for (random_effect in random_effects(x)) {
+      for (factor in random_effect) {
         data[[factor]] <- all_first_level(data[[factor]])
+      }
     }
   }
 
   if (modify) {
     data <- modify_data(data, model(x), numericize_factors = numericize_factors)
-  } else
-      data <- tibble::as_tibble(data)
+  } else {
+    data <- tibble::as_tibble(data)
+  }
   data
 }
 
 #' @export
 data_set.mb_analyses <- function(x, modify = FALSE, numericize_factors = FALSE,
                                  marginalize_random_effects = FALSE, ...) {
-  data_set(x[[1]], modify = modify, numericize_factors = numericize_factors,
-           marginalize_random_effects = marginalize_random_effects)
+  data_set(x[[1]],
+    modify = modify, numericize_factors = numericize_factors,
+    marginalize_random_effects = marginalize_random_effects
+  )
 }
 
 #' @export
 data_set.mb_meta_analysis <- function(x, modify = FALSE, numericize_factors = FALSE,
                                       marginalize_random_effects = FALSE, ...) {
-  lapply(x, data_set, modify = modify, numericize_factors = numericize_factors,
-         marginalize_random_effects = marginalize_random_effects)
+  lapply(x, data_set,
+    modify = modify, numericize_factors = numericize_factors,
+    marginalize_random_effects = marginalize_random_effects
+  )
 }
 
 #' @export
 data_set.mb_meta_analyses <- function(x, modify = FALSE, numericize_factors = FALSE,
                                       marginalize_random_effects = FALSE, ...) {
-  lapply(x, data_set, modify = modify, numericize_factors = numericize_factors,
-         marginalize_random_effects = marginalize_random_effects)
+  lapply(x, data_set,
+    modify = modify, numericize_factors = numericize_factors,
+    marginalize_random_effects = marginalize_random_effects
+  )
 }

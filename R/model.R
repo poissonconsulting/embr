@@ -45,7 +45,6 @@ model <- function(
     new_expr_vec = getOption("mb.new_expr_vec", FALSE),
     modify_new_data = identity,
     drops = list()) {
-
   check_dots_empty()
 
   if (is.null(x)) {
@@ -99,35 +98,49 @@ model <- function(
   check_drops(drops)
 
   select_colnames <- rescale::get_rescaler_colnames(names(select_data))
-  if(!length(select_colnames)) select_colnames <- NULL
+  if (!length(select_colnames)) select_colnames <- NULL
 
   if (!identical(center, character(0)) || !identical(scale, character(0))) {
-    if (!identical(names(select_data), select_colnames))
+    if (!identical(names(select_data), select_colnames)) {
       err("scaling (and transforms) should be specified with select_data or center/scale not both", tidy = FALSE)
+    }
 
     warning("arguments center and scale are deprecated; please use select_data instead.",
-            call. = FALSE)
+      call. = FALSE
+    )
   }
 
   check_all_elements_class_character(random_effects)
   check_x_in_y(unlist(random_effects), select_colnames,
-               x_name = "random_effects", y_name = "select_data",
-               type_x = "elements", type_y = "names")
+    x_name = "random_effects", y_name = "select_data",
+    type_x = "elements", type_y = "names"
+  )
   check_x_not_in_y(names(random_effects), select_colnames,
-                   x_name = "random_effects", y_name = "select_data",
-                   type_x = "names", type_y = "names")
+    x_name = "random_effects", y_name = "select_data",
+    type_x = "names", type_y = "names"
+  )
   check_x_not_in_y(derived, select_colnames,
-                   x_name = "derived", y_name = "select_data", type_y = "names")
+    x_name = "derived", y_name = "select_data", type_y = "names"
+  )
   check_x_not_in_y(names(random_effects), derived,
-                   x_name = "random_effects", y_name = "derived", type_x = "names")
-  check_x_not_in_y(unlist(random_effects), center, x_name = "random_effects",
-                   type_x = "elements")
-  check_x_not_in_y(unlist(random_effects), scale, x_name = "random_effects",
-                   type_x = "elements")
-  check_x_not_in_y(derived, center, x_name = "random_effects",
-                   type_x = "elements")
-  check_x_not_in_y(derived, scale, x_name = "random_effects",
-                   type_x = "elements")
+    x_name = "random_effects", y_name = "derived", type_x = "names"
+  )
+  check_x_not_in_y(unlist(random_effects), center,
+    x_name = "random_effects",
+    type_x = "elements"
+  )
+  check_x_not_in_y(unlist(random_effects), scale,
+    x_name = "random_effects",
+    type_x = "elements"
+  )
+  check_x_not_in_y(derived, center,
+    x_name = "random_effects",
+    type_x = "elements"
+  )
+  check_x_not_in_y(derived, scale,
+    x_name = "random_effects",
+    type_x = "elements"
+  )
 
   check_x_in_y(center, select_colnames, y_name = "select_data", type_y = "names")
   check_x_in_y(scale, select_colnames, y_name = "select_data", type_y = "names")
@@ -152,7 +165,7 @@ model <- function(
     select_data = select_data,
     center = center,
     scale = scale,
-    random_effects =  random_effects,
+    random_effects = random_effects,
     modify_data = modify_data,
     new_expr = new_expr,
     modify_new_data = modify_new_data,

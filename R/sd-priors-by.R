@@ -26,18 +26,19 @@ sd_priors_by.mb_model <- function(x, by = 10, distributions = c("normal", "logno
 #' @describeIn sd_priors_by Multiply Standard Deviation of Priors for an MB analysis
 #' @export
 sd_priors_by.mb_analysis <- function(x, by = 10, distributions = c("normal", "lognormal", "t"),
-                                  parallel = getOption("mb.parallel", FALSE),
-                                  quiet = getOption("mb.quiet", TRUE),
-                                  glance = getOption("mb.glance", TRUE),
-                                  beep = getOption("mb.beep", TRUE),
-                                  ...) {
+                                     parallel = getOption("mb.parallel", FALSE),
+                                     quiet = getOption("mb.quiet", TRUE),
+                                     glance = getOption("mb.glance", TRUE),
+                                     beep = getOption("mb.beep", TRUE),
+                                     ...) {
   check_dots_empty()
 
   analyse(sd_priors_by(model(x), by = by, distributions = distributions),
-          data = data_set(x),
-          nchains = nchains(x),
-          niters = niters(x),
-          nthin = nthin(x),
-          parallel = parallel,
-          quiet = quiet, glance = glance, beep = beep)
+    data = data_set(x),
+    nchains = nchains(x),
+    niters = niters(x),
+    nthin = nthin(x),
+    parallel = parallel,
+    quiet = quiet, glance = glance, beep = beep
+  )
 }

@@ -6,7 +6,8 @@ test_that("predict string expression", {
   data <- embr::density99
   data$YearFactor <- factor(data$Year)
 
-  model <- model(code = "model{
+  model <- model(
+    code = "model{
 
   bIntercept ~ dnorm(0, 5^-2)
   bYear ~ dnorm(0, .5^-2) # bYear2 ~ dnorm(0, .5^-2)
@@ -33,27 +34,32 @@ test_that("predict string expression", {
     Density[i] ~ dlnorm(eDensity[i], sDensity^-2)
   }
 }",
-new_expr = "
+    new_expr = "
   for(i in 1:length(Density)) {
     fit[i] <- bIntercept + bYear * Year[i] + bHabitatQuality[HabitatQuality[i]] + bSiteYear[Site[i], YearFactor[i]]
     log(prediction[i]) <- fit[i]
     residual[i] <- res_lnorm(Density[i], fit[i], exp(log_sDensity))
   }",
-new_expr_vec = FALSE,
-select_data = list("Year+" = numeric(), YearFactor = factor(),
-                   Site = factor(), Density = numeric(),
-                   HabitatQuality = factor()),
-fixed = "^(b|l)", derived = "eDensity",
-random_effects = list(bSiteYear = c("Site", "YearFactor")))
+    new_expr_vec = FALSE,
+    select_data = list(
+      "Year+" = numeric(), YearFactor = factor(),
+      Site = factor(), Density = numeric(),
+      HabitatQuality = factor()
+    ),
+    fixed = "^(b|l)", derived = "eDensity",
+    random_effects = list(bSiteYear = c("Site", "YearFactor"))
+  )
 
   expect_output(expect_warning(analysis <- analyse(model, data = data)))
 
   year <- predict(analysis, new_data = "Year")
 
   expect_is(year, "tbl")
-  expect_identical(colnames(year), c("Site", "HabitatQuality", "Year", "Visit",
-                                     "Density", "YearFactor",
-                                     "estimate", "lower", "upper", "svalue"))
+  expect_identical(colnames(year), c(
+    "Site", "HabitatQuality", "Year", "Visit",
+    "Density", "YearFactor",
+    "estimate", "lower", "upper", "svalue"
+  ))
   expect_true(all(year$lower < year$estimate))
   expect_false(is.unsorted(year$estimate))
 
@@ -61,8 +67,10 @@ random_effects = list(bSiteYear = c("Site", "YearFactor")))
 
   expect_is(ppc, "tbl_df")
   expect_identical(colnames(ppc), c("moment", "observed", "median", "lower", "upper", "svalue"))
-  expect_identical(ppc$moment, structure(1:5, .Label = c("zeros", "mean", "variance", "skewness",
-                                                         "kurtosis"), class = "factor"))
+  expect_identical(ppc$moment, structure(1:5, .Label = c(
+    "zeros", "mean", "variance", "skewness",
+    "kurtosis"
+  ), class = "factor"))
   dd <- mcmc_derive_data(analysis, new_data = c("Site", "Year"), ref_data = TRUE)
   expect_true(mcmcdata::is.mcmc_data(dd))
 
@@ -78,7 +86,8 @@ test_that("predict bare expression", {
   data <- embr::density99
   data$YearFactor <- factor(data$Year)
 
-  model <- model(code = "model{
+  model <- model(
+    code = "model{
 
   bIntercept ~ dnorm(0, 5^-2)
   bYear ~ dnorm(0, .5^-2) # bYear2 ~ dnorm(0, .5^-2)
@@ -105,27 +114,32 @@ test_that("predict bare expression", {
     Density[i] ~ dlnorm(eDensity[i], sDensity^-2)
   }
 }",
-new_expr =
-  for(i in 1:length(Density)) {
-    fit[i] <- bIntercept + bYear * Year[i] + bHabitatQuality[HabitatQuality[i]] + bSiteYear[Site[i], YearFactor[i]]
-    log(prediction[i]) <- fit[i]
-    residual[i] <- res_lnorm(Density[i], fit[i], exp(log_sDensity))
-  },
-new_expr_vec = FALSE,
-select_data = list("Year+" = numeric(), YearFactor = factor(),
-                   Site = factor(), Density = numeric(),
-                   HabitatQuality = factor()),
-fixed = "^(b|l)", derived = "eDensity",
-random_effects = list(bSiteYear = c("Site", "YearFactor")))
+    new_expr =
+      for (i in 1:length(Density)) {
+        fit[i] <- bIntercept + bYear * Year[i] + bHabitatQuality[HabitatQuality[i]] + bSiteYear[Site[i], YearFactor[i]]
+        log(prediction[i]) <- fit[i]
+        residual[i] <- res_lnorm(Density[i], fit[i], exp(log_sDensity))
+      },
+    new_expr_vec = FALSE,
+    select_data = list(
+      "Year+" = numeric(), YearFactor = factor(),
+      Site = factor(), Density = numeric(),
+      HabitatQuality = factor()
+    ),
+    fixed = "^(b|l)", derived = "eDensity",
+    random_effects = list(bSiteYear = c("Site", "YearFactor"))
+  )
 
   expect_output(expect_warning(analysis <- analyse(model, data = data)))
 
   year <- predict(analysis, new_data = "Year")
 
   expect_is(year, "tbl")
-  expect_identical(colnames(year), c("Site", "HabitatQuality", "Year", "Visit",
-                                     "Density", "YearFactor",
-                                     "estimate", "lower", "upper", "svalue"))
+  expect_identical(colnames(year), c(
+    "Site", "HabitatQuality", "Year", "Visit",
+    "Density", "YearFactor",
+    "estimate", "lower", "upper", "svalue"
+  ))
   expect_true(all(year$lower < year$estimate))
   expect_false(is.unsorted(year$estimate))
 
@@ -133,8 +147,10 @@ random_effects = list(bSiteYear = c("Site", "YearFactor")))
 
   expect_is(ppc, "tbl_df")
   expect_identical(colnames(ppc), c("moment", "observed", "median", "lower", "upper", "svalue"))
-  expect_identical(ppc$moment, structure(1:5, .Label = c("zeros", "mean", "variance", "skewness",
-                                                         "kurtosis"), class = "factor"))
+  expect_identical(ppc$moment, structure(1:5, .Label = c(
+    "zeros", "mean", "variance", "skewness",
+    "kurtosis"
+  ), class = "factor"))
   dd <- mcmc_derive_data(analysis, new_data = c("Site", "Year"), ref_data = TRUE)
   expect_true(mcmcdata::is.mcmc_data(dd))
 

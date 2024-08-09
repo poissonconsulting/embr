@@ -23,7 +23,7 @@ posterior_predictive_check.mb_analysis <- function(x, zeros = TRUE, ...) {
   check_dots_empty()
 
   simulate_residuals <- simulate_residuals(x)
-  if(zeros) {
+  if (zeros) {
     simulate_zeros <- simulate_residuals(x, type = "data")
   }
   residuals <- residuals(x)
@@ -42,7 +42,7 @@ posterior_predictive_check.mb_analysis <- function(x, zeros = TRUE, ...) {
   skewness <- extras::skewness(residuals, na_rm = TRUE)
   kurtosis <- extras::kurtosis(residuals, na_rm = TRUE)
 
-  if(zeros) {
+  if (zeros) {
     zeros <- residuals(x, type = "data")
 
     simulate_zeros <- as.mcmc(collapse_chains(simulate_zeros$mcmc))
@@ -64,11 +64,13 @@ posterior_predictive_check.mb_analysis <- function(x, zeros = TRUE, ...) {
   tibble$median <- c(median(zeroses), median(means), median(variances), median(skewnesses), median(kurtoses))
   tibble$lower <- c(lower(zeroses), lower(means), lower(variances), lower(skewnesses), lower(kurtoses))
   tibble$upper <- c(upper(zeroses), upper(means), upper(variances), upper(skewnesses), upper(kurtoses))
-  tibble$svalue <- c(zeroses_svalue,
-                     svalue(means, threshold = mean),
-                     svalue(variances, threshold = variance),
-                     svalue(skewnesses, threshold = skewness),
-                     svalue(kurtoses, threshold = kurtosis))
+  tibble$svalue <- c(
+    zeroses_svalue,
+    svalue(means, threshold = mean),
+    svalue(variances, threshold = variance),
+    svalue(skewnesses, threshold = skewness),
+    svalue(kurtoses, threshold = kurtosis)
+  )
 
   tibble
 }

@@ -11,8 +11,9 @@ zero_random_effects <- function(mcmcr, data, random_effects) {
   random_effects <- random_effects[random_effects]
   random_effects <- names(random_effects)
 
-  if (!length(random_effects))
+  if (!length(random_effects)) {
     return(mcmcr)
+  }
 
   mcmcr <- purrr::map_at(mcmcr, random_effects, zero)
   class(mcmcr) <- "mcmcr"

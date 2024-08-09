@@ -6,13 +6,15 @@ mcmc_derive_logLik <- function(x) {
 
   dim <- dim(logLik[["log_lik"]])
 
-  if (!identical(length(dim), 3L))
+  if (!identical(length(dim), 3L)) {
     err("logLik term 'log_lik' must be a vector", tidy = FALSE)
+  }
 
   n <- dim[3]
 
-  if (!identical(n, sample_size(x)))
+  if (!identical(n, sample_size(x))) {
     warning("number of 'log_lik' terms does not equal number of rows of data")
+  }
 
   logLik
 }
@@ -34,7 +36,9 @@ logLik_matrix <- function(x) {
 #' @export
 logLik.mb_analysis <- function(object, ...) {
   if (!is_bayesian(object)) {
-    if (is.null(object$logLik)) return(NA_real_)
+    if (is.null(object$logLik)) {
+      return(NA_real_)
+    }
     return(object$logLik)
   }
   if (!is_new_parameter(object, "log_lik")) {

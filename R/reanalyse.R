@@ -25,16 +25,20 @@ reanalyse1 <- function(object, parallel, quiet, ...) {
 
 reanalyse_model <- function(object, name = NULL, rhat, esr, nreanalyses, duration, parallel, quiet, glance, beep, ...) {
   if (!is.null(name) & glance) cat("Model:", name, "\n")
-  reanalyse(object, rhat = rhat, esr = esr, nreanalyses = nreanalyses,
-            duration = duration, quiet = quiet,
-            glance = glance, beep = beep, ...)
+  reanalyse(object,
+    rhat = rhat, esr = esr, nreanalyses = nreanalyses,
+    duration = duration, quiet = quiet,
+    glance = glance, beep = beep, ...
+  )
 }
 
 reanalyse_data <- function(object, name = NULL, rhat, esr, nreanalyses, duration, parallel, quiet, glance, beep, ...) {
   if (!is.null(name) & glance) cat("Data:", name, "\n")
-  reanalyse(object, rhat = rhat, esr = esr, nreanalyses = nreanalyses,
-            duration = duration, quiet = quiet,
-            glance = glance, beep = beep, ...)
+  reanalyse(object,
+    rhat = rhat, esr = esr, nreanalyses = nreanalyses,
+    duration = duration, quiet = quiet,
+    glance = glance, beep = beep, ...
+  )
 }
 
 #' Reanalyse
@@ -60,12 +64,11 @@ reanalyse.mb_analysis <- function(object,
                                   glance = getOption("mb.glance", TRUE),
                                   beep = getOption("mb.beep", TRUE),
                                   ...) {
-
   chk_flag(beep)
   if (beep) on.exit(beepr::beep())
 
   chk_whole_number(nreanalyses)
-  chk_range(nreanalyses,  c(0L, 4L))
+  chk_range(nreanalyses, c(0L, 4L))
   if (!is.duration(duration)) err("duration must be an object of class Duration", tidy = FALSE)
   chk_flag(quiet)
   chk_flag(parallel)
@@ -79,10 +82,11 @@ reanalyse.mb_analysis <- function(object,
   }
   while (nreanalyses > 0L && duration >= elapsed(object) * 2 && !converged(object, rhat = rhat, esr = esr)) {
     object <- analyse(model(object), data_set(object),
-                      nchains = nchains(object), niters = niters(object),
-                      nthin = nthin(object) * 2L,
-                      parallel = parallel, quiet = quiet,
-                      glance = glance, beep = FALSE)
+      nchains = nchains(object), niters = niters(object),
+      nthin = nthin(object) * 2L,
+      parallel = parallel, quiet = quiet,
+      glance = glance, beep = FALSE
+    )
     nreanalyses <- nreanalyses - 1L
   }
   object
@@ -115,16 +119,20 @@ reanalyse.mb_analyses <- function(object,
 
   if (beep) on.exit(beepr::beep())
 
-  if (!length(object)) return(object)
+  if (!length(object)) {
+    return(object)
+  }
 
   names <- names(object)
   if (is.null(names)) {
     names(object) <- 1:length(object)
   }
 
-  object <- purrr::imap(object, reanalyse_model, rhat = rhat, esr = esr,
-                          nreanalyses = nreanalyses, duration = duration,
-                          quiet = quiet, glance = glance, beep = FALSE, ...)
+  object <- purrr::imap(object, reanalyse_model,
+    rhat = rhat, esr = esr,
+    nreanalyses = nreanalyses, duration = duration,
+    quiet = quiet, glance = glance, beep = FALSE, ...
+  )
 
   object <- as_mb_analyses(object, names)
   object
@@ -157,16 +165,20 @@ reanalyse.mb_meta_analysis <- function(object,
 
   if (beep) on.exit(beepr::beep())
 
-  if (!length(object)) return(object)
+  if (!length(object)) {
+    return(object)
+  }
 
   names <- names(object)
   if (is.null(names)) {
     names(object) <- 1:length(object)
   }
 
-  object <- purrr::imap(object, reanalyse_data, rhat = rhat, esr = esr,
-                          nreanalyses = nreanalyses, duration = duration,
-                          quiet = quiet, glance = glance, beep = FALSE, ...)
+  object <- purrr::imap(object, reanalyse_data,
+    rhat = rhat, esr = esr,
+    nreanalyses = nreanalyses, duration = duration,
+    quiet = quiet, glance = glance, beep = FALSE, ...
+  )
 
   object <- as_mb_meta_analysis(object, names)
   object
@@ -199,7 +211,9 @@ reanalyse.mb_meta_analyses <- function(object,
 
   if (beep) on.exit(beepr::beep())
 
-  if (!length(object)) return(object)
+  if (!length(object)) {
+    return(object)
+  }
 
   names <- names(object)
   if (is.null(names)) {
@@ -209,9 +223,11 @@ reanalyse.mb_meta_analyses <- function(object,
   object <- purrr::transpose(object)
   object <- lapply(object, as_mb_meta_analysis)
 
-  object <- purrr::imap(object, reanalyse_model, rhat = rhat, esr = esr,
-                          nreanalyses = nreanalyses, duration = duration,
-                          quiet = quiet, glance = glance, beep = FALSE, ...)
+  object <- purrr::imap(object, reanalyse_model,
+    rhat = rhat, esr = esr,
+    nreanalyses = nreanalyses, duration = duration,
+    quiet = quiet, glance = glance, beep = FALSE, ...
+  )
 
   object <- purrr::transpose(object)
   object <- lapply(object, as_mb_analyses)

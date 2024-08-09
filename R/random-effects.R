@@ -6,7 +6,9 @@
 #' @param ... Unused.
 #' @return The random effects as a sorted named list.
 #' @export
-random_effects <- function(object, ...) {UseMethod("random_effects")}
+random_effects <- function(object, ...) {
+  UseMethod("random_effects")
+}
 
 #' @export
 random_effects.mb_model <- function(object, ...) {

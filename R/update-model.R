@@ -45,7 +45,6 @@ update_model.mb_model <- function(
     modify_new_data = NULL,
     drops = NULL,
     ...) {
-
   if (is.null(code)) code <- code(model)
   if (is.null(gen_inits)) gen_inits <- model$gen_inits
   if (is.null(random_effects)) random_effects <- model$random_effects
@@ -72,7 +71,7 @@ update_model.mb_model <- function(
     modify_data = modify_data,
     nthin = nthin,
     new_expr = !!new_expr,
-    new_expr_vec =  new_expr_vec,
+    new_expr_vec = new_expr_vec,
     modify_new_data = modify_new_data,
     drops = drops
   ))

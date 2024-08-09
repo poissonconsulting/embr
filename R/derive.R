@@ -6,33 +6,34 @@
 #' @return A object of class mcmcr.
 #' @export
 mcmc_derive.mb_analysis <- function(object,
-                               new_data = data_set(object),
-                               new_expr = NULL,
-                               new_values = list(),
-                               term = "prediction",
-                               modify_new_data = NULL,
-                               ref_data = FALSE,
-                               ref_fun2 = proportional_change2,
-                               random_effects = NULL,
-                               new_expr_vec = getOption("mb.new_expr_vec", FALSE),
-                               parallel = getOption("mb.parallel", FALSE),
-                               quiet = getOption("mb.quiet", TRUE),
-                               beep = getOption("mb.beep", FALSE),
-                               ...) {
+                                    new_data = data_set(object),
+                                    new_expr = NULL,
+                                    new_values = list(),
+                                    term = "prediction",
+                                    modify_new_data = NULL,
+                                    ref_data = FALSE,
+                                    ref_fun2 = proportional_change2,
+                                    random_effects = NULL,
+                                    new_expr_vec = getOption("mb.new_expr_vec", FALSE),
+                                    parallel = getOption("mb.parallel", FALSE),
+                                    quiet = getOption("mb.quiet", TRUE),
+                                    beep = getOption("mb.beep", FALSE),
+                                    ...) {
   chk_flag(beep)
   chk_function(ref_fun2)
 
-  if(!vld_data(new_data) && !vld_character(new_data)) {
+  if (!vld_data(new_data) && !vld_character(new_data)) {
     chkor_vld(vld_data(new_data), vld_character(new_data))
   }
-  if(!vld_flag(ref_data) && !vld_data(ref_data)) {
+  if (!vld_flag(ref_data) && !vld_data(ref_data)) {
     chkor_vld(vld_flag(ref_data), vld_data(ref_data))
   }
 
   if (beep) on.exit(beepr::beep())
 
-  if (is.character(new_data))
+  if (is.character(new_data)) {
     new_data <- newdata::new_data(data_set(object), new_data)
+  }
 
   nrow <- nrow(new_data)
 
@@ -51,7 +52,9 @@ mcmc_derive.mb_analysis <- function(object,
     ...
   )
 
-  if (identical(ref_data, FALSE)) return(new_data)
+  if (identical(ref_data, FALSE)) {
+    return(new_data)
+  }
 
   if (identical(ref_data, TRUE)) {
     ref_data <- data_set(object)
@@ -103,7 +106,6 @@ mcmc_derive.mb_analyses <- function(object,
                                     quiet = getOption("mb.quiet", TRUE),
                                     beep = getOption("mb.beep", FALSE),
                                     ...) {
-
   chk_flag(beep)
 
   if (beep) on.exit(beepr::beep())

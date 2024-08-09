@@ -4,7 +4,9 @@ days_since_2000 <- function(x) {
 
 numericize_dates <- function(data) {
   if (!is.list(data)) err("data must be a list", tidy = FALSE)
-  if (!length(data)) return(data)
+  if (!length(data)) {
+    return(data)
+  }
   data[vapply(data, lubridate::is.Date, TRUE)] <- lapply(
     data[vapply(data, lubridate::is.Date, TRUE)],
     days_since_2000
@@ -14,7 +16,9 @@ numericize_dates <- function(data) {
 
 numericize_difftimes <- function(data) {
   if (!is.list(data)) err("data must be a list", tidy = FALSE)
-  if (!length(data)) return(data)
+  if (!length(data)) {
+    return(data)
+  }
   data[vapply(data, lubridate::is.difftime, TRUE)] <- lapply(
     data[vapply(data, lubridate::is.difftime, TRUE)],
     as.numeric
@@ -24,7 +28,9 @@ numericize_difftimes <- function(data) {
 
 numericize_logicals <- function(data) {
   if (!is.list(data)) err("data must be a list", tidy = FALSE)
-  if (!length(data)) return(data)
+  if (!length(data)) {
+    return(data)
+  }
   data[vapply(data, is.logical, TRUE)] <- lapply(
     data[vapply(data, is.logical, TRUE)],
     as.integer
@@ -34,11 +40,12 @@ numericize_logicals <- function(data) {
 
 numericize_factors <- function(data) {
   if (!is.list(data)) err("data must be a list", tidy = FALSE)
-  if (!length(data)) return(data)
+  if (!length(data)) {
+    return(data)
+  }
   data[vapply(data, is.factor, TRUE)] <- lapply(
     data[vapply(data, is.factor, TRUE)],
     as.integer
   )
   data
 }
-

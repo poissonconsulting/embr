@@ -25,18 +25,22 @@ analyse1 <- function(model, data, loaded, nchains, niters, nthin, quiet, glance,
 }
 
 analyse_data <- function(data, name = NULL, x, loaded, nchains, niters, nthin,
-                          parallel, quiet, glance, ...) {
+                         parallel, quiet, glance, ...) {
   if (!is.null(name) & glance) cat("Data:", name, "\n")
-  analyse1(x, data, loaded = loaded, nchains = nchains, niters = niters,
-           nthin = nthin, parallel = parallel, quiet = quiet, glance = glance, ...)
+  analyse1(x, data,
+    loaded = loaded, nchains = nchains, niters = niters,
+    nthin = nthin, parallel = parallel, quiet = quiet, glance = glance, ...
+  )
 }
 
 
 analyse_model <- function(x, name = NULL, data, parallel, nchains, niters, nthin, quiet, glance, beep, ...) {
   if (!is.null(name) & glance) cat("Model:", name, "\n")
-  analyse(x, data = data, parallel = parallel,
-          nchains = nchains, niters = niters, nthin = nthin,
-          quiet = quiet, glance = glance, beep = beep, ...)
+  analyse(x,
+    data = data, parallel = parallel,
+    nchains = nchains, niters = niters, nthin = nthin,
+    quiet = quiet, glance = glance, beep = beep, ...
+  )
 }
 
 #' Analyse
@@ -64,9 +68,11 @@ analyse.character <- function(x, data,
                               beep = getOption("mb.beep", TRUE),
                               ...) {
   x <- model(x, select_data = select_data)
-  analyse(x, data = data,
-          parallel = parallel, nchains = nchains, niters = niters, nthin = nthin, quiet = quiet,
-          glance = glance, beep = beep)
+  analyse(x,
+    data = data,
+    parallel = parallel, nchains = nchains, niters = niters, nthin = nthin, quiet = quiet,
+    glance = glance, beep = beep
+  )
 }
 
 #' Analyse
@@ -91,7 +97,6 @@ analyse.mb_model <- function(x, data,
                              glance = getOption("mb.glance", TRUE),
                              beep = getOption("mb.beep", TRUE),
                              ...) {
-
   chk_flag(beep)
   if (beep) on.exit(beepr::beep())
 
@@ -99,13 +104,15 @@ analyse.mb_model <- function(x, data,
     chk_data(data)
   } else if (is.list(data)) {
     lapply(data, chk_data)
-  } else err("data must be a data.frame or a list of data.frames", tidy = FALSE)
+  } else {
+    err("data must be a data.frame or a list of data.frames", tidy = FALSE)
+  }
 
   chk_whole_number(nchains)
   chk_range(nchains, c(2L, 10L))
   chk_whole_number(niters)
   chk_range(niters, c(10L, 100000L))
-  if(!is.null(nthin)) {
+  if (!is.null(nthin)) {
     chk_whole_number(nthin)
     chk_range(nthin, c(1L, 10000L))
   }
@@ -119,9 +126,11 @@ analyse.mb_model <- function(x, data,
   loaded <- load_model(x, quiet)
 
   if (is.data.frame(data)) {
-    return(analyse_data(data = data, x = x, loaded = loaded,
-                         nchains = nchains, niters = niters, nthin = nthin,
-                         parallel = parallel, quiet = quiet, glance = glance))
+    return(analyse_data(
+      data = data, x = x, loaded = loaded,
+      nchains = nchains, niters = niters, nthin = nthin,
+      parallel = parallel, quiet = quiet, glance = glance
+    ))
   }
 
   names <- names(data)
@@ -129,9 +138,11 @@ analyse.mb_model <- function(x, data,
     names(data) <- 1:length(x)
   }
 
-  analyses <- purrr::imap(data, analyse_data, x = x, loaded = loaded,
-              nchains = nchains, niters = niters, nthin = nthin,
-              parallel = parallel, quiet = quiet, glance = glance)
+  analyses <- purrr::imap(data, analyse_data,
+    x = x, loaded = loaded,
+    nchains = nchains, niters = niters, nthin = nthin,
+    parallel = parallel, quiet = quiet, glance = glance
+  )
 
   names(data) <- names
 
@@ -167,9 +178,11 @@ analyse.mb_models <- function(x, data,
   names <- names(x)
   if (is.null(names)) names(x) <- 1:length(x)
 
-  analyses <- purrr::imap(x, analyse_model, data = data,
-                          nchains = nchains, niters = niters, nthin = nthin,
-                          parallel = parallel, quiet = quiet, glance = glance, beep = FALSE, ...)
+  analyses <- purrr::imap(x, analyse_model,
+    data = data,
+    nchains = nchains, niters = niters, nthin = nthin,
+    parallel = parallel, quiet = quiet, glance = glance, beep = FALSE, ...
+  )
 
   if (is.data.frame(data)) {
     analyses <- as_mb_analyses(analyses, names)

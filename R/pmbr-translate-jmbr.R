@@ -42,20 +42,20 @@ walk_translate_jmbr <- function(expr) {
             paste0("(", paste0(args, collapse = ", "), ")")
           } else if (fun == "for") {
             paste0("for (", args[[1]], " in ", args[[2]], ") ", args[[3]])
-          # } else if (fun == "if") {
-          #   paste0("if (", args[[1]], ") {\n", paste0("  ", args[-1], collapse = "\n"), "\n}")
-          # } else if (fun == "else") {
-          #   paste0("else {\n", paste0("  ", args, collapse = "\n"), "\n}")
-          # } else if (fun == "while") {
-          #   paste0("while (", args[[1]], ") {\n", paste0("  ", args[-1], collapse = "\n"), "\n}")
-          # } else if (fun == "repeat") {
-          #   paste0("repeat {\n", paste0("  ", args, collapse = "\n"), "\n}")
-          # } else if (fun == "break") {
-          #   paste0("break")
-          # } else if (fun == "next") {
-          #   paste0("next")
-          # } else if (fun == "return") {
-          #   paste0("return(", paste0(args, collapse = ", "), ")")
+            # } else if (fun == "if") {
+            #   paste0("if (", args[[1]], ") {\n", paste0("  ", args[-1], collapse = "\n"), "\n}")
+            # } else if (fun == "else") {
+            #   paste0("else {\n", paste0("  ", args, collapse = "\n"), "\n}")
+            # } else if (fun == "while") {
+            #   paste0("while (", args[[1]], ") {\n", paste0("  ", args[-1], collapse = "\n"), "\n}")
+            # } else if (fun == "repeat") {
+            #   paste0("repeat {\n", paste0("  ", args, collapse = "\n"), "\n}")
+            # } else if (fun == "break") {
+            #   paste0("break")
+            # } else if (fun == "next") {
+            #   paste0("next")
+            # } else if (fun == "return") {
+            #   paste0("return(", paste0(args, collapse = ", "), ")")
           } else if (fun %in% r_ops) {
             if (length(args) >= 2) {
               paste0(args[[1]], " ", fun, " ", args[[2]])

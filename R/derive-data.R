@@ -1,18 +1,18 @@
 mcmc_derive_fun <- function(object,
-                       new_data = data_set(object),
-                       new_expr = NULL,
-                       new_values = list(),
-                       term = "prediction",
-                       modify_new_data = NULL,
-                       random_effects = NULL,
-                       new_expr_vec = getOption("mb.new_expr_vec", FALSE),
-                       parallel,
-                       quiet,
-                       ...) {
+                            new_data = data_set(object),
+                            new_expr = NULL,
+                            new_values = list(),
+                            term = "prediction",
+                            modify_new_data = NULL,
+                            random_effects = NULL,
+                            new_expr_vec = getOption("mb.new_expr_vec", FALSE),
+                            parallel,
+                            quiet,
+                            ...) {
   chk_data(new_data)
-  if(is.null(random_effects) || isTRUE(random_effects)) {
+  if (is.null(random_effects) || isTRUE(random_effects)) {
     random_effects <- random_effects(object)
-  } else if(isFALSE(random_effects)) {
+  } else if (isFALSE(random_effects)) {
     random_effects <- list()
   }
 
@@ -80,25 +80,26 @@ mcmcdata::mcmc_derive_data
 #' @return A object of class mcmc_data.
 #' @export
 mcmc_derive_data.mb_analysis <- function(object,
-                        new_data = data_set(object),
-                        new_expr = NULL,
-                        new_values = list(),
-                        term = "prediction",
-                        modify_new_data = NULL,
-                        ref_data = FALSE,
-                        ref_fun2 = proportional_change2,
-                        new_expr_vec = getOption("mb.new_expr_vec", FALSE),
-                        random_effects = NULL,
-                        parallel = getOption("mb.parallel", FALSE),
-                        quiet = getOption("mb.quiet", TRUE),
-                        beep = getOption("mb.beep", FALSE),
-                        ...) {
+                                         new_data = data_set(object),
+                                         new_expr = NULL,
+                                         new_values = list(),
+                                         term = "prediction",
+                                         modify_new_data = NULL,
+                                         ref_data = FALSE,
+                                         ref_fun2 = proportional_change2,
+                                         new_expr_vec = getOption("mb.new_expr_vec", FALSE),
+                                         random_effects = NULL,
+                                         parallel = getOption("mb.parallel", FALSE),
+                                         quiet = getOption("mb.quiet", TRUE),
+                                         beep = getOption("mb.beep", FALSE),
+                                         ...) {
   chk_string(term)
-  if(!vld_data(new_data) && !vld_character(new_data)) {
+  if (!vld_data(new_data) && !vld_character(new_data)) {
     chkor_vld(vld_data(new_data), vld_character(new_data))
   }
-  if (is.character(new_data))
+  if (is.character(new_data)) {
     new_data <- newdata::new_data(data_set(object), new_data)
+  }
 
   object <- mcmc_derive(
     object,
@@ -141,25 +142,25 @@ mcmc_derive_data.mb_analysis <- function(object,
 #' @return A object of class mcmc_data.
 #' @export
 mcmc_derive_data.mb_analyses <- function(object,
-                                    new_data = data_set(object),
-                                    new_expr = NULL,
-                                    new_values = list(),
-                                    term = "prediction",
-                                    modify_new_data = NULL,
-                                    ref_data = FALSE,
-                                    ref_fun2 = proportional_change2,
-                                    new_expr_vec = getOption("mb.new_expr_vec", FALSE),
-                                    parallel = getOption("mb.parallel", FALSE),
-                                    quiet = getOption("mb.quiet", TRUE),
-                                    beep = getOption("mb.beep", FALSE),
-                                    ...) {
-
+                                         new_data = data_set(object),
+                                         new_expr = NULL,
+                                         new_values = list(),
+                                         term = "prediction",
+                                         modify_new_data = NULL,
+                                         ref_data = FALSE,
+                                         ref_fun2 = proportional_change2,
+                                         new_expr_vec = getOption("mb.new_expr_vec", FALSE),
+                                         parallel = getOption("mb.parallel", FALSE),
+                                         quiet = getOption("mb.quiet", TRUE),
+                                         beep = getOption("mb.beep", FALSE),
+                                         ...) {
   chk_string(term)
-  if(!vld_data(new_data) && !vld_character(new_data)) {
+  if (!vld_data(new_data) && !vld_character(new_data)) {
     chkor_vld(vld_data(new_data), vld_character(new_data))
   }
-  if (is.character(new_data))
+  if (is.character(new_data)) {
     new_data <- newdata::new_data(data_set(object), new_data)
+  }
 
   object <- mcmc_derive(
     object,

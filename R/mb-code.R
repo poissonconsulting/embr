@@ -9,7 +9,7 @@
 #' @export
 #' @examples
 #' x <- mb_code(
-#' "#include <TMB.hpp>
+#'   "#include <TMB.hpp>
 #'
 #' template<class Type>
 #'
@@ -25,7 +25,8 @@
 #' }
 #' return nll;
 #' }
-#'")
+#' "
+#' )
 #' class(x)
 mb_code <- function(template) {
   template_expr <- quo_get_expr(enquo(template))

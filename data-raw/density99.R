@@ -16,14 +16,18 @@ habitat <- 10
 log_sd_site_year <- 1
 log_sd <- 0
 
-site <- data.frame(Site = paste0("Site", 1:nsite),
-                   HabitatQuality = c("Low", "High"))
+site <- data.frame(
+  Site = paste0("Site", 1:nsite),
+  HabitatQuality = c("Low", "High")
+)
 
 site_year <- expand.grid(Site = site$Site, Year = 1:nyear + start_year)
 site_year$site_year_effect <- rnorm(nrow(site_year), sd = exp(log_sd_site_year))
 
-data <- expand.grid(Visit = 1:nvisit, Site = site$Site,
-                    Year = 1:nyear + start_year)
+data <- expand.grid(
+  Visit = 1:nvisit, Site = site$Site,
+  Year = 1:nyear + start_year
+)
 
 data <- inner_join(data, site, by = "Site")
 data <- inner_join(data, site_year, by = c("Site", "Year"))

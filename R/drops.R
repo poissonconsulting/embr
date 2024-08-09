@@ -1,6 +1,8 @@
 full_drop <- function(drops) {
   check_drops(drops)
-  if (!length(drops)) return(character(0))
+  if (!length(drops)) {
+    return(character(0))
+  }
   drops <- unlist(drops)
   drops <- unique(drops)
   drops <- sort(drops)
@@ -12,7 +14,9 @@ eliminate <- function(x, y) {
 }
 
 not_last <- function(x) {
-  if (!length(x)) return(x)
+  if (!length(x)) {
+    return(x)
+  }
   x[-length(x)]
 }
 
@@ -25,7 +29,9 @@ eliminate_drop <- function(drops, drop) {
 }
 
 possible_drop <- function(drops) {
-  if (!length(drops)) return(character(0))
+  if (!length(drops)) {
+    return(character(0))
+  }
   drops <- lapply(drops, dplyr::last)
   drops <- unlist(drops)
   drops <- unique(drops)
@@ -34,7 +40,9 @@ possible_drop <- function(drops) {
 }
 
 impossible_drop <- function(drops) {
-  if (!length(drops)) return(character(0))
+  if (!length(drops)) {
+    return(character(0))
+  }
   drops <- lapply(drops, not_last)
   drops <- unlist(drops)
   drops <- unique(drops)
@@ -55,7 +63,9 @@ recursive_drop <- function(drops, drop) {
 
 make_all_drops <- function(drops) {
   check_drops(drops)
-  if (!length(drops)) return(list("base" = character(0)))
+  if (!length(drops)) {
+    return(list("base" = character(0)))
+  }
   drop <- recursive_drop(drops, character(0))
   drop <- lapply(drop, sort)
   drop <- unique(drop)
@@ -72,7 +82,9 @@ next_drop <- function(analysis, drops, conf_level) {
 
   drop <- possible_drop(drops)
 
-  if (!length(drop)) return(character(0))
+  if (!length(drop)) {
+    return(character(0))
+  }
 
   coef <- coef(analysis)
   # scalar only
@@ -83,11 +95,15 @@ next_drop <- function(analysis, drops, conf_level) {
   if (any(is.na(coef$pvalue))) err("undefined pvalues", tidy = FALSE)
 
   coef <- dplyr::filter(coef, .data$pvalue > (1 - .data$conf_level))
-  if (!nrow(coef)) return(character(0))
+  if (!nrow(coef)) {
+    return(character(0))
+  }
 
   coef <- dplyr::filter(coef, .data$term %in% drop)
-  if (!nrow(coef)) return(character(0))
+  if (!nrow(coef)) {
+    return(character(0))
+  }
 
-  coef <- dplyr::arrange_(coef, ~dplyr::desc(pvalue))
+  coef <- dplyr::arrange_(coef, ~ dplyr::desc(pvalue))
   coef$term[1]
 }

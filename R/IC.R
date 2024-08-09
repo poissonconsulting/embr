@@ -39,10 +39,12 @@ IC.mb_analyses <- function(object, ...) {
   if (!length(object)) {
     return(tibble(
       model = character(0), K = integer(0), IC = numeric(0),
-      DeltaIC = numeric(0), ICWt = numeric(0)))
+      DeltaIC = numeric(0), ICWt = numeric(0)
+    ))
   }
-  if (!all(vapply(object, is.mb_analysis, TRUE)))
+  if (!all(vapply(object, is.mb_analysis, TRUE))) {
     err("object must be a list of mb_analysis objects", tidy = FALSE)
+  }
 
   if (is.null(names(object))) names(object) <- 1:length(object)
 
@@ -73,4 +75,3 @@ IC.mb_analyses <- function(object, ...) {
 IC.mb_meta_analyses <- function(object, ...) {
   lapply(object, IC, ...)
 }
-

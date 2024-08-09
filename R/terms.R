@@ -9,7 +9,7 @@ stats::terms
 #' @param ... unused
 #' @export
 nterms.mb_analysis <- function(x, param_type = "fixed", include_constant = TRUE, ...) {
- length(terms(x, param_type = param_type, include_constant = include_constant))
+  length(terms(x, param_type = param_type, include_constant = include_constant))
 }
 
 #' Terms

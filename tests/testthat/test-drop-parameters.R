@@ -1,6 +1,5 @@
 test_that("drop_pars", {
-
-  new_expr = " fit2 <- a + b * x
+  new_expr <- " fit2 <- a + b * x
                     fit <- a + b * x + bYear[Year]
                      residual <- y - fit
                      prediction <- fit"
@@ -17,7 +16,7 @@ test_that("drop_pars", {
 test_that("drop_pars for expressions", {
   local_edition(3)
 
-  new_expr = rlang::expr({
+  new_expr <- rlang::expr({
     fit2 <- a + b * x
     fit <- a + b * x + bYear[Year]
     residual <- y - fit
