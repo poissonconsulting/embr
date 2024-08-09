@@ -3,7 +3,7 @@
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 <![endif]--></head><body data-spy="scroll" data-target="#toc">
-    
+
 
     <div class="container template-reference-topic">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -31,20 +31,20 @@
       </ul><ul class="nav navbar-nav navbar-right"><li>
   <a href="https://github.com/poissonconsulting/embr/" class="external-link">
     <span class="fab fa-github fa-lg"></span>
-     
+
   </a>
 </li>
       </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-      
+
 
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>MB Model</h1>
-    <small class="dont-index">Source: <a href="https://github.com/poissonconsulting/embr/blob/HEAD/R/model.R" class="external-link"><code>R/model.R</code></a></small>
+    <small class="dont-index">Source: <a href="https://github.com/poissonconsulting/embr/blob/main/R/model.R" class="external-link"><code>R/model.R</code></a></small>
     <div class="hidden name"><code>model.Rd</code></div>
     </div>
 
@@ -75,77 +75,77 @@
 
     <div id="arguments">
     <h2>Arguments</h2>
-    <dl><dt>x</dt>
+
+
+<dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
 <dd><p>A string, or an object inheriting from class `"mb_code"`.</p></dd>
 
 
-<dt>...</dt>
+<dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Unused arguments.</p></dd>
 
 
-<dt>code</dt>
+<dt id="arg-code">code<a class="anchor" aria-label="anchor" href="#arg-code"></a></dt>
 <dd><p>Passed on to [mb_code()]. If `x` is not `NULL`, `code` must be `NULL`,
 and vice versa.</p></dd>
 
 
-<dt>gen_inits</dt>
+<dt id="arg-gen-inits">gen_inits<a class="anchor" aria-label="anchor" href="#arg-gen-inits"></a></dt>
 <dd><p>A single argument function taking the modified data and
 returning a named list of initial values.</p></dd>
 
 
-<dt>random_effects</dt>
+<dt id="arg-random-effects">random_effects<a class="anchor" aria-label="anchor" href="#arg-random-effects"></a></dt>
 <dd><p>A named list specifying the random effects and the associated factors.</p></dd>
 
 
-<dt>fixed</dt>
+<dt id="arg-fixed">fixed<a class="anchor" aria-label="anchor" href="#arg-fixed"></a></dt>
 <dd><p>A string of a regular expression specifying the fixed pars to monitor.</p></dd>
 
 
-<dt>derived</dt>
+<dt id="arg-derived">derived<a class="anchor" aria-label="anchor" href="#arg-derived"></a></dt>
 <dd><p>A character vector of the derived pars to monitor.</p></dd>
 
 
-<dt>select_data</dt>
+<dt id="arg-select-data">select_data<a class="anchor" aria-label="anchor" href="#arg-select-data"></a></dt>
 <dd><p>A named list specifying the columns to select and their associated classes and values as well as transformations and scaling options.</p></dd>
 
 
-<dt>center</dt>
+<dt id="arg-center">center<a class="anchor" aria-label="anchor" href="#arg-center"></a></dt>
 <dd><p>A character vector of the columns to center.</p></dd>
 
 
-<dt>scale</dt>
+<dt id="arg-scale">scale<a class="anchor" aria-label="anchor" href="#arg-scale"></a></dt>
 <dd><p>A character vector of the columns to scale (after centering).</p></dd>
 
 
-<dt>modify_data</dt>
+<dt id="arg-modify-data">modify_data<a class="anchor" aria-label="anchor" href="#arg-modify-data"></a></dt>
 <dd><p>A single argument function to modify the data (in list form) immediately prior to the analysis.</p></dd>
 
 
-<dt>nthin</dt>
+<dt id="arg-nthin">nthin<a class="anchor" aria-label="anchor" href="#arg-nthin"></a></dt>
 <dd><p>A count specifying the thinning interval.</p></dd>
 
 
-<dt>new_expr</dt>
+<dt id="arg-new-expr">new_expr<a class="anchor" aria-label="anchor" href="#arg-new-expr"></a></dt>
 <dd><p>A string of R code specifying the predictive relationships.</p></dd>
 
 
-<dt>new_expr_vec</dt>
+<dt id="arg-new-expr-vec">new_expr_vec<a class="anchor" aria-label="anchor" href="#arg-new-expr-vec"></a></dt>
 <dd><p>A flag specifying whether to vectorize the new_expr code.</p></dd>
 
 
-<dt>modify_new_data</dt>
+<dt id="arg-modify-new-data">modify_new_data<a class="anchor" aria-label="anchor" href="#arg-modify-new-data"></a></dt>
 <dd><p>A single argument function to modify new data (in list form) immediately prior to calculating new_expr.</p></dd>
 
 
-<dt>drops</dt>
+<dt id="arg-drops">drops<a class="anchor" aria-label="anchor" href="#arg-drops"></a></dt>
 <dd><p>A list of character vector of possible scalar pars to drop (fix at 0).</p></dd>
 
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    
-
-<p>An object inherting from class mb_model.</p>
+    <p>An object inherting from class mb_model.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -155,7 +155,7 @@ Missing random pars are assigned the value 0.</p>
     </div>
     <div id="see-also">
     <h2>See also</h2>
-    <div class="dont-index"><p><code><a href="https://poissonconsulting.github.io/chk/reference/check_data.html" class="external-link">check_data</a></code> <code><a href="https://rdrr.io/pkg/rescale/man/rescale_c.html" class="external-link">rescale_c</a></code></p></div>
+    <div class="dont-index"><p><code><a href="https://poissonconsulting.github.io/chk/reference/check_data.html" class="external-link">check_data</a></code> <code><a href="https://poissonconsulting.github.io/rescale/reference/rescale_c.html" class="external-link">rescale_c</a></code></p></div>
     </div>
 
   </div>
@@ -170,15 +170,15 @@ Missing random pars are assigned the value 0.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.9.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.0.</p>
 </div>
 
       </footer></div>
 
-  
 
 
-  
+
+
 
   </body></html>
 
