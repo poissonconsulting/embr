@@ -18,7 +18,7 @@ License: MIT + file LICENSE
 URL: https://github.com/poissonconsulting/embr
 BugReports: https://github.com/poissonconsulting/embr/issues
 Depends:
-    R (>= 4.1)
+    R (>= 4.0)
 Imports:
     beepr,
     chk,
