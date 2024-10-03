@@ -1,3 +1,4 @@
+#' @exportS3Method NULL
 pars.character <- function(x, ...) {
   check_dots_empty()
   if (is.null(x)) {
