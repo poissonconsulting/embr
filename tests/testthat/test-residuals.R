@@ -17,5 +17,5 @@ test_that("lmb", {
   #
   # plots <- plot_residuals(analysis)
   # expect_identical(names(plots), c("feed", "fit", "weight"))
-  # expect_is(plots[[1]], "ggplot")
+  # expect_s3_class(plots[[1]], "ggplot")
 })

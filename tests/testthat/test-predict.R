@@ -14,7 +14,7 @@ test_that("lmb", {
   # models <- as.models(models)
   #
   # analyses <- analyse(models, data = data, glance = FALSE, beep = FALSE)
-  # expect_is(analyses, "mb_analyses")
+  # expect_s3_class(analyses, "mb_analyses")
   #
   # feed <- predict(analyses, new_data = "feed")
   # expect_identical(as.character(feed$feed), levels(datasets::chickwts$feed))
