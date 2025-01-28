@@ -50,11 +50,11 @@ test_that("predict string expression", {
     random_effects = list(bSiteYear = c("Site", "YearFactor"))
   )
 
-  expect_output(expect_warning(analysis <- analyse(model, data = data)))
+  expect_warning(expect_warning(analysis <- analyse(model, data = data, glance = FALSE)))
 
   year <- predict(analysis, new_data = "Year")
 
-  expect_is(year, "tbl")
+  expect_s3_class(year, "tbl")
   expect_identical(colnames(year), c(
     "Site", "HabitatQuality", "Year", "Visit",
     "Density", "YearFactor",
@@ -65,7 +65,7 @@ test_that("predict string expression", {
 
   ppc <- posterior_predictive_check(analysis)
 
-  expect_is(ppc, "tbl_df")
+  expect_s3_class(ppc, "tbl_df")
   expect_identical(colnames(ppc), c("moment", "observed", "median", "lower", "upper", "svalue"))
   expect_identical(ppc$moment, structure(1:5, .Label = c(
     "zeros", "mean", "variance", "skewness",
@@ -130,11 +130,11 @@ test_that("predict bare expression", {
     random_effects = list(bSiteYear = c("Site", "YearFactor"))
   )
 
-  expect_output(expect_warning(analysis <- analyse(model, data = data)))
+  expect_warning(expect_warning(analysis <- analyse(model, data = data, glance = FALSE)))
 
   year <- predict(analysis, new_data = "Year")
 
-  expect_is(year, "tbl")
+  expect_s3_class(year, "tbl")
   expect_identical(colnames(year), c(
     "Site", "HabitatQuality", "Year", "Visit",
     "Density", "YearFactor",
@@ -145,7 +145,7 @@ test_that("predict bare expression", {
 
   ppc <- posterior_predictive_check(analysis)
 
-  expect_is(ppc, "tbl_df")
+  expect_s3_class(ppc, "tbl_df")
   expect_identical(colnames(ppc), c("moment", "observed", "median", "lower", "upper", "svalue"))
   expect_identical(ppc$moment, structure(1:5, .Label = c(
     "zeros", "mean", "variance", "skewness",

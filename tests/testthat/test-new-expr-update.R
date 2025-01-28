@@ -59,7 +59,7 @@ test_that("update new expr string expression", {
           residual <- res_lnorm(Density, fit, exp(log_sDensity))
       }"
   )
-  expect_warning(analysis <- analyse(model, data = data, glance = FALSE))
+  expect_warning(expect_warning(analysis <- analyse(model, data = data, glance = FALSE)))
 
   expect_identical(pars(analysis, "derived"), "eDensity")
   expect_identical(pars(analysis, "random"), "bSiteYear")
@@ -143,11 +143,11 @@ test_that("update new expr bare expression", {
       residual <- res_lnorm(Density, fit, exp(log_sDensity))
     }
   )
-  expect_output(expect_warning(analysis <- analyse(model, data = data)))
+  expect_warning(expect_warning(analysis <- analyse(model, data = data, glance = FALSE)))
 
   year <- predict(analysis, new_data = "Year")
 
-  expect_is(year, "tbl")
+  expect_s3_class(year, "tbl")
   expect_identical(colnames(year), c(
     "Site", "HabitatQuality", "Year", "Visit",
     "Density", "YearFactor",
@@ -223,11 +223,11 @@ test_that("add new_expr_vec argument to update model", {
       }",
     new_expr_vec = FALSE
   )
-  expect_output(expect_warning(analysis <- analyse(model, data = data)))
+  expect_warning(expect_warning(analysis <- analyse(model, data = data, glance = FALSE)))
 
   year <- predict(analysis, new_data = "Year")
 
-  expect_is(year, "tbl")
+  expect_s3_class(year, "tbl")
   expect_identical(colnames(year), c(
     "Site", "HabitatQuality", "Year", "Visit",
     "Density", "YearFactor",
@@ -296,11 +296,11 @@ test_that("add new_expr_vec argument to update model and updates original new_ex
     model,
     new_expr_vec = TRUE
   )
-  expect_output(expect_warning(analysis <- analyse(model, data = data)))
+  expect_warning(expect_warning(analysis <- analyse(model, data = data, glance = TRUE)))
 
   year <- predict(analysis, new_data = "Year")
 
-  expect_is(year, "tbl")
+  expect_s3_class(year, "tbl")
   expect_identical(colnames(year), c(
     "Site", "HabitatQuality", "Year", "Visit",
     "Density", "YearFactor",
@@ -369,11 +369,11 @@ test_that("cannot undo the vectorization if orignally set in the model", {
     model,
     new_expr_vec = FALSE
   )
-  expect_output(expect_warning(analysis <- analyse(model, data = data)))
+  expect_warning(expect_warning(analysis <- analyse(model, data = data, glance = FALSE)))
 
   year <- predict(analysis, new_data = "Year")
 
-  expect_is(year, "tbl")
+  expect_s3_class(year, "tbl")
   expect_identical(colnames(year), c(
     "Site", "HabitatQuality", "Year", "Visit",
     "Density", "YearFactor",
