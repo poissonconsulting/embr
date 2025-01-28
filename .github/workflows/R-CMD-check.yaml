@@ -39,7 +39,6 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew install jags
-          brew link --overwrite jags
           ls -l /usr/local/lib/libjags.4.dylib
 
       - name: Download JAGS Windows
