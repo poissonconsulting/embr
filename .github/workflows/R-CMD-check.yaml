@@ -39,7 +39,7 @@ jobs:
         if: runner.os == 'macOS'
         run: |
           brew install jags
-          brew install libomp
+          brew link --overwrite jags
 
       - name: Download JAGS Windows
         if: runner.os == 'Windows'
