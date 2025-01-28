@@ -28,7 +28,7 @@ plot_residuals <- function(x, ...) {
 
 ggplot_residuals_histogram <- function(data, name) {
   gp <- ggplot2::ggplot(data = data) +
-    ggplot2::aes_string(x = "residuals") +
+    ggplot2::aes(x = "residuals") +
     suppressWarnings(ggplot2::geom_histogram()) +
     ggplot2::expand_limits(x = 0) +
     ggplot2::xlab("residual")
@@ -37,7 +37,7 @@ ggplot_residuals_histogram <- function(data, name) {
 
 ggplot_residuals <- function(data, name) {
   gp <- ggplot2::ggplot(data = data) +
-    ggplot2::aes_string(x = "x", y = "residuals") +
+    ggplot2::aes(x = "x", y = "residuals") +
     ggplot2::geom_hline(yintercept = 0) +
     ggplot2::expand_limits(y = 0) +
     ggplot2::xlab(name) +

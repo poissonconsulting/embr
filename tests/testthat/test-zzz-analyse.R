@@ -53,7 +53,7 @@ test_that("analyse", {
     new_expr = new_expr
   )
 
-  expect_output(expect_warning(analysis <- analyse(model, data = data)))
+  expect_output(expect_warning(expect_warning(analysis <- analyse(model, data = data))))
 
   expect_equal(as.data.frame(data_set(analysis)), data)
   data2 <- data_set(analysis, marginalize_random_effects = TRUE)
@@ -93,10 +93,10 @@ test_that("analyse", {
     c("bHabitatQuality", "bIntercept", "bSiteYear", "bYear", "eDensity", "log_sDensity", "log_sSiteYear")
   )
 
-  expect_is(as.mcmcr(analysis), "mcmcr")
+  expect_s3_class(as.mcmcr(analysis), "mcmcr")
 
   glance <- glance(analysis)
-  expect_is(glance, "tbl")
+  expect_s3_class(glance, "tbl")
   expect_identical(colnames(glance), c("n", "K", "nchains", "niters", "nthin", "ess", "rhat", "converged"))
   expect_identical(glance$n, 300L)
   expect_identical(glance$nthin, 1L)
@@ -108,7 +108,7 @@ test_that("analyse", {
 
   coef <- coef(analysis, simplify = TRUE)
 
-  expect_is(coef, "tbl")
+  expect_s3_class(coef, "tbl")
   expect_identical(colnames(coef), c("term", "estimate", "lower", "upper", "svalue"))
 
   expect_identical(coef$term, as.term(c(
@@ -127,13 +127,13 @@ test_that("analyse", {
 
   ppc <- posterior_predictive_check(analysis)
 
-  expect_is(ppc, "tbl_df")
+  expect_s3_class(ppc, "tbl_df")
   expect_identical(colnames(ppc), c("moment", "observed", "median", "lower", "upper", "svalue"))
   expect_identical(ppc$moment, structure(1:5, .Label = c(
     "zeros", "mean", "variance", "skewness",
     "kurtosis"
   ), class = "factor"))
-  expect_is(year, "tbl")
+  expect_s3_class(year, "tbl")
   expect_identical(colnames(year), c(
     "Site", "HabitatQuality", "Year", "Visit",
     "Density", "YearFactor",
@@ -145,15 +145,15 @@ test_that("analyse", {
   dd <- mcmc_derive_data(analysis, new_data = c("Site", "Year"), ref_data = TRUE)
   expect_true(mcmcdata::is.mcmc_data(dd))
 
-  expect_warning(
+  expect_warning(expect_warning(expect_warning(
     sensitivity <- sd_priors_by(analysis, by = 10, glance = FALSE),
     "incomplete adaptation"
-  )
+  )))
 
   analyses <- analyses(analysis, sensitivity)
 
   rhat2 <- rhat(analyses)
-  expect_is(rhat2, "list")
+  expect_type(rhat2, "list")
   expect_identical(names(rhat2), c("mcmcr1", "mcmcr2"))
 
   skip_if_not_installed("mcmcr", "0.6.1.9001")
@@ -163,7 +163,7 @@ test_that("analyse", {
     "`rhat.mcmcrs\\(x, bound = TRUE\\)`"
   )
 
-  expect_is(rhat2, "list")
+  expect_type(rhat2, "list")
   expect_identical(names(rhat2), c("mcmcr1", "mcmcr2", "bound"))
 
   lifecycle::expect_deprecated(
@@ -171,7 +171,7 @@ test_that("analyse", {
     "`rhat.mcmcrs\\(x, bound = TRUE\\)`"
   )
 
-  expect_is(glance, "tbl")
+  expect_s3_class(glance, "tbl")
   expect_identical(nrow(glance), 1L)
   expect_identical(colnames(glance), c("n", "K", "nchains", "niters", "rhat_1", "rhat_2", "rhat_all", "converged"))
 })

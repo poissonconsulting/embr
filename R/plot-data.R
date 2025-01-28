@@ -20,7 +20,7 @@ ggplot_data <- function(x, y, x_name, y_name) {
   height <- if (is.numeric(y)) 0 else 0.2
 
   gp <- ggplot2::ggplot(data = data) +
-    ggplot2::aes_string(x = "x", y = "y") +
+    ggplot2::aes(x = "x", y = "y") +
     ggplot2::xlab(x_name) +
     ggplot2::ylab(y_name) +
     ggplot2::geom_jitter(alpha = 1 / 3, width = width, height = height)
