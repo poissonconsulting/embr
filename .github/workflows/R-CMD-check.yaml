@@ -8,6 +8,8 @@ on:
 
 name: R-CMD-check
 
+permissions: read-all
+
 jobs:
   R-CMD-check:
     runs-on: ${{ matrix.config.os }}
@@ -29,13 +31,16 @@ jobs:
       R_KEEP_PKG_SOURCE: yes
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: r-lib/actions/setup-pandoc@v2
 
       - name: Install JAGS macOS
         if: runner.os == 'macOS'
-        run: brew install jags
+        run: |
+          curl -o wjags.pkg -L0 -k --url https://downloads.sourceforge.net/project/mcmc-jags/JAGS/4.x/Mac%20OS%20X/JAGS-4.3.2.pkg
+          sudo installer -pkg wjags.pkg -target /
+          rm wjags.pkg
 
       - name: Download JAGS Windows
         if: runner.os == 'Windows'
@@ -61,3 +66,4 @@ jobs:
       - uses: r-lib/actions/check-r-package@v2
         with:
           upload-snapshots: true
+          build_args: 'c("--no-manual","--compact-vignettes=gs+qpdf")'
