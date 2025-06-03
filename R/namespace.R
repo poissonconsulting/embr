@@ -10,4 +10,5 @@
 #' @importFrom dplyr select mutate
 #' @importFrom stats var fitted logLik median predict terms pnorm qnorm
 #' @importFrom universals estimates
+#' @importFrom priorsense powerscale_sensitivity create_priorsense_data log_lik_draws log_prior_draws
 NULL
