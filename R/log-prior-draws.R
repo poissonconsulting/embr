@@ -27,7 +27,7 @@ log_prior_draws.mb_analysis <- function(x, joint = FALSE, log_prior_name = "lpri
   def_model <- any(stringr::str_detect(pars(x), log_prior_name))
 
   if (def_new_expr & def_model) {
-    warning("`lprior` is defined as a parameter within the model and in the new expression; the definition in the new expression will take precedence.")
+    warning("`lprior` is defined both as a parameter within the model and in the new expression. Change `lprior` in the new expression to `elprior`, and supply `log_prior_name = 'elprior'` to the function.")
   }
 
   if (def_new_expr) {
