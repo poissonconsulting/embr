@@ -8,11 +8,6 @@ glance.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), esr = getOpt
     K = nterms(x, include_constant = FALSE)
   )
 
-  if (is_frequentist(x) || is_new_parameter(x, "log_lik")) {
-    glance$logLik <- logLik(x)
-    glance$IC <- round(IC(x), 2)
-  }
-
   if (is_bayesian(x)) {
     glance$nchains <- nchains(x)
     glance$niters <- niters(x)
@@ -57,12 +52,5 @@ glance.mb_analyses <- function(
     return(as_tibble(glance))
   }
   x <- purrr::map_dfr(x, glance, .id = "model")
-  if ("IC" %in% colnames(x)) {
-    x$deltaIC <- x$IC - min(x$IC)
-    colnames <- colnames(x)
-    n <- length(colnames)
-    colnames <- colnames[c(1:5, n, 6:(n - 1))]
-    x <- x[colnames]
-  }
   x
 }
