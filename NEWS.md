@@ -1,5 +1,9 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# embr 0.0.1.9038
+
+- Remove `logLik` and `IC` columns from glance output.
+
 # embr 0.0.1.9037
 
 ## Features
