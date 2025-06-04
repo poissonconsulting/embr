@@ -9,7 +9,7 @@ test_that("mb_null_analysis", {
 
   glance <- glance(analysis)
   expect_s3_class(glance, "tbl")
-  expect_identical(colnames(glance), c("n", "K", "logLik", "IC", "converged"))
+  expect_identical(colnames(glance), c("n", "K", "converged"))
   expect_identical(nrow(glance), 1L)
 
   tidy <- tidy(analysis)
