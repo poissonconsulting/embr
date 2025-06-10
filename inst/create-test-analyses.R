@@ -26,10 +26,10 @@ if (FALSE) {
     new_expr = "{
     for (i in 1:nObs) {
       log(eMass[i]) <- bSpecies[species[i]]
-      log_lik[i] <- log_lik_lnorm(mass[i], log(eMass[i]), sMass)
     }
-    lprior[1:2] <- log_lik_norm(bSpecies, 0, 2)
-    lprior[3] <- dexp(sMass, 1, log = TRUE)
+    log_lik <- log_lik_lnorm(mass, log(eMass), sMass)
+    lprior[1:nspecies] <- log_lik_norm(bSpecies, 0, 2)
+    lprior[nspecies + 1] <- dexp(sMass, 1, log = TRUE)
   }",
     new_expr_vec = TRUE,
     select_data = list(
@@ -49,7 +49,7 @@ if (FALSE) {
     }
     sMass ~ dexp(1)
 
-    lprior <- logdensity.norm(bSpecies, 0, 2) + logdensity.exp(sMass, 1)
+    lprior <- sum(logdensity.norm(bSpecies, 0, 2)) + logdensity.exp(sMass, 1)
 
     for (i in 1:nObs) {
       log(eMass[i]) <- bSpecies[species[i]]
@@ -80,7 +80,7 @@ if (FALSE) {
     }
     sMass ~ dexp(1)
 
-    lprior <- logdensity.norm(bSpecies, 0, 2) + logdensity.exp(sMass, 1)
+    lprior <- sum(logdensity.norm(bSpecies, 0, 2)) + logdensity.exp(sMass, 1)
 
     for (i in 1:nObs) {
       log(eMass[i]) <- bSpecies[species[i]]
@@ -92,8 +92,8 @@ if (FALSE) {
     for (i in 1:nObs) {
       log(eMass[i]) <- bSpecies[species[i]]
       log_lik[i] <- log_lik_lnorm(mass[i], log(eMass[i]), sMass)
-      lprior[1] <- log_lik_norm(bSpecies, 0, 2)
-      lprior[2] <- dexp(sMass, 1, log = TRUE)
+      lprior[1:nspecies] <- log_lik_norm(bSpecies, 0, 2)
+      lprior[nspecies + 1] <- dexp(sMass, 1, log = TRUE)
     }
   }",
     new_expr_vec = TRUE,
@@ -139,8 +139,8 @@ if (FALSE) {
     new_expr = "
       for (i in 1:nObs) {
         log(eMass[i]) <- bSpecies[species[i]]
-        lprior[1] <- log_lik_norm(bSpecies, 0, 2)
-        lprior[2] <- dexp(sMass, 1, log = TRUE)
+        lprior[1:nspecies] <- log_lik_norm(bSpecies, 0, 2)
+        lprior[nspecies + 1] <- dexp(sMass, 1, log = TRUE)
         log_lik[i] <- log_lik_lnorm(mass[i], log(eMass[i]), sMass)
       }
     ",
@@ -177,7 +177,7 @@ if (FALSE) {
           eMass[i] = exp(bSpecies[species[i]]);
           log_lik[i] = lognormal_lpdf(mass[i] | eMass[i], sMass);
         }
-        lprior = normal_lpdf(bSpecies | 0, 2) + exponential_lpdf(sMass | 1);
+        lprior = normal_lpdf(bSpecies[1] | 0, 2) + normal_lpdf(bSpecies[2] | 0, 2) + exponential_lpdf(sMass | 1);
       }
 
       model {
@@ -226,7 +226,7 @@ if (FALSE) {
           eMass[i] = exp(bSpecies[species[i]]);
           log_lik[i] = lognormal_lpdf(mass[i] | eMass[i], sMass);
         }
-        lprior = normal_lpdf(bSpecies | 0, 2) + exponential_lpdf(sMass | 1);
+        lprior = normal_lpdf(bSpecies[1] | 0, 2) + normal_lpdf(bSpecies[2] | 0, 2) + exponential_lpdf(sMass | 1);
       }
 
       model {
@@ -238,8 +238,8 @@ if (FALSE) {
     new_expr = "
       for (i in 1:nObs) {
         log(eMass[i]) <- bSpecies[species[i]]
-        lprior[1] <- log_lik_norm(bSpecies, 0, 2)
-        lprior[2] <- dexp(sMass, 1, log = TRUE)
+        lprior[1:nspecies] <- log_lik_norm(bSpecies, 0, 2)
+        lprior[nspecies + 1] <- dexp(sMass, 1, log = TRUE)
         log_lik[i] <- log_lik_lnorm(mass[i], log(eMass[i]), sMass)
       }
     ",
@@ -254,5 +254,3 @@ if (FALSE) {
   analysis_stan_both <- analyse(model, data)
   saveRDS(analysis_stan_both, "inst/test-objects/analysis_stan_both.RDS")
 }
-
-

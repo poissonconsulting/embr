@@ -1,51 +1,110 @@
-analysis <- readRDS(
-  file = system.file(package = "embr", "test-objects/analysis_jags_newexpr.RDS")
-)
-
-library(poispkgs)
-
-stopifnot(packageVersion("poispkgs") >= "0.0.1.9017")
-
-dtt_set_default_tz("Etc/GMT+8")
-
-theme_set(theme_Poisson())
-
-options(sbf.ask = FALSE)
-
-# sbf_set_main("output")
-# sbf_reset_sub()
-
-if (getDoParWorkers() == 1) {
-  message("registering 4 workers")
-  registerDoParallel(4)
-}
-set_analysis_mode("report")
-
-log_prior_draws(analysis)
-
+# JAGS ----
+# new expression ----
 test_that("lprior extracted from new expression in jags model", {
   analysis <- readRDS(
     file = system.file(package = "embr", "test-objects/analysis_jags_newexpr.RDS")
   )
-  expect_snapshot(log_prior_draws(analysis))
+  expect_snapshot(lpd <- log_prior_draws(analysis))
+  expect_equal(dim(lpd)[3], nrow(coef(analysis, simplify = TRUE)))
 })
 
+test_that("joint lprior extracted from new expression in jags model", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_jags_newexpr.RDS")
+  )
+  expect_snapshot(lpd_joint <- log_prior_draws(analysis, joint = TRUE))
+  expect_equal(dim(lpd_joint)[3], 1)
+  lpd <- log_prior_draws(analysis)
+  expect_equal(sum(lpd), sum(lpd_joint))
+})
+
+test_that("errors if log_prior_name doesn't match", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_jags_newexpr.RDS")
+  )
+  expect_snapshot(
+    log_prior_draws(analysis, log_prior_name = "elprior"),
+    error = TRUE
+  )
+})
+
+test_that("lprior extracted if different name", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_jags_newexpr.RDS")
+  )
+  analysis$model <- update_model(
+    analysis$model,
+    new_expr = "
+      for (i in 1:nObs) {
+        log(eMass[i]) <- bSpecies[species[i]]
+        log_lik[i] <- log_lik_lnorm(mass[i], log(eMass[i]), sMass)
+        elprior[1:nspecies] <- log_lik_norm(bSpecies, 0, 2)
+        elprior[nspecies + 1] <- dexp(sMass, 1, log = TRUE)
+      }
+    ",
+    new_expr_vec = TRUE
+  )
+  expect_snapshot(log_prior_draws(analysis, log_prior_name = "elprior"))
+})
+
+test_that("lprior extracted from new expression in jags model when new_expr_vec = FALSE", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_jags_newexpr.RDS")
+  )
+  lpd_vec <- log_prior_draws(analysis)
+  analysis$model <- update_model(
+    analysis$model,
+    new_expr = "
+      for (i in 1:nObs) {
+        log(eMass[i]) <- bSpecies[species[i]]
+        log_lik[i] <- log_lik_lnorm(mass[i], log(eMass[i]), sMass)
+        lprior[1:nspecies] <- log_lik_norm(bSpecies, 0, 2)
+        lprior[nspecies + 1] <- dexp(sMass, 1, log = TRUE)
+      }
+    ",
+    new_expr_vec = FALSE
+  )
+  expect_snapshot(lpd_not_vec <- log_prior_draws(analysis))
+  expect_identical(lpd_vec, lpd_not_vec)
+})
+
+# model ----
 test_that("lprior extracted from model in jags model", {
   analysis <- readRDS(
     file = system.file(package = "embr", "test-objects/analysis_jags_mod.RDS")
   )
-  expect_snapshot(log_prior_draws(analysis))
+  expect_snapshot(lpd <- log_prior_draws(analysis))
+  expect_equal(dim(lpd)[3], 1)
 })
 
-test_that("warning issued when trying to define lprior in both new expr and model", {
+test_that("joint lprior extracted from model in jags model is identical", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_jags_mod.RDS")
+  )
+  expect_snapshot(joint_lpd <- log_prior_draws(analysis))
+  lpd <- log_prior_draws(analysis)
+  expect_identical(joint_lpd, lpd)
+})
+
+test_that("errors if log_prior_name doesn't match", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_jags_mod.RDS")
+  )
+  expect_snapshot(
+    log_prior_draws(analysis, log_prior_name = "elprior"),
+    error = TRUE
+  )
+})
+
+# both ----
+test_that("errors and warning issued when trying to define lprior in both new expr and model", {
   analysis <- readRDS(
     file = system.file(package = "embr", "test-objects/analysis_jags_both.RDS")
   )
-  expect_snapshot(log_prior_draws(analysis))
+  expect_snapshot(log_prior_draws(analysis), error = TRUE)
 })
 
 test_that("suggestion from warning when defining lprior in two places works", {
-  set_analysis_mode("report")
   analysis <- readRDS(
     file = system.file(package = "embr", "test-objects/analysis_jags_both.RDS")
   )
@@ -55,8 +114,8 @@ test_that("suggestion from warning when defining lprior in two places works", {
       for (i in 1:nObs) {
         log(eMass[i]) <- bSpecies[species[i]]
         log_lik[i] <- log_lik_lnorm(mass[i], log(eMass[i]), sMass)
-        elprior[1] <- log_lik_norm(bSpecies, 0, 2)
-        elprior[2] <- dexp(sMass, 1, log = TRUE)
+        elprior[1:nspecies] <- log_lik_norm(bSpecies, 0, 2)
+        elprior[nspecies + 1] <- dexp(sMass, 1, log = TRUE)
       }
     ",
     new_expr_vec = TRUE
@@ -64,80 +123,147 @@ test_that("suggestion from warning when defining lprior in two places works", {
   expect_snapshot(log_prior_draws(analysis, log_prior_name = 'elprior'))
 })
 
+# Stan ----
+# new expression ----
 test_that("lprior extracted from new expression in stan model", {
   analysis <- readRDS(
     file = system.file(package = "embr", "test-objects/analysis_stan_newexpr.RDS")
   )
-  expect_snapshot(log_prior_draws(analysis))
+  expect_snapshot(lpd <- log_prior_draws(analysis))
+  expect_equal(dim(lpd)[3], nrow(coef(analysis, simplify = TRUE)))
 })
 
+test_that("joint lprior extracted from new expression in stan model", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_stan_newexpr.RDS")
+  )
+  expect_snapshot(lpd_joint <- log_prior_draws(analysis, joint = TRUE))
+  expect_equal(dim(lpd_joint)[3], 1)
+  lpd <- log_prior_draws(analysis)
+  expect_equal(sum(lpd), sum(lpd_joint))
+})
+
+test_that("errors if log_prior_name doesn't match", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_stan_newexpr.RDS")
+  )
+  expect_snapshot(
+    log_prior_draws(analysis, log_prior_name = "elprior"),
+    error = TRUE
+  )
+})
+
+test_that("lprior extracted if different name", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_stan_newexpr.RDS")
+  )
+  analysis$model <- update_model(
+    analysis$model,
+    new_expr = "
+      for (i in 1:nObs) {
+        log(eMass[i]) <- bSpecies[species[i]]
+        log_lik[i] <- log_lik_lnorm(mass[i], log(eMass[i]), sMass)
+        elprior[1:nspecies] <- log_lik_norm(bSpecies, 0, 2)
+        elprior[nspecies + 1] <- dexp(sMass, 1, log = TRUE)
+      }
+    ",
+    new_expr_vec = TRUE
+  )
+  expect_snapshot(log_prior_draws(analysis, log_prior_name = "elprior"))
+})
+
+test_that("lprior extracted from new expression in stan model when new_expr_vec = FALSE", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_stan_newexpr.RDS")
+  )
+  lpd_vec <- log_prior_draws(analysis)
+  analysis$model <- update_model(
+    analysis$model,
+    new_expr = "
+      for (i in 1:nObs) {
+        log(eMass[i]) <- bSpecies[species[i]]
+        log_lik[i] <- log_lik_lnorm(mass[i], log(eMass[i]), sMass)
+        lprior[1:nspecies] <- log_lik_norm(bSpecies, 0, 2)
+        lprior[nspecies + 1] <- dexp(sMass, 1, log = TRUE)
+      }
+    ",
+    new_expr_vec = FALSE
+  )
+  expect_snapshot(lpd_not_vec <- log_prior_draws(analysis))
+  expect_identical(lpd_vec, lpd_not_vec)
+})
+
+# model ----
 test_that("lprior extracted from model in stan model", {
   analysis <- readRDS(
     file = system.file(package = "embr", "test-objects/analysis_stan_mod.RDS")
   )
-  expect_snapshot(log_prior_draws(analysis))
+  expect_snapshot(lpd <- log_prior_draws(analysis))
+  expect_equal(dim(lpd)[3], 1)
 })
 
-test_that("lprior extracted from model in stan model", {
-  data <- data.frame(
-    mass = as.numeric(1000:1099),
-    species = factor(rep(c("a", "b"), length.out = 100))
+test_that("joint lprior extracted from model in stan model is identical", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_stan_mod.RDS")
   )
+  expect_snapshot(joint_lpd <- log_prior_draws(analysis))
+  lpd <- log_prior_draws(analysis)
+  expect_identical(joint_lpd, lpd)
+})
 
-  model <- model(
-    code = "
-    data {
-      int<lower=2> nObs;
-      int<lower=1> nspecies;
-      int<lower=1> species[nObs];
-      real<lower=0> mass[nObs];
-    }
+test_that("errors if log_prior_name doesn't match", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_stan_mod.RDS")
+  )
+  expect_snapshot(
+    log_prior_draws(analysis, log_prior_name = "elprior"),
+    error = TRUE
+  )
+})
 
-    parameters {
-      real bSpecies[nspecies];
-      real<lower=0> sMass;
-    }
+# both ----
+test_that("errors and warning issued when trying to define lprior in both new expr and model", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_stan_both.RDS")
+  )
+  expect_snapshot(log_prior_draws(analysis), error = TRUE)
+})
 
-    transformed parameters {
-      real log_lik[nObs];
-      real eMass[nObs];
-      real lprior;
-
-      for (i in 1:nObs) {
-        eMass[i] = exp(bSpecies[species[i]]);
-        log_lik[i] = lognormal_lpdf(mass[i] | eMass[i], sMass);
-      }
-      lprior = normal_lpdf(bSpecies | 8, 0.01) + exponential_lpdf(sMass | 1);
-    }
-
-    model {
-      bSpecies ~ normal(8, 0.01);
-      sMass ~ exponential(1);
-
-      mass ~ lognormal(log(eMass), sMass);
-    }
-  ",
+test_that("suggestion from warning when defining lprior in two places works", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_stan_both.RDS")
+  )
+  analysis$model <- update_model(
+    analysis$model,
     new_expr = "
+      for (i in 1:nObs) {
+        log(eMass[i]) <- bSpecies[species[i]]
+        log_lik[i] <- log_lik_lnorm(mass[i], log(eMass[i]), sMass)
+        elprior[1:nspecies] <- log_lik_norm(bSpecies, 0, 2)
+        elprior[nspecies + 1] <- dexp(sMass, 1, log = TRUE)
+      }
+    ",
+    new_expr_vec = TRUE
+  )
+  expect_snapshot(log_prior_draws(analysis, log_prior_name = 'elprior'))
+})
+
+# General ----
+test_that("warnings piped through when lprior and param lengths don't match", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_jags_newexpr.RDS")
+  )
+  analysis$model <- update_model(
+    analysis$model,
+    new_expr = "{
     for (i in 1:nObs) {
       log(eMass[i]) <- bSpecies[species[i]]
-      lprior[1] <- log_lik_norm(bSpecies, 8, 2)
-      lprior[2] <- dexp(sMass, 1, log = TRUE)
-    }",
+    }
+    log_lik <- log_lik_lnorm(mass, log(eMass), sMass)
+    lprior[1] <- log_lik_norm(bSpecies, 0, 2)
+    lprior[nspecies + 1] <- dexp(sMass, 1, log = TRUE)
+  }",
     new_expr_vec = TRUE,
-    select_data = list(
-      species = factor(),
-      mass = c(900, 1200)
-    ),
-    derived = c("log_lik", "lprior")
   )
-  set_analysis_mode("quick")
-  analysis <- analyse(model, data, nthin = 1L)
-
-  expect_warning(log_prior_draws(analysis)) # FIXME: warning not thrown yet - issue with pars causing it not to be detected in the new expression..
+  expect_snapshot(lld <- log_lik_draws(analysis))
 })
-
-
-# what does the joint argument do?
-# is there an issue with the warnings
-# In lprior[1] <- log_lik_norm(bSpecies, 0, 2) :
-# number of items to replace is not a multiple of replacement length

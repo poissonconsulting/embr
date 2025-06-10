@@ -31,7 +31,7 @@ log_prior_draws.mb_analysis <- function(x, joint = FALSE, log_prior_name = "lpri
   }
 
   if (def_new_expr) {
-    log_prior <- posterior::as_draws_array(as.mcmc.list(mcmc_derive(x, term = log_prior_name)))
+    log_prior <- posterior::as_draws_array(as.mcmc.list(mcmc_derive(x, term = log_prior_name, parallel = FALSE)))
   } else if (def_model) {
     log_prior <- posterior::subset_draws(
       posterior::as_draws_array(as.mcmc.list(x$mcmcr)),
@@ -39,7 +39,7 @@ log_prior_draws.mb_analysis <- function(x, joint = FALSE, log_prior_name = "lpri
       regex = TRUE
     )
   } else {
-    stop("There is no log prior (`lprior`) parameter monitored by the model or present in the new expression.")
+    stop("There is no log prior parameter monitored by the model or present in the new expression.")
   }
 
   if (joint) {

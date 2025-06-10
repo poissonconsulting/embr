@@ -31,7 +31,7 @@ log_lik_draws.mb_analysis <- function(x, joint = FALSE, log_lik_name = "log_lik"
   }
 
   if (def_new_expr) {
-    log_lik <- posterior::as_draws_array(as.mcmc.list(mcmc_derive(x, term = log_lik_name)))
+    log_lik <- posterior::as_draws_array(as.mcmc.list(mcmc_derive(x, term = log_lik_name, parallel = FALSE)))
   } else if (def_model) {
     log_lik <- posterior::subset_draws(
       posterior::as_draws_array(as.mcmc.list(x$mcmcr)),
@@ -39,7 +39,7 @@ log_lik_draws.mb_analysis <- function(x, joint = FALSE, log_lik_name = "log_lik"
       regex = TRUE
     )
   } else {
-    stop("There is no log likelihood (`log_lik`) parameter monitored by the model or present in the new expression.")
+    stop("There is no log likelihood parameter monitored by the model or present in the new expression.")
   }
 
   if (joint) {
