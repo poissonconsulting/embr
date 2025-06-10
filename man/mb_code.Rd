@@ -5,13 +5,16 @@
 \alias{new_mb_code}
 \title{MB Code}
 \usage{
-mb_code(template)
+mb_code(template, stan_engine = character(0))
 
 new_mb_code(x, class)
 }
 \arguments{
 \item{template}{A string, a braced `{}` expression (unquoted or quoted),
 or an object of class `"mb_code"`.}
+
+\item{stan_engine}{A string indicating the Stan engine to use, e.g., `"cmdstanr"`.
+Currently, any value other than `"cmdstanr"` will assume the engine is `"rstan"`.}
 
 \item{x}{A string or a braced `{}` expression.}
 
