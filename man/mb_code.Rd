@@ -14,7 +14,7 @@ new_mb_code(x, class)
 or an object of class `"mb_code"`.}
 
 \item{stan_engine}{A string indicating the Stan engine to use, e.g., `"cmdstanr"`.
-Currently, any value other than `"cmdstanr"` will assume the engine is `"rstan"`.}
+Currently, any value other than `"cmdstanr"` will default to `"rstan"`.}
 
 \item{x}{A string or a braced `{}` expression.}
 

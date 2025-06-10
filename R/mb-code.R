@@ -5,7 +5,7 @@
 #' @param template A string, a braced `{}` expression (unquoted or quoted),
 #'   or an object of class `"mb_code"`.
 #' @param stan_engine A string indicating the Stan engine to use, e.g., `"cmdstanr"`.
-#' Currently, any value other than `"cmdstanr"` will assume the engine is `"rstan"`.
+#' Currently, any value other than `"cmdstanr"` will default to `"rstan"`.
 #'
 #' @return An object inheriting from class mb_code.
 #' @export
