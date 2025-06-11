@@ -5,7 +5,7 @@
 \alias{new_mb_code}
 \title{MB Code}
 \usage{
-mb_code(template, stan_engine = character(0))
+mb_code(template, stan_engine = getOption("mb.stan_engine", character(0)))
 
 new_mb_code(x, class)
 }
@@ -14,7 +14,7 @@ new_mb_code(x, class)
 or an object of class `"mb_code"`.}
 
 \item{stan_engine}{A string indicating the Stan engine to use, e.g., `"cmdstanr"`.
-Currently, any value other than `"cmdstanr"` will default to `"rstan"`.}
+Currently, any value other than `"cmdstanr"` will default to use `"rstan"` via `smbr` package.}
 
 \item{x}{A string or a braced `{}` expression.}
 

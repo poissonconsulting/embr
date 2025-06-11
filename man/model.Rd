@@ -21,7 +21,7 @@ model(
   new_expr_vec = getOption("mb.new_expr_vec", FALSE),
   modify_new_data = identity,
   drops = list(),
-  stan_engine = character(0)
+  stan_engine = getOption("mb.stan_engine", character(0))
 )
 }
 \arguments{
@@ -60,7 +60,7 @@ returning a named list of initial values.}
 \item{drops}{A list of character vector of possible scalar pars to drop (fix at 0).}
 
 \item{stan_engine}{A string indicating the Stan engine to use, e.g., `"cmdstanr"`.
-Currently, any value other than `"cmdstanr"` will default to `"rstan"`.}
+Currently, any value other than `"cmdstanr"` will default to use `"rstan"` via `smbr` package.}
 }
 \value{
 An object inherting from class mb_model.
