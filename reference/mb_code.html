@@ -39,7 +39,7 @@
 
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mb_code</span><span class="op">(</span><span class="va">template</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mb_code</span><span class="op">(</span><span class="va">template</span>, stan_engine <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu">new_mb_code</span><span class="op">(</span><span class="va">x</span>, <span class="va">class</span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -51,6 +51,11 @@
 <dl><dt id="arg-template">template<a class="anchor" aria-label="anchor" href="#arg-template"></a></dt>
 <dd><p>A string, a braced `` expression (unquoted or quoted),
 or an object of class `"mb_code"`.</p></dd>
+
+
+<dt id="arg-stan-engine">stan_engine<a class="anchor" aria-label="anchor" href="#arg-stan-engine"></a></dt>
+<dd><p>A string indicating the Stan engine to use, e.g., `"cmdstanr"`.
+Currently, any value other than `"cmdstanr"` will default to `"rstan"`.</p></dd>
 
 
 <dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>

@@ -55,7 +55,8 @@
 <span>  new_expr <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  new_expr_vec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.new_expr_vec"</span>, <span class="cn">FALSE</span><span class="op">)</span>,</span>
 <span>  modify_new_data <span class="op">=</span> <span class="va">identity</span>,</span>
-<span>  drops <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
+<span>  drops <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  stan_engine <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -127,6 +128,11 @@ returning a named list of initial values.</p></dd>
 
 <dt id="arg-drops">drops<a class="anchor" aria-label="anchor" href="#arg-drops"></a></dt>
 <dd><p>A list of character vector of possible scalar pars to drop (fix at 0).</p></dd>
+
+
+<dt id="arg-stan-engine">stan_engine<a class="anchor" aria-label="anchor" href="#arg-stan-engine"></a></dt>
+<dd><p>A string indicating the Stan engine to use, e.g., `"cmdstanr"`.
+Currently, any value other than `"cmdstanr"` will default to `"rstan"`.</p></dd>
 
 </dl></div>
     <div class="section level2">
