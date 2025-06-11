@@ -28,18 +28,18 @@ analyse_data <- function(data, name = NULL, x, loaded, nchains, niters, nthin,
                          parallel, quiet, glance, ...) {
   if (!is.null(name) & glance) cat("Data:", name, "\n")
   analyse1(x, data,
-    loaded = loaded, nchains = nchains, niters = niters,
-    nthin = nthin, parallel = parallel, quiet = quiet, glance = glance, ...
+           loaded = loaded, nchains = nchains, niters = niters,
+           nthin = nthin, parallel = parallel, quiet = quiet, glance = glance, ...
   )
 }
 
 
-analyse_model <- function(x, name = NULL, data, parallel, nchains, niters, nthin, quiet, glance, beep, ...) {
+analyse_model <- function(x, name = NULL, data, parallel, nchains, niters, nthin, quiet, glance, beep, stan_engine, ...) {
   if (!is.null(name) & glance) cat("Model:", name, "\n")
   analyse(x,
-    data = data, parallel = parallel,
-    nchains = nchains, niters = niters, nthin = nthin,
-    quiet = quiet, glance = glance, beep = beep, ...
+          data = data, parallel = parallel,
+          nchains = nchains, niters = niters, nthin = nthin,
+          quiet = quiet, glance = glance, beep = beep, stan_engine, ...
   )
 }
 
@@ -55,6 +55,7 @@ analyse_model <- function(x, name = NULL, data, parallel, nchains, niters, nthin
 #' @param quiet A flag indicating whether to disable tracing information.
 #' @param glance A flag indicating whether to print a model summary.
 #' @param beep A flag indicating whether to beep on completion of the analysis.
+#' @inheritParams params
 #' @param ...  Additional arguments.
 #' @export
 analyse.character <- function(x, data,
@@ -66,12 +67,13 @@ analyse.character <- function(x, data,
                               quiet = getOption("mb.quiet", TRUE),
                               glance = getOption("mb.glance", TRUE),
                               beep = getOption("mb.beep", TRUE),
+                              stan_engine = getOption("mb.stan_engine", character(0)),
                               ...) {
   x <- model(x, select_data = select_data)
   analyse(x,
-    data = data,
-    parallel = parallel, nchains = nchains, niters = niters, nthin = nthin, quiet = quiet,
-    glance = glance, beep = beep
+          data = data,
+          parallel = parallel, nchains = nchains, niters = niters, nthin = nthin, quiet = quiet,
+          glance = glance, beep = beep, stan_engine = stan_engine, ...
   )
 }
 
@@ -86,6 +88,7 @@ analyse.character <- function(x, data,
 #' @param quiet A flag indicating whether to disable tracing information.
 #' @param glance A flag indicating whether to print a model summary.
 #' @param beep A flag indicating whether to beep on completion of the analysis.
+#' @inheritParams params
 #' @param ...  Additional arguments.
 #' @export
 analyse.mb_model <- function(x, data,
@@ -96,6 +99,7 @@ analyse.mb_model <- function(x, data,
                              quiet = getOption("mb.quiet", TRUE),
                              glance = getOption("mb.glance", TRUE),
                              beep = getOption("mb.beep", TRUE),
+                             stan_engine = getOption("mb.stan_engine", character(0)),
                              ...) {
   chk_flag(beep)
   if (beep) on.exit(beepr::beep())
@@ -123,6 +127,10 @@ analyse.mb_model <- function(x, data,
 
   if (is.null(nthin)) nthin <- nthin(x)
 
+  if(identical(stan_engine, "cmdstan-mcmc")) {
+    class(x) <- c("cmdstan_model", "cmdstan_mcmc_model", class(x))
+  }
+
   loaded <- load_model(x, quiet)
 
   if (is.data.frame(data)) {
@@ -139,9 +147,9 @@ analyse.mb_model <- function(x, data,
   }
 
   analyses <- purrr::imap(data, analyse_data,
-    x = x, loaded = loaded,
-    nchains = nchains, niters = niters, nthin = nthin,
-    parallel = parallel, quiet = quiet, glance = glance
+                          x = x, loaded = loaded,
+                          nchains = nchains, niters = niters, nthin = nthin,
+                          parallel = parallel, quiet = quiet, glance = glance
   )
 
   names(data) <- names
@@ -161,6 +169,7 @@ analyse.mb_model <- function(x, data,
 #' @param quiet A flag indicating whether to disable tracing information.
 #' @param glance A flag indicating whether to print a model summary.
 #' @param beep A flag indicating whether to beep on completion of the analysis.
+#' @inheritParams params
 #' @param ...  Additional arguments.
 #' @export
 analyse.mb_models <- function(x, data,
@@ -171,6 +180,7 @@ analyse.mb_models <- function(x, data,
                               quiet = getOption("mb.quiet", TRUE),
                               glance = getOption("mb.glance", TRUE),
                               beep = getOption("mb.beep", TRUE),
+                              stan_engine = getOption("mb.stan_engine", character(0)),
                               ...) {
   chk_flag(beep)
   if (beep) on.exit(beepr::beep())
@@ -179,9 +189,10 @@ analyse.mb_models <- function(x, data,
   if (is.null(names)) names(x) <- 1:length(x)
 
   analyses <- purrr::imap(x, analyse_model,
-    data = data,
-    nchains = nchains, niters = niters, nthin = nthin,
-    parallel = parallel, quiet = quiet, glance = glance, beep = FALSE, ...
+                          data = data,
+                          nchains = nchains, niters = niters, nthin = nthin,
+                          parallel = parallel, quiet = quiet, glance = glance, beep = FALSE,
+                          stan_engine = stan_engine, ...
   )
 
   if (is.data.frame(data)) {
