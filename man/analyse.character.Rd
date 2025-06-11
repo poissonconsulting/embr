@@ -15,6 +15,7 @@
   quiet = getOption("mb.quiet", TRUE),
   glance = getOption("mb.glance", TRUE),
   beep = getOption("mb.beep", TRUE),
+  stan_engine = getOption("mb.stan_engine", character(0)),
   ...
 )
 }
@@ -38,6 +39,9 @@
 \item{glance}{A flag indicating whether to print a model summary.}
 
 \item{beep}{A flag indicating whether to beep on completion of the analysis.}
+
+\item{stan_engine}{A string indicating the Stan engine to use, e.g., `"cmdstanr"`.
+Currently, any value other than `"cmdstanr"` will default to use `"rstan"` via `smbr` package.}
 
 \item{...}{Additional arguments.}
 }

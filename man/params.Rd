@@ -8,6 +8,9 @@
 
 \item{type}{A string of the residual type.}
 
+\item{stan_engine}{A string indicating the Stan engine to use, e.g., `"cmdstanr"`.
+Currently, any value other than `"cmdstanr"` will default to use `"rstan"` via `smbr` package.}
+
 \item{...}{Unused.}
 }
 \description{

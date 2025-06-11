@@ -56,6 +56,7 @@ analyse_model <- function(x, name = NULL, data, parallel, nchains, niters, nthin
 #' @param glance A flag indicating whether to print a model summary.
 #' @param beep A flag indicating whether to beep on completion of the analysis.
 #' @param ...  Additional arguments.
+#' @inheritParams params
 #' @export
 analyse.character <- function(x, data,
                               select_data = list(),
@@ -66,8 +67,9 @@ analyse.character <- function(x, data,
                               quiet = getOption("mb.quiet", TRUE),
                               glance = getOption("mb.glance", TRUE),
                               beep = getOption("mb.beep", TRUE),
+                              stan_engine = getOption("mb.stan_engine", character(0)),
                               ...) {
-  x <- model(x, select_data = select_data)
+  x <- model(x, select_data = select_data, stan_engine = stan_engine)
   analyse(x,
     data = data,
     parallel = parallel, nchains = nchains, niters = niters, nthin = nthin, quiet = quiet,
