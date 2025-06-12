@@ -35,7 +35,7 @@ coef_profile.mb_null_analysis <- function(object, param_type = "fixed", include_
 #'
 #' Coefficients for a analysis.
 #'
-#' The \code{zscore} is mean / sd.
+#' The `zscore` is mean / sd.
 #'
 #' @param object The mb_analysis object.
 #' @param param_type A flag specifying whether 'fixed', 'random' or 'derived' terms.

@@ -28,7 +28,7 @@
 #' Currently, any value other than `"cmdstanr"` will default to `"rstan"`.
 #' @param ... Unused arguments.
 #' @return An object inherting from class mb_model.
-#' @seealso \code{\link[chk]{check_data}} \code{\link[rescale]{rescale_c}}
+#' @seealso [chk::check_data()] [rescale::rescale_c()]
 #' @export
 model <- function(
     x = NULL,

@@ -39,6 +39,8 @@ Imports:
     newdata,
     nlist,
     plyr,
+    posterior,
+    priorsense,
     purrr,
     rescale,
     rlang,
