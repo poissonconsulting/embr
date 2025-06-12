@@ -70,11 +70,11 @@
       
                chain
       iteration      1      2      3
-              1 -0.014 -0.014 -0.013
-              2 -0.015 -0.014 -0.016
-              3 -0.013 -0.015 -0.015
-              4 -0.014 -0.014 -0.013
-              5 -0.014 -0.014 -0.013
+              1 -0.015 -0.015 -0.018
+              2 -0.015 -0.015 -0.014
+              3 -0.015 -0.013 -0.013
+              4 -0.014 -0.013 -0.015
+              5 -0.015 -0.014 -0.015
       
       # ... with 995 more iterations
 
@@ -108,11 +108,11 @@
       
                chain
       iteration      1      2      3
-              1 -0.013 -0.013 -0.013
-              2 -0.013 -0.012 -0.014
-              3 -0.013 -0.012 -0.014
-              4 -0.016 -0.015 -0.015
-              5 -0.013 -0.014 -0.016
+              1 -0.014 -0.013 -0.013
+              2 -0.013 -0.013 -0.015
+              3 -0.013 -0.013 -0.015
+              4 -0.014 -0.013 -0.015
+              5 -0.014 -0.013 -0.014
       
       # ... with 995 more iterations
 
@@ -139,7 +139,7 @@
       Warning in `log_prior_draws.mb_analysis()`:
       `lprior` is defined both as a parameter within the model and in the new expression. Change `lprior` in the new expression to `elprior`, and supply `log_prior_name = 'elprior'` to the function.
       Error in `mcmc_derive_fun()`:
-      ! `monitor` 'lprior' must match at least one of the following variables in expr: 'eMass'.
+      ! `monitor` 'lprior' must match at least one of the following variables in expr: 'i' or 'eMass'.
 
 ---
 
@@ -149,7 +149,7 @@
       Warning in `log_prior_draws.mb_analysis()`:
       `lprior` is defined both as a parameter within the model and in the new expression. Change `lprior` in the new expression to `elprior`, and supply `log_prior_name = 'elprior'` to the function.
       Error in `mcmc_derive_fun()`:
-      ! `monitor` 'lprior' must match at least one of the following variables in expr: 'eMass'.
+      ! `monitor` 'lprior' must match at least one of the following variables in expr: 'i' or 'eMass'.
 
 # suggestion from warning when defining lprior in two places works
 
@@ -181,11 +181,11 @@
       
                chain
       iteration      1      2      3
-              1 -0.011 -0.016 -0.013
-              2 -0.014 -0.016 -0.015
-              3 -0.013 -0.016 -0.014
-              4 -0.014 -0.015 -0.014
-              5 -0.013 -0.014 -0.014
+              1 -0.013 -0.015 -0.015
+              2 -0.017 -0.014 -0.015
+              3 -0.013 -0.014 -0.015
+              4 -0.016 -0.013 -0.014
+              5 -0.014 -0.014 -0.014
       
       # ... with 995 more iterations
 
@@ -219,11 +219,11 @@
       
                chain
       iteration      1      2      3
-              1 -0.013 -0.015 -0.014
-              2 -0.013 -0.012 -0.015
-              3 -0.013 -0.014 -0.013
-              4 -0.013 -0.013 -0.014
-              5 -0.013 -0.013 -0.013
+              1 -0.013 -0.016 -0.014
+              2 -0.014 -0.015 -0.014
+              3 -0.014 -0.017 -0.014
+              4 -0.016 -0.017 -0.015
+              5 -0.015 -0.017 -0.013
       
       # ... with 995 more iterations
 

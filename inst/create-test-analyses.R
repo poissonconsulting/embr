@@ -28,8 +28,8 @@ if (FALSE) {
       log(eMass[i]) <- bSpecies[species[i]]
     }
     log_lik <- log_lik_lnorm(mass, log(eMass), sMass)
-    lprior[1:nspecies] <- log_lik_norm(bSpecies, 0, 2)
-    lprior[nspecies + 1] <- dexp(sMass, 1, log = TRUE)
+    lprior[1] <- sum(log_lik_norm(bSpecies, 0, 2))
+    lprior[2] <- dexp(sMass, 1, log = TRUE)
   }",
     new_expr_vec = TRUE,
     select_data = list(
@@ -92,8 +92,8 @@ if (FALSE) {
     for (i in 1:nObs) {
       log(eMass[i]) <- bSpecies[species[i]]
       log_lik[i] <- log_lik_lnorm(mass[i], log(eMass[i]), sMass)
-      lprior[1:nspecies] <- log_lik_norm(bSpecies, 0, 2)
-      lprior[nspecies + 1] <- dexp(sMass, 1, log = TRUE)
+      lprior[1] <- sum(log_lik_norm(bSpecies, 0, 2))
+      lprior[2] <- dexp(sMass, 1, log = TRUE)
     }
   }",
     new_expr_vec = TRUE,
@@ -139,8 +139,8 @@ if (FALSE) {
     new_expr = "
       for (i in 1:nObs) {
         log(eMass[i]) <- bSpecies[species[i]]
-        lprior[1:nspecies] <- log_lik_norm(bSpecies, 0, 2)
-        lprior[nspecies + 1] <- dexp(sMass, 1, log = TRUE)
+        lprior[1] <- sum(log_lik_norm(bSpecies, 0, 2))
+        lprior[2] <- dexp(sMass, 1, log = TRUE)
         log_lik[i] <- log_lik_lnorm(mass[i], log(eMass[i]), sMass)
       }
     ",
@@ -238,8 +238,8 @@ if (FALSE) {
     new_expr = "
       for (i in 1:nObs) {
         log(eMass[i]) <- bSpecies[species[i]]
-        lprior[1:nspecies] <- log_lik_norm(bSpecies, 0, 2)
-        lprior[nspecies + 1] <- dexp(sMass, 1, log = TRUE)
+        lprior[1] <- sum(log_lik_norm(bSpecies, 0, 2))
+        lprior[2] <- dexp(sMass, 1, log = TRUE)
         log_lik[i] <- log_lik_lnorm(mass[i], log(eMass[i]), sMass)
       }
     ",

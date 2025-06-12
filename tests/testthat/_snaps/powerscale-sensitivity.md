@@ -8,9 +8,9 @@
       Likelihood selection: all data
       
           variable prior likelihood diagnosis
-       bSpecies[1] 0.001      0.074         -
-       bSpecies[2] 0.001      0.109         -
-             sMass 0.000      0.134         -
+       bSpecies[1] 0.001      0.094         -
+       bSpecies[2] 0.001      0.080         -
+             sMass 0.000      0.111         -
 
 # powerscale_sensitivity() works for jags model, values set in model
 
@@ -22,9 +22,9 @@
       Likelihood selection: all data
       
           variable prior likelihood diagnosis
-       bSpecies[1] 0.001      0.074         -
-       bSpecies[2] 0.001      0.109         -
-             sMass 0.000      0.134         -
+       bSpecies[1] 0.001      0.094         -
+       bSpecies[2] 0.001      0.080         -
+             sMass 0.000      0.111         -
 
 # powerscale_sensitivity() errors for jags model, values set both new expr and model
 
@@ -34,7 +34,7 @@
       Warning in `log_prior_fn()`:
       `lprior` is defined both as a parameter within the model and in the new expression. Change `lprior` in the new expression to `elprior`, and supply `log_prior_name = 'elprior'` to the function.
       Error in `mcmc_derive_fun()`:
-      ! `monitor` 'lprior' must match at least one of the following variables in expr: 'eMass'.
+      ! `monitor` 'lprior' must match at least one of the following variables in expr: 'i' or 'eMass'.
 
 # powerscale_sensitivity() works for stan model, values set in new expression
 
@@ -46,9 +46,9 @@
       Likelihood selection: all data
       
           variable prior likelihood diagnosis
-       bSpecies[1] 0.001      0.094         -
-       bSpecies[2] 0.001      0.101         -
-             sMass 0.000      0.147         -
+       bSpecies[1] 0.001      0.091         -
+       bSpecies[2] 0.001      0.096         -
+             sMass 0.000      0.144         -
 
 # powerscale_sensitivity() works for stan model, values set in model
 
@@ -60,9 +60,9 @@
       Likelihood selection: all data
       
           variable prior likelihood diagnosis
-       bSpecies[1] 0.001      0.094         -
-       bSpecies[2] 0.001      0.101         -
-             sMass 0.000      0.147         -
+       bSpecies[1] 0.001      0.091         -
+       bSpecies[2] 0.001      0.096         -
+             sMass 0.000      0.144         -
 
 # powerscale_sensitivity() errors for stan model, values set both new expr and model
 
@@ -72,7 +72,7 @@
       Warning in `log_prior_fn()`:
       `lprior` is defined both as a parameter within the model and in the new expression. Change `lprior` in the new expression to `elprior`, and supply `log_prior_name = 'elprior'` to the function.
       Error in `mcmc_derive_fun()`:
-      ! `monitor` 'lprior' must match at least one of the following variables in expr: 'eMass'.
+      ! `monitor` 'lprior' must match at least one of the following variables in expr: 'i' or 'eMass'.
 
 # can subset variables to check
 
@@ -84,7 +84,7 @@
       Likelihood selection: all data
       
        variable prior likelihood diagnosis
-          sMass     0      0.134         -
+          sMass     0      0.111         -
 
 ---
 
@@ -96,8 +96,8 @@
       Likelihood selection: all data
       
           variable prior likelihood diagnosis
-       bSpecies[1] 0.001      0.074         -
-       bSpecies[2] 0.001      0.109         -
+       bSpecies[1] 0.001      0.094         -
+       bSpecies[2] 0.001      0.080         -
 
 # can change components to check
 
@@ -123,9 +123,9 @@
       Likelihood selection: all data
       
           variable prior likelihood diagnosis
-       bSpecies[1]    NA      0.074        NA
-       bSpecies[2]    NA      0.109        NA
-             sMass    NA      0.134        NA
+       bSpecies[1]    NA      0.094        NA
+       bSpecies[2]    NA      0.080        NA
+             sMass    NA      0.111        NA
 
 # can change sensitivity threshold
 

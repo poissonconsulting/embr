@@ -5,7 +5,7 @@ test_that("lprior extracted from new expression in jags model", {
     file = system.file(package = "embr", "test-objects/analysis_jags_newexpr.RDS")
   )
   expect_snapshot(lpd <- log_prior_draws(analysis))
-  expect_equal(dim(lpd)[3], nrow(coef(analysis, simplify = TRUE)))
+  expect_equal(dim(lpd)[3], 2)
 })
 
 test_that("joint lprior extracted from new expression in jags model", {
@@ -58,8 +58,8 @@ test_that("lprior extracted from new expression in jags model when new_expr_vec 
       for (i in 1:nObs) {
         log(eMass[i]) <- bSpecies[species[i]]
         log_lik[i] <- log_lik_lnorm(mass[i], log(eMass[i]), sMass)
-        lprior[1:nspecies] <- log_lik_norm(bSpecies, 0, 2)
-        lprior[nspecies + 1] <- dexp(sMass, 1, log = TRUE)
+        lprior[1] <- sum(log_lik_norm(bSpecies, 0, 2))
+        lprior[2] <- dexp(sMass, 1, log = TRUE)
       }
     ",
     new_expr_vec = FALSE
@@ -130,7 +130,7 @@ test_that("lprior extracted from new expression in stan model", {
     file = system.file(package = "embr", "test-objects/analysis_stan_newexpr.RDS")
   )
   expect_snapshot(lpd <- log_prior_draws(analysis))
-  expect_equal(dim(lpd)[3], nrow(coef(analysis, simplify = TRUE)))
+  expect_equal(dim(lpd)[3], 2)
 })
 
 test_that("joint lprior extracted from new expression in stan model", {
@@ -183,8 +183,8 @@ test_that("lprior extracted from new expression in stan model when new_expr_vec 
       for (i in 1:nObs) {
         log(eMass[i]) <- bSpecies[species[i]]
         log_lik[i] <- log_lik_lnorm(mass[i], log(eMass[i]), sMass)
-        lprior[1:nspecies] <- log_lik_norm(bSpecies, 0, 2)
-        lprior[nspecies + 1] <- dexp(sMass, 1, log = TRUE)
+        lprior[1] <- sum(log_lik_norm(bSpecies, 0, 2))
+        lprior[2] <- dexp(sMass, 1, log = TRUE)
       }
     ",
     new_expr_vec = FALSE

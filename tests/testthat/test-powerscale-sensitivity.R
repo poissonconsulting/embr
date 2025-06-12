@@ -75,6 +75,27 @@ test_that("powerscale_sensitivity different if lprior and param lengths don't ma
   expect_false(all(ps1 == ps2))
 })
 
+test_that("powerscale_sensitivity same if we sum the lprior for vector of params", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_jags_newexpr.RDS")
+  )
+  ps1 <- powerscale_sensitivity(analysis)
+  analysis$model <- update_model(
+    analysis$model,
+    new_expr = "{
+    for (i in 1:nObs) {
+      log(eMass[i]) <- bSpecies[species[i]]
+    }
+    log_lik <- log_lik_lnorm(mass, log(eMass), sMass)
+    lprior[1] <- sum(log_lik_norm(bSpecies, 0, 2))
+    lprior[2] <- dexp(sMass, 1, log = TRUE)
+  }",
+    new_expr_vec = TRUE,
+  )
+  ps2 <- powerscale_sensitivity(analysis)
+  expect_identical(ps1, ps2)
+})
+
 test_that("can subset variables to check", {
   analysis <- readRDS(
     file = system.file(package = "embr", "test-objects/analysis_jags_newexpr.RDS")
