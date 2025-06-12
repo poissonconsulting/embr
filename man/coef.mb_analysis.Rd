@@ -36,5 +36,5 @@ A tidy tibble of the coefficient terms.
 Coefficients for a JAGS analysis.
 }
 \details{
-The \code{zscore} is mean / sd.
+The `zscore` is mean / sd.
 }

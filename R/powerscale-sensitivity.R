@@ -9,7 +9,7 @@ priorsense::powerscale_sensitivity
 #'
 #' @param x The MB analysis object
 #' @param ... Arguments passed to methods to
-#' \code{\link[priorsense]{powerscale_sensitivity}}. Alternative functions for
+#' [priorsense::powerscale_sensitivity()]. Alternative functions for
 #' `log_lik_fn` and `log_prior_fn` cannot be used.
 #'
 #' @returns Table of sensitivity values for each specified variable.
