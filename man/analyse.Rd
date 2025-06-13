@@ -2,15 +2,27 @@
 % Please edit documentation in R/analyse.R
 \name{analyse}
 \alias{analyse}
-\title{Analyse}
+\title{Analyse Models}
 \usage{
 analyse(x, ...)
 }
 \arguments{
 \item{x}{The object to analyse.}
 
-\item{...}{Additional arguments.}
+\item{...}{Additional arguments passed to methods.}
+}
+\value{
+An analysis object (type depends on input and engine used).
 }
 \description{
-Analyse
+Generic function for performing Bayesian analysis on models using Stan or JAGS,
+or maximum likelihood analysis using TMB.
+}
+\seealso{
+\itemize{
+  \item \code{\link{analyse.mb_model}} for single model analysis (Stan/JAGS)
+  \item \code{\link{analyse.mb_models}} for multiple model analysis (Stan/JAGS)
+  \item \code{\link{analyse.character}} for character model analysis (Stan/JAGS)
+  \item \code{\link{analyse.tmb_model}} for TMB maximum likelihood analysis
+}
 }
