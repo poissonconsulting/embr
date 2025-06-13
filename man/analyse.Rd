@@ -23,6 +23,5 @@ or maximum likelihood analysis using TMB.
   \item \code{\link{analyse.mb_model}} for single model analysis (Stan/JAGS)
   \item \code{\link{analyse.mb_models}} for multiple model analysis (Stan/JAGS)
   \item \code{\link{analyse.character}} for character model analysis (Stan/JAGS)
-  \item \code{\link{analyse.tmb_model}} for TMB maximum likelihood analysis
 }
 }

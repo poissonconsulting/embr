@@ -13,7 +13,6 @@
 #'   \item \code{\link{analyse.mb_model}} for single model analysis (Stan/JAGS)
 #'   \item \code{\link{analyse.mb_models}} for multiple model analysis (Stan/JAGS)
 #'   \item \code{\link{analyse.character}} for character model analysis (Stan/JAGS)
-#'   \item \code{\link{analyse.tmb_model}} for TMB maximum likelihood analysis
 #' }
 #'
 #' @export
@@ -98,19 +97,69 @@ analyse.character <- function(x, data,
   )
 }
 
-#' Analyse
+#' Analyse Single Model
 #'
-#' @param x An object inheriting from class mb_model or a list of such objects.
-#' @param data The data frame to analyse.
-#' @param nchains A count of the number of chains.
-#' @param niters A count of the number of simulations to save per chain.
-#' @param nthin A count of the thining interval or NULL (in which case taken from model).
+#' Performs Bayesian analysis on a single mb_model object using Stan or JAGS.
+#'
+#' @param x An mb_model object to analyse.
+#' @param data The data frame to analyse, or a list of data frames for multiple datasets.
+#' @param nchains A count of the number of chains (default: 3).
+#' @param niters A count of the number of simulations to save per chain (default: 1000).
+#' @param nthin A count of the thinning interval.
 #' @param parallel A flag indicating whether to perform the analysis in parallel if possible.
 #' @param quiet A flag indicating whether to disable tracing information.
 #' @param glance A flag indicating whether to print a model summary.
 #' @param beep A flag indicating whether to beep on completion of the analysis.
+#' @param ... Additional arguments passed to the underlying sampling function:
+#'   \itemize{
+#'     \item \strong{For Stan models with cmdstanr} (\code{stan_engine = "cmdstan-mcmc"}):
+#'           Arguments passed to \code{\link[cmdstanr]{sample}}
+#'     \item \strong{For Stan models with rstan} (default):
+#'           Arguments passed to \code{\link[rstan]{sampling}}
+#'   }
 #' @inheritParams params
-#' @param ...  Additional arguments.
+#' @return
+#' \itemize{
+#'   \item If \code{data} is a data.frame: An mb_analysis object
+#'   \item If \code{data} is a list of data.frames: An mb_meta_analysis object
+#' }
+#'
+#' @examples
+#' \dontrun{
+#' # Stan model with RStan (default)
+#' analysis <- analyse(stan_model, data, nchains = 4, niters = 2000)
+#'
+#' # Stan model with CmdStanR MCMC
+#' analysis <- analyse(stan_model, data,
+#'                     stan_engine = "cmdstan-mcmc",
+#'                     nchains = 4, niters = 2000)
+#'
+#' # JAGS model
+#' analysis <- analyse(jags_model, data, nchains = 4, niters = 2000)
+#'
+#' # Passing engine-specific arguments
+#' analysis <- analyse(stan_model, data,
+#'                     stan_engine = "cmdstan-mcmc",
+#'                     nchains = 4, niters = 2000,
+#'                     adapt_delta = 0.99, # cmdstanr::sample argument
+#'                     iter_warmup = 500L) # cmdstanr::sample argument
+#'
+#' analysis <- analyse(stan_model, data,
+#'                     nchains = 4, niters = 2000,
+#'                     control = list(adapt_delta = 0.95))  # rstan::sampling argument
+#'
+#' # Multiple datasets
+#' data_list <- list(dataset1 = data1, dataset2 = data2)
+#' analyses <- analyse(model, data_list, nchains = 3)
+#' }
+#'
+#' @seealso
+#' \itemize{
+#'   \item \code{\link[cmdstanr]{sample}} for CmdStanR sampling options
+#'   \item \code{\link[rstan]{sampling}} for RStan sampling options
+#'   \item \code{\link{analyse.mb_models}} for analysing multiple models
+#' }
+#'
 #' @export
 analyse.mb_model <- function(x, data,
                              nchains = getOption("mb.nchains", 3L),

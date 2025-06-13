@@ -2,7 +2,7 @@
 % Please edit documentation in R/analyse.R
 \name{analyse.mb_model}
 \alias{analyse.mb_model}
-\title{Analyse}
+\title{Analyse Single Model}
 \usage{
 \method{analyse}{mb_model}(
   x,
@@ -19,15 +19,15 @@
 )
 }
 \arguments{
-\item{x}{An object inheriting from class mb_model or a list of such objects.}
+\item{x}{An mb_model object to analyse.}
 
-\item{data}{The data frame to analyse.}
+\item{data}{The data frame to analyse, or a list of data frames for multiple datasets.}
 
-\item{nchains}{A count of the number of chains.}
+\item{nchains}{A count of the number of chains (default: 3).}
 
-\item{niters}{A count of the number of simulations to save per chain.}
+\item{niters}{A count of the number of simulations to save per chain (default: 1000).}
 
-\item{nthin}{A count of the thining interval or NULL (in which case taken from model).}
+\item{nthin}{A count of the thinning interval.}
 
 \item{parallel}{A flag indicating whether to perform the analysis in parallel if possible.}
 
@@ -43,8 +43,57 @@
   \item \code{character(0)} (default) or any other value - Uses RStan
 }}
 
-\item{...}{Additional arguments.}
+\item{...}{Additional arguments passed to the underlying sampling function:
+\itemize{
+  \item \strong{For Stan models with cmdstanr} (\code{stan_engine = "cmdstan-mcmc"}):
+        Arguments passed to \code{\link[cmdstanr]{sample}}
+  \item \strong{For Stan models with rstan} (default):
+        Arguments passed to \code{\link[rstan]{sampling}}
+}}
+}
+\value{
+\itemize{
+  \item If \code{data} is a data.frame: An mb_analysis object
+  \item If \code{data} is a list of data.frames: An mb_meta_analysis object
+}
 }
 \description{
-Analyse
+Performs Bayesian analysis on a single mb_model object using Stan or JAGS.
+}
+\examples{
+\dontrun{
+# Stan model with RStan (default)
+analysis <- analyse(stan_model, data, nchains = 4, niters = 2000)
+
+# Stan model with CmdStanR MCMC
+analysis <- analyse(stan_model, data,
+                    stan_engine = "cmdstan-mcmc",
+                    nchains = 4, niters = 2000)
+
+# JAGS model
+analysis <- analyse(jags_model, data, nchains = 4, niters = 2000)
+
+# Passing engine-specific arguments
+analysis <- analyse(stan_model, data,
+                    stan_engine = "cmdstan-mcmc",
+                    nchains = 4, niters = 2000,
+                    adapt_delta = 0.99, # cmdstanr::sample argument
+                    iter_warmup = 500L) # cmdstanr::sample argument
+
+analysis <- analyse(stan_model, data,
+                    nchains = 4, niters = 2000,
+                    control = list(adapt_delta = 0.95))  # rstan::sampling argument
+
+# Multiple datasets
+data_list <- list(dataset1 = data1, dataset2 = data2)
+analyses <- analyse(model, data_list, nchains = 3)
+}
+
+}
+\seealso{
+\itemize{
+  \item \code{\link[cmdstanr]{sample}} for CmdStanR sampling options
+  \item \code{\link[rstan]{sampling}} for RStan sampling options
+  \item \code{\link{analyse.mb_models}} for analysing multiple models
+}
 }
