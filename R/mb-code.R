@@ -4,6 +4,8 @@
 #'
 #' @param template A string, a braced `{}` expression (unquoted or quoted),
 #'   or an object of class `"mb_code"`.
+#' @param stan_engine A string indicating the Stan engine to use, e.g., `"cmdstanr"`.
+#' Currently, any value other than `"cmdstanr"` will default to `"rstan"`.
 #'
 #' @return An object inheriting from class mb_code.
 #' @export
@@ -28,7 +30,7 @@
 #' "
 #' )
 #' class(x)
-mb_code <- function(template) {
+mb_code <- function(template, stan_engine = character(0)) {
   template_expr <- quo_get_expr(enquo(template))
 
   if (is.call(template_expr) && template_expr[[1]] == "{") {
@@ -42,6 +44,8 @@ mb_code <- function(template) {
     return(template)
   } else if (grepl("#include <TMB.hpp>", template)) {
     class <- "tmb_code"
+  } else if (grepl("parameters\\s*[{]", template) && identical(stan_engine, "cmdstanr")) {
+    class <- c("smb2_code", "smb_code")
   } else if (grepl("parameters\\s*[{]", template)) {
     class <- "smb_code"
   } else if (grepl("model\\s*[{]", template)) {
