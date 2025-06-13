@@ -75,8 +75,8 @@ model <- model(
 
 niters <- 100L
 nchains <- 2L
-analysis <- analyse(model, data = data, stan_engine = "cmdstan-mcmc",
-                    parallel = TRUE, niters = niters, nchains = nchains)
+expect_output(analysis <- analyse(model, data = data, stan_engine = "cmdstan-mcmc",
+                    parallel = TRUE, niters = niters, nchains = nchains))
 
 expect_equal(as.data.frame(data_set(analysis)), data)
 data2 <- data_set(analysis, marginalize_random_effects = TRUE)
