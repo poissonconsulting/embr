@@ -2,7 +2,7 @@
 % Please edit documentation in R/analyse.R
 \name{analyse.character}
 \alias{analyse.character}
-\title{Analyse}
+\title{Analyse Character Model}
 \usage{
 \method{analyse}{character}(
   x,
@@ -20,17 +20,18 @@
 )
 }
 \arguments{
-\item{x}{An object inheriting from class mb_model or a list of such objects.}
+\item{x}{A character string containing Stan or JAGS model code.}
 
 \item{data}{The data frame to analyse.}
 
-\item{select_data}{A named list specifying the columns to select and their associated classes and values as well as transformations and scaling options.}
+\item{select_data}{A named list specifying the columns to select and their
+associated classes and values as well as transformations and scaling options.}
 
-\item{nchains}{A count of the number of chains.}
+\item{nchains}{A count of the number of chains (default: 3).}
 
-\item{niters}{A count of the number of simulations to save per chain.}
+\item{niters}{A count of the number of simulations to save per chain (default: 1000).}
 
-\item{nthin}{A count of the thining interval or NULL (in which case taken from model).}
+\item{nthin}{A count of the thinning interval (default: 1).}
 
 \item{parallel}{A flag indicating whether to perform the analysis in parallel if possible.}
 
@@ -40,12 +41,19 @@
 
 \item{beep}{A flag indicating whether to beep on completion of the analysis.}
 
-\item{stan_engine}{A string specifying the Stan engine in CmdStan to use.
-Currently only "cmdstan-mcmc" is implemented.
-If any other value is specified, the analysis will default to using 'rstan' via the 'smbr' package.}
+\item{stan_engine}{A string specifying the Stan engine to use:
+\itemize{
+  \item \code{"cmdstan-mcmc"} - Uses CmdStanR for MCMC sampling
+  \item \code{character(0)} (default) or any other value - Uses RStan
+}}
 
-\item{...}{Additional arguments.}
+\item{...}{Additional arguments passed to the underlying sampling function.
+See \code{\link{analyse.mb_model}} for details.}
+}
+\value{
+An mb_analysis object containing the fitted model results.
 }
 \description{
-Analyse
+Analyses a model defined as a character string containing Stan or JAGS code.
+The character string is first converted to an mb_model object, then passed on to \code{\link{analyse.mb_model}}
 }

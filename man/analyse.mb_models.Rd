@@ -37,9 +37,11 @@
 
 \item{beep}{A flag indicating whether to beep on completion of the analysis.}
 
-\item{stan_engine}{A string specifying the Stan engine in CmdStan to use.
-Currently only "cmdstan-mcmc" is implemented.
-If any other value is specified, the analysis will default to using 'rstan' via the 'smbr' package.}
+\item{stan_engine}{A string specifying the Stan engine to use:
+\itemize{
+  \item \code{"cmdstan-mcmc"} - Uses CmdStanR for MCMC sampling
+  \item \code{character(0)} (default) or any other value - Uses RStan
+}}
 
 \item{...}{Additional arguments.}
 }

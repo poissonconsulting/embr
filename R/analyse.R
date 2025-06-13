@@ -57,20 +57,27 @@ analyse_model <- function(x, name = NULL, data, parallel, nchains, niters, nthin
   )
 }
 
-#' Analyse
+#' Analyse Character Model
 #'
-#' @param x An object inheriting from class mb_model or a list of such objects.
+#' Analyses a model defined as a character string containing Stan or JAGS code.
+#' The character string is first converted to an mb_model object, then passed on to \code{\link{analyse.mb_model}}
+#'
+#' @param x A character string containing Stan or JAGS model code.
 #' @param data The data frame to analyse.
-#' @param nchains A count of the number of chains.
-#' @param niters A count of the number of simulations to save per chain.
-#' @param nthin A count of the thining interval or NULL (in which case taken from model).
-#' @param select_data A named list specifying the columns to select and their associated classes and values as well as transformations and scaling options.
+#' @param select_data A named list specifying the columns to select and their
+#'   associated classes and values as well as transformations and scaling options.
+#' @param nchains A count of the number of chains (default: 3).
+#' @param niters A count of the number of simulations to save per chain (default: 1000).
+#' @param nthin A count of the thinning interval (default: 1).
 #' @param parallel A flag indicating whether to perform the analysis in parallel if possible.
 #' @param quiet A flag indicating whether to disable tracing information.
 #' @param glance A flag indicating whether to print a model summary.
 #' @param beep A flag indicating whether to beep on completion of the analysis.
 #' @inheritParams params
-#' @param ...  Additional arguments.
+#' @param ...  Additional arguments passed to the underlying sampling function.
+#'   See \code{\link{analyse.mb_model}} for details.
+#'
+#' @return An mb_analysis object containing the fitted model results.
 #' @export
 analyse.character <- function(x, data,
                               select_data = list(),
