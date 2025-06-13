@@ -137,7 +137,7 @@ analyse.mb_model <- function(x, data,
     return(analyse_data(
       data = data, x = x, loaded = loaded,
       nchains = nchains, niters = niters, nthin = nthin,
-      parallel = parallel, quiet = quiet, glance = glance
+      parallel = parallel, quiet = quiet, glance = glance, ...
     ))
   }
 
