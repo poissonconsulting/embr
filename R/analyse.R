@@ -82,7 +82,7 @@ analyse.character <- function(x, data,
                               beep = getOption("mb.beep", TRUE),
                               seed = sample.int(.Machine$integer.max, 1),
                               stan_engine = getOption("mb.stan_engine", character(0)),
-                              niters_warmup = niters * nthin / 2,
+                              niters_warmup = niters,
                               ...) {
   x <- model(x, select_data = select_data)
   analyse(x,
@@ -251,7 +251,7 @@ analyse.mb_models <- function(x, data,
                               beep = getOption("mb.beep", TRUE),
                               seed = sample.int(.Machine$integer.max, 1),
                               stan_engine = getOption("mb.stan_engine", character(0)),
-                              niters_warmup = niters * nthin / 2,
+                              niters_warmup = niters,
                               ...) {
   chk_flag(beep)
   if (beep) on.exit(beepr::beep())
