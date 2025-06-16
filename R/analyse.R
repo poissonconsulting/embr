@@ -5,11 +5,9 @@
 #' or maximum likelihood analysis using TMB.
 #'
 #' For more useful documentation, see the specific methods:
-#' \itemize{
-#'   \item \code{\link{analyse.mb_model}} for single model analysis (Stan/JAGS). This is the most commonly used method.
-#'   \item \code{\link{analyse.mb_models}} for multiple model analysis (Stan/JAGS).
-#'   \item \code{\link{analyse.character}} for character model analysis (Stan/JAGS). This allows you to skip the model creation step.
-#' }
+#' - [analyse.mb_model()] for single model analysis (Stan/JAGS). This is the most commonly used method.
+#' - [analyse.mb_models()] for multiple model analysis (Stan/JAGS).
+#' - [analyse.character()] for character model analysis (Stan/JAGS). This allows you to skip the model creation step.
 #'
 #' @param x The object to analyse.
 #' @param ... Additional arguments passed to methods.
@@ -59,7 +57,7 @@ analyse_model <- function(x, name = NULL, data, parallel, nchains, niters, nthin
 #' Analyse Character Model
 #'
 #' Analyses a model defined as a character string containing Stan or JAGS code.
-#' The character string is first converted to an mb_model object, then passed on to \code{\link{analyse.mb_model}}
+#' The character string is first converted to an mb_model object, then passed on to [analyse.mb_model()]
 #'
 #' @param x A character string containing Stan or JAGS model code.
 #' @param data The data frame to analyse.
@@ -74,14 +72,12 @@ analyse_model <- function(x, name = NULL, data, parallel, nchains, niters, nthin
 #' @param beep A flag indicating whether to beep on completion of the analysis.
 #' @inheritParams params
 #' @param ...  Additional arguments passed to the underlying sampling function.
-#'   See \code{\link{analyse.mb_model}} for details.
+#'   See [analyse.mb_model()] for details.
 #'
 #' @return An mb_analysis object containing the fitted model results.
 #' @seealso
-#' \itemize{
-#'   \item \code{\link{analyse.mb_model}} for analysing a single model
-#'   \item \code{\link{analyse.mb_models}} for analysing multiple models
-#' }
+#' - [analyse.mb_model()] for analysing a single model
+#' - [analyse.mb_models()] for analysing multiple models
 #'
 #' @export
 analyse.character <- function(x, data,
@@ -108,34 +104,26 @@ analyse.character <- function(x, data,
 #' @description
 #' Performs parameter estimation on a single mb_model object using Stan or JAGS.
 #'
-#' This function provides a set of arguments that are common to the various estimation methods.
+#' This function provides a set of arguments that are common to various underlying estimation methods.
 #' However, some arguments are only relevant to MCMC sampling functions (e.g., `nchains`, `niters`, `nthin`, `seed`, `niters_warmup`).
 #'
 #' If the model is a JAGS model, [rjags](https://github.com/cran/rjags) is used for sampling under the hood.
-#' If the model is a Stan model, either [cmdstanr](https://mc-stan.org/cmdstanr/) or [rstan](https://github.com/stan-dev/rstan) is used, depending on the `stan_engine` value:
-#' * `"rstan"` for `rstan` MCMC sampling (default).
-#' * `"cmdstan-mcmc"` for `cmdstanr` MCMC sampling.
-#' * `"cmdstan-pathfinder"` for `cmdstanr` pathfinder estimation.
-#' * `"cmdstan-optim"` for `cmdstanr` optimization.
-#' * `"cmdstan-laplace"` for `cmdstanr` Laplace approximation.
+#' If the model is a Stan model, either [cmdstanr](https://mc-stan.org/cmdstanr/) or [rstan](https://github.com/stan-dev/rstan) is used, depending on the `stan_engine` value. Possible options include:
+#' * `"rstan"` for MCMC sampling via [rstan::sampling()]  (default).
+#' * `"cmdstan-mcmc"` for MCMC sampling via [cmdstanr::sample()]
+#' * `"cmdstan-pathfinder"` for pathfinder estimation via [cmdstanr::pathfinder()]
+#' * `"cmdstan-optimize"` for optimization via [cmdstanr::optimize()]
+#' * `"cmdstan-laplace"` for Laplace approximation via [cmdstanr::laplace()]
 #'
 #' For Stan models, additional arguments can be passed to the engine-specific estimation functions via the `...` argument.
-#' For more details on the possible options, see:
-#' \itemize{
-#'   \item \code{\link[cmdstanr]{sample}} for `cmdstan-mcmc` sampling options
-#'   \item \code{\link[cmdstanr]{pathfinder}} for `cmdstan-pathfinder` options
-#'   \item \code{\link[cmdstanr]{optim}} for `cmdstan-optim` options
-#'   \item \code{\link[cmdstanr]{laplace}} for `cmdstan-laplace` options
-#'   \item \code{\link[rstan]{sampling}} for `rstan` sampling options
-#' }
 #'
-#' For example, common options in [cmdstanr::sample()] include:
+#' For example, additional options in [cmdstanr::sample()] include:
 #' * `adapt_delta` - Target acceptance rate (0 < adapt_delta < 1)
 #' * `max_treedepth` - Maximum tree depth for NUTS sampler
 #' * `step_size` - Initial step size for sampler
 #' * `refresh` - How often to print sampling progress
 #'
-#' If the optional arguments are already being used, they will be ignored (e.g., passing `iter_sampling` to \code{\link[cmdstanr]{sample}} with `stan_engine = 'cmdstan-mcmc'` will not override the iterations set via `niters`).
+#' If the options are already being used, they will be ignored (e.g., passing `iter_sampling` to [cmdstanr::sample()] with `stan_engine = 'cmdstan-mcmc'` will not override the iterations set via `niters`).
 #'
 #' @param x An mb_model object to analyse.
 #' @param data The data frame to analyse, or a list of data frames for multiple datasets.
@@ -146,19 +134,11 @@ analyse.character <- function(x, data,
 #' @param quiet A flag indicating whether to disable tracing information.
 #' @param glance A flag indicating whether to print a model summary.
 #' @param beep A flag indicating whether to beep on completion of the analysis.
-#' @param ... Additional arguments passed to the underlying sampling function:
-#'   \itemize{
-#'     \item \strong{For Stan models with cmdstanr} (\code{stan_engine = "cmdstan-mcmc"}):
-#'           Arguments passed to \code{\link[cmdstanr]{sample}}
-#'     \item \strong{For Stan models with rstan} (default):
-#'           Arguments passed to \code{\link[rstan]{sampling}}
-#'   }
+#' @param ... Additional arguments passed to the underlying estimation function (see above for details).
 #' @inheritParams params
 #' @return
-#' \itemize{
-#'   \item If \code{data} is a data.frame: An mb_analysis object
-#'   \item If \code{data} is a list of data.frames: An mb_meta_analysis object
-#' }
+#' - If `data` is a data.frame: An mb_analysis object
+#' - If `data` is a list of data.frames: An mb_meta_analysis object
 #'
 #' @examples
 #' \dontrun{
@@ -190,10 +170,8 @@ analyse.character <- function(x, data,
 #' }
 #'
 #' @seealso
-#' \itemize{
-#'   \item \code{\link{analyse.character}} for analysing a character model template
-#'   \item \code{\link{analyse.mb_models}} for analysing multiple models
-#' }
+#' - [analyse.character()] for analysing a character model template
+#' - [analyse.mb_models()] for analysing multiple models
 #'
 #' @export
 analyse.mb_model <- function(x, data,
