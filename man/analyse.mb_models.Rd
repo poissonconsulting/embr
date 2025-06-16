@@ -16,7 +16,7 @@
   beep = getOption("mb.beep", TRUE),
   seed = sample.int(.Machine$integer.max, 1),
   stan_engine = getOption("mb.stan_engine", character(0)),
-  niters_warmup = niters * nthin/2,
+  niters_warmup = niters,
   ...
 )
 }
@@ -39,7 +39,7 @@
 
 \item{beep}{A flag indicating whether to beep on completion of the analysis.}
 
-\item{seed}{A positive whole number specifying the seed to use. If \code{NULL}, a random seed will be used.}
+\item{seed}{A positive whole number specifying the seed to use. The default is random. This is currently only implemented for Stan models.}
 
 \item{stan_engine}{A string specifying the Stan engine to use:
 \itemize{
@@ -50,7 +50,7 @@
 \item \code{"cmdstan-laplace"} for Laplace approximation via \code{\link[cmdstanr:model-method-laplace]{cmdstanr::laplace()}}
 }}
 
-\item{niters_warmup}{A count of the number of warmup iterations. The default is to use the same number of iterations as \code{niters}.}
+\item{niters_warmup}{A count of the number of warmup iterations. The default is to use the same number of iterations as \code{niters}. This is currently only implemented for Stan models.}
 
 \item{...}{Additional arguments.}
 }
