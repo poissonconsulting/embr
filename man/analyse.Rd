@@ -17,11 +17,11 @@ An analysis object (type depends on input and engine used).
 \description{
 Generic function for performing Bayesian analysis on models using Stan or JAGS,
 or maximum likelihood analysis using TMB.
-}
-\seealso{
+
+For more useful documentation, see the specific methods:
 \itemize{
-  \item \code{\link{analyse.mb_model}} for single model analysis (Stan/JAGS)
-  \item \code{\link{analyse.mb_models}} for multiple model analysis (Stan/JAGS)
-  \item \code{\link{analyse.character}} for character model analysis (Stan/JAGS)
+  \item \code{\link{analyse.mb_model}} for single model analysis (Stan/JAGS). This is the most commonly used method.
+  \item \code{\link{analyse.mb_models}} for multiple model analysis (Stan/JAGS).
+  \item \code{\link{analyse.character}} for character model analysis (Stan/JAGS). This allows you to skip the model creation step.
 }
 }
