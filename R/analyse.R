@@ -103,13 +103,13 @@ analyse.character <- function(x, data,
 #'
 #' If the model is a JAGS model, [rjags](https://github.com/cran/rjags) is used for sampling under the hood.
 #' If the model is a Stan model, either [cmdstanr](https://mc-stan.org/cmdstanr/) or [rstan](https://github.com/stan-dev/rstan) is used, depending on the `stan_engine` value. Possible options include:
-#' * `"rstan"` for MCMC sampling via [rstan::sampling()]  (default).
 #' * `"cmdstan-mcmc"` for MCMC sampling via [cmdstanr::sample()]
 #' * `"cmdstan-pathfinder"` for pathfinder estimation via [cmdstanr::pathfinder()]
 #' * `"cmdstan-optimize"` for optimization via [cmdstanr::optimize()]
 #' * `"cmdstan-laplace"` for Laplace approximation via [cmdstanr::laplace()]
+#' * Any other character value with default to default of MCMC sampling via [rstan::sampling()]
 #'
-#' For Stan models, additional arguments can be passed to the engine-specific estimation functions via the `...` argument.
+#' For CmdStan models, additional arguments can be passed to the engine-specific estimation functions via the `...` argument.
 #'
 #' For example, additional options in [cmdstanr::sample()] include:
 #' * `adapt_delta` - Target acceptance rate (0 < adapt_delta < 1)
