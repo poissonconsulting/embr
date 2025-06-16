@@ -8,9 +8,23 @@
 
 \item{type}{A string of the residual type.}
 
+\item{nchains}{A count of the number of chains (default: 3).}
+
+\item{niters}{A count of the number of simulations to save per chain (default: 1000).}
+
+\item{nthin}{A count of the thinning interval.}
+
+\item{parallel}{A flag indicating whether to perform the analysis in parallel if possible.}
+
+\item{quiet}{A flag indicating whether to disable messages and warnings, including sampling progress.}
+
+\item{glance}{A flag indicating whether to print a model summary.}
+
+\item{beep}{A flag indicating whether to beep on completion of the analysis.}
+
 \item{stan_engine}{A string specifying the Stan engine to use:
 \itemize{
-\item \code{"rstan"} for MCMC sampling via \code{\link[rstan:stanmodel-method-sampling]{rstan::sampling()}}  (default).
+\item \code{"rstan"} for MCMC sampling via \code{\link[rstan:stanmodel-method-sampling]{rstan::sampling()}} (default).
 \item \code{"cmdstan-mcmc"} for MCMC sampling via \code{\link[cmdstanr:model-method-sample]{cmdstanr::sample()}}
 \item \code{"cmdstan-pathfinder"} for pathfinder estimation via \code{\link[cmdstanr:model-method-pathfinder]{cmdstanr::pathfinder()}}
 \item \code{"cmdstan-optimize"} for optimization via \code{\link[cmdstanr:model-method-optimize]{cmdstanr::optimize()}}

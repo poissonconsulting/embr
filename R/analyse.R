@@ -23,12 +23,7 @@ analyse <- function(x, ...) {
 #' @param model The mb_model to analyse.
 #' @param data The data.
 #' @param loaded The loaded model.
-#' @param nchains chains.
-#' @param niters iters
-#' @param nthin thin
-#' @param quiet quiet
-#' @param glance glance
-#' @param parallel parallel
+#' @inheritParams params
 #' @param ...  Additional arguments.
 #' @export
 analyse1 <- function(model, data, loaded, nchains, niters, nthin, quiet, glance, parallel, ...) {
@@ -63,13 +58,6 @@ analyse_model <- function(x, name = NULL, data, parallel, nchains, niters, nthin
 #' @param data The data frame to analyse.
 #' @param select_data A named list specifying the columns to select and their
 #'   associated classes and values as well as transformations and scaling options.
-#' @param nchains A count of the number of chains (default: 3).
-#' @param niters A count of the number of simulations to save per chain (default: 1000).
-#' @param nthin A count of the thinning interval (default: 1).
-#' @param parallel A flag indicating whether to perform the analysis in parallel if possible.
-#' @param quiet A flag indicating whether to disable tracing information.
-#' @param glance A flag indicating whether to print a model summary.
-#' @param beep A flag indicating whether to beep on completion of the analysis.
 #' @inheritParams params
 #' @param ...  Additional arguments passed to the underlying estimation function.
 #'   See [analyse.mb_model()] for details.
@@ -127,13 +115,6 @@ analyse.character <- function(x, data,
 #'
 #' @param x An mb_model object to analyse.
 #' @param data The data frame to analyse, or a list of data frames for multiple datasets.
-#' @param nchains A count of the number of chains (default: 3).
-#' @param niters A count of the number of simulations to save per chain (default: 1000).
-#' @param nthin A count of the thinning interval.
-#' @param parallel A flag indicating whether to perform the analysis in parallel if possible.
-#' @param quiet A flag indicating whether to disable tracing information.
-#' @param glance A flag indicating whether to print a model summary.
-#' @param beep A flag indicating whether to beep on completion of the analysis.
 #' @param ... Additional arguments passed to the underlying estimation function (see above for details).
 #' @inheritParams params
 #' @return
@@ -245,13 +226,6 @@ analyse.mb_model <- function(x, data,
 #'
 #' @param x An object inheriting from class mb_model or a list of such objects.
 #' @param data The data frame to analyse.
-#' @param nchains A count of the number of chains.
-#' @param niters A count of the number of simulations to save per chain.
-#' @param nthin A count of the thining interval or NULL (in which case taken from model).
-#' @param parallel A flag indicating whether to perform the analysis in parallel if possible.
-#' @param quiet A flag indicating whether to disable tracing information.
-#' @param glance A flag indicating whether to print a model summary.
-#' @param beep A flag indicating whether to beep on completion of the analysis.
 #' @inheritParams params
 #' @param ...  Additional arguments.
 #' @export
