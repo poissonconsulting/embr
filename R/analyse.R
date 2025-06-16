@@ -26,16 +26,18 @@ analyse <- function(x, ...) {
 #' @inheritParams params
 #' @param ...  Additional arguments.
 #' @export
-analyse1 <- function(model, data, loaded, nchains, niters, nthin, quiet, glance, parallel, ...) {
+analyse1 <- function(model, data, loaded, nchains, niters, nthin, quiet, glance, parallel, seed, niters_warmup, ...) {
   UseMethod("analyse1")
 }
 
 analyse_data <- function(data, name = NULL, x, loaded, nchains, niters, nthin,
-                         parallel, quiet, glance, ...) {
+                         parallel, quiet, glance, seed, niters_warmup, ...) {
   if (!is.null(name) & glance) cat("Data:", name, "\n")
   analyse1(x, data,
            loaded = loaded, nchains = nchains, niters = niters,
-           nthin = nthin, parallel = parallel, quiet = quiet, glance = glance, ...
+           nthin = nthin, parallel = parallel, quiet = quiet,
+           glance = glance, seed = seed,
+           niters_warmup = niters_warmup, ...
   )
 }
 
@@ -45,7 +47,8 @@ analyse_model <- function(x, name = NULL, data, parallel, nchains, niters, nthin
   analyse(x,
           data = data, parallel = parallel,
           nchains = nchains, niters = niters, nthin = nthin,
-          quiet = quiet, glance = glance, beep = beep, stan_engine, ...
+          quiet = quiet, glance = glance, beep = beep,
+          stan_engine = stan_engine, ...
   )
 }
 
@@ -77,13 +80,16 @@ analyse.character <- function(x, data,
                               quiet = getOption("mb.quiet", TRUE),
                               glance = getOption("mb.glance", TRUE),
                               beep = getOption("mb.beep", TRUE),
+                              seed = NULL,
                               stan_engine = getOption("mb.stan_engine", character(0)),
+                              niters_warmup = niters * nthin / 2,
                               ...) {
   x <- model(x, select_data = select_data)
   analyse(x,
           data = data,
           parallel = parallel, nchains = nchains, niters = niters, nthin = nthin, quiet = quiet,
-          glance = glance, beep = beep, stan_engine = stan_engine, ...
+          glance = glance, beep = beep, seed = seed, stan_engine = stan_engine,
+          niters_warmup = niters_warmup, ...
   )
 }
 
@@ -163,7 +169,9 @@ analyse.mb_model <- function(x, data,
                              quiet = getOption("mb.quiet", TRUE),
                              glance = getOption("mb.glance", TRUE),
                              beep = getOption("mb.beep", TRUE),
+                             seed = NULL,
                              stan_engine = getOption("mb.stan_engine", character(0)),
+                             niters_warmup = niters * nthin / 2,
                              ...) {
   chk_flag(beep)
   if (beep) on.exit(beepr::beep())
@@ -201,7 +209,9 @@ analyse.mb_model <- function(x, data,
     return(analyse_data(
       data = data, x = x, loaded = loaded,
       nchains = nchains, niters = niters, nthin = nthin,
-      parallel = parallel, quiet = quiet, glance = glance, ...
+      parallel = parallel, quiet = quiet, glance = glance,
+      seed = seed,
+      niters_warmup = niters_warmup, ...
     ))
   }
 
@@ -213,7 +223,9 @@ analyse.mb_model <- function(x, data,
   analyses <- purrr::imap(data, analyse_data,
                           x = x, loaded = loaded,
                           nchains = nchains, niters = niters, nthin = nthin,
-                          parallel = parallel, quiet = quiet, glance = glance
+                          parallel = parallel, quiet = quiet, glance = glance,
+                          seed = seed, stan_engine = stan_engine,
+                          niters_warmup = niters_warmup, ...
   )
 
   names(data) <- names
@@ -249,7 +261,8 @@ analyse.mb_models <- function(x, data,
                           data = data,
                           nchains = nchains, niters = niters, nthin = nthin,
                           parallel = parallel, quiet = quiet, glance = glance, beep = FALSE,
-                          stan_engine = stan_engine, ...
+                          seed = seed, stan_engine = stan_engine,
+                          niters_warmup = niters_warmup, ...
   )
 
   if (is.data.frame(data)) {
