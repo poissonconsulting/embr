@@ -74,12 +74,11 @@ model <- model(
   new_expr = new_expr
 )
 
-
 niters <- 250L
 nchains <- 2L
-expect_output(analysis <- analyse(model, data = data, stan_engine = "rstan",
+expect_output(analysis <- analyse(model, data = data,
                                   parallel = FALSE, quiet = FALSE, niters = niters,
-                                  nchains = nchains, seed = 1, niters_warmup = 100))
+                                  nchains = nchains, seed = 1))
 
 expect_equal(as.data.frame(data_set(analysis)), data)
 data2 <- data_set(analysis, marginalize_random_effects = TRUE)
