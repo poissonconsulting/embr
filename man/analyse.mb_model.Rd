@@ -14,9 +14,9 @@
   quiet = getOption("mb.quiet", TRUE),
   glance = getOption("mb.glance", TRUE),
   beep = getOption("mb.beep", TRUE),
-  seed = NULL,
+  seed = sample.int(.Machine$integer.max, 1),
   stan_engine = getOption("mb.stan_engine", character(0)),
-  niters_warmup = niters * nthin/2,
+  niters_warmup = niters,
   ...
 )
 }
@@ -50,7 +50,7 @@
 \item \code{"cmdstan-laplace"} for Laplace approximation via \code{\link[cmdstanr:model-method-laplace]{cmdstanr::laplace()}}
 }}
 
-\item{niters_warmup}{A count of the number of warmup iterations. The default is \code{niters} * \code{nthin} / 2.}
+\item{niters_warmup}{A count of the number of warmup iterations. The default is to use the same number of iterations as \code{niters}.}
 
 \item{...}{Additional arguments passed to the underlying estimation function (see above for details).}
 }
