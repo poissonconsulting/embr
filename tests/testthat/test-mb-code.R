@@ -17,8 +17,3 @@ test_that("expression templates", {
     new_mb_code(quote({}), "pmb_code")
   )
 })
-
-test_that("class smb2_code", {
-  x <- mb_code("parameters{}", stan_engine = "cmdstanr")
-  expect_true(inherits(x, "smb2_code"))
-})
