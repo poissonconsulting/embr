@@ -3,6 +3,7 @@ test_that(
   {
     skip_if_not_installed("smbr2")
 
+    library(smbr2)
     data <- embr::density99
     data$YearFactor <- factor(data$Year)
 
@@ -73,10 +74,11 @@ model <- model(
   new_expr = new_expr
 )
 
-niters <- 100L
+
+niters <- 250L
 nchains <- 2L
 expect_output(analysis <- analyse(model, data = data, stan_engine = "cmdstan-mcmc",
-                    parallel = TRUE, niters = niters, nchains = nchains))
+                    parallel = TRUE, niters = niters, nchains = nchains, niters_warmup = niters, seed = 1))
 
 expect_equal(as.data.frame(data_set(analysis)), data)
 data2 <- data_set(analysis, marginalize_random_effects = TRUE)
@@ -95,13 +97,13 @@ expect_identical(class(analysis), c("cmdstan_mcmc_analysis", "cmdstan_analysis",
 
 expect_identical(niters(analysis), niters)
 expect_identical(nchains(analysis), nchains)
-expect_identical(nsims(analysis), 200L)
-expect_identical(ngens(analysis), 400L)
+expect_identical(nsims(analysis), 500L)
+expect_identical(ngens(analysis), 1000L)
 
 expect_output(analysis <- reanalyse(analysis))
 
 expect_identical(niters(analysis), niters)
-expect_identical(ngens(analysis), 400L)
+expect_identical(ngens(analysis), 1000L)
 
 expect_identical(pars(analysis, "fixed"), sort(c("bHabitatQuality", "bIntercept", "bYear", "log_sDensity", "log_sSiteYear")))
 expect_identical(pars(analysis, "random"), "bSiteYear")
