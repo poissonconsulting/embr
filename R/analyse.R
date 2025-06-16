@@ -71,7 +71,7 @@ analyse_model <- function(x, name = NULL, data, parallel, nchains, niters, nthin
 #' @param glance A flag indicating whether to print a model summary.
 #' @param beep A flag indicating whether to beep on completion of the analysis.
 #' @inheritParams params
-#' @param ...  Additional arguments passed to the underlying sampling function.
+#' @param ...  Additional arguments passed to the underlying estimation function.
 #'   See [analyse.mb_model()] for details.
 #'
 #' @return An mb_analysis object containing the fitted model results.

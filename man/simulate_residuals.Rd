@@ -15,8 +15,8 @@ simulate_residuals(x, type = NULL)
 An mcmc_data of the simulated residuals.
 }
 \description{
-Requires that new_expr includes `residual <- res_bern(`
-or `residual[i] <- res_norm(`.
+Requires that new_expr includes \verb{residual <- res_bern(}
+or \verb{residual[i] <- res_norm(}.
 }
 \seealso{
 extras::res_binom

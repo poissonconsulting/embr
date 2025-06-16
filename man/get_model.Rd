@@ -7,7 +7,7 @@
 get_model(analysis)
 }
 \arguments{
-\item{analysis}{An object of class `"mb_analysis"`.}
+\item{analysis}{An object of class \code{"mb_analysis"}.}
 }
 \description{
 Constucts a new analysis object

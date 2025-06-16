@@ -10,8 +10,11 @@
 
 \item{stan_engine}{A string specifying the Stan engine to use:
 \itemize{
-  \item \code{"cmdstan-mcmc"} - Uses CmdStanR for MCMC sampling
-  \item \code{character(0)} (default) or any other value - Uses RStan
+\item \code{"rstan"} for MCMC sampling via \code{\link[rstan:stanmodel-method-sampling]{rstan::sampling()}}  (default).
+\item \code{"cmdstan-mcmc"} for MCMC sampling via \code{\link[cmdstanr:model-method-sample]{cmdstanr::sample()}}
+\item \code{"cmdstan-pathfinder"} for pathfinder estimation via \code{\link[cmdstanr:model-method-pathfinder]{cmdstanr::pathfinder()}}
+\item \code{"cmdstan-optimize"} for optimization via \code{\link[cmdstanr:model-method-optimize]{cmdstanr::optimize()}}
+\item \code{"cmdstan-laplace"} for Laplace approximation via \code{\link[cmdstanr:model-method-laplace]{cmdstanr::laplace()}}
 }}
 
 \item{...}{Unused.}

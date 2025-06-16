@@ -43,17 +43,26 @@ associated classes and values as well as transformations and scaling options.}
 
 \item{stan_engine}{A string specifying the Stan engine to use:
 \itemize{
-  \item \code{"cmdstan-mcmc"} - Uses CmdStanR for MCMC sampling
-  \item \code{character(0)} (default) or any other value - Uses RStan
+\item \code{"rstan"} for MCMC sampling via \code{\link[rstan:stanmodel-method-sampling]{rstan::sampling()}}  (default).
+\item \code{"cmdstan-mcmc"} for MCMC sampling via \code{\link[cmdstanr:model-method-sample]{cmdstanr::sample()}}
+\item \code{"cmdstan-pathfinder"} for pathfinder estimation via \code{\link[cmdstanr:model-method-pathfinder]{cmdstanr::pathfinder()}}
+\item \code{"cmdstan-optimize"} for optimization via \code{\link[cmdstanr:model-method-optimize]{cmdstanr::optimize()}}
+\item \code{"cmdstan-laplace"} for Laplace approximation via \code{\link[cmdstanr:model-method-laplace]{cmdstanr::laplace()}}
 }}
 
-\item{...}{Additional arguments passed to the underlying sampling function.
-See \code{\link{analyse.mb_model}} for details.}
+\item{...}{Additional arguments passed to the underlying estimation function.
+See \code{\link[=analyse.mb_model]{analyse.mb_model()}} for details.}
 }
 \value{
 An mb_analysis object containing the fitted model results.
 }
 \description{
 Analyses a model defined as a character string containing Stan or JAGS code.
-The character string is first converted to an mb_model object, then passed on to \code{\link{analyse.mb_model}}
+The character string is first converted to an mb_model object, then passed on to \code{\link[=analyse.mb_model]{analyse.mb_model()}}
+}
+\seealso{
+\itemize{
+\item \code{\link[=analyse.mb_model]{analyse.mb_model()}} for analysing a single model
+\item \code{\link[=analyse.mb_models]{analyse.mb_models()}} for analysing multiple models
+}
 }

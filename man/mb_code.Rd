@@ -10,13 +10,13 @@ mb_code(template, stan_engine = character(0))
 new_mb_code(x, class)
 }
 \arguments{
-\item{template}{A string, a braced `{}` expression (unquoted or quoted),
-or an object of class `"mb_code"`.}
+\item{template}{A string, a braced \code{{}} expression (unquoted or quoted),
+or an object of class \code{"mb_code"}.}
 
-\item{stan_engine}{A string indicating the Stan engine to use, e.g., `"cmdstanr"`.
-Currently, any value other than `"cmdstanr"` will default to `"rstan"`.}
+\item{stan_engine}{A string indicating the Stan engine to use, e.g., \code{"cmdstanr"}.
+Currently, any value other than \code{"cmdstanr"} will default to \code{"rstan"}.}
 
-\item{x}{A string or a braced `{}` expression.}
+\item{x}{A string or a braced \code{{}} expression.}
 
 \item{class}{The class of the new object.}
 }

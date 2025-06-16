@@ -39,26 +39,48 @@
 
 \item{stan_engine}{A string specifying the Stan engine to use:
 \itemize{
-  \item \code{"cmdstan-mcmc"} - Uses CmdStanR for MCMC sampling
-  \item \code{character(0)} (default) or any other value - Uses RStan
+\item \code{"rstan"} for MCMC sampling via \code{\link[rstan:stanmodel-method-sampling]{rstan::sampling()}}  (default).
+\item \code{"cmdstan-mcmc"} for MCMC sampling via \code{\link[cmdstanr:model-method-sample]{cmdstanr::sample()}}
+\item \code{"cmdstan-pathfinder"} for pathfinder estimation via \code{\link[cmdstanr:model-method-pathfinder]{cmdstanr::pathfinder()}}
+\item \code{"cmdstan-optimize"} for optimization via \code{\link[cmdstanr:model-method-optimize]{cmdstanr::optimize()}}
+\item \code{"cmdstan-laplace"} for Laplace approximation via \code{\link[cmdstanr:model-method-laplace]{cmdstanr::laplace()}}
 }}
 
-\item{...}{Additional arguments passed to the underlying sampling function:
-\itemize{
-  \item \strong{For Stan models with cmdstanr} (\code{stan_engine = "cmdstan-mcmc"}):
-        Arguments passed to \code{\link[cmdstanr]{sample}}
-  \item \strong{For Stan models with rstan} (default):
-        Arguments passed to \code{\link[rstan]{sampling}}
-}}
+\item{...}{Additional arguments passed to the underlying estimation function (see above for details).}
 }
 \value{
 \itemize{
-  \item If \code{data} is a data.frame: An mb_analysis object
-  \item If \code{data} is a list of data.frames: An mb_meta_analysis object
+\item If \code{data} is a data.frame: An mb_analysis object
+\item If \code{data} is a list of data.frames: An mb_meta_analysis object
 }
 }
 \description{
-Performs Bayesian analysis on a single mb_model object using Stan or JAGS.
+Performs parameter estimation on a single mb_model object using Stan or JAGS.
+
+This function provides a set of arguments that are common to various underlying estimation methods.
+However, some arguments are only relevant to MCMC sampling functions (e.g., \code{nchains}, \code{niters}, \code{nthin}, \code{seed}, \code{niters_warmup}).
+
+If the model is a JAGS model, \href{https://github.com/cran/rjags}{rjags} is used for sampling under the hood.
+If the model is a Stan model, either \href{https://mc-stan.org/cmdstanr/}{cmdstanr} or \href{https://github.com/stan-dev/rstan}{rstan} is used, depending on the \code{stan_engine} value. Possible options include:
+\itemize{
+\item \code{"rstan"} for MCMC sampling via \code{\link[rstan:stanmodel-method-sampling]{rstan::sampling()}}  (default).
+\item \code{"cmdstan-mcmc"} for MCMC sampling via \code{\link[cmdstanr:model-method-sample]{cmdstanr::sample()}}
+\item \code{"cmdstan-pathfinder"} for pathfinder estimation via \code{\link[cmdstanr:model-method-pathfinder]{cmdstanr::pathfinder()}}
+\item \code{"cmdstan-optimize"} for optimization via \code{\link[cmdstanr:model-method-optimize]{cmdstanr::optimize()}}
+\item \code{"cmdstan-laplace"} for Laplace approximation via \code{\link[cmdstanr:model-method-laplace]{cmdstanr::laplace()}}
+}
+
+For Stan models, additional arguments can be passed to the engine-specific estimation functions via the \code{...} argument.
+
+For example, additional options in \code{\link[cmdstanr:model-method-sample]{cmdstanr::sample()}} include:
+\itemize{
+\item \code{adapt_delta} - Target acceptance rate (0 < adapt_delta < 1)
+\item \code{max_treedepth} - Maximum tree depth for NUTS sampler
+\item \code{step_size} - Initial step size for sampler
+\item \code{refresh} - How often to print sampling progress
+}
+
+If the options are already being used, they will be ignored (e.g., passing \code{iter_sampling} to \code{\link[cmdstanr:model-method-sample]{cmdstanr::sample()}} with \code{stan_engine = 'cmdstan-mcmc'} will not override the iterations set via \code{niters}).
 }
 \examples{
 \dontrun{
@@ -92,8 +114,7 @@ analyses <- analyse(model, data_list, nchains = 3)
 }
 \seealso{
 \itemize{
-  \item \code{\link[cmdstanr]{sample}} for CmdStanR sampling options
-  \item \code{\link[rstan]{sampling}} for RStan sampling options
-  \item \code{\link{analyse.mb_models}} for analysing multiple models
+\item \code{\link[=analyse.character]{analyse.character()}} for analysing a character model template
+\item \code{\link[=analyse.mb_models]{analyse.mb_models()}} for analysing multiple models
 }
 }
