@@ -80,7 +80,7 @@ analyse.character <- function(x, data,
                               quiet = getOption("mb.quiet", TRUE),
                               glance = getOption("mb.glance", TRUE),
                               beep = getOption("mb.beep", TRUE),
-                              seed = NULL,
+                              seed = sample.int(.Machine$integer.max, 1),
                               stan_engine = getOption("mb.stan_engine", character(0)),
                               niters_warmup = niters * nthin / 2,
                               ...) {
@@ -169,9 +169,9 @@ analyse.mb_model <- function(x, data,
                              quiet = getOption("mb.quiet", TRUE),
                              glance = getOption("mb.glance", TRUE),
                              beep = getOption("mb.beep", TRUE),
-                             seed = NULL,
+                             seed = sample.int(.Machine$integer.max, 1),
                              stan_engine = getOption("mb.stan_engine", character(0)),
-                             niters_warmup = niters * nthin / 2,
+                             niters_warmup = niters,
                              ...) {
   chk_flag(beep)
   if (beep) on.exit(beepr::beep())
@@ -249,7 +249,9 @@ analyse.mb_models <- function(x, data,
                               quiet = getOption("mb.quiet", TRUE),
                               glance = getOption("mb.glance", TRUE),
                               beep = getOption("mb.beep", TRUE),
+                              seed = sample.int(.Machine$integer.max, 1),
                               stan_engine = getOption("mb.stan_engine", character(0)),
+                              niters_warmup = niters * nthin / 2,
                               ...) {
   chk_flag(beep)
   if (beep) on.exit(beepr::beep())
