@@ -10,7 +10,7 @@
 
 \item{nchains}{A count of the number of chains (default: 3).}
 
-\item{niters}{A count of the number of simulations to save per chain (default: 1000).}
+\item{niters}{A count of the number of iterations to save per chain (default: 1000).}
 
 \item{nthin}{A count of the thinning interval.}
 
@@ -21,6 +21,10 @@
 \item{glance}{A flag indicating whether to print a model summary.}
 
 \item{beep}{A flag indicating whether to beep on completion of the analysis.}
+
+\item{seed}{A positive whole number specifying the seed to use. If \code{NULL}, a random seed will be used.}
+
+\item{niters_warmup}{A count of the number of warmup iterations. The default is \code{niters} * \code{nthin} / 2.}
 
 \item{stan_engine}{A string specifying the Stan engine to use:
 \itemize{

@@ -25,7 +25,7 @@
 
 \item{nchains}{A count of the number of chains (default: 3).}
 
-\item{niters}{A count of the number of simulations to save per chain (default: 1000).}
+\item{niters}{A count of the number of iterations to save per chain (default: 1000).}
 
 \item{nthin}{A count of the thinning interval.}
 
