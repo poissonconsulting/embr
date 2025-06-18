@@ -32,6 +32,7 @@ analyse1 <- function(model, data, loaded, nchains, niters, nthin, quiet, glance,
 
 analyse_data <- function(data, name = NULL, x, loaded, nchains, niters, nthin,
                          parallel, quiet, glance, seed, niters_warmup, ...) {
+  check_no_sf(data)
   if (!is.null(name) & glance) cat("Data:", name, "\n")
   analyse1(x, data,
            loaded = loaded, nchains = nchains, niters = niters,
@@ -225,7 +226,7 @@ analyse.mb_model <- function(x, data,
   chk_flag(glance)
   chk_whole_number(seed)
   chk_gt(seed, 0L)
-  chk_string(stan_engine)
+  chk_character(stan_engine)
   chk_whole_number(niters_warmup)
   chk_range(niters_warmup, c(10L, 100000L))
 
