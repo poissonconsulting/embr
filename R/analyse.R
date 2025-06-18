@@ -98,17 +98,18 @@ analyse.character <- function(x, data,
 #' @description
 #' Performs parameter estimation on a single mb_model object using Stan or JAGS.
 #'
-#' This function provides a set of arguments that are common to various underlying estimation methods.
-#' However, some arguments are only relevant to MCMC sampling functions (e.g., `nchains`, `niters`, `nthin`, `seed`, `niters_warmup`).
+#' The model fitting method dispatched depends on the class of the mb_model object and the `stan_engine` argument.
 #'
-#' If the model is a JAGS model, [rjags](https://github.com/cran/rjags) is used for sampling under the hood.
-#' If the model is a Stan model, either [cmdstanr](https://mc-stan.org/cmdstanr/) or [rstan](https://github.com/stan-dev/rstan) is used, depending on the `stan_engine` value. Possible options include:
-#' * `"cmdstan-mcmc"` for MCMC sampling via [cmdstanr::sample()]
-#' * `"cmdstan-pathfinder"` for pathfinder estimation via [cmdstanr::pathfinder()]
-#' * `"cmdstan-optimize"` for optimization via [cmdstanr::optimize()]
-#' * `"cmdstan-laplace"` for Laplace approximation via [cmdstanr::laplace()]
-#' * Any other character value with default to default of MCMC sampling via [rstan::sampling()]
+#' If the model is a JAGS model, [rjags](https://github.com/cran/rjags) is used for MCMC sampling.
+#' If the model is a Stan model, [rstan](https://github.com/stan-dev/rstan) or [cmdstanr](https://mc-stan.org/cmdstanr/) is used, depending on the value provided to `stan_engine`:
+#' * `"cmdstan-mcmc"` for [MCMC sampling](https://mc-stan.org/docs/cmdstan-guide/mcmc_config.html) via [cmdstanr::sample()]
+#' * `"cmdstan-optimize"` for [optimization](https://mc-stan.org/docs/cmdstan-guide/optimize_config.html) via [cmdstanr::optimize()]
+#' * `"cmdstan-pathfinder"` for [pathfinder](https://mc-stan.org/docs/cmdstan-guide/pathfinder_config.html) estimation via [cmdstanr::pathfinder()]
+#' * `"cmdstan-variational"` for [variational ADVI](https://mc-stan.org/docs/cmdstan-guide/variational_config.html) estimation via [cmdstanr::variational()]
+#' * `"cmdstan-laplace"` for [Laplace approximation](https://mc-stan.org/docs/cmdstan-guide/laplace_sample_config.html) via [cmdstanr::laplace()]
+#' * Any other character value will default to MCMC sampling via [rstan::sampling()]
 #'
+#' @details
 #' For CmdStan models, additional arguments can be passed to the engine-specific estimation functions via the `...` argument.
 #'
 #' For example, additional options in [cmdstanr::sample()] include:
@@ -117,7 +118,28 @@ analyse.character <- function(x, data,
 #' * `step_size` - Initial step size for sampler
 #' * `refresh` - How often to print sampling progress
 #'
-#' If the options are already being used, they will be ignored (e.g., passing `iter_sampling` to [cmdstanr::sample()] with `stan_engine = 'cmdstan-mcmc'` will not override the iterations set via `niters`).
+#' Some additional options in [cmdstanr::pathfinder()] include:
+#' * `num_paths` - Number of single-path Pathfinders to run (default: 4)
+#' * `history_size` - L-BFGS history size for approximating Hessian (default: 5)
+#' * `max_lbfgs_iters` - Maximum L-BFGS iterations per path (default: 1000)
+#' * `psis_resample` - Whether to use Pareto-smoothed importance sampling (default: TRUE)
+#'
+#' Some additional options in [cmdstanr::variational()] include:
+#' * `algorithm` - Variational algorithm: "meanfield" (default) or "fullrank"
+#'
+#' Some aditional options in [cmdstanr::optimize()] include:
+#' * `algorithm` - Optimization algorithm: "lbfgs" (default), "bfgs", or "newton"
+#'
+#' Some additional options in [cmdstanr::laplace()] include:
+#' * `mode` - CmdStanMLE object from previous optimization (if NULL, runs optimize)
+#' * `jacobian` - Whether mode used Jacobian adjustment (default: TRUE)
+#'
+#' Each `analyse1` method checks for the presence of conflicting arguments and will ignore these (e.g., `iter_sampling` with `stan_engine = 'cmdstan-mcmc'` will be ignored in favour of iterations set via `niters`)
+#'
+#' One exception is for `init`, which can be passed via '...' to override defaults or inits generated via `gen_inits()` in `model()`. Non-MCMC model fitting methods cannot use `gen_inits()`.
+#' Some arguments in `analyse.mb_model()` are unused in non-MCMC methods (e.g., `nthin`, `niters_warmup`).
+#'
+#' For pathfinder, variational, and laplace methods, `niters` samples are drawn from the approximated posterior distributions.
 #'
 #' @param x An mb_model object to analyse.
 #' @param data The data frame to analyse, or a list of data frames for multiple datasets.
@@ -130,12 +152,17 @@ analyse.character <- function(x, data,
 #' @examples
 #' \dontrun{
 #' # Stan model with RStan (default)
-#' analysis <- analyse(stan_model, data, nchains = 4, niters = 2000)
+#' analysis <- analyse(stan_model, data, nchains = 4, niters = 1000)
 #'
 #' # Stan model with CmdStanR MCMC
 #' analysis <- analyse(stan_model, data,
 #'                     stan_engine = "cmdstan-mcmc",
-#'                     nchains = 4, niters = 2000)
+#'                     nchains = 4, niters = 1000)
+#'
+#' # Stan model with CmdStanR Pathfinder
+#' analysis <- analyse(stan_model, data,
+#'                     stan_engine = "cmdstan-pathfinder",
+#'                     niters = 500)
 #'
 #' # JAGS model
 #' analysis <- analyse(jags_model, data, nchains = 4, niters = 2000)
@@ -201,6 +228,14 @@ analyse.mb_model <- function(x, data,
 
   if(identical(stan_engine, "cmdstan-mcmc")) {
     class(x) <- c("cmdstan_model", "cmdstan_mcmc_model", class(x))
+  } else if(identical(stan_engine, "cmdstan-pathfinder")) {
+    class(x) <- c("cmdstan_model", "cmdstan_pathfinder_model", class(x))
+  } else if(identical(stan_engine, "cmdstan-optimize")) {
+    class(x) <- c("cmdstan_model", "cmdstan_optimize_model", class(x))
+  } else if(identical(stan_engine, "cmdstan-laplace")) {
+    class(x) <- c("cmdstan_model", "cmdstan_laplace_model", class(x))
+  } else if(identical(stan_engine, "cmdstan-variational")) {
+    class(x) <- c("cmdstan_model", "cmdstan_variational_model", class(x))
   }
 
   loaded <- load_model(x, quiet)
