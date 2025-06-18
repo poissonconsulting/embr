@@ -4,8 +4,8 @@ test_that("analyse.mb_model errors with sf object", {
 
   # Create simple model and sf data for testing
   model <- model(code = "model { bX ~ dnorm(0, 1) }")
-  sf_data <- sf::st_as_sf(data.frame(x = 1:3, y = 4:6),
-                          coords = c("x", "y"))
+  sf_data <- data.frame(x = 1:3, y = 4:6)
+  class(sf_data) <- c("sf", "data.frame")  # Simulate an sf object
 
   # This should error early in the analysis pipeline
   set_analysis_mode("check")
