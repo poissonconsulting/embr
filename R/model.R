@@ -168,6 +168,7 @@ model <- function(
     random_effects = random_effects,
     modify_data = modify_data,
     new_expr = new_expr,
+    new_expr_vec = new_expr_vec,
     modify_new_data = modify_new_data,
     drops = drops,
     nthin = nthin

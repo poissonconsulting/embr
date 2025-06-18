@@ -385,3 +385,36 @@ test_that("cannot undo the vectorization if orignally set in the model", {
   local_edition(3)
   expect_snapshot(new_expr(analysis))
 })
+
+test_that("previously set new_expr_vec is used in update_model", {
+  skip_if_not_installed("jmbr")
+
+  model <- model(
+    code = "model{
+  bIntercept ~ dnorm(0, 5^-2)
+  }",
+    new_expr = "
+  for(i in 1:length(Density)) {
+    fit[i] <- bIntercept + bYear * Year[i] + bHabitatQuality[HabitatQuality[i]] + bSiteYear[Site[i], YearFactor[i]]
+    log(prediction[i]) <- fit[i]
+    residual[i] <- res_lnorm(Density[i], fit[i], exp(log_sDensity))
+  }",
+    new_expr_vec = TRUE
+  )
+
+  new_expr2 <- "
+  for(i in 1:length(Density)) {
+    fit[i] <- bIntercept
+    log(prediction[i]) <- fit[i]
+    residual[i] <- res_lnorm(Density[i], fit[i], exp(log_sDensity))
+  }"
+
+  model <- update_model(
+    model,
+    new_expr = new_expr2
+  )
+
+  chk_true(model$new_expr_vec)
+  expect_equal(as.character(model$new_expr)[2], "fit <- bIntercept")
+
+})
