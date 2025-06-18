@@ -223,6 +223,11 @@ analyse.mb_model <- function(x, data,
   chk_flag(parallel)
   chk_flag(quiet)
   chk_flag(glance)
+  chk_whole_number(seed)
+  chk_gt(seed, 0L)
+  chk_string(stan_engine)
+  chk_whole_number(niters_warmup)
+  chk_range(niters_warmup, c(10L, 100000L))
 
   if (is.null(nthin)) nthin <- nthin(x)
 
