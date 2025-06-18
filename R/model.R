@@ -45,7 +45,7 @@ model <- function(
     new_expr_vec = getOption("mb.new_expr_vec", FALSE),
     modify_new_data = identity,
     drops = list()) {
-  check_dots_empty()
+  chk_unused(...)
 
   if (is.null(x)) {
     x <- mb_code({{ code }})

@@ -3,7 +3,7 @@ rhat.mb_analysis <- function(x, by = "all", param_type = "all", as_df = FALSE,
                              ...) {
   chk_string(param_type)
   chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
-  check_dots_empty()
+  chk_unused(...)
   pars <- pars(x, param_type)
 
   x <- as.mcmcr(x)
@@ -20,7 +20,7 @@ rhat.mb_analyses <- function(x, by = "all", param_type = "all", as_df = FALSE,
                              bound = FALSE, ...) {
   chk_string(param_type)
   chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
-  check_dots_empty()
+  chk_unused(...)
 
   pars <- pars(x[[1]], param_type)
 
@@ -34,7 +34,7 @@ rhat.mb_analyses <- function(x, by = "all", param_type = "all", as_df = FALSE,
 esr.mb_analysis <- function(x, by = "all", as_df = FALSE, param_type = "all", ...) {
   chk_string(param_type)
   chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
-  check_dots_empty()
+  chk_unused(...)
   pars <- pars(x, param_type)
 
   x <- as.mcmcr(x)
@@ -50,7 +50,7 @@ esr.mb_null_analysis <- function(x, ...) 0
 esr.mb_analyses <- function(x, by = "all", as_df = FALSE, param_type = "all", ...) {
   chk_string(param_type)
   chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
-  check_dots_empty()
+  chk_unused(...)
 
   pars <- pars(x[[1]], param_type)
 
@@ -65,7 +65,7 @@ converged.mb_analysis <- function(x, rhat = 1.1, esr = 0.33, by = "all",
                                   param_type = "all", as_df = FALSE, ...) {
   chk_string(param_type)
   chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
-  check_dots_empty()
+  chk_unused(...)
 
   pars <- pars(x, param_type)
 
@@ -85,7 +85,7 @@ converged.mb_analyses <- function(x, rhat = 1.1, esr = 0.33, by = "all",
                                   ...) {
   chk_string(param_type)
   chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
-  check_dots_empty()
+  chk_unused(...)
 
   pars <- pars(x[[1]], param_type)
 
@@ -97,7 +97,7 @@ converged.mb_analyses <- function(x, rhat = 1.1, esr = 0.33, by = "all",
 
 #' @export
 nchains.mb_analysis <- function(x, ...) {
-  check_dots_empty()
+  chk_unused(...)
   if (is.mb_null_analysis(x)) {
     return(0L)
   }
@@ -106,12 +106,12 @@ nchains.mb_analysis <- function(x, ...) {
 
 #' @export
 niters.mb_analysis <- function(x, ...) {
-  check_dots_empty()
+  chk_unused(...)
   niters(as.mcmcr(x))
 }
 
 #' @export
 npars.mb_code <- function(x, ...) {
-  check_dots_empty()
+  chk_unused(...)
   length(pars(x))
 }
