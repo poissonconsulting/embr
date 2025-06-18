@@ -77,7 +77,7 @@ model <- model(
 niters <- 250L
 nchains <- 2L
 expect_output(analysis <- analyse(model, data = data,
-                                  parallel = FALSE, quiet = FALSE, niters = niters,
+                                  parallel = FALSE, niters = niters,
                                   nchains = nchains, seed = 1))
 
 expect_equal(as.data.frame(data_set(analysis)), data)
