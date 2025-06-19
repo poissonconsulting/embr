@@ -6,9 +6,6 @@
 - Add `seed` and `niters_warmup` arguments to `analyse()` and methods so that can be used by `smbr` and `smbr2`. 
 - Pass `...` to `analyse_data()` and `analyse1()` to allow additional arguments to be passed to cmdstanr functions. 
 
-- Remove logLik and IC columns from glance output (#34, #88).
-
-
 # embr 0.0.1.9038
 
 - Remove `logLik` and `IC` columns from glance output.
