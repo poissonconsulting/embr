@@ -4,40 +4,40 @@
       get_analysis_mode()
     Output
       $mb.nchains
-      [1] 2
+      NULL
       
       $mb.niters
-      [1] 500
+      NULL
       
       $mb.nthin
       NULL
       
       $mb.parallel
-      [1] FALSE
+      NULL
       
       $mb.quiet
-      [1] TRUE
+      NULL
       
       $mb.beep
-      [1] FALSE
+      NULL
       
       $mb.glance
-      [1] FALSE
+      NULL
       
       $mb.nreanalyses
-      [1] 1
+      NULL
       
       $mb.rhat
-      [1] 1
+      NULL
       
       $mb.esr
-      [1] 1
+      NULL
       
       $mb.duration
-      [1] "120s (~2 minutes)"
+      NULL
       
       $mb.conf_level
-      [1] 0.95
+      NULL
       
 
 # get_analysis_mode with debug mode
