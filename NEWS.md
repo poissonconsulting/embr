@@ -2,15 +2,6 @@
 
 # embr 0.1.0
 
-- Merge branch 'smb2' of github.com:poissonconsulting/embr into smb2.
-
-- Merge branch 'smb2' of github.com:poissonconsulting/embr into smb2.
-
-- Remove logLik and IC columns from glance output (#34, #88).
-
-
-# embr 0.0.1.9039
-
 - Add `stan_engine` argument to `analyse()` and methods to allow setting cmdstan engine and implementation of cmdstanr features via methods in `smbr2` package. 
 - Add `seed` and `niters_warmup` arguments to `analyse()` and methods so that can be used by `smbr` and `smbr2`. 
 - Pass `...` to `analyse_data()` and `analyse1()` to allow additional arguments to be passed to cmdstanr functions. 
