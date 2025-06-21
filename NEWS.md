@@ -1,5 +1,14 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# embr 0.1.0
+
+- Merge branch 'smb2' of github.com:poissonconsulting/embr into smb2.
+
+- Merge branch 'smb2' of github.com:poissonconsulting/embr into smb2.
+
+- Remove logLik and IC columns from glance output (#34, #88).
+
+
 # embr 0.0.1.9039
 
 - Add `stan_engine` argument to `analyse()` and methods to allow setting cmdstan engine and implementation of cmdstanr features via methods in `smbr2` package. 
