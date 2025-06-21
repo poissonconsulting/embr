@@ -27,6 +27,7 @@ as.analyses <- function(x, ...) {
 
 #' @export
 as.mcmcr.mb_analysis_coef <- function(x, ...) {
+  chk_unused(...)
   x <- dplyr::select(x, "term", "estimate")
   x <- dplyr::mutate_(x, parameter = ~ sub("^(\\w+)(.*)", "\\1", term))
   x <- plyr::dlply(x, ~parameter, lmcmcarray)
@@ -39,6 +40,7 @@ as.mcmcr.mb_analysis_coef <- function(x, ...) {
 
 #' @export
 as.mcmcr.mb_analysis <- function(x, ...) {
+  chk_unused(...)
   if (!is.null(x$mcmcr)) {
     return(x$mcmcr)
   }
@@ -51,16 +53,19 @@ as.mcmcr.mb_analysis <- function(x, ...) {
 
 #' @export
 as.model.mb_analysis <- function(x, ...) {
+  chk_unused(...)
   model(x)
 }
 
 #' @export
 as.models.mb_model <- function(x, ...) {
+  chk_unused(...)
   as.models(list(x))
 }
 
 #' @export
 as.models.list <- function(x, ...) {
+  chk_unused(...)
   if (!is.list(x)) err("x must be a list", tidy = FALSE)
 
   if (length(x)) {
@@ -79,23 +84,27 @@ as.models.list <- function(x, ...) {
 
 #' @export
 as.models.mb_analysis <- function(x, ...) {
+  chk_unused(...)
   as.models(model(x))
 }
 
 #' @export
 as.models.mb_analyses <- function(x, ...) {
+  chk_unused(...)
   x <- purrr::map(x, model)
   as.models(x)
 }
 
 #' @export
 as.mcmcrs.mb_analyses <- function(x, ...) {
+  chk_unused(...)
   x <- purrr::map(x, as.mcmcr)
   mcmcr::as.mcmcrs(x)
 }
 
 #' @export
 as.analyses.list <- function(x, ...) {
+  chk_unused(...)
   if (!is.list(x)) err("x must be a list", tidy = FALSE)
 
   if (length(x)) {

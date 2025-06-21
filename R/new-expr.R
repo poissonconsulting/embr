@@ -11,31 +11,37 @@ new_expr <- function(object, ...) {
 
 #' @export
 new_expr.mb_model <- function(object, ...) {
+  chk_unused(...)
   object$new_expr
 }
 
 #' @export
 new_expr.mb_models <- function(object, ...) {
+  chk_unused(...)
   lapply(object, new_expr)
 }
 
 #' @export
 new_expr.mb_analysis <- function(object, ...) {
+  chk_unused(...)
   new_expr(get_model(object))
 }
 
 #' @export
 new_expr.mb_analyses <- function(object, ...) {
+  chk_unused(...)
   lapply(object, new_expr)
 }
 
 #' @export
 new_expr.mb_meta_analysis <- function(object, ...) {
+  chk_unused(...)
   lapply(object, new_expr)
 }
 
 #' @export
 new_expr.mb_meta_analyses <- function(object, ...) {
+  chk_unused(...)
   lapply(object, new_expr)
 }
 

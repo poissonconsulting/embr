@@ -12,10 +12,12 @@ code <- function(object, ...) {
 
 #' @export
 code.mb_model <- function(object, ...) {
+  chk_unused(...)
   object$code
 }
 
 #' @export
 code.mb_analysis <- function(object, ...) {
+  chk_unused(...)
   code(model(object), ...)
 }

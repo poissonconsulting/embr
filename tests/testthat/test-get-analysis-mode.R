@@ -1,5 +1,6 @@
 test_that("get_analysis_mode with no options", {
   local_edition(3)
+  set_analysis_mode("reset")
   expect_snapshot(get_analysis_mode())
 })
 
