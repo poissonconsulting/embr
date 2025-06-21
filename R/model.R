@@ -24,6 +24,8 @@
 #' @param new_expr_vec A flag specifying whether to vectorize the new_expr code.
 #' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
 #' @param drops A list of character vector of possible scalar pars to drop (fix at 0).
+#' @param stan_engine A string indicating the Stan engine to use, e.g., `"cmdstanr"`.
+#' Currently, any value other than `"cmdstanr"` will default to `"rstan"`.
 #' @param ... Unused arguments.
 #' @return An object inherting from class mb_model.
 #' @seealso \code{\link[chk]{check_data}} \code{\link[rescale]{rescale_c}}
@@ -48,7 +50,7 @@ model <- function(
   chk_unused(...)
 
   if (is.null(x)) {
-    x <- mb_code({{ code }})
+    x <- mb_code({{ code }}, stan_engine = stan_engine)
   } else {
     chk_null(code)
     if (is.character(x)) {
@@ -58,7 +60,7 @@ model <- function(
         "model(code = 'character()')",
         details = 'Passing a string to model() is deprecated. Use model(code = ...) or model(mb_code("..."), ...) instead.'
       )
-      x <- mb_code(x)
+      x <- mb_code(x, stan_engine = stan_engine)
     } else if (is.mb_analysis(x)) {
       deprecate_soft(
         "0.0.1.9036",

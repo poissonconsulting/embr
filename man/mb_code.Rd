@@ -5,7 +5,7 @@
 \alias{new_mb_code}
 \title{MB Code}
 \usage{
-mb_code(template)
+mb_code(template, stan_engine = character(0))
 
 new_mb_code(x, class)
 }
