@@ -20,8 +20,7 @@ model(
   new_expr = NULL,
   new_expr_vec = getOption("mb.new_expr_vec", FALSE),
   modify_new_data = identity,
-  drops = list(),
-  stan_engine = character(0)
+  drops = list()
 )
 }
 \arguments{
@@ -58,9 +57,6 @@ returning a named list of initial values.}
 \item{modify_new_data}{A single argument function to modify new data (in list form) immediately prior to calculating new_expr.}
 
 \item{drops}{A list of character vector of possible scalar pars to drop (fix at 0).}
-
-\item{stan_engine}{A string indicating the Stan engine to use, e.g., `"cmdstanr"`.
-Currently, any value other than `"cmdstanr"` will default to `"rstan"`.}
 }
 \value{
 An object inherting from class mb_model.
