@@ -80,10 +80,11 @@ expect_output(analysis <- analyse(model, data = data,
                                   parallel = FALSE, niters = niters,
                                   nchains = nchains, seed = 1))
 
-analysis$duration <- NULL
-analysis$stanfit <- NULL
-analysis$model$gen_inits <- NULL
-expect_snapshot(analysis)
+analysis_bare <- analysis
+analysis_bare$duration <- NULL
+analysis_bare$stanfit <- NULL
+analysis_bare$model <- NULL
+expect_snapshot(analysis_bare)
 
 expect_output(analysis <- reanalyse(analysis, seed = 1))
 

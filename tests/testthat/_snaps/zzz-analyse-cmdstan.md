@@ -1,125 +1,8 @@
 # model pars for smbr2 and cmdstan engine
 
     Code
-      analysis
+      analysis_bare
     Output
-      $model
-      $code
-      data {
-        int<lower=0> nObs;
-        vector[nObs] Density;
-        vector[nObs] Year;
-        array[nObs] int<lower=1> Site;
-        array[nObs] int<lower=1> YearFactor;
-        array[nObs] int<lower=1> HabitatQuality;
-        int<lower=1> nSite;
-        int<lower=1> nYearFactor;
-        int<lower=1> nHabitatQuality;
-      }
-      
-      parameters {
-        real bIntercept;
-        real bYear;
-        vector<lower=0>[nHabitatQuality-1] bHabitatQuality;
-        real<lower=0> log_sSiteYear;
-        real<lower=0> log_sDensity;
-        matrix[nSite, nYearFactor] bSiteYear;
-      }
-      
-      transformed parameters {
-          vector[nObs] eDensity;
-          vector[nObs] eHabitatQuality;
-          for(i in 1:nObs){
-              eHabitatQuality[i] = HabitatQuality[i] == 1 ? 0 : bHabitatQuality[HabitatQuality[i]-1];
-              eDensity[i] = bIntercept + bYear * Year[i] + eHabitatQuality[i] + bSiteYear[Site[i], YearFactor[i]];
-          }
-      }
-      
-      model {
-        bIntercept ~ normal(0, 5);
-        bYear ~ normal(0, 0.5);
-        bHabitatQuality ~ normal(0, 5);
-        log_sSiteYear ~ lognormal(0, 5);
-        log_sDensity ~ student_t(4.5, 0, 5);
-      
-        to_vector(bSiteYear) ~ normal(0, exp(log_sSiteYear));
-      
-        for (i in 1:nObs) {
-          Density[i] ~ lognormal(eDensity[i], exp(log_sDensity));
-        }
-      }
-      $fixed
-      [1] "^(b|l)"
-      
-      $derived
-      [1] "eDensity"
-      
-      $select_data
-      $select_data$`Year+`
-      numeric(0)
-      
-      $select_data$YearFactor
-      factor()
-      Levels: 
-      
-      $select_data$Site
-      factor()
-      Levels: 
-      
-      $select_data$Density
-      numeric(0)
-      
-      $select_data$HabitatQuality
-      factor()
-      Levels: 
-      
-      
-      $center
-      character(0)
-      
-      $scale
-      character(0)
-      
-      $random_effects
-      $random_effects$bSiteYear
-      [1] "Site"       "YearFactor"
-      
-      
-      $modify_data
-      function (x) 
-      x
-      <bytecode: 0x13fa6ae50>
-      <environment: namespace:base>
-      
-      $new_expr
-      for (i in 1:length(Density)) {
-          eHabitatQuality[2] <- bHabitatQuality
-          eHabitatQuality[1] <- 0
-          fit[i] <- bIntercept + bYear * Year[i] + eHabitatQuality[HabitatQuality[i]] + 
-              bSiteYear[Site[i], YearFactor[i]]
-          log(prediction[i]) <- fit[i]
-          residual[i] <- res_lnorm(Density[i], fit[i], exp(log_sDensity))
-      }
-      
-      $new_expr_vec
-      [1] FALSE
-      
-      $modify_new_data
-      function (x) 
-      x
-      <bytecode: 0x13fa6ae50>
-      <environment: namespace:base>
-      
-      $drops
-      list()
-      
-      $nthin
-      [1] 1
-      
-      attr(,"class")
-      [1] "cmdstan_model"      "cmdstan_mcmc_model" "smb_model"         
-      [4] "mb_model"          
-      
       $data
            Site HabitatQuality Year Visit      Density YearFactor
       1   Site1            Low 2001     1 3.719251e+02       2001
@@ -422,6 +305,32 @@
       298 Site6           High 2010     3 1.484458e+01       2010
       299 Site6           High 2010     4 7.589347e+00       2010
       300 Site6           High 2010     5 3.215558e+00       2010
+      
+      $cmdstan_fit
+                 variable    mean  median   sd  mad      q5     q95 rhat ess_bulk
+       lp__               -520.37 -520.09 5.76 5.58 -529.79 -511.51 1.02      115
+       bIntercept           -0.48   -0.49 0.39 0.38   -1.10    0.20 1.03       43
+       bYear                 0.88    0.87 0.11 0.11    0.71    1.08 1.04       35
+       bHabitatQuality[1]    9.41    9.39 0.60 0.56    8.46   10.44 1.04       30
+       log_sSiteYear         0.93    0.93 0.09 0.09    0.79    1.07 1.00      460
+       log_sDensity          0.04    0.03 0.03 0.03    0.00    0.09 1.00      421
+       bSiteYear[1,1]        0.78    0.77 0.84 0.83   -0.59    2.16 1.04       37
+       bSiteYear[2,1]        0.98    0.89 0.70 0.64   -0.08    2.30 1.01       69
+       bSiteYear[3,1]        0.68    0.71 0.80 0.83   -0.64    1.98 1.03       37
+       bSiteYear[4,1]        1.47    1.43 0.71 0.74    0.36    2.64 1.01       64
+       ess_tail
+            254
+             75
+             92
+             58
+            332
+            261
+            131
+            193
+            124
+             67
+      
+       # showing 10 of 666 rows (change via 'max_rows' argument or 'cmdstanr_max_rows' option)
       
       $mcmcr
       $bHabitatQuality
