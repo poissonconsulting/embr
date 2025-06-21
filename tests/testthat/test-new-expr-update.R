@@ -59,7 +59,9 @@ test_that("update new expr string expression", {
           residual <- res_lnorm(Density, fit, exp(log_sDensity))
       }"
   )
-  expect_warning(expect_warning(analysis <- analyse(model, data = data, glance = FALSE)))
+  niters <- 250L
+  expect_warning(expect_warning(analysis <- analyse(model, data = data, niters = niters,
+                                                    glance = FALSE)))
 
   expect_identical(pars(analysis, "derived"), "eDensity")
   expect_identical(pars(analysis, "random"), "bSiteYear")
