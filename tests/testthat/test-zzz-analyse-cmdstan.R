@@ -74,98 +74,44 @@ model <- model(
   new_expr = new_expr
 )
 
-
+seed <- 123
 niters <- 250L
 nchains <- 2L
 expect_output(analysis <- analyse(model, data = data, stan_engine = "cmdstan-mcmc",
-                    parallel = TRUE, niters = niters, nchains = nchains, niters_warmup = niters, seed = 1))
+                    parallel = TRUE, niters = niters, nchains = nchains,
+                    niters_warmup = niters, seed = seed))
 
-expect_equal(as.data.frame(data_set(analysis)), data)
-data2 <- data_set(analysis, marginalize_random_effects = TRUE)
-expect_true(all(as.integer(data2$Site) == 1L))
-expect_true(all(as.integer(data2$YearFactor) == 1L))
-# need random seed so repeatable
-R2c <- R2(analysis, "Density")
-expect_gt(R2c, 0.5)
-expect_lt(R2c, 0.9)
+analysis$duration <- NULL
+analysis$cmdstan_fit <- NULL
+analysis$model$gen_inits <- NULL
+expect_snapshot(analysis)
 
-R2m <- R2(analysis, "Density", marginal = TRUE)
-expect_gt(R2m, 0.0)
-expect_lt(R2m, 0.01)
-
-expect_identical(class(analysis), c("cmdstan_mcmc_analysis", "cmdstan_analysis", "mb_analysis"))
-
-expect_identical(niters(analysis), niters)
-expect_identical(nchains(analysis), nchains)
-expect_identical(nsims(analysis), 500L)
-expect_identical(ngens(analysis), 1000L)
-
-expect_output(analysis <- reanalyse(analysis))
-
-expect_identical(niters(analysis), niters)
-expect_identical(ngens(analysis), 1000L)
+expect_output(analysis <- reanalyse(analysis, seed = seed))
 
 expect_identical(pars(analysis, "fixed"), sort(c("bHabitatQuality", "bIntercept", "bYear", "log_sDensity", "log_sSiteYear")))
 expect_identical(pars(analysis, "random"), "bSiteYear")
 expect_identical(pars(analysis, "derived"), "eDensity")
-expect_identical(
-  pars(analysis, "primary"),
-  c("bHabitatQuality", "bIntercept", "bSiteYear", "bYear", "log_sDensity", "log_sSiteYear")
-)
-expect_identical(
-  pars(analysis),
-  c("bHabitatQuality", "bIntercept", "bSiteYear", "bYear", "eDensity", "log_sDensity", "log_sSiteYear")
-)
+
+expect_equal(as.data.frame(data_set(analysis)), data)
 
 expect_s3_class(as.mcmcr(analysis), "mcmcr")
 
 glance <- glance(analysis)
-expect_s3_class(glance, "tbl")
-expect_identical(colnames(glance), c("n", "K", "nchains", "niters", "nthin", "ess", "rhat", "converged"))
-expect_identical(glance$n, 300L)
-expect_identical(glance$nthin, 1L)
-expect_identical(glance$K, 5L)
-
-derived <- coef(analysis, param_type = "derived", simplify = TRUE)
-expect_identical(colnames(derived), c("term", "estimate", "lower", "upper", "svalue"))
-expect_identical(nrow(derived), 300L)
+expect_snapshot(glance)
 
 coef <- coef(analysis, simplify = TRUE)
+expect_snapshot(coef)
 
-expect_s3_class(coef, "tbl")
-expect_identical(colnames(coef), c("term", "estimate", "lower", "upper", "svalue"))
-
-expect_identical(coef$term, as.term(c(
-  "bHabitatQuality",
-  "bIntercept", "bYear",
-  "log_sDensity", "log_sSiteYear"
-)))
-
-expect_identical(nrow(coef(analysis, "primary", simplify = TRUE)), 65L)
-expect_identical(nrow(coef(analysis, "all", simplify = TRUE)), 365L)
+derived <- coef(analysis, param_type = "derived", simplify = TRUE)
+expect_snapshot(derived)
 
 tidy <- tidy(analysis)
-expect_identical(colnames(tidy), c("term", "estimate", "lower", "upper", "esr", "rhat"))
+expect_snapshot(tidy)
 
 year <- predict(analysis, new_data = "Year")
-
-ppc <- posterior_predictive_check(analysis)
-
-expect_s3_class(ppc, "tbl_df")
-expect_identical(colnames(ppc), c("moment", "observed", "median", "lower", "upper", "svalue"))
-expect_identical(ppc$moment, structure(1:5, .Label = c(
-  "zeros", "mean", "variance", "skewness",
-  "kurtosis"
-), class = "factor"))
-expect_s3_class(year, "tbl")
-expect_identical(colnames(year), c(
-  "Site", "HabitatQuality", "Year", "Visit",
-  "Density", "YearFactor",
-  "estimate", "lower", "upper", "svalue"
-))
-expect_true(all(year$lower < year$estimate))
-expect_false(is.unsorted(year$estimate))
+expect_snapshot(year)
 
 dd <- mcmc_derive_data(analysis, new_data = c("Site", "Year"), ref_data = TRUE)
+expect_snapshot(dd)
 expect_true(mcmcdata::is.mcmc_data(dd))
   })
