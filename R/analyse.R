@@ -118,6 +118,7 @@ analyse.character <- function(x, data,
 #' * `max_treedepth` - Maximum tree depth for NUTS sampler
 #' * `step_size` - Initial step size for sampler
 #' * `refresh` - How often to print sampling progress
+#' * `output_dir` - Directory to save output files (default: NULL, uses temporary directory)
 #'
 #' Some additional options in [cmdstanr::pathfinder()] include:
 #' * `num_paths` - Number of single-path Pathfinders to run (default: 4)

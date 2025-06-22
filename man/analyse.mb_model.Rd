@@ -85,6 +85,7 @@ For example, additional options in \code{\link[cmdstanr:model-method-sample]{cmd
 \item \code{max_treedepth} - Maximum tree depth for NUTS sampler
 \item \code{step_size} - Initial step size for sampler
 \item \code{refresh} - How often to print sampling progress
+\item \code{output_dir} - Directory to save output files (default: NULL, uses temporary directory)
 }
 
 Some additional options in \code{\link[cmdstanr:model-method-pathfinder]{cmdstanr::pathfinder()}} include:
