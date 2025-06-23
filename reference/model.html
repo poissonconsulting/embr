@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">embr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9038</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,8 +55,7 @@
 <span>  new_expr <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  new_expr_vec <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.new_expr_vec"</span>, <span class="cn">FALSE</span><span class="op">)</span>,</span>
 <span>  modify_new_data <span class="op">=</span> <span class="va">identity</span>,</span>
-<span>  drops <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
-<span>  stan_engine <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span></span>
+<span>  drops <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -65,7 +64,7 @@
 
 
 <dl><dt id="arg-x">x<a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>A string, or an object inheriting from class `"mb_code"`.</p></dd>
+<dd><p>A string, or an object inheriting from class <code>"mb_code"</code>.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
@@ -73,7 +72,7 @@
 
 
 <dt id="arg-code">code<a class="anchor" aria-label="anchor" href="#arg-code"></a></dt>
-<dd><p>Passed on to [mb_code()]. If `x` is not `NULL`, `code` must be `NULL`,
+<dd><p>Passed on to <code><a href="mb_code.html">mb_code()</a></code>. If <code>x</code> is not <code>NULL</code>, <code>code</code> must be <code>NULL</code>,
 and vice versa.</p></dd>
 
 
@@ -128,11 +127,6 @@ returning a named list of initial values.</p></dd>
 
 <dt id="arg-drops">drops<a class="anchor" aria-label="anchor" href="#arg-drops"></a></dt>
 <dd><p>A list of character vector of possible scalar pars to drop (fix at 0).</p></dd>
-
-
-<dt id="arg-stan-engine">stan_engine<a class="anchor" aria-label="anchor" href="#arg-stan-engine"></a></dt>
-<dd><p>A string indicating the Stan engine to use, e.g., `"cmdstanr"`.
-Currently, any value other than `"cmdstanr"` will default to `"rstan"`.</p></dd>
 
 </dl></div>
     <div class="section level2">

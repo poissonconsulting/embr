@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">embr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.0.1.9038</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -48,6 +48,51 @@
 
 <dt id="arg-type">type<a class="anchor" aria-label="anchor" href="#arg-type"></a></dt>
 <dd><p>A string of the residual type.</p></dd>
+
+
+<dt id="arg-nchains">nchains<a class="anchor" aria-label="anchor" href="#arg-nchains"></a></dt>
+<dd><p>A count of the number of chains (default: 3).</p></dd>
+
+
+<dt id="arg-niters">niters<a class="anchor" aria-label="anchor" href="#arg-niters"></a></dt>
+<dd><p>A count of the number of iterations to save per chain (default: 1000).</p></dd>
+
+
+<dt id="arg-nthin">nthin<a class="anchor" aria-label="anchor" href="#arg-nthin"></a></dt>
+<dd><p>A count of the thinning interval.</p></dd>
+
+
+<dt id="arg-parallel">parallel<a class="anchor" aria-label="anchor" href="#arg-parallel"></a></dt>
+<dd><p>A flag indicating whether to perform the analysis in parallel if possible.</p></dd>
+
+
+<dt id="arg-quiet">quiet<a class="anchor" aria-label="anchor" href="#arg-quiet"></a></dt>
+<dd><p>A flag indicating whether to disable messages and warnings, including sampling progress.</p></dd>
+
+
+<dt id="arg-glance">glance<a class="anchor" aria-label="anchor" href="#arg-glance"></a></dt>
+<dd><p>A flag indicating whether to print a model summary.</p></dd>
+
+
+<dt id="arg-beep">beep<a class="anchor" aria-label="anchor" href="#arg-beep"></a></dt>
+<dd><p>A flag indicating whether to beep on completion of the analysis.</p></dd>
+
+
+<dt id="arg-seed">seed<a class="anchor" aria-label="anchor" href="#arg-seed"></a></dt>
+<dd><p>A positive whole number specifying the seed to use. The default is random. This is currently only implemented for Stan models.</p></dd>
+
+
+<dt id="arg-niters-warmup">niters_warmup<a class="anchor" aria-label="anchor" href="#arg-niters-warmup"></a></dt>
+<dd><p>A count of the number of warmup iterations. The default is to use the same number of iterations as <code>niters</code>. This is currently only implemented for Stan models.</p></dd>
+
+
+<dt id="arg-stan-engine">stan_engine<a class="anchor" aria-label="anchor" href="#arg-stan-engine"></a></dt>
+<dd><p>A string specifying the Stan engine to use:</p><ul><li><p><code>"rstan"</code> for MCMC sampling via <code>rstan::sampling()</code> (default).</p></li>
+<li><p><code>"cmdstan-mcmc"</code> for MCMC sampling via <code>cmdstanr::sample()</code></p></li>
+<li><p><code>"cmdstan-pathfinder"</code> for pathfinder estimation via <code>cmdstanr::pathfinder()</code></p></li>
+<li><p><code>"cmdstan-optimize"</code> for optimization via <code>cmdstanr::optimize()</code></p></li>
+<li><p><code>"cmdstan-laplace"</code> for Laplace approximation via <code>cmdstanr::laplace()</code></p></li>
+</ul></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
