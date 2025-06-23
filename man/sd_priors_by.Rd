@@ -33,7 +33,7 @@ Possible values are "laplace" (double exponential), "logistic", "lognormal", "no
 
 \item{parallel}{A flag indicating whether to perform the analysis in parallel if possible.}
 
-\item{quiet}{A flag indicating whether to disable tracing information.}
+\item{quiet}{A flag indicating whether to disable messages and warnings, including sampling progress.}
 
 \item{glance}{A flag indicating whether to print a model summary.}
 

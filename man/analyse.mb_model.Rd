@@ -2,7 +2,7 @@
 % Please edit documentation in R/analyse.R
 \name{analyse.mb_model}
 \alias{analyse.mb_model}
-\title{Analyse}
+\title{Analyse Single Model}
 \usage{
 \method{analyse}{mb_model}(
   x,
@@ -14,30 +14,149 @@
   quiet = getOption("mb.quiet", TRUE),
   glance = getOption("mb.glance", TRUE),
   beep = getOption("mb.beep", TRUE),
+  seed = sample.int(.Machine$integer.max, 1),
+  stan_engine = getOption("mb.stan_engine", character(0)),
+  niters_warmup = niters,
   ...
 )
 }
 \arguments{
-\item{x}{An object inheriting from class mb_model or a list of such objects.}
+\item{x}{An mb_model object to analyse.}
 
-\item{data}{The data frame to analyse.}
+\item{data}{The data frame to analyse, or a list of data frames for multiple datasets.}
 
-\item{nchains}{A count of the number of chains.}
+\item{nchains}{A count of the number of chains (default: 3).}
 
-\item{niters}{A count of the number of simulations to save per chain.}
+\item{niters}{A count of the number of iterations to save per chain (default: 1000).}
 
-\item{nthin}{A count of the thining interval or NULL (in which case taken from model).}
+\item{nthin}{A count of the thinning interval.}
 
 \item{parallel}{A flag indicating whether to perform the analysis in parallel if possible.}
 
-\item{quiet}{A flag indicating whether to disable tracing information.}
+\item{quiet}{A flag indicating whether to disable messages and warnings, including sampling progress.}
 
 \item{glance}{A flag indicating whether to print a model summary.}
 
 \item{beep}{A flag indicating whether to beep on completion of the analysis.}
 
-\item{...}{Additional arguments.}
+\item{seed}{A positive whole number specifying the seed to use. The default is random. This is currently only implemented for Stan models.}
+
+\item{stan_engine}{A string specifying the Stan engine to use:
+\itemize{
+\item \code{"rstan"} for MCMC sampling via \code{\link[rstan:stanmodel-method-sampling]{rstan::sampling()}} (default).
+\item \code{"cmdstan-mcmc"} for MCMC sampling via \code{\link[cmdstanr:model-method-sample]{cmdstanr::sample()}}
+\item \code{"cmdstan-pathfinder"} for pathfinder estimation via \code{\link[cmdstanr:model-method-pathfinder]{cmdstanr::pathfinder()}}
+\item \code{"cmdstan-optimize"} for optimization via \code{\link[cmdstanr:model-method-optimize]{cmdstanr::optimize()}}
+\item \code{"cmdstan-laplace"} for Laplace approximation via \code{\link[cmdstanr:model-method-laplace]{cmdstanr::laplace()}}
+}}
+
+\item{niters_warmup}{A count of the number of warmup iterations. The default is to use the same number of iterations as \code{niters}. This is currently only implemented for Stan models.}
+
+\item{...}{Additional arguments passed to the underlying estimation function (see above for details).}
+}
+\value{
+\itemize{
+\item If \code{data} is a data.frame: An mb_analysis object
+\item If \code{data} is a list of data.frames: An mb_meta_analysis object
+}
 }
 \description{
-Analyse
+Performs parameter estimation on a single mb_model object using Stan or JAGS.
+
+The model fitting method dispatched depends on the class of the mb_model object and the \code{stan_engine} argument.
+
+If the model is a JAGS model, \href{https://github.com/cran/rjags}{rjags} is used for MCMC sampling.
+If the model is a Stan model, \href{https://github.com/stan-dev/rstan}{rstan} or \href{https://mc-stan.org/cmdstanr/}{cmdstanr} is used, depending on the value provided to \code{stan_engine}:
+\itemize{
+\item \code{"cmdstan-mcmc"} for \href{https://mc-stan.org/docs/cmdstan-guide/mcmc_config.html}{MCMC sampling} via \code{\link[cmdstanr:model-method-sample]{cmdstanr::sample()}}
+\item \code{"cmdstan-optimize"} for \href{https://mc-stan.org/docs/cmdstan-guide/optimize_config.html}{optimization} via \code{\link[cmdstanr:model-method-optimize]{cmdstanr::optimize()}}
+\item \code{"cmdstan-pathfinder"} for \href{https://mc-stan.org/docs/cmdstan-guide/pathfinder_config.html}{pathfinder} estimation via \code{\link[cmdstanr:model-method-pathfinder]{cmdstanr::pathfinder()}}
+\item \code{"cmdstan-variational"} for \href{https://mc-stan.org/docs/cmdstan-guide/variational_config.html}{variational ADVI} estimation via \code{\link[cmdstanr:model-method-variational]{cmdstanr::variational()}}
+\item \code{"cmdstan-laplace"} for \href{https://mc-stan.org/docs/cmdstan-guide/laplace_sample_config.html}{Laplace approximation} via \code{\link[cmdstanr:model-method-laplace]{cmdstanr::laplace()}}
+\item Any other character value will default to MCMC sampling via \code{\link[rstan:stanmodel-method-sampling]{rstan::sampling()}}
+}
+}
+\details{
+For CmdStan models, additional arguments can be passed to the engine-specific estimation functions via the \code{...} argument.
+
+For example, additional options in \code{\link[cmdstanr:model-method-sample]{cmdstanr::sample()}} include:
+\itemize{
+\item \code{adapt_delta} - Target acceptance rate (0 < adapt_delta < 1)
+\item \code{max_treedepth} - Maximum tree depth for NUTS sampler
+\item \code{step_size} - Initial step size for sampler
+\item \code{refresh} - How often to print sampling progress
+\item \code{output_dir} - Directory to save output files (default: NULL, uses temporary directory)
+}
+
+Some additional options in \code{\link[cmdstanr:model-method-pathfinder]{cmdstanr::pathfinder()}} include:
+\itemize{
+\item \code{num_paths} - Number of single-path Pathfinders to run (default: 4)
+\item \code{history_size} - L-BFGS history size for approximating Hessian (default: 5)
+\item \code{max_lbfgs_iters} - Maximum L-BFGS iterations per path (default: 1000)
+\item \code{psis_resample} - Whether to use Pareto-smoothed importance sampling (default: TRUE)
+}
+
+Some additional options in \code{\link[cmdstanr:model-method-variational]{cmdstanr::variational()}} include:
+\itemize{
+\item \code{algorithm} - Variational algorithm: "meanfield" (default) or "fullrank"
+}
+
+Some aditional options in \code{\link[cmdstanr:model-method-optimize]{cmdstanr::optimize()}} include:
+\itemize{
+\item \code{algorithm} - Optimization algorithm: "lbfgs" (default), "bfgs", or "newton"
+}
+
+Some additional options in \code{\link[cmdstanr:model-method-laplace]{cmdstanr::laplace()}} include:
+\itemize{
+\item \code{mode} - CmdStanMLE object from previous optimization (if NULL, runs optimize)
+\item \code{jacobian} - Whether mode used Jacobian adjustment (default: TRUE)
+}
+
+Each \code{analyse1} method checks for the presence of conflicting arguments and will ignore these (e.g., \code{iter_sampling} with \code{stan_engine = 'cmdstan-mcmc'} will be ignored in favour of iterations set via \code{niters})
+
+One exception is for \code{init}, which can be passed via '...' to override defaults or inits generated via \code{gen_inits()} in \code{model()}. Non-MCMC model fitting methods cannot use \code{gen_inits()}.
+Some arguments in \code{analyse.mb_model()} are unused in non-MCMC methods (e.g., \code{nthin}, \code{niters_warmup}).
+
+For pathfinder, variational, and laplace methods, \code{niters} samples are drawn from the approximated posterior distributions.
+}
+\examples{
+\dontrun{
+# Stan model with RStan (default)
+analysis <- analyse(stan_model, data, nchains = 4, niters = 1000)
+
+# Stan model with CmdStanR MCMC
+analysis <- analyse(stan_model, data,
+                    stan_engine = "cmdstan-mcmc",
+                    nchains = 4, niters = 1000)
+
+# Stan model with CmdStanR Pathfinder
+analysis <- analyse(stan_model, data,
+                    stan_engine = "cmdstan-pathfinder",
+                    niters = 500)
+
+# JAGS model
+analysis <- analyse(jags_model, data, nchains = 4, niters = 2000)
+
+# Passing engine-specific arguments
+analysis <- analyse(stan_model, data,
+                    stan_engine = "cmdstan-mcmc",
+                    nchains = 4, niters = 2000,
+                    adapt_delta = 0.99, # cmdstanr::sample argument
+                    iter_warmup = 500L) # cmdstanr::sample argument
+
+analysis <- analyse(stan_model, data,
+                    nchains = 4, niters = 2000,
+                    control = list(adapt_delta = 0.95))  # rstan::sampling argument
+
+# Multiple datasets
+data_list <- list(dataset1 = data1, dataset2 = data2)
+analyses <- analyse(model, data_list, nchains = 3)
+}
+
+}
+\seealso{
+\itemize{
+\item \code{\link[=analyse.character]{analyse.character()}} for analysing a character model template
+\item \code{\link[=analyse.mb_models]{analyse.mb_models()}} for analysing multiple models
+}
 }

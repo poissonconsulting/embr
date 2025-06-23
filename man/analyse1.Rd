@@ -14,6 +14,8 @@ analyse1(
   quiet,
   glance,
   parallel,
+  seed,
+  niters_warmup,
   ...
 )
 }
@@ -24,17 +26,21 @@ analyse1(
 
 \item{loaded}{The loaded model.}
 
-\item{nchains}{chains.}
+\item{nchains}{A count of the number of chains (default: 3).}
 
-\item{niters}{iters}
+\item{niters}{A count of the number of iterations to save per chain (default: 1000).}
 
-\item{nthin}{thin}
+\item{nthin}{A count of the thinning interval.}
 
-\item{quiet}{quiet}
+\item{quiet}{A flag indicating whether to disable messages and warnings, including sampling progress.}
 
-\item{glance}{glance}
+\item{glance}{A flag indicating whether to print a model summary.}
 
-\item{parallel}{parallel}
+\item{parallel}{A flag indicating whether to perform the analysis in parallel if possible.}
+
+\item{seed}{A positive whole number specifying the seed to use. The default is random. This is currently only implemented for Stan models.}
+
+\item{niters_warmup}{A count of the number of warmup iterations. The default is to use the same number of iterations as \code{niters}. This is currently only implemented for Stan models.}
 
 \item{...}{Additional arguments.}
 }

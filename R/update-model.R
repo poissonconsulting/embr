@@ -20,7 +20,7 @@ update_model <- function(
     modify_data = NULL,
     nthin = NULL,
     new_expr = NULL,
-    new_expr_vec = getOption("mb.new_expr_vec", FALSE),
+    new_expr_vec = NULL,
     modify_new_data = NULL,
     drops = NULL,
     ...) {
@@ -41,7 +41,7 @@ update_model.mb_model <- function(
     modify_data = NULL,
     nthin = NULL,
     new_expr = NULL,
-    new_expr_vec = getOption("mb.new_expr_vec", FALSE),
+    new_expr_vec = NULL,
     modify_new_data = NULL,
     drops = NULL,
     ...) {
@@ -55,6 +55,7 @@ update_model.mb_model <- function(
   if (is.null(scale)) scale <- model$scale
   if (is.null(modify_data)) modify_data <- model$modify_data
   if (is.null(nthin)) nthin <- model$nthin
+  if (is.null(new_expr_vec)) new_expr_vec <- model$new_expr_vec
   new_expr <- enexpr_new_expr({{ new_expr }}, default = model$new_expr, vectorize = new_expr_vec)
   if (is.null(modify_new_data)) modify_new_data <- model$modify_new_data
   if (is.null(drops)) drops <- model$drops

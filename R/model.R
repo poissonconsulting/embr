@@ -45,7 +45,7 @@ model <- function(
     new_expr_vec = getOption("mb.new_expr_vec", FALSE),
     modify_new_data = identity,
     drops = list()) {
-  check_dots_empty()
+  chk_unused(...)
 
   if (is.null(x)) {
     x <- mb_code({{ code }})
@@ -168,6 +168,7 @@ model <- function(
     random_effects = random_effects,
     modify_data = modify_data,
     new_expr = new_expr,
+    new_expr_vec = new_expr_vec,
     modify_new_data = modify_new_data,
     drops = drops,
     nthin = nthin

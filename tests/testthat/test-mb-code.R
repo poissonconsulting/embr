@@ -17,3 +17,4 @@ test_that("expression templates", {
     new_mb_code(quote({}), "pmb_code")
   )
 })
+

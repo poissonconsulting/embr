@@ -10,10 +10,10 @@ mb_code(template)
 new_mb_code(x, class)
 }
 \arguments{
-\item{template}{A string, a braced `{}` expression (unquoted or quoted),
-or an object of class `"mb_code"`.}
+\item{template}{A string, a braced \code{{}} expression (unquoted or quoted),
+or an object of class \code{"mb_code"}.}
 
-\item{x}{A string or a braced `{}` expression.}
+\item{x}{A string or a braced \code{{}} expression.}
 
 \item{class}{The class of the new object.}
 }

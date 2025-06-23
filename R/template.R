@@ -23,6 +23,7 @@ template <- function(object, ...) {
 
 #' @export
 template.mb_code <- function(object, ...) {
+  chk_unused(...)
   # FIXME: Return a language object once all components support this
 
   if (is.call(object$template)) {
@@ -34,11 +35,13 @@ template.mb_code <- function(object, ...) {
 
 #' @export
 template.mb_model <- function(object, ...) {
+  chk_unused(...)
   template(code(object), ...)
 }
 
 #' @export
 template.mb_analysis <- function(object, ...) {
+  chk_unused(...)
   template(model(object), ...)
 }
 
