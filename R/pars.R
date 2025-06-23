@@ -1,6 +1,6 @@
 #' @exportS3Method NULL
 pars.character <- function(x, ...) {
-  check_dots_empty()
+  chk_unused(...)
   if (is.null(x)) {
     return(character(0))
   }
@@ -16,7 +16,7 @@ pars.character <- function(x, ...) {
 
 #' @export
 pars.mb_code <- function(x, ...) {
-  check_dots_empty()
+  chk_unused(...)
 
   pars(template(x))
 }
@@ -25,7 +25,7 @@ pars.mb_code <- function(x, ...) {
 pars.mb_model <- function(x, param_type = "all", ...) {
   chk_string(param_type)
   chk_subset(param_type, c("fixed", "random", "derived", "primary", "all", "raw"))
-  check_dots_empty()
+  chk_unused(...)
 
   if (param_type == "raw") {
     return(pars(code(x)))

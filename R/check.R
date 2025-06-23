@@ -164,3 +164,13 @@ check_all_elements_unique <- function(x, x_name = substitute(x)) {
   }
   x
 }
+
+check_no_sf <- function(data, data_name = substitute(data)) {
+  if (!is.character(data_name)) data_name <- deparse(data_name)
+
+  if (inherits(data, "sf")) {
+    err(data_name, " must not be an sf object.", tidy = FALSE)
+  }
+
+  data
+}

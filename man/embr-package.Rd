@@ -30,6 +30,7 @@ Other contributors:
   \item Ayla Pearson \email{ayla@poissonconsulting.ca} (\href{https://orcid.org/0000-0001-7388-1222}{ORCID}) [contributor]
   \item Nadine Hussein \email{nadine@poissonconsulting.ca} (\href{https://orcid.org/0000-0003-4470-8361}{ORCID}) [contributor]
   \item Poisson Consulting [copyright holder, funder]
+  \item Seb Dalgarno \email{seb@poissonconsulting.ca} (\href{https://orcid.org/0000-0002-3658-4517}{ORCID}) [contributor]
 }
 
 }

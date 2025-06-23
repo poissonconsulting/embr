@@ -20,16 +20,15 @@ model(
   new_expr = NULL,
   new_expr_vec = getOption("mb.new_expr_vec", FALSE),
   modify_new_data = identity,
-  drops = list(),
-  stan_engine = character(0)
+  drops = list()
 )
 }
 \arguments{
-\item{x}{A string, or an object inheriting from class `"mb_code"`.}
+\item{x}{A string, or an object inheriting from class \code{"mb_code"}.}
 
 \item{...}{Unused arguments.}
 
-\item{code}{Passed on to [mb_code()]. If `x` is not `NULL`, `code` must be `NULL`,
+\item{code}{Passed on to \code{\link[=mb_code]{mb_code()}}. If \code{x} is not \code{NULL}, \code{code} must be \code{NULL},
 and vice versa.}
 
 \item{gen_inits}{A single argument function taking the modified data and
@@ -58,9 +57,6 @@ returning a named list of initial values.}
 \item{modify_new_data}{A single argument function to modify new data (in list form) immediately prior to calculating new_expr.}
 
 \item{drops}{A list of character vector of possible scalar pars to drop (fix at 0).}
-
-\item{stan_engine}{A string indicating the Stan engine to use, e.g., `"cmdstanr"`.
-Currently, any value other than `"cmdstanr"` will default to `"rstan"`.}
 }
 \value{
 An object inherting from class mb_model.

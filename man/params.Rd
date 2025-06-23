@@ -8,6 +8,33 @@
 
 \item{type}{A string of the residual type.}
 
+\item{nchains}{A count of the number of chains (default: 3).}
+
+\item{niters}{A count of the number of iterations to save per chain (default: 1000).}
+
+\item{nthin}{A count of the thinning interval.}
+
+\item{parallel}{A flag indicating whether to perform the analysis in parallel if possible.}
+
+\item{quiet}{A flag indicating whether to disable messages and warnings, including sampling progress.}
+
+\item{glance}{A flag indicating whether to print a model summary.}
+
+\item{beep}{A flag indicating whether to beep on completion of the analysis.}
+
+\item{seed}{A positive whole number specifying the seed to use. The default is random. This is currently only implemented for Stan models.}
+
+\item{niters_warmup}{A count of the number of warmup iterations. The default is to use the same number of iterations as \code{niters}. This is currently only implemented for Stan models.}
+
+\item{stan_engine}{A string specifying the Stan engine to use:
+\itemize{
+\item \code{"rstan"} for MCMC sampling via \code{\link[rstan:stanmodel-method-sampling]{rstan::sampling()}} (default).
+\item \code{"cmdstan-mcmc"} for MCMC sampling via \code{\link[cmdstanr:model-method-sample]{cmdstanr::sample()}}
+\item \code{"cmdstan-pathfinder"} for pathfinder estimation via \code{\link[cmdstanr:model-method-pathfinder]{cmdstanr::pathfinder()}}
+\item \code{"cmdstan-optimize"} for optimization via \code{\link[cmdstanr:model-method-optimize]{cmdstanr::optimize()}}
+\item \code{"cmdstan-laplace"} for Laplace approximation via \code{\link[cmdstanr:model-method-laplace]{cmdstanr::laplace()}}
+}}
+
 \item{...}{Unused.}
 }
 \description{
