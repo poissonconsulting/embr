@@ -12,10 +12,10 @@
 \item{joint}{A flag indicating whether to return the joint log
 likelihood or array, default is FALSE.}
 
-\item{...}{Unused.}
-
-\item{log_lik_prior}{A string of the name of the parameter corresponding to
+\item{log_prior_name}{A string of the name of the parameter corresponding to
 the log prior, default is "lprior".}
+
+\item{...}{Unused.}
 }
 \value{
 A draws_array object containing log_prior values.
