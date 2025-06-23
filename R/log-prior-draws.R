@@ -9,7 +9,7 @@ priorsense::log_prior_draws
 #' @param x The mb_analysis object.
 #' @param joint A flag indicating whether to return the joint log
 #'   likelihood or array, default is FALSE.
-#' @param log_lik_name A string of the name of the parameter corresponding to
+#' @param log_lik_prior A string of the name of the parameter corresponding to
 #'   the log prior, default is "lprior".
 #' @param ... Unused.
 #'

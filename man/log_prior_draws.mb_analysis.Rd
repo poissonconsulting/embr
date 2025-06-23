@@ -14,7 +14,7 @@ likelihood or array, default is FALSE.}
 
 \item{...}{Unused.}
 
-\item{log_lik_name}{A string of the name of the parameter corresponding to
+\item{log_lik_prior}{A string of the name of the parameter corresponding to
 the log prior, default is "lprior".}
 }
 \value{
