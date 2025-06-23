@@ -7,15 +7,15 @@
 \method{log_lik_draws}{mb_analysis}(x, joint = FALSE, log_lik_name = "log_lik", ...)
 }
 \arguments{
-\item{x}{The MB analysis object}
+\item{x}{The mb_analysis object.}
 
-\item{joint}{Logical indicating whether to return the joint log
-likelihood or array. Default is FALSE.}
+\item{joint}{A flag indicating whether to return the joint log
+likelihood or array, default is FALSE.}
 
-\item{log_lik_name}{Name of parameter corresponding to log likelihood,
-default is "log_lik".}
+\item{log_lik_name}{A string of the name of the parameter corresponding to
+the log likelihood, default is "log_lik".}
 
-\item{...}{Arguments passed to individual methods.}
+\item{...}{Unused.}
 }
 \value{
 A draws_array object containing log_lik values.

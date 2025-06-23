@@ -7,7 +7,7 @@
 \method{powerscale_sensitivity}{mb_analysis}(x, ...)
 }
 \arguments{
-\item{x}{The MB analysis object}
+\item{x}{The mb_analysis object.}
 
 \item{...}{Arguments passed to methods to
 [priorsense::powerscale_sensitivity()]. Alternative functions for

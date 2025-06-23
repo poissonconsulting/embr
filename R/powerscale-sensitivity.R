@@ -7,7 +7,7 @@ priorsense::powerscale_sensitivity
 #' perturbations. This is done using importance sampling (and
 #' optionally moment matching).
 #'
-#' @param x The MB analysis object
+#' @param x The mb_analysis object.
 #' @param ... Arguments passed to methods to
 #' [priorsense::powerscale_sensitivity()]. Alternative functions for
 #' `log_lik_fn` and `log_prior_fn` cannot be used.
