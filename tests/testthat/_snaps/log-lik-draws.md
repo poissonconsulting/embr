@@ -13,7 +13,7 @@
     Code
       log_lik_draws(analysis, log_lik_name = "elog_lik")
     Condition
-      Error in `log_lik_draws.mb_analysis()`:
+      Error:
       ! There is no log likelihood parameter monitored by the model or present in the new expression.
 
 ---
@@ -21,7 +21,7 @@
     Code
       log_lik_draws(analysis, log_lik_name = "elog_lik")
     Condition
-      Error in `log_lik_draws.mb_analysis()`:
+      Error:
       ! There is no log likelihood parameter monitored by the model or present in the new expression.
 
 ---
@@ -29,7 +29,7 @@
     Code
       log_lik_draws(analysis, log_lik_name = "elog_lik")
     Condition
-      Error in `log_lik_draws.mb_analysis()`:
+      Error:
       ! There is no log likelihood parameter monitored by the model or present in the new expression.
 
 ---
@@ -37,7 +37,7 @@
     Code
       log_lik_draws(analysis, log_lik_name = "elog_lik")
     Condition
-      Error in `log_lik_draws.mb_analysis()`:
+      Error:
       ! There is no log likelihood parameter monitored by the model or present in the new expression.
 
 # log_lik extracted if different name

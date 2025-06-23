@@ -13,7 +13,7 @@
     Code
       log_prior_draws(analysis, log_prior_name = "elprior")
     Condition
-      Error in `log_prior_draws.mb_analysis()`:
+      Error:
       ! There is no log prior parameter monitored by the model or present in the new expression.
 
 ---
@@ -21,7 +21,7 @@
     Code
       log_prior_draws(analysis, log_prior_name = "elprior")
     Condition
-      Error in `log_prior_draws.mb_analysis()`:
+      Error:
       ! There is no log prior parameter monitored by the model or present in the new expression.
 
 ---
@@ -29,7 +29,7 @@
     Code
       log_prior_draws(analysis, log_prior_name = "elprior")
     Condition
-      Error in `log_prior_draws.mb_analysis()`:
+      Error:
       ! There is no log prior parameter monitored by the model or present in the new expression.
 
 ---
@@ -37,7 +37,7 @@
     Code
       log_prior_draws(analysis, log_prior_name = "elprior")
     Condition
-      Error in `log_prior_draws.mb_analysis()`:
+      Error:
       ! There is no log prior parameter monitored by the model or present in the new expression.
 
 # lprior extracted if different name
