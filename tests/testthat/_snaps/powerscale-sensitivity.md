@@ -8,9 +8,9 @@
       Likelihood selection: all data
       
           variable prior likelihood diagnosis
-       bSpecies[1] 0.001      0.094         -
-       bSpecies[2] 0.001      0.080         -
-             sMass 0.000      0.111         -
+       bSpecies[1] 0.001      0.113         -
+       bSpecies[2] 0.000      0.092         -
+             sMass 0.000      0.134         -
 
 # powerscale_sensitivity() works for jags model, values set in model
 
@@ -22,9 +22,9 @@
       Likelihood selection: all data
       
           variable prior likelihood diagnosis
-       bSpecies[1] 0.001      0.094         -
-       bSpecies[2] 0.001      0.080         -
-             sMass 0.000      0.111         -
+       bSpecies[1] 0.001      0.113         -
+       bSpecies[2] 0.000      0.092         -
+             sMass 0.000      0.134         -
 
 # powerscale_sensitivity() errors for jags model, values set both new expr and model
 
@@ -46,9 +46,9 @@
       Likelihood selection: all data
       
           variable prior likelihood diagnosis
-       bSpecies[1] 0.001      0.091         -
-       bSpecies[2] 0.001      0.096         -
-             sMass 0.000      0.144         -
+       bSpecies[1] 0.001      0.099         -
+       bSpecies[2] 0.000      0.095         -
+             sMass 0.000      0.113         -
 
 # powerscale_sensitivity() works for stan model, values set in model
 
@@ -60,9 +60,9 @@
       Likelihood selection: all data
       
           variable prior likelihood diagnosis
-       bSpecies[1] 0.001      0.091         -
-       bSpecies[2] 0.001      0.096         -
-             sMass 0.000      0.144         -
+       bSpecies[1] 0.001      0.099         -
+       bSpecies[2] 0.000      0.095         -
+             sMass 0.000      0.113         -
 
 # powerscale_sensitivity() errors for stan model, values set both new expr and model
 
@@ -84,7 +84,7 @@
       Likelihood selection: all data
       
        variable prior likelihood diagnosis
-          sMass     0      0.111         -
+          sMass     0      0.134         -
 
 ---
 
@@ -96,8 +96,8 @@
       Likelihood selection: all data
       
           variable prior likelihood diagnosis
-       bSpecies[1] 0.001      0.094         -
-       bSpecies[2] 0.001      0.080         -
+       bSpecies[1] 0.001      0.113         -
+       bSpecies[2] 0.000      0.092         -
 
 # can change components to check
 
@@ -110,7 +110,7 @@
       
           variable prior likelihood diagnosis
        bSpecies[1] 0.001         NA         -
-       bSpecies[2] 0.001         NA         -
+       bSpecies[2] 0.000         NA         -
              sMass 0.000         NA         -
 
 ---
@@ -123,9 +123,9 @@
       Likelihood selection: all data
       
           variable prior likelihood diagnosis
-       bSpecies[1]    NA      0.094        NA
-       bSpecies[2]    NA      0.080        NA
-             sMass    NA      0.111        NA
+       bSpecies[1]    NA      0.113        NA
+       bSpecies[2]    NA      0.092        NA
+             sMass    NA      0.134        NA
 
 # can change sensitivity threshold
 

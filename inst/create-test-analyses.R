@@ -10,6 +10,8 @@ if (FALSE) {
         species = factor(rep(c("a", "b"), each = 50))
       )
 
+      niters <- 250L
+
       # JAGS with new expr ----
       model <- model(
         code = "model{
@@ -38,7 +40,8 @@ if (FALSE) {
         )
       )
 
-      analysis_jags_newexpr <- analyse(model, data)
+      analysis_jags_newexpr <- analyse(model, data, niters = niters)
+      analysis_jags_newexpr$jags_chains <- NULL
       saveRDS(analysis_jags_newexpr, "inst/test-objects/analysis_jags_newexpr.RDS")
 
       # JAGS in model ----
@@ -69,7 +72,8 @@ if (FALSE) {
         )
       )
 
-      analysis_jags_mod <- analyse(model, data)
+      analysis_jags_mod <- analyse(model, data, niters = niters)
+      analysis_jags_mod$jags_chains <- NULL
       saveRDS(analysis_jags_mod, "inst/test-objects/analysis_jags_mod.RDS")
 
       # JAGS in both new_expr and model ----
@@ -102,7 +106,8 @@ if (FALSE) {
           mass = c(900, 2000)
         )
       )
-      analysis_jags_both <- analyse(model, data)
+      analysis_jags_both <- analyse(model, data, niters = niters)
+      analysis_jags_both$jags_chains <- NULL
       saveRDS(analysis_jags_both, "inst/test-objects/analysis_jags_both.RDS")
     })
 
@@ -153,7 +158,8 @@ if (FALSE) {
         )
       )
 
-      analysis_stan_newexpr <- analyse(model, data)
+      analysis_stan_newexpr <- analyse(model, data, niters = niters)
+      analysis_stan_newexpr$stanfit <- NULL
       saveRDS(analysis_stan_newexpr, "inst/test-objects/analysis_stan_newexpr.RDS")
 
       # Stan in model ----
@@ -178,7 +184,7 @@ if (FALSE) {
 
             for (i in 1:nObs) {
               eMass[i] = exp(bSpecies[species[i]]);
-              log_lik[i] = lognormal_lpdf(mass[i] | eMass[i], sMass);
+              log_lik[i] = lognormal_lpdf(mass[i] | log(eMass[i]), sMass);
             }
             lprior = normal_lpdf(bSpecies[1] | 0, 2) + normal_lpdf(bSpecies[2] | 0, 2) + exponential_lpdf(sMass | 1);
           }
@@ -202,7 +208,8 @@ if (FALSE) {
         derived = c("log_lik", "lprior")
       )
 
-      analysis_stan_mod <- analyse(model, data)
+      analysis_stan_mod <- analyse(model, data, niters = niters)
+      analysis_stan_mod$stanfit <- NULL
       saveRDS(analysis_stan_mod, "inst/test-objects/analysis_stan_mod.RDS")
 
       # Stan in both new_expr and model ----
@@ -227,7 +234,7 @@ if (FALSE) {
 
             for (i in 1:nObs) {
               eMass[i] = exp(bSpecies[species[i]]);
-              log_lik[i] = lognormal_lpdf(mass[i] | eMass[i], sMass);
+              log_lik[i] = lognormal_lpdf(mass[i] | log(eMass[i]), sMass);
             }
             lprior = normal_lpdf(bSpecies[1] | 0, 2) + normal_lpdf(bSpecies[2] | 0, 2) + exponential_lpdf(sMass | 1);
           }
@@ -254,7 +261,8 @@ if (FALSE) {
         derived = c("log_lik", "lprior")
       )
 
-      analysis_stan_both <- analyse(model, data)
+      analysis_stan_both <- analyse(model, data, niters = niters)
+      analysis_stan_both$stanfit <- NULL
       saveRDS(analysis_stan_both, "inst/test-objects/analysis_stan_both.RDS")
     }
   )
