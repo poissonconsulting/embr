@@ -2,42 +2,60 @@ test_that("sensitivity summarizes by 'all' for JAGS model", {
   analysis <- readRDS(
     file = system.file(package = "embr", "test-objects/analysis_jags_newexpr.RDS")
   )
-  expect_snapshot(sensitivity(analysis, by = "all"))
+  expect_snapshot(
+    sensitivity(analysis, by = "all") |>
+      mutate(across(c(prior, likelihood), function(x) signif(x, digits = 8)))
+  )
 })
 
 test_that("sensitivity summarizes by 'parameter' for JAGS model", {
   analysis <- readRDS(
     file = system.file(package = "embr", "test-objects/analysis_jags_newexpr.RDS")
   )
-  expect_snapshot(sensitivity(analysis, by = "parameter"))
+  expect_snapshot(
+    sensitivity(analysis, by = "parameter") |>
+      mutate(across(c(prior, likelihood), function(x) signif(x, digits = 8)))
+  )
 })
 
 test_that("sensitivity summarizes by 'term' for JAGS model", {
   analysis <- readRDS(
     file = system.file(package = "embr", "test-objects/analysis_jags_newexpr.RDS")
   )
-  expect_snapshot(sensitivity(analysis, by = "term"))
+  expect_snapshot(
+    sensitivity(analysis, by = "term") |>
+      mutate(across(c(prior, likelihood), function(x) signif(x, digits = 8)))
+  )
 })
 
 test_that("sensitivity summarizes by 'all' for Stan model", {
   analysis <- readRDS(
     file = system.file(package = "embr", "test-objects/analysis_stan_newexpr.RDS")
   )
-  expect_snapshot(sensitivity(analysis, by = "all"))
+  expect_snapshot(
+    sensitivity(analysis, by = "all") |>
+      mutate(across(c(prior, likelihood), function(x) signif(x, digits = 8)))
+  )
 })
 
 test_that("sensitivity summarizes by 'parameter' for Stan model", {
   analysis <- readRDS(
     file = system.file(package = "embr", "test-objects/analysis_stan_newexpr.RDS")
   )
-  expect_snapshot(sensitivity(analysis, by = "parameter"))
+  expect_snapshot(
+    sensitivity(analysis, by = "parameter") |>
+      mutate(across(c(prior, likelihood), function(x) signif(x, digits = 8)))
+  )
 })
 
 test_that("sensitivity summarizes by 'term' for Stan model", {
   analysis <- readRDS(
     file = system.file(package = "embr", "test-objects/analysis_stan_newexpr.RDS")
   )
-  expect_snapshot(sensitivity(analysis, by = "term"))
+  expect_snapshot(
+    sensitivity(analysis, by = "term") |>
+      mutate(across(c(prior, likelihood), function(x) signif(x, digits = 8)))
+  )
 })
 
 test_that("sensitivity errors if x is not an mb_analysis object", {

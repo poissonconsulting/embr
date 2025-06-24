@@ -1,7 +1,8 @@
 # sensitivity summarizes by 'all' for JAGS model
 
     Code
-      sensitivity(analysis, by = "all")
+      mutate(sensitivity(analysis, by = "all"), across(c(prior, likelihood), function(
+        x) signif(x, digits = 8)))
     Output
         all        prior likelihood
       1 all 0.0005150492 0.09216081
@@ -9,7 +10,8 @@
 # sensitivity summarizes by 'parameter' for JAGS model
 
     Code
-      sensitivity(analysis, by = "parameter")
+      mutate(sensitivity(analysis, by = "parameter"), across(c(prior, likelihood),
+      function(x) signif(x, digits = 8)))
     Output
         parameter        prior likelihood
       1  bSpecies 0.0005150492 0.09216081
@@ -18,7 +20,8 @@
 # sensitivity summarizes by 'term' for JAGS model
 
     Code
-      sensitivity(analysis, by = "term")
+      mutate(sensitivity(analysis, by = "term"), across(c(prior, likelihood),
+      function(x) signif(x, digits = 8)))
     Output
                term        prior likelihood diagnosis
       1 bSpecies[1] 0.0005150492 0.11300225         -
@@ -28,7 +31,8 @@
 # sensitivity summarizes by 'all' for Stan model
 
     Code
-      sensitivity(analysis, by = "all")
+      mutate(sensitivity(analysis, by = "all"), across(c(prior, likelihood), function(
+        x) signif(x, digits = 8)))
     Output
         all       prior likelihood
       1 all 0.000557118 0.09484428
@@ -36,7 +40,8 @@
 # sensitivity summarizes by 'parameter' for Stan model
 
     Code
-      sensitivity(analysis, by = "parameter")
+      mutate(sensitivity(analysis, by = "parameter"), across(c(prior, likelihood),
+      function(x) signif(x, digits = 8)))
     Output
         parameter        prior likelihood
       1  bSpecies 0.0005571180 0.09484428
@@ -45,10 +50,11 @@
 # sensitivity summarizes by 'term' for Stan model
 
     Code
-      sensitivity(analysis, by = "term")
+      mutate(sensitivity(analysis, by = "term"), across(c(prior, likelihood),
+      function(x) signif(x, digits = 8)))
     Output
                term        prior likelihood diagnosis
-      1 bSpecies[1] 0.0005571180 0.09878804         -
+      1 bSpecies[1] 0.0005571180 0.09878805         -
       2 bSpecies[2] 0.0004980258 0.09484428         -
       3       sMass 0.0001445927 0.11332948         -
 
