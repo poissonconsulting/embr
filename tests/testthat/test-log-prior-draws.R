@@ -120,7 +120,7 @@ test_that("suggestion from warning when defining lprior in two places works", {
     ",
     new_expr_vec = TRUE
   )
-  expect_snapshot(log_prior_draws(analysis, log_prior_name = 'elprior'))
+  expect_snapshot(log_prior_draws(analysis, log_prior_name = "elprior"))
 })
 
 # Stan ----
@@ -245,7 +245,7 @@ test_that("suggestion from warning when defining lprior in two places works", {
     ",
     new_expr_vec = TRUE
   )
-  expect_snapshot(log_prior_draws(analysis, log_prior_name = 'elprior'))
+  expect_snapshot(log_prior_draws(analysis, log_prior_name = "elprior"))
 })
 
 # General ----

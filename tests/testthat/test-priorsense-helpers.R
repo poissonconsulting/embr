@@ -23,7 +23,7 @@ test_that("rowsums_draws works with basic draws_array", {
 
   # Check actual values - manually calculate expected sums
   expected_sums <- array(c(15, 18, 21, 24), dim = c(2, 2, 1))
-  expect_equal(matrix(result[,,1], nrow = 2, ncol = 2), expected_sums[,,1])
+  expect_equal(matrix(result[, , 1], nrow = 2, ncol = 2), expected_sums[, , 1])
 })
 
 test_that("rowsums_draws preserves chain structure", {
@@ -55,7 +55,7 @@ test_that("rowsums_draws works with single variable", {
   # With single variable, rowsums should equal original values
   dimnames(result)$variable <- NULL
   dimnames(x)$variable <- NULL
-  expect_equal(as.array(result)[,,1], as.array(x)[,,1])
+  expect_equal(as.array(result)[, , 1], as.array(x)[, , 1])
 })
 
 test_that("rowsums_draws works with draws_matrix input", {

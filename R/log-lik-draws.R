@@ -17,8 +17,9 @@ priorsense::log_lik_draws
 #' @export
 #'
 log_lik_draws.mb_analysis <- function(x, joint = FALSE, log_lik_name = "log_lik", ...) {
-  if (!is.mb_analysis(x))
+  if (!is.mb_analysis(x)) {
     stop("Not an mb_analysis object.", call. = FALSE)
+  }
 
   chk::chk_flag(joint)
   chk::chk_character(log_lik_name)

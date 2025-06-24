@@ -120,7 +120,7 @@ test_that("suggestion from warning when defining log_lik in two places works", {
     ",
     new_expr_vec = TRUE
   )
-  expect_snapshot(log_lik_draws(analysis, log_lik_name = 'elog_lik'))
+  expect_snapshot(log_lik_draws(analysis, log_lik_name = "elog_lik"))
 })
 
 # Stan ----
@@ -245,7 +245,7 @@ test_that("suggestion from warning when defining log_lik in two places works", {
     ",
     new_expr_vec = TRUE
   )
-  expect_snapshot(log_lik_draws(analysis, log_lik_name = 'elog_lik'))
+  expect_snapshot(log_lik_draws(analysis, log_lik_name = "elog_lik"))
 })
 
 # General ----

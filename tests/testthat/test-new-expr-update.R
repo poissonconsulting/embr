@@ -421,5 +421,4 @@ test_that("previously set new_expr_vec is used in update_model", {
 
   chk_true(model$new_expr_vec)
   expect_equal(as.character(model$new_expr)[2], "fit <- bIntercept")
-
 })
