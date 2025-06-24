@@ -71,5 +71,5 @@ Missing random pars are assigned the value 0.
 For jmb models unspecified the initial values for each chain are drawn from the prior distributions.
 }
 \seealso{
-[chk::check_data()] [rescale::rescale_c()]
+\code{\link[chk:check_data]{chk::check_data()}} \code{\link[rescale:rescale_c]{rescale::rescale_c()}}
 }

@@ -42,5 +42,5 @@ A tidy tibble of the coefficient terms.
 Coefficients for a analysis.
 }
 \details{
-The `zscore` is mean / sd.
+The \code{zscore} is mean / sd.
 }

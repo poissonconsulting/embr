@@ -10,8 +10,8 @@
 \item{x}{The mb_analysis object.}
 
 \item{...}{Arguments passed to methods to
-[priorsense::powerscale_sensitivity()]. Alternative functions for
-`log_lik_fn` and `log_prior_fn` cannot be used.}
+\code{\link[priorsense:powerscale-sensitivity]{priorsense::powerscale_sensitivity()}}. Alternative functions for
+\code{log_lik_fn} and \code{log_prior_fn} cannot be used.}
 }
 \value{
 Table of sensitivity values for each specified variable.

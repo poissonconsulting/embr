@@ -22,5 +22,5 @@ A draws_array object containing log_lik values.
 }
 \description{
 Extract log likelihood from fitted model and return as a draws
-object. Adapted from the `priorsense` package.
+object. Adapted from the \code{priorsense} package.
 }
