@@ -35,10 +35,10 @@ analyse_data <- function(data, name = NULL, x, loaded, nchains, niters, nthin,
   check_no_sf(data)
   if (!is.null(name) & glance) cat("Data:", name, "\n")
   analyse1(x, data,
-           loaded = loaded, nchains = nchains, niters = niters,
-           nthin = nthin, parallel = parallel, quiet = quiet,
-           glance = glance, seed = seed,
-           niters_warmup = niters_warmup, ...
+    loaded = loaded, nchains = nchains, niters = niters,
+    nthin = nthin, parallel = parallel, quiet = quiet,
+    glance = glance, seed = seed,
+    niters_warmup = niters_warmup, ...
   )
 }
 
@@ -46,10 +46,10 @@ analyse_data <- function(data, name = NULL, x, loaded, nchains, niters, nthin,
 analyse_model <- function(x, name = NULL, data, parallel, nchains, niters, nthin, quiet, glance, beep, stan_engine, ...) {
   if (!is.null(name) & glance) cat("Model:", name, "\n")
   analyse(x,
-          data = data, parallel = parallel,
-          nchains = nchains, niters = niters, nthin = nthin,
-          quiet = quiet, glance = glance, beep = beep,
-          stan_engine = stan_engine, ...
+    data = data, parallel = parallel,
+    nchains = nchains, niters = niters, nthin = nthin,
+    quiet = quiet, glance = glance, beep = beep,
+    stan_engine = stan_engine, ...
   )
 }
 
@@ -87,10 +87,10 @@ analyse.character <- function(x, data,
                               ...) {
   x <- model(x, select_data = select_data)
   analyse(x,
-          data = data,
-          parallel = parallel, nchains = nchains, niters = niters, nthin = nthin, quiet = quiet,
-          glance = glance, beep = beep, seed = seed, stan_engine = stan_engine,
-          niters_warmup = niters_warmup, ...
+    data = data,
+    parallel = parallel, nchains = nchains, niters = niters, nthin = nthin, quiet = quiet,
+    glance = glance, beep = beep, seed = seed, stan_engine = stan_engine,
+    niters_warmup = niters_warmup, ...
   )
 }
 
@@ -158,27 +158,31 @@ analyse.character <- function(x, data,
 #'
 #' # Stan model with CmdStanR MCMC
 #' analysis <- analyse(stan_model, data,
-#'                     stan_engine = "cmdstan-mcmc",
-#'                     nchains = 4, niters = 1000)
+#'   stan_engine = "cmdstan-mcmc",
+#'   nchains = 4, niters = 1000
+#' )
 #'
 #' # Stan model with CmdStanR Pathfinder
 #' analysis <- analyse(stan_model, data,
-#'                     stan_engine = "cmdstan-pathfinder",
-#'                     niters = 500)
+#'   stan_engine = "cmdstan-pathfinder",
+#'   niters = 500
+#' )
 #'
 #' # JAGS model
 #' analysis <- analyse(jags_model, data, nchains = 4, niters = 2000)
 #'
 #' # Passing engine-specific arguments
 #' analysis <- analyse(stan_model, data,
-#'                     stan_engine = "cmdstan-mcmc",
-#'                     nchains = 4, niters = 2000,
-#'                     adapt_delta = 0.99, # cmdstanr::sample argument
-#'                     iter_warmup = 500L) # cmdstanr::sample argument
+#'   stan_engine = "cmdstan-mcmc",
+#'   nchains = 4, niters = 2000,
+#'   adapt_delta = 0.99, # cmdstanr::sample argument
+#'   iter_warmup = 500L
+#' ) # cmdstanr::sample argument
 #'
 #' analysis <- analyse(stan_model, data,
-#'                     nchains = 4, niters = 2000,
-#'                     control = list(adapt_delta = 0.95))  # rstan::sampling argument
+#'   nchains = 4, niters = 2000,
+#'   control = list(adapt_delta = 0.95)
+#' ) # rstan::sampling argument
 #'
 #' # Multiple datasets
 #' data_list <- list(dataset1 = data1, dataset2 = data2)
@@ -233,15 +237,15 @@ analyse.mb_model <- function(x, data,
 
   if (is.null(nthin)) nthin <- nthin(x)
 
-  if(identical(stan_engine, "cmdstan-mcmc")) {
+  if (identical(stan_engine, "cmdstan-mcmc")) {
     class(x) <- c("cmdstan_model", "cmdstan_mcmc_model", class(x))
-  } else if(identical(stan_engine, "cmdstan-pathfinder")) {
+  } else if (identical(stan_engine, "cmdstan-pathfinder")) {
     class(x) <- c("cmdstan_model", "cmdstan_pathfinder_model", class(x))
-  } else if(identical(stan_engine, "cmdstan-optimize")) {
+  } else if (identical(stan_engine, "cmdstan-optimize")) {
     class(x) <- c("cmdstan_model", "cmdstan_optimize_model", class(x))
-  } else if(identical(stan_engine, "cmdstan-laplace")) {
+  } else if (identical(stan_engine, "cmdstan-laplace")) {
     class(x) <- c("cmdstan_model", "cmdstan_laplace_model", class(x))
-  } else if(identical(stan_engine, "cmdstan-variational")) {
+  } else if (identical(stan_engine, "cmdstan-variational")) {
     class(x) <- c("cmdstan_model", "cmdstan_variational_model", class(x))
   }
 
@@ -263,11 +267,11 @@ analyse.mb_model <- function(x, data,
   }
 
   analyses <- purrr::imap(data, analyse_data,
-                          x = x, loaded = loaded,
-                          nchains = nchains, niters = niters, nthin = nthin,
-                          parallel = parallel, quiet = quiet, glance = glance,
-                          seed = seed, stan_engine = stan_engine,
-                          niters_warmup = niters_warmup, ...
+    x = x, loaded = loaded,
+    nchains = nchains, niters = niters, nthin = nthin,
+    parallel = parallel, quiet = quiet, glance = glance,
+    seed = seed, stan_engine = stan_engine,
+    niters_warmup = niters_warmup, ...
   )
 
   names(data) <- names
@@ -302,11 +306,11 @@ analyse.mb_models <- function(x, data,
   if (is.null(names)) names(x) <- 1:length(x)
 
   analyses <- purrr::imap(x, analyse_model,
-                          data = data,
-                          nchains = nchains, niters = niters, nthin = nthin,
-                          parallel = parallel, quiet = quiet, glance = glance, beep = FALSE,
-                          seed = seed, stan_engine = stan_engine,
-                          niters_warmup = niters_warmup, ...
+    data = data,
+    nchains = nchains, niters = niters, nthin = nthin,
+    parallel = parallel, quiet = quiet, glance = glance, beep = FALSE,
+    seed = seed, stan_engine = stan_engine,
+    niters_warmup = niters_warmup, ...
   )
 
   if (is.data.frame(data)) {

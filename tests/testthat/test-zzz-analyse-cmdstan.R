@@ -53,7 +53,7 @@ model {
   }
 }"
 
-new_expr <- "
+    new_expr <- "
   for(i in 1:length(Density)) {
      eHabitatQuality[2] <- bHabitatQuality
      eHabitatQuality[1] <- 0
@@ -62,57 +62,60 @@ new_expr <- "
     residual[i] <- res_lnorm(Density[i], fit[i], exp(log_sDensity))
 } "
 
-model <- model(
-  code = template,
-  select_data = list(
-    "Year+" = numeric(), YearFactor = factor(),
-    Site = factor(), Density = numeric(),
-    HabitatQuality = factor()
-  ),
-  fixed = "^(b|l)", derived = "eDensity",
-  random_effects = list(bSiteYear = c("Site", "YearFactor")),
-  new_expr = new_expr
+    model <- model(
+      code = template,
+      select_data = list(
+        "Year+" = numeric(), YearFactor = factor(),
+        Site = factor(), Density = numeric(),
+        HabitatQuality = factor()
+      ),
+      fixed = "^(b|l)", derived = "eDensity",
+      random_effects = list(bSiteYear = c("Site", "YearFactor")),
+      new_expr = new_expr
+    )
+
+    seed <- 123
+    niters <- 250L
+    nchains <- 2L
+    expect_output(analysis <- analyse(model,
+      data = data, stan_engine = "cmdstan-mcmc",
+      parallel = TRUE, niters = niters, nchains = nchains,
+      niters_warmup = niters, seed = seed
+    ))
+
+    analysis_bare <- analysis
+    analysis_bare$duration <- NULL
+    analysis_bare$stanfit <- NULL
+    analysis_bare$model <- NULL
+    expect_snapshot(analysis_bare)
+
+    expect_output(analysis <- reanalyse(analysis, seed = seed))
+
+    expect_identical(pars(analysis, "fixed"), sort(c("bHabitatQuality", "bIntercept", "bYear", "log_sDensity", "log_sSiteYear")))
+    expect_identical(pars(analysis, "random"), "bSiteYear")
+    expect_identical(pars(analysis, "derived"), "eDensity")
+
+    expect_equal(as.data.frame(data_set(analysis)), data)
+
+    expect_s3_class(as.mcmcr(analysis), "mcmcr")
+
+    glance <- glance(analysis)
+    expect_snapshot(glance)
+
+    coef <- coef(analysis, simplify = TRUE)
+    expect_snapshot(coef)
+
+    derived <- coef(analysis, param_type = "derived", simplify = TRUE)
+    expect_snapshot(derived)
+
+    tidy <- tidy(analysis)
+    expect_snapshot(tidy)
+
+    year <- predict(analysis, new_data = "Year")
+    expect_snapshot(year)
+
+    dd <- mcmc_derive_data(analysis, new_data = c("Site", "Year"), ref_data = TRUE)
+    expect_snapshot(dd)
+    expect_true(mcmcdata::is.mcmc_data(dd))
+  }
 )
-
-seed <- 123
-niters <- 250L
-nchains <- 2L
-expect_output(analysis <- analyse(model, data = data, stan_engine = "cmdstan-mcmc",
-                    parallel = TRUE, niters = niters, nchains = nchains,
-                    niters_warmup = niters, seed = seed))
-
-analysis_bare <- analysis
-analysis_bare$duration <- NULL
-analysis_bare$stanfit <- NULL
-analysis_bare$model <- NULL
-expect_snapshot(analysis_bare)
-
-expect_output(analysis <- reanalyse(analysis, seed = seed))
-
-expect_identical(pars(analysis, "fixed"), sort(c("bHabitatQuality", "bIntercept", "bYear", "log_sDensity", "log_sSiteYear")))
-expect_identical(pars(analysis, "random"), "bSiteYear")
-expect_identical(pars(analysis, "derived"), "eDensity")
-
-expect_equal(as.data.frame(data_set(analysis)), data)
-
-expect_s3_class(as.mcmcr(analysis), "mcmcr")
-
-glance <- glance(analysis)
-expect_snapshot(glance)
-
-coef <- coef(analysis, simplify = TRUE)
-expect_snapshot(coef)
-
-derived <- coef(analysis, param_type = "derived", simplify = TRUE)
-expect_snapshot(derived)
-
-tidy <- tidy(analysis)
-expect_snapshot(tidy)
-
-year <- predict(analysis, new_data = "Year")
-expect_snapshot(year)
-
-dd <- mcmc_derive_data(analysis, new_data = c("Site", "Year"), ref_data = TRUE)
-expect_snapshot(dd)
-expect_true(mcmcdata::is.mcmc_data(dd))
-  })

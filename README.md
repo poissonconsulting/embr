@@ -1,4 +1,3 @@
-
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 <!-- badges: start -->
 
@@ -28,10 +27,8 @@ Currently there are packages which implement the functionality for JAGS
 To install the latest development version from
 [GitHub](https://github.com/poissonconsulting/embr)
 
-``` r
-# install.packages("remotes")
-pak::pak("poissonconsulting/embr")
-```
+    # install.packages("remotes")
+    pak::pak("poissonconsulting/embr")
 
 ## Contribution
 

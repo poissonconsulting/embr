@@ -99,7 +99,7 @@ drop_pars.mb_model <- function(x, pars = character(0), ...) {
   }
 
   x$code <- drop_pars(x$code, pars = pars)
-  if(!is.null(x$new_expr)) {
+  if (!is.null(x$new_expr)) {
     x$new_expr <- drop_pars(x$new_expr, pars = pars)
   }
   x$drops <- list()
