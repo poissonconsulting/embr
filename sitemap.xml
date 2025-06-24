@@ -67,6 +67,8 @@
 <url><loc>https://poissonconsulting.github.io/embr/reference/load_model.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/logLik.mb_analysis.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/logLik.mb_null_analysis.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/embr/reference/log_lik_draws.mb_analysis.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/embr/reference/log_prior_draws.mb_analysis.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/make_all_models.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/mb_code.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/mcmc_derive.mb_analyses.html</loc></url>
@@ -91,6 +93,7 @@
 <url><loc>https://poissonconsulting.github.io/embr/reference/plot_residuals.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/posterior_predictive_check.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/posterior_predictive_check.mb_analysis.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/embr/reference/powerscale_sensitivity.mb_analysis.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/predict.mb_analyses.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/predict.mb_analysis.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/random_effects.html</loc></url>

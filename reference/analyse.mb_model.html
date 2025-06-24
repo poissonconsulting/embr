@@ -29,7 +29,7 @@ Any other character value will default to MCMC sampling via rstan::sampling()
 
     <a class="navbar-brand me-2" href="../index.html">embr</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -191,27 +191,31 @@ Some arguments in <code>analyse.mb_model()</code> are unused in non-MCMC methods
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Stan model with CmdStanR MCMC</span></span></span>
 <span class="r-in"><span><span class="va">analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="analyse.html">analyse</a></span><span class="op">(</span><span class="va">stan_model</span>, <span class="va">data</span>,</span></span>
-<span class="r-in"><span>                    stan_engine <span class="op">=</span> <span class="st">"cmdstan-mcmc"</span>,</span></span>
-<span class="r-in"><span>                    nchains <span class="op">=</span> <span class="fl">4</span>, niters <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  stan_engine <span class="op">=</span> <span class="st">"cmdstan-mcmc"</span>,</span></span>
+<span class="r-in"><span>  nchains <span class="op">=</span> <span class="fl">4</span>, niters <span class="op">=</span> <span class="fl">1000</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Stan model with CmdStanR Pathfinder</span></span></span>
 <span class="r-in"><span><span class="va">analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="analyse.html">analyse</a></span><span class="op">(</span><span class="va">stan_model</span>, <span class="va">data</span>,</span></span>
-<span class="r-in"><span>                    stan_engine <span class="op">=</span> <span class="st">"cmdstan-pathfinder"</span>,</span></span>
-<span class="r-in"><span>                    niters <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span></span>
+<span class="r-in"><span>  stan_engine <span class="op">=</span> <span class="st">"cmdstan-pathfinder"</span>,</span></span>
+<span class="r-in"><span>  niters <span class="op">=</span> <span class="fl">500</span></span></span>
+<span class="r-in"><span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># JAGS model</span></span></span>
 <span class="r-in"><span><span class="va">analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="analyse.html">analyse</a></span><span class="op">(</span><span class="va">jags_model</span>, <span class="va">data</span>, nchains <span class="op">=</span> <span class="fl">4</span>, niters <span class="op">=</span> <span class="fl">2000</span><span class="op">)</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Passing engine-specific arguments</span></span></span>
 <span class="r-in"><span><span class="va">analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="analyse.html">analyse</a></span><span class="op">(</span><span class="va">stan_model</span>, <span class="va">data</span>,</span></span>
-<span class="r-in"><span>                    stan_engine <span class="op">=</span> <span class="st">"cmdstan-mcmc"</span>,</span></span>
-<span class="r-in"><span>                    nchains <span class="op">=</span> <span class="fl">4</span>, niters <span class="op">=</span> <span class="fl">2000</span>,</span></span>
-<span class="r-in"><span>                    adapt_delta <span class="op">=</span> <span class="fl">0.99</span>, <span class="co"># cmdstanr::sample argument</span></span></span>
-<span class="r-in"><span>                    iter_warmup <span class="op">=</span> <span class="fl">500L</span><span class="op">)</span> <span class="co"># cmdstanr::sample argument</span></span></span>
+<span class="r-in"><span>  stan_engine <span class="op">=</span> <span class="st">"cmdstan-mcmc"</span>,</span></span>
+<span class="r-in"><span>  nchains <span class="op">=</span> <span class="fl">4</span>, niters <span class="op">=</span> <span class="fl">2000</span>,</span></span>
+<span class="r-in"><span>  adapt_delta <span class="op">=</span> <span class="fl">0.99</span>, <span class="co"># cmdstanr::sample argument</span></span></span>
+<span class="r-in"><span>  iter_warmup <span class="op">=</span> <span class="fl">500L</span></span></span>
+<span class="r-in"><span><span class="op">)</span> <span class="co"># cmdstanr::sample argument</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="va">analysis</span> <span class="op">&lt;-</span> <span class="fu"><a href="analyse.html">analyse</a></span><span class="op">(</span><span class="va">stan_model</span>, <span class="va">data</span>,</span></span>
-<span class="r-in"><span>                    nchains <span class="op">=</span> <span class="fl">4</span>, niters <span class="op">=</span> <span class="fl">2000</span>,</span></span>
-<span class="r-in"><span>                    control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>adapt_delta <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span><span class="op">)</span>  <span class="co"># rstan::sampling argument</span></span></span>
+<span class="r-in"><span>  nchains <span class="op">=</span> <span class="fl">4</span>, niters <span class="op">=</span> <span class="fl">2000</span>,</span></span>
+<span class="r-in"><span>  control <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>adapt_delta <span class="op">=</span> <span class="fl">0.95</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="op">)</span> <span class="co"># rstan::sampling argument</span></span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Multiple datasets</span></span></span>
 <span class="r-in"><span><span class="va">data_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>dataset1 <span class="op">=</span> <span class="va">data1</span>, dataset2 <span class="op">=</span> <span class="va">data2</span><span class="op">)</span></span></span>
