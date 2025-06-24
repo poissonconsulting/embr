@@ -1,5 +1,9 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# embr 0.2.0
+
+- Add `sensitivity()` function to summarize powerscaled sensitivity analysis for reports.
+
 # embr 0.1.1
 
 - Add functions to do powerscaling sensitivity analyses on `mb_analysis` objects, using the `priorsense` package.
