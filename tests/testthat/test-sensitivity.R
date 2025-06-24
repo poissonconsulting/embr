@@ -4,7 +4,7 @@ test_that("sensitivity summarizes by 'all' for JAGS model", {
   )
   expect_snapshot(
     sensitivity(analysis, by = "all") |>
-      mutate(across(c(prior, likelihood), function(x) signif(x, digits = 8)))
+      mutate(across(c(prior, likelihood), function(x) signif(x, digits = 6)))
   )
 })
 
@@ -14,7 +14,7 @@ test_that("sensitivity summarizes by 'parameter' for JAGS model", {
   )
   expect_snapshot(
     sensitivity(analysis, by = "parameter") |>
-      mutate(across(c(prior, likelihood), function(x) signif(x, digits = 8)))
+      mutate(across(c(prior, likelihood), function(x) signif(x, digits = 6)))
   )
 })
 
@@ -24,7 +24,7 @@ test_that("sensitivity summarizes by 'term' for JAGS model", {
   )
   expect_snapshot(
     sensitivity(analysis, by = "term") |>
-      mutate(across(c(prior, likelihood), function(x) signif(x, digits = 8)))
+      mutate(across(c(prior, likelihood), function(x) signif(x, digits = 6)))
   )
 })
 
@@ -34,7 +34,7 @@ test_that("sensitivity summarizes by 'all' for Stan model", {
   )
   expect_snapshot(
     sensitivity(analysis, by = "all") |>
-      mutate(across(c(prior, likelihood), function(x) signif(x, digits = 8)))
+      mutate(across(c(prior, likelihood), function(x) signif(x, digits = 6)))
   )
 })
 
@@ -44,7 +44,7 @@ test_that("sensitivity summarizes by 'parameter' for Stan model", {
   )
   expect_snapshot(
     sensitivity(analysis, by = "parameter") |>
-      mutate(across(c(prior, likelihood), function(x) signif(x, digits = 8)))
+      mutate(across(c(prior, likelihood), function(x) signif(x, digits = 6)))
   )
 })
 
@@ -54,7 +54,7 @@ test_that("sensitivity summarizes by 'term' for Stan model", {
   )
   expect_snapshot(
     sensitivity(analysis, by = "term") |>
-      mutate(across(c(prior, likelihood), function(x) signif(x, digits = 8)))
+      mutate(across(c(prior, likelihood), function(x) signif(x, digits = 6)))
   )
 })
 

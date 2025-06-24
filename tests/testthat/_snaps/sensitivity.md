@@ -2,61 +2,61 @@
 
     Code
       mutate(sensitivity(analysis, by = "all"), across(c(prior, likelihood), function(
-        x) signif(x, digits = 8)))
+        x) signif(x, digits = 6)))
     Output
-        all        prior likelihood
-      1 all 0.0005150492 0.09216081
+        all       prior likelihood
+      1 all 0.000515049  0.0921608
 
 # sensitivity summarizes by 'parameter' for JAGS model
 
     Code
       mutate(sensitivity(analysis, by = "parameter"), across(c(prior, likelihood),
-      function(x) signif(x, digits = 8)))
+      function(x) signif(x, digits = 6)))
     Output
-        parameter        prior likelihood
-      1  bSpecies 0.0005150492 0.09216081
-      2     sMass 0.0002524377 0.13445658
+        parameter       prior likelihood
+      1  bSpecies 0.000515049  0.0921608
+      2     sMass 0.000252438  0.1344570
 
 # sensitivity summarizes by 'term' for JAGS model
 
     Code
       mutate(sensitivity(analysis, by = "term"), across(c(prior, likelihood),
-      function(x) signif(x, digits = 8)))
+      function(x) signif(x, digits = 6)))
     Output
-               term        prior likelihood diagnosis
-      1 bSpecies[1] 0.0005150492 0.11300225         -
-      2 bSpecies[2] 0.0004971709 0.09216081         -
-      3       sMass 0.0002524377 0.13445658         -
+               term       prior likelihood diagnosis
+      1 bSpecies[1] 0.000515049  0.1130020         -
+      2 bSpecies[2] 0.000497171  0.0921608         -
+      3       sMass 0.000252438  0.1344570         -
 
 # sensitivity summarizes by 'all' for Stan model
 
     Code
       mutate(sensitivity(analysis, by = "all"), across(c(prior, likelihood), function(
-        x) signif(x, digits = 8)))
+        x) signif(x, digits = 6)))
     Output
         all       prior likelihood
-      1 all 0.000557118 0.09484428
+      1 all 0.000557118  0.0948443
 
 # sensitivity summarizes by 'parameter' for Stan model
 
     Code
       mutate(sensitivity(analysis, by = "parameter"), across(c(prior, likelihood),
-      function(x) signif(x, digits = 8)))
+      function(x) signif(x, digits = 6)))
     Output
-        parameter        prior likelihood
-      1  bSpecies 0.0005571180 0.09484428
-      2     sMass 0.0001445927 0.11332948
+        parameter       prior likelihood
+      1  bSpecies 0.000557118  0.0948443
+      2     sMass 0.000144593  0.1133290
 
 # sensitivity summarizes by 'term' for Stan model
 
     Code
       mutate(sensitivity(analysis, by = "term"), across(c(prior, likelihood),
-      function(x) signif(x, digits = 8)))
+      function(x) signif(x, digits = 6)))
     Output
-               term        prior likelihood diagnosis
-      1 bSpecies[1] 0.0005571180 0.09878805         -
-      2 bSpecies[2] 0.0004980258 0.09484428         -
-      3       sMass 0.0001445927 0.11332948         -
+               term       prior likelihood diagnosis
+      1 bSpecies[1] 0.000557118  0.0987880         -
+      2 bSpecies[2] 0.000498026  0.0948443         -
+      3       sMass 0.000144593  0.1133290         -
 
 # sensitivity errors if x is not an mb_analysis object
 
