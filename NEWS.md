@@ -1,5 +1,9 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# embr 0.1.1
+
+- Add functions to do powerscaling sensitivity analyses on `mb_analysis` objects, using the `priorsense` package.
+
 # embr 0.1.0
 
 - Add `stan_engine` argument to `analyse()` and methods to allow setting cmdstan engine and implementation of cmdstanr features via methods in `smbr2` package. 
