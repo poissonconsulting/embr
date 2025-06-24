@@ -126,27 +126,31 @@ analysis <- analyse(stan_model, data, nchains = 4, niters = 1000)
 
 # Stan model with CmdStanR MCMC
 analysis <- analyse(stan_model, data,
-                    stan_engine = "cmdstan-mcmc",
-                    nchains = 4, niters = 1000)
+  stan_engine = "cmdstan-mcmc",
+  nchains = 4, niters = 1000
+)
 
 # Stan model with CmdStanR Pathfinder
 analysis <- analyse(stan_model, data,
-                    stan_engine = "cmdstan-pathfinder",
-                    niters = 500)
+  stan_engine = "cmdstan-pathfinder",
+  niters = 500
+)
 
 # JAGS model
 analysis <- analyse(jags_model, data, nchains = 4, niters = 2000)
 
 # Passing engine-specific arguments
 analysis <- analyse(stan_model, data,
-                    stan_engine = "cmdstan-mcmc",
-                    nchains = 4, niters = 2000,
-                    adapt_delta = 0.99, # cmdstanr::sample argument
-                    iter_warmup = 500L) # cmdstanr::sample argument
+  stan_engine = "cmdstan-mcmc",
+  nchains = 4, niters = 2000,
+  adapt_delta = 0.99, # cmdstanr::sample argument
+  iter_warmup = 500L
+) # cmdstanr::sample argument
 
 analysis <- analyse(stan_model, data,
-                    nchains = 4, niters = 2000,
-                    control = list(adapt_delta = 0.95))  # rstan::sampling argument
+  nchains = 4, niters = 2000,
+  control = list(adapt_delta = 0.95)
+) # rstan::sampling argument
 
 # Multiple datasets
 data_list <- list(dataset1 = data1, dataset2 = data2)
