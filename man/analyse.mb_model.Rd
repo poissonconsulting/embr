@@ -52,7 +52,7 @@
 
 \item{niters_warmup}{A count of the number of warmup iterations. The default is to use the same number of iterations as \code{niters}. This is currently only implemented for Stan models.}
 
-\item{...}{Additional arguments passed to the underlying estimation function (see above for details).}
+\item{...}{Additional arguments passed to the underlying estimation function (see below for details).}
 }
 \value{
 \itemize{
