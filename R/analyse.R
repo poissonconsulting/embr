@@ -145,7 +145,7 @@ analyse.character <- function(x, data,
 #'
 #' @param x An mb_model object to analyse.
 #' @param data The data frame to analyse, or a list of data frames for multiple datasets.
-#' @param ... Additional arguments passed to the underlying estimation function (see above for details).
+#' @param ... Additional arguments passed to the underlying estimation function (see below for details).
 #' @inheritParams params
 #' @return
 #' - If `data` is a data.frame: An mb_analysis object
