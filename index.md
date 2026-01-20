@@ -1,0 +1,40 @@
+# embr
+
+## Introduction
+
+`embr` (pronounced EMBR) is an R package of utility functions and
+virtual classes for the model builder family of R packages.
+
+Currently there are packages which implement the functionality for JAGS
+([jmbr](https://github.com/poissonconsulting/jmbr)), STAN
+([smbr](https://github.com/poissonconsulting/smbr)) and TMB
+([tmbr](https://github.com/poissonconsulting/tmbr)).
+
+## Installation
+
+To install the latest development version from
+[GitHub](https://github.com/poissonconsulting/embr)
+
+``` R
+# install.packages("remotes")
+pak::pak("poissonconsulting/embr")
+```
+
+## Contribution
+
+Please report any
+[issues](https://github.com/poissonconsulting/embr/issues).
+
+[Pull requests](https://github.com/poissonconsulting/embr/pulls) are
+always welcome.
+
+## Code of Conduct
+
+Please note that the embr project is released with a [Contributor Code
+of
+Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms.
+
+## Inspiration
+
+[jaggernaut](https://github.com/poissonconsulting/jaggernaut)

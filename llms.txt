@@ -1,0 +1,266 @@
+# embr
+
+## Introduction
+
+`embr` (pronounced EMBR) is an R package of utility functions and
+virtual classes for the model builder family of R packages.
+
+Currently there are packages which implement the functionality for JAGS
+([jmbr](https://github.com/poissonconsulting/jmbr)), STAN
+([smbr](https://github.com/poissonconsulting/smbr)) and TMB
+([tmbr](https://github.com/poissonconsulting/tmbr)).
+
+## Installation
+
+To install the latest development version from
+[GitHub](https://github.com/poissonconsulting/embr)
+
+``` R
+# install.packages("remotes")
+pak::pak("poissonconsulting/embr")
+```
+
+## Contribution
+
+Please report any
+[issues](https://github.com/poissonconsulting/embr/issues).
+
+[Pull requests](https://github.com/poissonconsulting/embr/pulls) are
+always welcome.
+
+## Code of Conduct
+
+Please note that the embr project is released with a [Contributor Code
+of
+Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
+By contributing to this project, you agree to abide by its terms.
+
+## Inspiration
+
+[jaggernaut](https://github.com/poissonconsulting/jaggernaut)
+
+# Package index
+
+## All functions
+
+- [`IC()`](https://poissonconsulting.github.io/embr/reference/IC.md) :
+  Information Criterion
+- [`R2()`](https://poissonconsulting.github.io/embr/reference/R2.md) :
+  R2
+- [`R2(`*`<mb_analysis>`*`)`](https://poissonconsulting.github.io/embr/reference/R2.mb_analysis.md)
+  : R2
+- [`add_analyses()`](https://poissonconsulting.github.io/embr/reference/add_analyses.md)
+  : Add analyses
+- [`add_models()`](https://poissonconsulting.github.io/embr/reference/add_models.md)
+  : Add model(s)
+- [`analyse()`](https://poissonconsulting.github.io/embr/reference/analyse.md)
+  : Analyse Models
+- [`analyse(`*`<character>`*`)`](https://poissonconsulting.github.io/embr/reference/analyse.character.md)
+  : Analyse Character Model
+- [`analyse(`*`<mb_model>`*`)`](https://poissonconsulting.github.io/embr/reference/analyse.mb_model.md)
+  : Analyse Single Model
+- [`analyse(`*`<mb_models>`*`)`](https://poissonconsulting.github.io/embr/reference/analyse.mb_models.md)
+  : Analyse
+- [`analyse1()`](https://poissonconsulting.github.io/embr/reference/analyse1.md)
+  : Analyse
+- [`analyse_residuals()`](https://poissonconsulting.github.io/embr/reference/analyse_residuals.md)
+  : Analyse Residuals
+- [`analyses()`](https://poissonconsulting.github.io/embr/reference/analyses.md)
+  : MB Analyses
+- [`as.analyses()`](https://poissonconsulting.github.io/embr/reference/as.analyses.md)
+  : Coerce to an mb_analyses object
+- [`as.model()`](https://poissonconsulting.github.io/embr/reference/as.model.md)
+  : Coerce to an mb_model object
+- [`as.models()`](https://poissonconsulting.github.io/embr/reference/as.models.md)
+  : Coerce to an mb_models object
+- [`backwards()`](https://poissonconsulting.github.io/embr/reference/backwards.md)
+  : Backwards
+- [`base_model()`](https://poissonconsulting.github.io/embr/reference/base_model.md)
+  : Base Model
+- [`check_mb_analysis()`](https://poissonconsulting.github.io/embr/reference/check_mb_analysis.md)
+  : Check MB Analysis
+- [`check_mb_code()`](https://poissonconsulting.github.io/embr/reference/check_mb_code.md)
+  : Check MB Code
+- [`check_mb_model()`](https://poissonconsulting.github.io/embr/reference/check_mb_model.md)
+  : Check MB Model
+- [`check_model_pars()`](https://poissonconsulting.github.io/embr/reference/check_model_pars.md)
+  : Check Model Parameters
+- [`check_uniquely_named_list()`](https://poissonconsulting.github.io/embr/reference/check_uniquely_named_list.md)
+  : Check Uniquely Named List
+- [`code()`](https://poissonconsulting.github.io/embr/reference/code.md)
+  : Code
+- [`coef(`*`<mb_analyses>`*`)`](https://poissonconsulting.github.io/embr/reference/coef.mb_analyses.md)
+  : Coef TMB Analyses
+- [`coef(`*`<mb_analysis>`*`)`](https://poissonconsulting.github.io/embr/reference/coef.mb_analysis.md)
+  : Coef JAGS Analysis
+- [`coef(`*`<mb_meta_analyses>`*`)`](https://poissonconsulting.github.io/embr/reference/coef.mb_meta_analyses.md)
+  : Coef TMB Meta Analyses
+- [`coef(`*`<mb_meta_analysis>`*`)`](https://poissonconsulting.github.io/embr/reference/coef.mb_meta_analysis.md)
+  : Coef TMB Meta Analysis
+- [`coef_profile()`](https://poissonconsulting.github.io/embr/reference/coef_profile.md)
+  : Coef Profile
+- [`coef_profile(`*`<mb_analyses>`*`)`](https://poissonconsulting.github.io/embr/reference/coef_profile.mb_analyses.md)
+  : Coef TMB Analyses
+- [`coef_profile(`*`<mb_analysis>`*`)`](https://poissonconsulting.github.io/embr/reference/coef_profile.mb_analysis.md)
+  : Coef Profile Analysis
+- [`coef_profile(`*`<mb_meta_analyses>`*`)`](https://poissonconsulting.github.io/embr/reference/coef_profile.mb_meta_analyses.md)
+  : Coef TMB Meta Analyses
+- [`coef_profile(`*`<mb_meta_analysis>`*`)`](https://poissonconsulting.github.io/embr/reference/coef_profile.mb_meta_analysis.md)
+  : Coef TMB Meta Analysis
+- [`comment_string()`](https://poissonconsulting.github.io/embr/reference/comment_string.md)
+  : Comment String
+- [`data_set()`](https://poissonconsulting.github.io/embr/reference/data_set.md)
+  : Data Set
+- [`density99`](https://poissonconsulting.github.io/embr/reference/density99.md)
+  : Density99
+- [`drop_pars()`](https://poissonconsulting.github.io/embr/reference/drop_pars.md)
+  : Drop pars
+- [`elapsed()`](https://poissonconsulting.github.io/embr/reference/elapsed.md)
+  : Elapsed
+- [`estimates(`*`<mb_analysis>`*`)`](https://poissonconsulting.github.io/embr/reference/estimates.mb_analysis.md)
+  : Estimates
+- [`fitted(`*`<mb_analysis>`*`)`](https://poissonconsulting.github.io/embr/reference/fitted.mb_analysis.md)
+  : Fitted Values
+- [`get_analysis_mode()`](https://poissonconsulting.github.io/embr/reference/get_analysis_mode.md)
+  : Get Analysis Mode
+- [`get_model()`](https://poissonconsulting.github.io/embr/reference/get_model.md)
+  : Retrieve model
+- [`is.lmb_analysis()`](https://poissonconsulting.github.io/embr/reference/is.lmb_analysis.md)
+  : Is a LMB Analysis
+- [`is.lmb_code()`](https://poissonconsulting.github.io/embr/reference/is.lmb_code.md)
+  : Is a LMB Code
+- [`is.lmb_model()`](https://poissonconsulting.github.io/embr/reference/is.lmb_model.md)
+  : Is a LMB Model
+- [`is.mb_analyses()`](https://poissonconsulting.github.io/embr/reference/is.mb_analyses.md)
+  : Is MB Analyses?
+- [`is.mb_analysis()`](https://poissonconsulting.github.io/embr/reference/is.mb_analysis.md)
+  : Is MB Analysis?
+- [`is.mb_code()`](https://poissonconsulting.github.io/embr/reference/is.mb_code.md)
+  : Is MB Code?
+- [`is.mb_model()`](https://poissonconsulting.github.io/embr/reference/is.mb_model.md)
+  : Is MB Model?
+- [`is.mb_models()`](https://poissonconsulting.github.io/embr/reference/is.mb_models.md)
+  : Is MB Models?
+- [`is.mb_null_analysis()`](https://poissonconsulting.github.io/embr/reference/is.mb_null_analysis.md)
+  : Is MB Null Analysis?
+- [`is.syntactic()`](https://poissonconsulting.github.io/embr/reference/is.syntactic.md)
+  : Is syntactic
+- [`is_bayesian()`](https://poissonconsulting.github.io/embr/reference/is_bayesian.md)
+  : Test if is bayesian
+- [`is_frequentist()`](https://poissonconsulting.github.io/embr/reference/is_frequentist.md)
+  : Test if is frequentist
+- [`is_namedlist()`](https://poissonconsulting.github.io/embr/reference/is_namedlist.md)
+  : Is Named List
+- [`load_model()`](https://poissonconsulting.github.io/embr/reference/load_model.md)
+  : Load Model
+- [`logLik(`*`<mb_analysis>`*`)`](https://poissonconsulting.github.io/embr/reference/logLik.mb_analysis.md)
+  : Log-Likelihood
+- [`logLik(`*`<mb_null_analysis>`*`)`](https://poissonconsulting.github.io/embr/reference/logLik.mb_null_analysis.md)
+  : Log-Likelihood
+- [`log_lik_draws(`*`<mb_analysis>`*`)`](https://poissonconsulting.github.io/embr/reference/log_lik_draws.mb_analysis.md)
+  : Extract log likelihood draws
+- [`log_prior_draws(`*`<mb_analysis>`*`)`](https://poissonconsulting.github.io/embr/reference/log_prior_draws.mb_analysis.md)
+  : Extract log prior draws
+- [`make_all_models()`](https://poissonconsulting.github.io/embr/reference/make_all_models.md)
+  : Make All Models
+- [`mb_code()`](https://poissonconsulting.github.io/embr/reference/mb_code.md)
+  [`new_mb_code()`](https://poissonconsulting.github.io/embr/reference/mb_code.md)
+  : MB Code
+- [`mcmc_derive(`*`<mb_analyses>`*`)`](https://poissonconsulting.github.io/embr/reference/mcmc_derive.mb_analyses.md)
+  : Derive
+- [`mcmc_derive(`*`<mb_analysis>`*`)`](https://poissonconsulting.github.io/embr/reference/mcmc_derive.mb_analysis.md)
+  : Derive
+- [`mcmc_derive_data(`*`<mb_analyses>`*`)`](https://poissonconsulting.github.io/embr/reference/mcmc_derive_data.mb_analyses.md)
+  : Derive Data
+- [`mcmc_derive_data(`*`<mb_analysis>`*`)`](https://poissonconsulting.github.io/embr/reference/mcmc_derive_data.mb_analysis.md)
+  : Derive Data
+- [`model()`](https://poissonconsulting.github.io/embr/reference/model.md)
+  : MB Model
+- [`models()`](https://poissonconsulting.github.io/embr/reference/models.md)
+  : MB Models
+- [`modify_data()`](https://poissonconsulting.github.io/embr/reference/modify_data.md)
+  : Modify Data
+- [`modify_new_data()`](https://poissonconsulting.github.io/embr/reference/modify_new_data.md)
+  : Modify New Data
+- [`monitor()`](https://poissonconsulting.github.io/embr/reference/monitor.md)
+  : pars to monitor
+- [`new_analysis()`](https://poissonconsulting.github.io/embr/reference/new_analysis.md)
+  : MB Analysis
+- [`` `new_expr<-`() ``](https://poissonconsulting.github.io/embr/reference/new_expr-set.md)
+  : new_expr set
+- [`new_expr()`](https://poissonconsulting.github.io/embr/reference/new_expr.md)
+  : new_expr
+- [`ngens()`](https://poissonconsulting.github.io/embr/reference/ngens.md)
+  : Total Number of MCMC simulations generated (including warmup)
+- [`nmodels()`](https://poissonconsulting.github.io/embr/reference/nmodels.md)
+  : Number Models
+- [`nterms(`*`<mb_analysis>`*`)`](https://poissonconsulting.github.io/embr/reference/nterms.mb_analysis.md)
+  : Number of terms
+- [`nthin()`](https://poissonconsulting.github.io/embr/reference/nthin.md)
+  : Thinning Rate
+- [`params`](https://poissonconsulting.github.io/embr/reference/params.md)
+  : Parameter Descriptions
+- [`plot(`*`<mb_analysis>`*`)`](https://poissonconsulting.github.io/embr/reference/plot.mb_analysis.md)
+  : Plot Analysis
+- [`plot_data()`](https://poissonconsulting.github.io/embr/reference/plot_data.md)
+  : Plot Data
+- [`plot_residuals()`](https://poissonconsulting.github.io/embr/reference/plot_residuals.md)
+  : Plot Residuals
+- [`posterior_predictive_check()`](https://poissonconsulting.github.io/embr/reference/posterior_predictive_check.md)
+  : Posterior Predictive Check
+- [`posterior_predictive_check(`*`<mb_analysis>`*`)`](https://poissonconsulting.github.io/embr/reference/posterior_predictive_check.mb_analysis.md)
+  : Posterior Predictive Check
+- [`powerscale_sensitivity(`*`<mb_analysis>`*`)`](https://poissonconsulting.github.io/embr/reference/powerscale_sensitivity.mb_analysis.md)
+  : Run Power-Scaling Sensitivity Analysis
+- [`predict(`*`<mb_analyses>`*`)`](https://poissonconsulting.github.io/embr/reference/predict.mb_analyses.md)
+  : Predict
+- [`predict(`*`<mb_analysis>`*`)`](https://poissonconsulting.github.io/embr/reference/predict.mb_analysis.md)
+  : Predict
+- [`random_effects()`](https://poissonconsulting.github.io/embr/reference/random_effects.md)
+  : Random Effects
+- [`reanalyse()`](https://poissonconsulting.github.io/embr/reference/reanalyse.md)
+  : Reanalyse
+- [`reanalyse(`*`<mb_analyses>`*`)`](https://poissonconsulting.github.io/embr/reference/reanalyse.mb_analyses.md)
+  : Reanalyse
+- [`reanalyse(`*`<mb_analysis>`*`)`](https://poissonconsulting.github.io/embr/reference/reanalyse.mb_analysis.md)
+  : Reanalyse
+- [`reanalyse(`*`<mb_meta_analyses>`*`)`](https://poissonconsulting.github.io/embr/reference/reanalyse.mb_meta_analyses.md)
+  : Reanalyse
+- [`reanalyse(`*`<mb_meta_analysis>`*`)`](https://poissonconsulting.github.io/embr/reference/reanalyse.mb_meta_analysis.md)
+  : Reanalyse
+- [`reanalyse1()`](https://poissonconsulting.github.io/embr/reference/reanalyse1.md)
+  : Reanalyse
+- [`residuals(`*`<mb_analysis>`*`)`](https://poissonconsulting.github.io/embr/reference/residuals.mb_analysis.md)
+  : Residuals
+- [`rm_comments()`](https://poissonconsulting.github.io/embr/reference/rm_comments.md)
+  : Removes comments from the template strings(s) of an mb object or a
+  character vector.
+- [`sample_size()`](https://poissonconsulting.github.io/embr/reference/sample_size.md)
+  : Sample Size
+- [`scalar_nlist()`](https://poissonconsulting.github.io/embr/reference/scalar_nlist.md)
+  : Scalar Named List
+- [`sd_priors_by()`](https://poissonconsulting.github.io/embr/reference/sd_priors_by.md)
+  : Multiply Standard Deviation of Priors By
+- [`select_rescale_data()`](https://poissonconsulting.github.io/embr/reference/select_rescale_data.md)
+  : Select and Rescale Data
+- [`sensitivity()`](https://poissonconsulting.github.io/embr/reference/sensitivity.md)
+  : Summarize model sensitivity
+- [`sensitivity(`*`<mb_analysis>`*`)`](https://poissonconsulting.github.io/embr/reference/sensitivity.mb_analysis.md)
+  : Summarize model sensitivity
+- [`set_analysis_mode()`](https://poissonconsulting.github.io/embr/reference/set_analysis_mode.md)
+  : Set Analysis Mode
+- [`simulate_residuals()`](https://poissonconsulting.github.io/embr/reference/simulate_residuals.md)
+  : Simulate Residuals
+- [`sort_by_ic()`](https://poissonconsulting.github.io/embr/reference/sort_by_ic.md)
+  : Sort Analyses by IC
+- [`sort_nlist()`](https://poissonconsulting.github.io/embr/reference/sort_nlist.md)
+  : Sort Named List
+- [`` `template<-`() ``](https://poissonconsulting.github.io/embr/reference/template-set.md)
+  : Set Template
+- [`template()`](https://poissonconsulting.github.io/embr/reference/template.md)
+  : Template
+- [`terms(`*`<mb_analysis>`*`)`](https://poissonconsulting.github.io/embr/reference/terms.mb_analysis.md)
+  : Terms
+- [`update_model()`](https://poissonconsulting.github.io/embr/reference/update_model.md)
+  : Update MB Model
+
