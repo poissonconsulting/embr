@@ -20,7 +20,6 @@ predict(
   random_effects = NULL,
   parallel = getOption("mb.parallel", FALSE),
   quiet = getOption("mb.quiet", TRUE),
-  beep = getOption("mb.beep", FALSE),
   ...
 )
 ```
@@ -82,10 +81,6 @@ predict(
 - quiet:
 
   A flag indicating whether to disable tracing information.
-
-- beep:
-
-  A flag indicating whether to beep on completion of the analysis.
 
 - ...:
 
