@@ -15,7 +15,6 @@
   new_expr_vec = getOption("mb.new_expr_vec", FALSE),
   parallel = getOption("mb.parallel", FALSE),
   quiet = getOption("mb.quiet", TRUE),
-  beep = getOption("mb.beep", FALSE),
   ...
 )
 }
@@ -39,8 +38,6 @@
 \item{parallel}{A flag indicating whether to do predictions using parallel backend provided by foreach.}
 
 \item{quiet}{A flag indicating whether to disable tracing information.}
-
-\item{beep}{A flag indicating whether to beep on completion of the analysis.}
 
 \item{...}{Additional arguments.}
 }

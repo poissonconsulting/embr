@@ -29,11 +29,9 @@ R2.mb_analysis <- function(object, response, marginal = FALSE,
                            term = "prediction",
                            parallel = getOption("mb.parallel", FALSE),
                            quiet = getOption("mb.quiet", TRUE),
-                           beep = getOption("mb.beep", FALSE), ...) {
+                           ...) {
   chk_string(response)
   chk_flag(marginal)
-  chk_flag(beep)
-  if (beep) on.exit(beepr::beep())
 
   data <- data_set(object, modify_data = TRUE, numericize_factors = TRUE)
   check_names(data, response, x_name = "data_set(object)")
@@ -42,8 +40,7 @@ R2.mb_analysis <- function(object, response, marginal = FALSE,
 
   prediction <- predict(object,
     new_data = new_data, term = term,
-    parallel = parallel, quiet = quiet,
-    beep = FALSE
+    parallel = parallel, quiet = quiet
   )
 
   1 - stats::var(data[[response]] - prediction$estimate) / stats::var(data[[response]])

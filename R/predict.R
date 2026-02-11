@@ -36,13 +36,9 @@ predict.mb_analysis <- function(object,
                                 random_effects = NULL,
                                 parallel = getOption("mb.parallel", FALSE),
                                 quiet = getOption("mb.quiet", TRUE),
-                                beep = getOption("mb.beep", FALSE),
                                 ...) {
   chk_number(conf_level)
   chk_range(conf_level, c(0.5, 0.99))
-  chk_flag(beep)
-
-  if (beep) on.exit(beepr::beep())
 
   term <- p0("^", term, "$")
 
@@ -85,12 +81,7 @@ predict.mb_analyses <- function(object,
                                 new_expr_vec = getOption("mb.new_expr_vec", FALSE),
                                 parallel = getOption("mb.parallel", FALSE),
                                 quiet = getOption("mb.quiet", TRUE),
-                                beep = getOption("mb.beep", FALSE),
                                 ...) {
-  chk_flag(beep)
-
-  if (beep) on.exit(beepr::beep())
-
   ic <- IC(object)
 
   prediction <- lapply(

@@ -17,9 +17,7 @@ mcmc_derive.mb_analysis <- function(object,
                                     new_expr_vec = getOption("mb.new_expr_vec", FALSE),
                                     parallel = getOption("mb.parallel", FALSE),
                                     quiet = getOption("mb.quiet", TRUE),
-                                    beep = getOption("mb.beep", FALSE),
                                     ...) {
-  chk_flag(beep)
   chk_function(ref_fun2)
 
   if (!vld_data(new_data) && !vld_character(new_data)) {
@@ -28,8 +26,6 @@ mcmc_derive.mb_analysis <- function(object,
   if (!vld_flag(ref_data) && !vld_data(ref_data)) {
     chkor_vld(vld_flag(ref_data), vld_data(ref_data))
   }
-
-  if (beep) on.exit(beepr::beep())
 
   if (is.character(new_data)) {
     new_data <- newdata::new_data(data_set(object), new_data)
@@ -104,12 +100,7 @@ mcmc_derive.mb_analyses <- function(object,
                                     new_expr_vec = getOption("mb.new_expr_vec", FALSE),
                                     parallel = getOption("mb.parallel", FALSE),
                                     quiet = getOption("mb.quiet", TRUE),
-                                    beep = getOption("mb.beep", FALSE),
                                     ...) {
-  chk_flag(beep)
-
-  if (beep) on.exit(beepr::beep())
-
   ic <- IC(object)
 
   if (!all(is.finite(ic$IC))) err("non-finite IC values", tidy = FALSE)
