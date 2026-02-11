@@ -34,13 +34,13 @@ Source:
 [`DESCRIPTION`](https://github.com/poissonconsulting/embr/blob/main/DESCRIPTION)
 
 Thorley J, Müller K (2026). *embr: Model Builder Utility Functions and
-Virtual Classes*. R package version 0.2.0,
+Virtual Classes*. R package version 0.2.0.9000,
 <https://github.com/poissonconsulting/embr>.
 
     @Manual{,
       title = {embr: Model Builder Utility Functions and Virtual Classes},
       author = {Joe Thorley and Kirill Müller},
       year = {2026},
-      note = {R package version 0.2.0},
+      note = {R package version 0.2.0.9000},
       url = {https://github.com/poissonconsulting/embr},
     }

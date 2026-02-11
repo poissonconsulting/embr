@@ -1,5 +1,19 @@
 # Changelog
 
+## embr 0.2.0.9000
+
+- Merge pull request
+  [\#103](https://github.com/poissonconsulting/embr/issues/103) from
+  poissonconsulting/joethorley/issue102.
+
+- Merge pull request
+  [\#100](https://github.com/poissonconsulting/embr/issues/100) from
+  poissonconsulting/joethorley/issue99.
+
+- Merge pull request
+  [\#94](https://github.com/poissonconsulting/embr/issues/94) from
+  poissonconsulting/sensitivity.
+
 ## embr 0.2.0
 
 - Add
