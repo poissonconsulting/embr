@@ -1,5 +1,14 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# embr 0.2.0.9000
+
+- Merge pull request #103 from poissonconsulting/joethorley/issue102.
+
+- Merge pull request #100 from poissonconsulting/joethorley/issue99.
+
+- Merge pull request #94 from poissonconsulting/sensitivity.
+
+
 # embr 0.2.0
 
 - Add `sensitivity()` function to summarize powerscaled sensitivity analysis for reports.
