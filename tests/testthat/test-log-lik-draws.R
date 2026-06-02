@@ -248,6 +248,46 @@ test_that("suggestion from warning when defining log_lik in two places works", {
   expect_snapshot(log_lik_draws(analysis, log_lik_name = "elog_lik"))
 })
 
+# Word boundary matching (issue #104) ----
+test_that("log_lik correctly extracted from model when new_expr contains log_lik_norm for jags model", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_jags_mod.RDS")
+  )
+  # log_lik_norm and log_lik_exp contain "log_lik" as a substring; without
+  # word boundaries str_detect would incorrectly set def_new_expr = TRUE and
+  # attempt to mcmc_derive log_lik from new_expr, causing an error
+  analysis$model <- update_model(
+    analysis$model,
+    new_expr = "
+      log(eMass) <- bSpecies[species]
+      lprior[1:nspecies] <- log_lik_norm(bSpecies, 0, 2)
+      lprior[nspecies + 1] <- log_lik_exp(sMass, 1)
+    ",
+    new_expr_vec = TRUE
+  )
+  lld <- log_lik_draws(analysis)
+  expect_equal(dim(lld)[3], 100)
+})
+
+test_that("log_lik correctly extracted from model when new_expr contains log_lik_norm for stan model", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_stan_mod.RDS")
+  )
+  analysis$model <- update_model(
+    analysis$model,
+    new_expr = "
+      for (i in 1:nObs) {
+        log(eMass[i]) <- bSpecies[species[i]]
+      }
+      lprior[1:nspecies] <- log_lik_norm(bSpecies, 0, 2)
+      lprior[nspecies + 1] <- log_lik_exp(sMass, 1)
+    ",
+    new_expr_vec = TRUE
+  )
+  lld <- log_lik_draws(analysis)
+  expect_equal(dim(lld)[3], nrow(analysis$data))
+})
+
 # General ----
 test_that("warnings piped through when lprior and param lengths don't match", {
   analysis <- readRDS(
