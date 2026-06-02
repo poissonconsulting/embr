@@ -5,7 +5,7 @@
         x) signif(x, digits = 6)))
     Output
         all       prior likelihood
-      1 all 0.000515049  0.0921608
+      1 all 0.000515008  0.0921626
 
 # sensitivity summarizes by 'parameter' for JAGS model
 
@@ -14,8 +14,8 @@
       function(x) signif(x, digits = 6)))
     Output
         parameter       prior likelihood
-      1  bSpecies 0.000515049  0.0921608
-      2     sMass 0.000252438  0.1344570
+      1  bSpecies 0.000515008  0.0921626
+      2     sMass 0.000252202  0.1344750
 
 # sensitivity summarizes by 'term' for JAGS model
 
@@ -24,9 +24,9 @@
       function(x) signif(x, digits = 6)))
     Output
                term       prior likelihood diagnosis
-      1 bSpecies[1] 0.000515049  0.1130020         -
-      2 bSpecies[2] 0.000497171  0.0921608         -
-      3       sMass 0.000252438  0.1344570         -
+      1 bSpecies[1] 0.000515008  0.1130140         -
+      2 bSpecies[2] 0.000497133  0.0921626         -
+      3       sMass 0.000252202  0.1344750         -
 
 # sensitivity summarizes by 'all' for Stan model
 
@@ -35,7 +35,7 @@
         x) signif(x, digits = 6)))
     Output
         all       prior likelihood
-      1 all 0.000557118  0.0948443
+      1 all 0.000557085  0.0948548
 
 # sensitivity summarizes by 'parameter' for Stan model
 
@@ -44,8 +44,8 @@
       function(x) signif(x, digits = 6)))
     Output
         parameter       prior likelihood
-      1  bSpecies 0.000557118  0.0948443
-      2     sMass 0.000144593  0.1133290
+      1  bSpecies 0.000557085  0.0948548
+      2     sMass 0.000144576  0.1133650
 
 # sensitivity summarizes by 'term' for Stan model
 
@@ -54,9 +54,9 @@
       function(x) signif(x, digits = 6)))
     Output
                term       prior likelihood diagnosis
-      1 bSpecies[1] 0.000557118  0.0987880         -
-      2 bSpecies[2] 0.000498026  0.0948443         -
-      3       sMass 0.000144593  0.1133290         -
+      1 bSpecies[1] 0.000557085  0.0988353         -
+      2 bSpecies[2] 0.000497997  0.0948548         -
+      3       sMass 0.000144576  0.1133650         -
 
 # sensitivity errors if x is not an mb_analysis object
 
