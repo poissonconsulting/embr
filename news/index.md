@@ -1,5 +1,9 @@
 # Changelog
 
+## embr 0.2.0.9001
+
+- Use word boundaries in log_lik detection to avoid partial matches.
+
 ## embr 0.2.0.9000
 
 - Merge pull request
