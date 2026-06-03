@@ -440,7 +440,7 @@
         term            estimate    lower  upper svalue
         <term>             <dbl>    <dbl>  <dbl>  <dbl>
       1 bHabitatQuality   9.28    8.41    10.6     8.97
-      2 bIntercept       -0.408  -1.57     0.358   2.15
+      2 bIntercept       -0.408  -1.57     0.358   2.16
       3 bYear             0.888   0.608    1.15    8.97
       4 log_sDensity      0.0310  0.00199  0.111   8.97
       5 log_sSiteYear     0.937   0.760    1.15    8.97
