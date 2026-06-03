@@ -1,5 +1,10 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# embr 0.2.0.9001
+
+- Use word boundaries in log_lik detection to avoid partial matches.
+
+
 # embr 0.2.0.9000
 
 - Merge pull request #103 from poissonconsulting/joethorley/issue102.

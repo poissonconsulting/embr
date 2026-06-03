@@ -25,7 +25,7 @@ log_lik_draws.mb_analysis <- function(x, joint = FALSE, log_lik_name = "log_lik"
   chk::chk_character(log_lik_name)
   chk::chk_unused(...)
 
-  def_new_expr <- any(stringr::str_detect(as.character(x$model$new_expr), log_lik_name))
+  def_new_expr <- any(stringr::str_detect(as.character(x$model$new_expr), paste0("\\b", log_lik_name, "\\b")))
   def_model <- any(stringr::str_detect(pars(x), log_lik_name))
 
   if (def_new_expr & def_model) {
