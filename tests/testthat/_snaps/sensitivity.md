@@ -98,11 +98,11 @@
       Error in `sensitivity.mb_analysis()`:
       ! `by` must match 'all', 'parameter' or 'term', not 'total'.
 
-# sensitivity errors if ... not empty
+# sensitivity errors if `param_type` is not valid
 
     Code
-      sensitivity(analysis, by = "all", complete = FALSE)
+      sensitivity(analysis, param_type = "other")
     Condition
-      Error in `log_prior_fn()`:
-      ! `...` must be unused.
+      Error in `sensitivity.mb_analysis()`:
+      ! `param_type` must match 'all', 'derived', 'fixed', 'primary' or 'random', not 'other'.
 

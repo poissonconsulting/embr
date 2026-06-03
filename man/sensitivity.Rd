@@ -4,7 +4,7 @@
 \alias{sensitivity}
 \title{Summarize model sensitivity}
 \usage{
-sensitivity(x, by = "term", ...)
+sensitivity(x, by = "term", param_type = "all", ...)
 }
 \arguments{
 \item{x}{The mb_analysis object.}
@@ -12,8 +12,10 @@ sensitivity(x, by = "term", ...)
 \item{by}{A string indicating whether to determine by "term", "parameter", or
 "all".}
 
-\item{...}{Additional arguments passed to
-\code{\link[priorsense:powerscale-sensitivity]{priorsense::powerscale_sensitivity()}}.}
+\item{param_type}{A string specifying which parameters to include: 'fixed',
+'random', 'derived', 'primary', or 'all'.}
+
+\item{...}{Arguments passed to \code{\link[=add_sensitivity]{add_sensitivity()}}.}
 }
 \value{
 A dataframe summarizing the sensitivity of the analysis object.

@@ -3,36 +3,31 @@
 #' @param x The mb_analysis object.
 #' @param by A string indicating whether to determine by "term", "parameter", or
 #'   "all".
-#' @param ...  Additional arguments passed to
-#' [priorsense::powerscale_sensitivity()].
+#' @param param_type A string specifying which parameters to include: 'fixed',
+#'   'random', 'derived', 'primary', or 'all'.
+#' @param ... Arguments passed to [add_sensitivity()].
 #'
 #' @return A dataframe summarizing the sensitivity of the analysis object.
 #' @export
-sensitivity <- function(x, by = "term", ...) {
+sensitivity <- function(x, by = "term", param_type = "all", ...) {
   UseMethod("sensitivity")
 }
 
-#' Summarize model sensitivity
-#'
-#' @param x The mb_analysis object.
-#' @param by A string indicating whether to determine by "term", "parameter", or
-#'   "all".
-#' @param ... Additional arguments passed to
-#' [priorsense::powerscale_sensitivity()].
-#'
 #' @export
-sensitivity.mb_analysis <- function(x, by = "term", ...) {
+sensitivity.mb_analysis <- function(x, by = "term", param_type = "all", ...) {
   check_mb_analysis(x)
   chk_string(by)
   chk_subset(by, c("all", "parameter", "term"))
+  chk_string(param_type)
+  chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
 
-  ps <- powerscale_sensitivity(x, ...)
-  ps <- data.frame(
-    term = ps$variable,
-    prior = ps$prior,
-    likelihood = ps$likelihood,
-    diagnosis = ps$diagnosis
-  )
+  x <- add_sensitivity(x, ...)
+  ps <- x$sensitivity
+
+  if (param_type != "all") {
+    params <- pars(x, param_type)
+    ps <- ps[stringr::str_remove_all(ps$term, "\\[.*\\]") %in% params, , drop = FALSE]
+  }
 
   if (by == "term") {
     return(ps)
