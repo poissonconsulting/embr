@@ -58,14 +58,84 @@ test_that("sensitivity summarizes by 'term' for Stan model", {
   )
 })
 
-test_that("sensitivity param_type filters parameters", {
+test_that("sensitivity param_type = 'fixed' by term for JAGS RE model", {
   analysis <- readRDS(
-    file = system.file(package = "embr", "test-objects/analysis_jags_newexpr.RDS")
+    file = system.file(package = "embr", "test-objects/analysis_jags_re.RDS")
   )
-  all_rows <- sensitivity(analysis, by = "term", param_type = "all")
-  fixed_rows <- sensitivity(analysis, by = "term", param_type = "fixed")
-  expect_true(nrow(fixed_rows) <= nrow(all_rows))
-  expect_true(all(fixed_rows$term %in% all_rows$term))
+  expect_snapshot(
+    sensitivity(analysis, by = "term", param_type = "fixed") |>
+      mutate(across(c(prior, likelihood), function(x) signif(x, digits = 4)))
+  )
+})
+
+test_that("sensitivity param_type = 'random' by term for JAGS RE model", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_jags_re.RDS")
+  )
+  expect_snapshot(
+    sensitivity(analysis, by = "term", param_type = "random") |>
+      mutate(across(c(prior, likelihood), function(x) signif(x, digits = 4)))
+  )
+})
+
+test_that("sensitivity param_type = 'fixed' by parameter for JAGS RE model", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_jags_re.RDS")
+  )
+  expect_snapshot(
+    sensitivity(analysis, by = "parameter", param_type = "fixed") |>
+      mutate(across(c(prior, likelihood), function(x) signif(x, digits = 4)))
+  )
+})
+
+test_that("sensitivity param_type = 'fixed' by term for Stan RE model", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_stan_re.RDS")
+  )
+  expect_snapshot(
+    sensitivity(analysis, by = "term", param_type = "fixed") |>
+      mutate(across(c(prior, likelihood), function(x) signif(x, digits = 4)))
+  )
+})
+
+test_that("sensitivity param_type = 'random' by term for Stan RE model", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_stan_re.RDS")
+  )
+  expect_snapshot(
+    sensitivity(analysis, by = "term", param_type = "random") |>
+      mutate(across(c(prior, likelihood), function(x) signif(x, digits = 4)))
+  )
+})
+
+test_that("sensitivity param_type = 'fixed' by parameter for Stan RE model", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_stan_re.RDS")
+  )
+  expect_snapshot(
+    sensitivity(analysis, by = "parameter", param_type = "fixed") |>
+      mutate(across(c(prior, likelihood), function(x) signif(x, digits = 4)))
+  )
+})
+
+test_that("sensitivity param_type = 'derived' by term for Stan RE model", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_stan_re.RDS")
+  )
+  expect_snapshot(
+    sensitivity(analysis, by = "term", param_type = "derived") |>
+      mutate(across(c(prior, likelihood), function(x) signif(x, digits = 4)))
+  )
+})
+
+test_that("sensitivity param_type = 'primary' by parameter for Stan RE model", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_stan_re.RDS")
+  )
+  expect_snapshot(
+    sensitivity(analysis, by = "parameter", param_type = "primary") |>
+      mutate(across(c(prior, likelihood), function(x) signif(x, digits = 4)))
+  )
 })
 
 test_that("sensitivity errors if x is not an mb_analysis object", {
@@ -116,6 +186,36 @@ test_that("sensitivity errors if other `by` argument provided", {
   )
 })
 
+test_that("sensitivity errors if `param_type` is not a string", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_jags_newexpr.RDS")
+  )
+  expect_snapshot(
+    sensitivity(analysis, param_type = 10),
+    error = TRUE
+  )
+})
+
+test_that("sensitivity errors if `param_type` is NA", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_jags_newexpr.RDS")
+  )
+  expect_snapshot(
+    sensitivity(analysis, param_type = NA),
+    error = TRUE
+  )
+})
+
+test_that("sensitivity errors if `param_type` is character(0)", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_jags_newexpr.RDS")
+  )
+  expect_snapshot(
+    sensitivity(analysis, param_type = character(0)),
+    error = TRUE
+  )
+})
+
 test_that("sensitivity errors if `param_type` is not valid", {
   analysis <- readRDS(
     file = system.file(package = "embr", "test-objects/analysis_jags_newexpr.RDS")
@@ -123,5 +223,45 @@ test_that("sensitivity errors if `param_type` is not valid", {
   expect_snapshot(
     sensitivity(analysis, param_type = "other"),
     error = TRUE
+  )
+})
+
+test_that("sensitivity errors if `mb.dcjs` is not a number", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_jags_newexpr.RDS")
+  )
+  expect_snapshot(
+    sensitivity(analysis, mb.dcjs = "high"),
+    error = TRUE
+  )
+})
+
+test_that("sensitivity errors if `mb.dcjs` is NA", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_jags_newexpr.RDS")
+  )
+  expect_snapshot(
+    sensitivity(analysis, mb.dcjs = NA),
+    error = TRUE
+  )
+})
+
+test_that("sensitivity errors if `mb.dcjs` is numeric(0)", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_jags_newexpr.RDS")
+  )
+  expect_snapshot(
+    sensitivity(analysis, mb.dcjs = numeric(0)),
+    error = TRUE
+  )
+})
+
+test_that("sensitivity mb.dcjs changes weak_prior and strong_data classification", {
+  analysis <- readRDS(
+    file = system.file(package = "embr", "test-objects/analysis_jags_newexpr.RDS")
+  )
+  expect_snapshot(
+    sensitivity(analysis, by = "all", mb.dcjs = 0.12) |>
+      mutate(across(c(prior, likelihood), function(x) signif(x, digits = 4)))
   )
 })

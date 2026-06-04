@@ -1,61 +1,84 @@
 #' Summarize model sensitivity
 #'
 #' @param x The mb_analysis object.
-#' @param by A string indicating whether to determine by "term", "parameter", or
-#'   "all".
+#' @param by A string indicating whether to determine by "term", "parameter",
+#'   or "all".
 #' @param param_type A string specifying which parameters to include: 'fixed',
 #'   'random', 'derived', 'primary', or 'all'.
+#' @param mb.dcjs A number specifying the CJS threshold for weak prior and
+#'   strong data classification.
 #' @param ... Arguments passed to [add_sensitivity()].
 #'
 #' @return A dataframe summarizing the sensitivity of the analysis object.
 #' @export
-sensitivity <- function(x, by = "term", param_type = "all", ...) {
+sensitivity <- function(x, by = "term", param_type = "all",
+                        mb.dcjs = getOption("mb.dcjs", 0.1), ...) {
   UseMethod("sensitivity")
 }
 
 #' @export
-sensitivity.mb_analysis <- function(x, by = "term", param_type = "all", ...) {
+sensitivity.mb_analysis <- function(x, by = "term", param_type = "all",
+                                    mb.dcjs = getOption("mb.dcjs", 0.1),
+                                    ...) {
   check_mb_analysis(x)
   chk_string(by)
   chk_subset(by, c("all", "parameter", "term"))
   chk_string(param_type)
   chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
+  chk_number(mb.dcjs)
 
   x <- add_sensitivity(x, ...)
-  ps <- x$sensitivity
+
+  ps <-
+    x$sensitivity |>
+    dplyr::as_tibble() |>
+    dplyr::mutate(term = mcmcr::as_term(.data$term)) |>
+    dplyr::mutate(parameter = term::pars_terms(.data$term)) |>
+    dplyr::filter(!is.nan(.data$prior)) |>
+    dplyr::select(
+      "parameter", "term", "prior", "likelihood"
+    ) |>
+    dplyr::mutate(
+      weak_prior = .data$prior < mb.dcjs,
+      strong_data = .data$likelihood >= mb.dcjs,
+      dplyr::across(c("prior", "likelihood"), \(x) round(x, 3))
+    ) |>
+    dplyr::arrange(.data$term)
 
   if (param_type != "all") {
     params <- pars(x, param_type)
-    ps <- ps[stringr::str_remove_all(ps$term, "\\[.*\\]") %in% params, , drop = FALSE]
+    ps <- dplyr::filter(ps, .data$parameter %in% params)
   }
 
-  if (by == "term") {
-    return(ps)
-  } else if (by == "parameter") {
+  if (by == "parameter") {
     ps <-
       ps |>
-      dplyr::mutate(
-        term = stringr::str_remove_all(string = .data$term, pattern = "\\[.*\\]")
-      ) |>
-      dplyr::group_by(.data$term) |>
+      dplyr::group_by(.data$parameter, .data$weak_prior, .data$strong_data) |>
       dplyr::summarize(
-        term = dplyr::first(.data$term),
-        prior = max(.data$prior, na.rm = TRUE),
-        likelihood = min(.data$likelihood, na.rm = TRUE),
+        prior = max(.data$prior),
+        likelihood = min(.data$likelihood),
+        nterms = dplyr::n(),
         .groups = "drop"
       ) |>
-      dplyr::select(parameter = "term", "prior", "likelihood") |>
-      as.data.frame()
-    return(ps)
+      dplyr::select(
+        "parameter", "nterms", "prior", "likelihood",
+        "weak_prior", "strong_data"
+      ) |>
+      dplyr::arrange(.data$parameter, .data$weak_prior, .data$strong_data)
   } else if (by == "all") {
     ps <-
       ps |>
+      dplyr::group_by(.data$weak_prior, .data$strong_data) |>
       dplyr::summarize(
-        all = "all",
         prior = max(.data$prior, na.rm = TRUE),
         likelihood = min(.data$likelihood, na.rm = TRUE),
+        nterms = dplyr::n(),
         .groups = "drop"
-      )
-    return(ps)
+      ) |>
+      dplyr::select(
+        "nterms", "prior", "likelihood", "weak_prior", "strong_data"
+      ) |>
+      dplyr::arrange(.data$weak_prior, .data$strong_data)
   }
+  ps
 }

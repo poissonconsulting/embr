@@ -5,18 +5,17 @@
 #'
 #' @param x The object.
 #' @param ... Arguments passed to [powerscale_sensitivity()].
-#' @param new_expr An optional new expression to use for the sensitivity
-#'   analysis. Uses the new expression in the analysis object by default.
+#' @param new_expr A string of R code specifying the predictive relationship.
 #' @param replace A flag specifying whether to replace an existing sensitivity
 #'   data frame.
-#' @return The analysis object with a `sensitivity` data frame field.
+#' @return The analysis object with an added `sensitivity` data frame.
 #' @export
-add_sensitivity <- function(x, ..., new_expr = NULL, replace = FALSE) {
+add_sensitivity <- function(x, new_expr = NULL, replace = FALSE, ...) {
   UseMethod("add_sensitivity")
 }
 
 #' @export
-add_sensitivity.mb_analysis <- function(x, ..., new_expr = NULL, replace = FALSE) {
+add_sensitivity.mb_analysis <- function(x, new_expr = NULL, replace = FALSE, ...) {
   check_mb_analysis(x)
   chk_flag(replace)
 
