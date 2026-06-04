@@ -43,11 +43,11 @@
 
 \item{stan_engine}{A string specifying the Stan engine to use:
 \itemize{
-\item \code{"rstan"} for MCMC sampling via \code{\link[rstan:stanmodel-method-sampling]{rstan::sampling()}} (default).
-\item \code{"cmdstan-mcmc"} for MCMC sampling via \code{\link[cmdstanr:model-method-sample]{cmdstanr::sample()}}
-\item \code{"cmdstan-pathfinder"} for pathfinder estimation via \code{\link[cmdstanr:model-method-pathfinder]{cmdstanr::pathfinder()}}
-\item \code{"cmdstan-optimize"} for optimization via \code{\link[cmdstanr:model-method-optimize]{cmdstanr::optimize()}}
-\item \code{"cmdstan-laplace"} for Laplace approximation via \code{\link[cmdstanr:model-method-laplace]{cmdstanr::laplace()}}
+\item \code{"rstan"} for MCMC sampling via \code{\link[rstan:sampling]{rstan::sampling()}} (default).
+\item \code{"cmdstan-mcmc"} for MCMC sampling via \code{\link[cmdstanr:sample]{cmdstanr::sample()}}
+\item \code{"cmdstan-pathfinder"} for pathfinder estimation via \code{\link[cmdstanr:pathfinder]{cmdstanr::pathfinder()}}
+\item \code{"cmdstan-optimize"} for optimization via \code{\link[cmdstanr:optimize]{cmdstanr::optimize()}}
+\item \code{"cmdstan-laplace"} for Laplace approximation via \code{\link[cmdstanr:laplace]{cmdstanr::laplace()}}
 }}
 
 \item{niters_warmup}{A count of the number of warmup iterations. The default is to use the same number of iterations as \code{niters}. This is currently only implemented for Stan models.}
@@ -68,18 +68,18 @@ The model fitting method dispatched depends on the class of the mb_model object 
 If the model is a JAGS model, \href{https://github.com/cran/rjags}{rjags} is used for MCMC sampling.
 If the model is a Stan model, \href{https://github.com/stan-dev/rstan}{rstan} or \href{https://mc-stan.org/cmdstanr/}{cmdstanr} is used, depending on the value provided to \code{stan_engine}:
 \itemize{
-\item \code{"cmdstan-mcmc"} for \href{https://mc-stan.org/docs/cmdstan-guide/mcmc_config.html}{MCMC sampling} via \code{\link[cmdstanr:model-method-sample]{cmdstanr::sample()}}
-\item \code{"cmdstan-optimize"} for \href{https://mc-stan.org/docs/cmdstan-guide/optimize_config.html}{optimization} via \code{\link[cmdstanr:model-method-optimize]{cmdstanr::optimize()}}
-\item \code{"cmdstan-pathfinder"} for \href{https://mc-stan.org/docs/cmdstan-guide/pathfinder_config.html}{pathfinder} estimation via \code{\link[cmdstanr:model-method-pathfinder]{cmdstanr::pathfinder()}}
-\item \code{"cmdstan-variational"} for \href{https://mc-stan.org/docs/cmdstan-guide/variational_config.html}{variational ADVI} estimation via \code{\link[cmdstanr:model-method-variational]{cmdstanr::variational()}}
-\item \code{"cmdstan-laplace"} for \href{https://mc-stan.org/docs/cmdstan-guide/laplace_sample_config.html}{Laplace approximation} via \code{\link[cmdstanr:model-method-laplace]{cmdstanr::laplace()}}
-\item Any other character value will default to MCMC sampling via \code{\link[rstan:stanmodel-method-sampling]{rstan::sampling()}}
+\item \code{"cmdstan-mcmc"} for \href{https://mc-stan.org/docs/cmdstan-guide/mcmc_config.html}{MCMC sampling} via \code{\link[cmdstanr:sample]{cmdstanr::sample()}}
+\item \code{"cmdstan-optimize"} for \href{https://mc-stan.org/docs/cmdstan-guide/optimize_config.html}{optimization} via \code{\link[cmdstanr:optimize]{cmdstanr::optimize()}}
+\item \code{"cmdstan-pathfinder"} for \href{https://mc-stan.org/docs/cmdstan-guide/pathfinder_config.html}{pathfinder} estimation via \code{\link[cmdstanr:pathfinder]{cmdstanr::pathfinder()}}
+\item \code{"cmdstan-variational"} for \href{https://mc-stan.org/docs/cmdstan-guide/variational_config.html}{variational ADVI} estimation via \code{\link[cmdstanr:variational]{cmdstanr::variational()}}
+\item \code{"cmdstan-laplace"} for \href{https://mc-stan.org/docs/cmdstan-guide/laplace_sample_config.html}{Laplace approximation} via \code{\link[cmdstanr:laplace]{cmdstanr::laplace()}}
+\item Any other character value will default to MCMC sampling via \code{\link[rstan:sampling]{rstan::sampling()}}
 }
 }
 \details{
 For CmdStan models, additional arguments can be passed to the engine-specific estimation functions via the \code{...} argument.
 
-For example, additional options in \code{\link[cmdstanr:model-method-sample]{cmdstanr::sample()}} include:
+For example, additional options in \code{\link[cmdstanr:sample]{cmdstanr::sample()}} include:
 \itemize{
 \item \code{adapt_delta} - Target acceptance rate (0 < adapt_delta < 1)
 \item \code{max_treedepth} - Maximum tree depth for NUTS sampler
@@ -88,7 +88,7 @@ For example, additional options in \code{\link[cmdstanr:model-method-sample]{cmd
 \item \code{output_dir} - Directory to save output files (default: NULL, uses temporary directory)
 }
 
-Some additional options in \code{\link[cmdstanr:model-method-pathfinder]{cmdstanr::pathfinder()}} include:
+Some additional options in \code{\link[cmdstanr:pathfinder]{cmdstanr::pathfinder()}} include:
 \itemize{
 \item \code{num_paths} - Number of single-path Pathfinders to run (default: 4)
 \item \code{history_size} - L-BFGS history size for approximating Hessian (default: 5)
@@ -96,17 +96,17 @@ Some additional options in \code{\link[cmdstanr:model-method-pathfinder]{cmdstan
 \item \code{psis_resample} - Whether to use Pareto-smoothed importance sampling (default: TRUE)
 }
 
-Some additional options in \code{\link[cmdstanr:model-method-variational]{cmdstanr::variational()}} include:
+Some additional options in \code{\link[cmdstanr:variational]{cmdstanr::variational()}} include:
 \itemize{
 \item \code{algorithm} - Variational algorithm: "meanfield" (default) or "fullrank"
 }
 
-Some aditional options in \code{\link[cmdstanr:model-method-optimize]{cmdstanr::optimize()}} include:
+Some aditional options in \code{\link[cmdstanr:optimize]{cmdstanr::optimize()}} include:
 \itemize{
 \item \code{algorithm} - Optimization algorithm: "lbfgs" (default), "bfgs", or "newton"
 }
 
-Some additional options in \code{\link[cmdstanr:model-method-laplace]{cmdstanr::laplace()}} include:
+Some additional options in \code{\link[cmdstanr:laplace]{cmdstanr::laplace()}} include:
 \itemize{
 \item \code{mode} - CmdStanMLE object from previous optimization (if NULL, runs optimize)
 \item \code{jacobian} - Whether mode used Jacobian adjustment (default: TRUE)
