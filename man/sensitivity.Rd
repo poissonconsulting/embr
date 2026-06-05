@@ -27,7 +27,7 @@ strong data classification.}
 \item{...}{Arguments passed to \code{\link[=add_sensitivity]{add_sensitivity()}}.}
 }
 \value{
-A dataframe summarizing the sensitivity of the analysis object.
+A tibble summarizing the sensitivity of the analysis object.
 }
 \description{
 Summarize model sensitivity

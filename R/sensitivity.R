@@ -9,7 +9,7 @@
 #'   strong data classification.
 #' @param ... Arguments passed to [add_sensitivity()].
 #'
-#' @return A dataframe summarizing the sensitivity of the analysis object.
+#' @return A tibble summarizing the sensitivity of the analysis object.
 #' @export
 sensitivity <- function(x, by = "term", param_type = "all",
                         mb.dcjs = getOption("mb.dcjs", 0.1), ...) {
@@ -26,6 +26,7 @@ sensitivity.mb_analysis <- function(x, by = "term", param_type = "all",
   chk_string(param_type)
   chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
   chk_number(mb.dcjs)
+  chk_gt(mb.dcjs)
 
   x <- add_sensitivity(x, ...)
 
@@ -55,8 +56,8 @@ sensitivity.mb_analysis <- function(x, by = "term", param_type = "all",
       ps |>
       dplyr::group_by(.data$parameter, .data$weak_prior, .data$strong_data) |>
       dplyr::summarize(
-        prior = max(.data$prior),
-        likelihood = min(.data$likelihood),
+        prior = max(.data$prior, na.rm = TRUE),
+        likelihood = min(.data$likelihood, na.rm = TRUE),
         nterms = dplyr::n(),
         .groups = "drop"
       ) |>
