@@ -41,22 +41,6 @@ analyse(x, ...)
   niters_warmup = niters,
   ...
 )
-
-\method{analyse}{mb_models}(
-  x,
-  data,
-  nchains = getOption("mb.nchains", 3L),
-  niters = getOption("mb.niters", 1000L),
-  nthin = getOption("mb.thin", NULL),
-  parallel = getOption("mb.parallel", FALSE),
-  quiet = getOption("mb.quiet", TRUE),
-  glance = getOption("mb.glance", TRUE),
-  beep = getOption("mb.beep", TRUE),
-  seed = sample.int(.Machine$integer.max, 1),
-  stan_engine = getOption("mb.stan_engine", character(0)),
-  niters_warmup = niters,
-  ...
-)
 }
 \arguments{
 \item{x}{The object to analyse. An \code{mb_model}, an \code{mb_models} list, or a

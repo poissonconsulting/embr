@@ -253,6 +253,7 @@ analyse.mb_model <- function(x, data,
 }
 
 #' @rdname analyse
+#' @usage NULL
 #' @export
 analyse.mb_models <- function(x, data,
                               nchains = getOption("mb.nchains", 3L),
