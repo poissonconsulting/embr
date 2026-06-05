@@ -1,30 +1,117 @@
 #' Analyse Models
 #'
 #' @description
-#' Generic function for performing Bayesian analysis on models using Stan or JAGS,
-#' or maximum likelihood analysis using TMB.
+#' Fit a Bayesian hierarchical model to data using Stan (via rstan or cmdstanr)
+#' or JAGS (via rjags).
 #'
-#' For more useful documentation, see the specific methods:
-#' - [analyse.mb_model()] for single model analysis (Stan/JAGS). This is the most commonly used method.
-#' - [analyse.mb_models()] for multiple model analysis (Stan/JAGS).
-#' - [analyse.character()] for character model analysis (Stan/JAGS). This allows you to skip the model creation step.
+#' Three methods are dispatched on the class of `x`:
 #'
-#' @param x The object to analyse.
-#' @param ... Additional arguments passed to methods.
+#' * `analyse(x = <mb_model>)` is the main path — fit a single compiled model.
+#' * `analyse(x = <mb_models>)` fits each model in the list against the same
+#'   `data` and returns an `mb_analyses` (or `mb_meta_analyses` if `data` is a
+#'   list of data frames). Used to compare model structures.
+#' * `analyse(x = <character>)` takes raw Stan or JAGS code as a string,
+#'   builds an `mb_model` via [model()] using `select_data`, then dispatches
+#'   to the `mb_model` method. Convenience shortcut when you don't need to
+#'   inspect or reuse the `mb_model` object.
 #'
-#' @return An analysis object (type depends on input and engine used).
+#' The estimation backend depends on the model's class (JAGS or Stan) and, for
+#' Stan models, the `stan_engine` argument — see the Arguments section.
+#'
+#' @details
+#' Engine-specific arguments (e.g. `adapt_delta`, `max_treedepth`, `num_paths`,
+#' `algorithm`, `jacobian`) can be passed through `...` to the underlying
+#' cmdstanr function. See [cmdstanr::sample()], [cmdstanr::pathfinder()],
+#' [cmdstanr::variational()], [cmdstanr::optimize()], and [cmdstanr::laplace()]
+#' for the full lists.
+#'
+#' Conflicting arguments are silently ignored — for example, `iter_sampling`
+#' passed alongside `stan_engine = "cmdstan-mcmc"` is dropped in favour of
+#' `niters`. The exception is `init`, which can be passed through `...` to
+#' override inits supplied via `gen_inits()` in [model()]. Non-MCMC fitting
+#' methods cannot use `gen_inits()`.
+#'
+#' Some arguments are unused by non-MCMC engines (e.g. `nthin`,
+#' `niters_warmup`). For pathfinder, variational, and laplace, `niters` is the
+#' number of samples drawn from the approximated posterior.
+#'
+#' @param x The object to analyse. An `mb_model`, an `mb_models` list, or a
+#'   character string of Stan/JAGS code.
+#' @param data A data frame, or a named list of data frames for meta-analysis
+#'   across datasets.
+#' @param select_data For the `character` method only: a named list specifying
+#'   the columns to select and their associated classes, values, transforms,
+#'   and scaling options. Passed to [model()]; see there for details.
+#' @inheritParams params
+#' @param ... Additional arguments passed to the underlying estimation
+#'   function.
+#' @return
+#' * Single model + single data frame → an `mb_analysis`.
+#' * Single model + list of data frames → an `mb_meta_analysis`.
+#' * `mb_models` + single data frame → an `mb_analyses`.
+#' * `mb_models` + list of data frames → an `mb_meta_analyses`.
+#'
+#' @seealso [model()] to build a model; [predict.mb_analysis()] and
+#'   [coef.mb_analysis()] to summarise an analysis; [reanalyse()] to refit with
+#'   different sampling settings.
+#'
+#' @examples
+#' \dontrun{
+#' # Stan model with rstan (default)
+#' analysis <- analyse(stan_model, data, nchains = 4, niters = 1000)
+#'
+#' # Stan model with cmdstanr MCMC
+#' analysis <- analyse(stan_model, data,
+#'   stan_engine = "cmdstan-mcmc",
+#'   nchains = 4, niters = 1000
+#' )
+#'
+#' # Stan model with cmdstanr pathfinder
+#' analysis <- analyse(stan_model, data,
+#'   stan_engine = "cmdstan-pathfinder",
+#'   niters = 500
+#' )
+#'
+#' # JAGS model
+#' analysis <- analyse(jags_model, data, nchains = 4, niters = 2000)
+#'
+#' # Passing engine-specific arguments through ...
+#' analysis <- analyse(stan_model, data,
+#'   stan_engine = "cmdstan-mcmc",
+#'   adapt_delta = 0.99,
+#'   iter_warmup = 500L
+#' )
+#' analysis <- analyse(stan_model, data,
+#'   control = list(adapt_delta = 0.95) # rstan::sampling argument
+#' )
+#'
+#' # Multiple datasets
+#' analyses <- analyse(model, list(dataset1 = data1, dataset2 = data2))
+#' }
+#'
 #' @export
 analyse <- function(x, ...) {
   UseMethod("analyse")
 }
 
-#' Analyse
+#' Internal dispatch for fitting a single model + dataset
+#'
+#' @description
+#' Called by [analyse.mb_model()] once the data have been validated and the
+#' model has been compiled. Backend packages register methods on `analyse1`
+#' for each supported engine — for example, `analyse1.cmdstan_mcmc_model` and
+#' the other `cmdstan_*` variants in `smbr2`, and `analyse1.jmb_model` in
+#' `jmbr`.
+#'
+#' End users should call [analyse()], not `analyse1()` directly.
 #'
 #' @param model The mb_model to analyse.
-#' @param data The data.
-#' @param loaded The loaded model.
+#' @param data A validated data frame.
+#' @param loaded The compiled / loaded model, as returned by [load_model()].
 #' @inheritParams params
-#' @param ...  Additional arguments.
+#' @param ... Additional arguments passed to the engine-specific estimation
+#'   function.
+#' @return An `mb_analysis` object.
 #' @export
 analyse1 <- function(model, data, loaded, nchains, niters, nthin, quiet, glance, parallel, seed, niters_warmup, ...) {
   UseMethod("analyse1")
@@ -53,24 +140,7 @@ analyse_model <- function(x, name = NULL, data, parallel, nchains, niters, nthin
   )
 }
 
-#' Analyse Character Model
-#'
-#' Analyses a model defined as a character string containing Stan or JAGS code.
-#' The character string is first converted to an mb_model object, then passed on to [analyse.mb_model()]
-#'
-#' @param x A character string containing Stan or JAGS model code.
-#' @param data The data frame to analyse.
-#' @param select_data A named list specifying the columns to select and their
-#'   associated classes and values as well as transformations and scaling options.
-#' @inheritParams params
-#' @param ...  Additional arguments passed to the underlying estimation function.
-#'   See [analyse.mb_model()] for details.
-#'
-#' @return An mb_analysis object containing the fitted model results.
-#' @seealso
-#' - [analyse.mb_model()] for analysing a single model
-#' - [analyse.mb_models()] for analysing multiple models
-#'
+#' @rdname analyse
 #' @export
 analyse.character <- function(x, data,
                               select_data = list(),
@@ -94,105 +164,7 @@ analyse.character <- function(x, data,
   )
 }
 
-#' Analyse Single Model
-#'
-#' @description
-#' Performs parameter estimation on a single mb_model object using Stan or JAGS.
-#'
-#' The model fitting method dispatched depends on the class of the mb_model object and the `stan_engine` argument.
-#'
-#' If the model is a JAGS model, [rjags](https://github.com/cran/rjags) is used for MCMC sampling.
-#' If the model is a Stan model, [rstan](https://github.com/stan-dev/rstan) or [cmdstanr](https://mc-stan.org/cmdstanr/) is used, depending on the value provided to `stan_engine`:
-#' * `"cmdstan-mcmc"` for [MCMC sampling](https://mc-stan.org/docs/cmdstan-guide/mcmc_config.html) via [cmdstanr::sample()]
-#' * `"cmdstan-optimize"` for [optimization](https://mc-stan.org/docs/cmdstan-guide/optimize_config.html) via [cmdstanr::optimize()]
-#' * `"cmdstan-pathfinder"` for [pathfinder](https://mc-stan.org/docs/cmdstan-guide/pathfinder_config.html) estimation via [cmdstanr::pathfinder()]
-#' * `"cmdstan-variational"` for [variational ADVI](https://mc-stan.org/docs/cmdstan-guide/variational_config.html) estimation via [cmdstanr::variational()]
-#' * `"cmdstan-laplace"` for [Laplace approximation](https://mc-stan.org/docs/cmdstan-guide/laplace_sample_config.html) via [cmdstanr::laplace()]
-#' * Any other character value will default to MCMC sampling via [rstan::sampling()]
-#'
-#' @details
-#' For CmdStan models, additional arguments can be passed to the engine-specific estimation functions via the `...` argument.
-#'
-#' For example, additional options in [cmdstanr::sample()] include:
-#' * `adapt_delta` - Target acceptance rate (0 < adapt_delta < 1)
-#' * `max_treedepth` - Maximum tree depth for NUTS sampler
-#' * `step_size` - Initial step size for sampler
-#' * `refresh` - How often to print sampling progress
-#' * `output_dir` - Directory to save output files (default: NULL, uses temporary directory)
-#'
-#' Some additional options in [cmdstanr::pathfinder()] include:
-#' * `num_paths` - Number of single-path Pathfinders to run (default: 4)
-#' * `history_size` - L-BFGS history size for approximating Hessian (default: 5)
-#' * `max_lbfgs_iters` - Maximum L-BFGS iterations per path (default: 1000)
-#' * `psis_resample` - Whether to use Pareto-smoothed importance sampling (default: TRUE)
-#'
-#' Some additional options in [cmdstanr::variational()] include:
-#' * `algorithm` - Variational algorithm: "meanfield" (default) or "fullrank"
-#'
-#' Some aditional options in [cmdstanr::optimize()] include:
-#' * `algorithm` - Optimization algorithm: "lbfgs" (default), "bfgs", or "newton"
-#'
-#' Some additional options in [cmdstanr::laplace()] include:
-#' * `mode` - CmdStanMLE object from previous optimization (if NULL, runs optimize)
-#' * `jacobian` - Whether mode used Jacobian adjustment (default: TRUE)
-#'
-#' Each `analyse1` method checks for the presence of conflicting arguments and will ignore these (e.g., `iter_sampling` with `stan_engine = 'cmdstan-mcmc'` will be ignored in favour of iterations set via `niters`)
-#'
-#' One exception is for `init`, which can be passed via '...' to override defaults or inits generated via `gen_inits()` in `model()`. Non-MCMC model fitting methods cannot use `gen_inits()`.
-#' Some arguments in `analyse.mb_model()` are unused in non-MCMC methods (e.g., `nthin`, `niters_warmup`).
-#'
-#' For pathfinder, variational, and laplace methods, `niters` samples are drawn from the approximated posterior distributions.
-#'
-#' @param x An mb_model object to analyse.
-#' @param data The data frame to analyse, or a list of data frames for multiple datasets.
-#' @param ... Additional arguments passed to the underlying estimation function (see below for details).
-#' @inheritParams params
-#' @return
-#' - If `data` is a data.frame: An mb_analysis object
-#' - If `data` is a list of data.frames: An mb_meta_analysis object
-#'
-#' @examples
-#' \dontrun{
-#' # Stan model with RStan (default)
-#' analysis <- analyse(stan_model, data, nchains = 4, niters = 1000)
-#'
-#' # Stan model with CmdStanR MCMC
-#' analysis <- analyse(stan_model, data,
-#'   stan_engine = "cmdstan-mcmc",
-#'   nchains = 4, niters = 1000
-#' )
-#'
-#' # Stan model with CmdStanR Pathfinder
-#' analysis <- analyse(stan_model, data,
-#'   stan_engine = "cmdstan-pathfinder",
-#'   niters = 500
-#' )
-#'
-#' # JAGS model
-#' analysis <- analyse(jags_model, data, nchains = 4, niters = 2000)
-#'
-#' # Passing engine-specific arguments
-#' analysis <- analyse(stan_model, data,
-#'   stan_engine = "cmdstan-mcmc",
-#'   nchains = 4, niters = 2000,
-#'   adapt_delta = 0.99, # cmdstanr::sample argument
-#'   iter_warmup = 500L
-#' ) # cmdstanr::sample argument
-#'
-#' analysis <- analyse(stan_model, data,
-#'   nchains = 4, niters = 2000,
-#'   control = list(adapt_delta = 0.95)
-#' ) # rstan::sampling argument
-#'
-#' # Multiple datasets
-#' data_list <- list(dataset1 = data1, dataset2 = data2)
-#' analyses <- analyse(model, data_list, nchains = 3)
-#' }
-#'
-#' @seealso
-#' - [analyse.character()] for analysing a character model template
-#' - [analyse.mb_models()] for analysing multiple models
-#'
+#' @rdname analyse
 #' @export
 analyse.mb_model <- function(x, data,
                              nchains = getOption("mb.nchains", 3L),
@@ -280,12 +252,7 @@ analyse.mb_model <- function(x, data,
   analyses
 }
 
-#' Analyse
-#'
-#' @param x An object inheriting from class mb_model or a list of such objects.
-#' @param data The data frame to analyse.
-#' @inheritParams params
-#' @param ...  Additional arguments.
+#' @rdname analyse
 #' @export
 analyse.mb_models <- function(x, data,
                               nchains = getOption("mb.nchains", 3L),

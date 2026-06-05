@@ -2,26 +2,188 @@
 % Please edit documentation in R/analyse.R
 \name{analyse}
 \alias{analyse}
+\alias{analyse.character}
+\alias{analyse.mb_model}
+\alias{analyse.mb_models}
 \title{Analyse Models}
 \usage{
 analyse(x, ...)
+
+\method{analyse}{character}(
+  x,
+  data,
+  select_data = list(),
+  nchains = getOption("mb.nchains", 3L),
+  niters = getOption("mb.niters", 1000L),
+  nthin = getOption("mb.nthin", 1L),
+  parallel = getOption("mb.parallel", FALSE),
+  quiet = getOption("mb.quiet", TRUE),
+  glance = getOption("mb.glance", TRUE),
+  beep = getOption("mb.beep", TRUE),
+  seed = sample.int(.Machine$integer.max, 1),
+  stan_engine = getOption("mb.stan_engine", character(0)),
+  niters_warmup = niters,
+  ...
+)
+
+\method{analyse}{mb_model}(
+  x,
+  data,
+  nchains = getOption("mb.nchains", 3L),
+  niters = getOption("mb.niters", 1000L),
+  nthin = getOption("mb.thin", NULL),
+  parallel = getOption("mb.parallel", FALSE),
+  quiet = getOption("mb.quiet", TRUE),
+  glance = getOption("mb.glance", TRUE),
+  beep = getOption("mb.beep", TRUE),
+  seed = sample.int(.Machine$integer.max, 1),
+  stan_engine = getOption("mb.stan_engine", character(0)),
+  niters_warmup = niters,
+  ...
+)
+
+\method{analyse}{mb_models}(
+  x,
+  data,
+  nchains = getOption("mb.nchains", 3L),
+  niters = getOption("mb.niters", 1000L),
+  nthin = getOption("mb.thin", NULL),
+  parallel = getOption("mb.parallel", FALSE),
+  quiet = getOption("mb.quiet", TRUE),
+  glance = getOption("mb.glance", TRUE),
+  beep = getOption("mb.beep", TRUE),
+  seed = sample.int(.Machine$integer.max, 1),
+  stan_engine = getOption("mb.stan_engine", character(0)),
+  niters_warmup = niters,
+  ...
+)
 }
 \arguments{
-\item{x}{The object to analyse.}
+\item{x}{The object to analyse. An \code{mb_model}, an \code{mb_models} list, or a
+character string of Stan/JAGS code.}
 
-\item{...}{Additional arguments passed to methods.}
+\item{...}{Additional arguments passed to the underlying estimation
+function.}
+
+\item{data}{A data frame, or a named list of data frames for meta-analysis
+across datasets.}
+
+\item{select_data}{For the \code{character} method only: a named list specifying
+the columns to select and their associated classes, values, transforms,
+and scaling options. Passed to \code{\link[=model]{model()}}; see there for details.}
+
+\item{nchains}{A count of the number of chains (default: 3).}
+
+\item{niters}{A count of the number of iterations to save per chain (default: 1000).}
+
+\item{nthin}{A count of the thinning interval.}
+
+\item{parallel}{A flag indicating whether to perform the analysis in parallel if possible.}
+
+\item{quiet}{A flag indicating whether to disable messages and warnings, including sampling progress.}
+
+\item{glance}{A flag indicating whether to print a model summary.}
+
+\item{beep}{A flag indicating whether to beep on completion of the analysis.}
+
+\item{seed}{A positive whole number specifying the seed to use. The default is random. This is currently only implemented for Stan models.}
+
+\item{stan_engine}{A string selecting the Stan engine:
+\itemize{
+\item \code{"cmdstan-mcmc"} — MCMC via \code{\link[cmdstanr:model-method-sample]{cmdstanr::sample()}}.
+\item \code{"cmdstan-pathfinder"} — pathfinder via \code{\link[cmdstanr:model-method-pathfinder]{cmdstanr::pathfinder()}}.
+\item \code{"cmdstan-variational"} — variational ADVI via \code{\link[cmdstanr:model-method-variational]{cmdstanr::variational()}}.
+\item \code{"cmdstan-optimize"} — optimization via \code{\link[cmdstanr:model-method-optimize]{cmdstanr::optimize()}}.
+\item \code{"cmdstan-laplace"} — Laplace approximation via \code{\link[cmdstanr:model-method-laplace]{cmdstanr::laplace()}}.
+}
+
+Defaults to \code{character(0)}. Any value other than the five above (including
+the empty default) falls back to MCMC via \code{\link[rstan:stanmodel-method-sampling]{rstan::sampling()}}. Ignored for
+JAGS models, which always use \link[rjags:rjags-package]{rjags}.}
+
+\item{niters_warmup}{A count of the number of warmup iterations. The default is to use the same number of iterations as \code{niters}. This is currently only implemented for Stan models.}
 }
 \value{
-An analysis object (type depends on input and engine used).
+\itemize{
+\item Single model + single data frame → an \code{mb_analysis}.
+\item Single model + list of data frames → an \code{mb_meta_analysis}.
+\item \code{mb_models} + single data frame → an \code{mb_analyses}.
+\item \code{mb_models} + list of data frames → an \code{mb_meta_analyses}.
+}
 }
 \description{
-Generic function for performing Bayesian analysis on models using Stan or JAGS,
-or maximum likelihood analysis using TMB.
+Fit a Bayesian hierarchical model to data using Stan (via rstan or cmdstanr)
+or JAGS (via rjags).
 
-For more useful documentation, see the specific methods:
+Three methods are dispatched on the class of \code{x}:
 \itemize{
-\item \code{\link[=analyse.mb_model]{analyse.mb_model()}} for single model analysis (Stan/JAGS). This is the most commonly used method.
-\item \code{\link[=analyse.mb_models]{analyse.mb_models()}} for multiple model analysis (Stan/JAGS).
-\item \code{\link[=analyse.character]{analyse.character()}} for character model analysis (Stan/JAGS). This allows you to skip the model creation step.
+\item \verb{analyse(x = <mb_model>)} is the main path — fit a single compiled model.
+\item \verb{analyse(x = <mb_models>)} fits each model in the list against the same
+\code{data} and returns an \code{mb_analyses} (or \code{mb_meta_analyses} if \code{data} is a
+list of data frames). Used to compare model structures.
+\item \verb{analyse(x = <character>)} takes raw Stan or JAGS code as a string,
+builds an \code{mb_model} via \code{\link[=model]{model()}} using \code{select_data}, then dispatches
+to the \code{mb_model} method. Convenience shortcut when you don't need to
+inspect or reuse the \code{mb_model} object.
 }
+
+The estimation backend depends on the model's class (JAGS or Stan) and, for
+Stan models, the \code{stan_engine} argument — see the Arguments section.
+}
+\details{
+Engine-specific arguments (e.g. \code{adapt_delta}, \code{max_treedepth}, \code{num_paths},
+\code{algorithm}, \code{jacobian}) can be passed through \code{...} to the underlying
+cmdstanr function. See \code{\link[cmdstanr:model-method-sample]{cmdstanr::sample()}}, \code{\link[cmdstanr:model-method-pathfinder]{cmdstanr::pathfinder()}},
+\code{\link[cmdstanr:model-method-variational]{cmdstanr::variational()}}, \code{\link[cmdstanr:model-method-optimize]{cmdstanr::optimize()}}, and \code{\link[cmdstanr:model-method-laplace]{cmdstanr::laplace()}}
+for the full lists.
+
+Conflicting arguments are silently ignored — for example, \code{iter_sampling}
+passed alongside \code{stan_engine = "cmdstan-mcmc"} is dropped in favour of
+\code{niters}. The exception is \code{init}, which can be passed through \code{...} to
+override inits supplied via \code{gen_inits()} in \code{\link[=model]{model()}}. Non-MCMC fitting
+methods cannot use \code{gen_inits()}.
+
+Some arguments are unused by non-MCMC engines (e.g. \code{nthin},
+\code{niters_warmup}). For pathfinder, variational, and laplace, \code{niters} is the
+number of samples drawn from the approximated posterior.
+}
+\examples{
+\dontrun{
+# Stan model with rstan (default)
+analysis <- analyse(stan_model, data, nchains = 4, niters = 1000)
+
+# Stan model with cmdstanr MCMC
+analysis <- analyse(stan_model, data,
+  stan_engine = "cmdstan-mcmc",
+  nchains = 4, niters = 1000
+)
+
+# Stan model with cmdstanr pathfinder
+analysis <- analyse(stan_model, data,
+  stan_engine = "cmdstan-pathfinder",
+  niters = 500
+)
+
+# JAGS model
+analysis <- analyse(jags_model, data, nchains = 4, niters = 2000)
+
+# Passing engine-specific arguments through ...
+analysis <- analyse(stan_model, data,
+  stan_engine = "cmdstan-mcmc",
+  adapt_delta = 0.99,
+  iter_warmup = 500L
+)
+analysis <- analyse(stan_model, data,
+  control = list(adapt_delta = 0.95) # rstan::sampling argument
+)
+
+# Multiple datasets
+analyses <- analyse(model, list(dataset1 = data1, dataset2 = data2))
+}
+
+}
+\seealso{
+\code{\link[=model]{model()}} to build a model; \code{\link[=predict.mb_analysis]{predict.mb_analysis()}} and
+\code{\link[=coef.mb_analysis]{coef.mb_analysis()}} to summarise an analysis; \code{\link[=reanalyse]{reanalyse()}} to refit with
+different sampling settings.
 }
