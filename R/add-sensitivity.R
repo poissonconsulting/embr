@@ -6,6 +6,7 @@
 #' @param x The object.
 #' @param ... Arguments passed to [powerscale_sensitivity()].
 #' @param new_expr A string of R code specifying the predictive relationship.
+#'   Must use `replace = TRUE` for this to be applied.
 #' @param replace A flag specifying whether to replace an existing sensitivity
 #'   data frame.
 #' @return The analysis object with an added `sensitivity` data frame.

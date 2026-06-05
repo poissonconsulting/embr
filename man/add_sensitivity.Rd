@@ -9,7 +9,8 @@ add_sensitivity(x, new_expr = NULL, replace = FALSE, ...)
 \arguments{
 \item{x}{The object.}
 
-\item{new_expr}{A string of R code specifying the predictive relationship.}
+\item{new_expr}{A string of R code specifying the predictive relationship.
+Must use \code{replace = TRUE} for this to be applied.}
 
 \item{replace}{A flag specifying whether to replace an existing sensitivity
 data frame.}
