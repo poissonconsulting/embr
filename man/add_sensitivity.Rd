@@ -4,21 +4,20 @@
 \alias{add_sensitivity}
 \title{Add sensitivity data frame to an analysis object}
 \usage{
-add_sensitivity(x, ..., new_expr = NULL, replace = FALSE)
+add_sensitivity(x, new_expr = NULL, replace = FALSE, ...)
 }
 \arguments{
 \item{x}{The object.}
 
-\item{...}{Arguments passed to \code{\link[=powerscale_sensitivity]{powerscale_sensitivity()}}.}
-
-\item{new_expr}{An optional new expression to use for the sensitivity
-analysis. Uses the new expression in the analysis object by default.}
+\item{new_expr}{A string of R code specifying the predictive relationship.}
 
 \item{replace}{A flag specifying whether to replace an existing sensitivity
 data frame.}
+
+\item{...}{Arguments passed to \code{\link[=powerscale_sensitivity]{powerscale_sensitivity()}}.}
 }
 \value{
-The analysis object with a \code{sensitivity} data frame field.
+The analysis object with an added \code{sensitivity} data frame.
 }
 \description{
 Computes power-scaling sensitivity and stores the result as \code{x$sensitivity}.

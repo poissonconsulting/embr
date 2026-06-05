@@ -4,16 +4,25 @@
 \alias{sensitivity}
 \title{Summarize model sensitivity}
 \usage{
-sensitivity(x, by = "term", param_type = "all", ...)
+sensitivity(
+  x,
+  by = "term",
+  param_type = "all",
+  mb.dcjs = getOption("mb.dcjs", 0.1),
+  ...
+)
 }
 \arguments{
 \item{x}{The mb_analysis object.}
 
-\item{by}{A string indicating whether to determine by "term", "parameter", or
-"all".}
+\item{by}{A string indicating whether to determine by "term", "parameter",
+or "all".}
 
 \item{param_type}{A string specifying which parameters to include: 'fixed',
 'random', 'derived', 'primary', or 'all'.}
+
+\item{mb.dcjs}{A number specifying the CJS threshold for weak prior and
+strong data classification.}
 
 \item{...}{Arguments passed to \code{\link[=add_sensitivity]{add_sensitivity()}}.}
 }
