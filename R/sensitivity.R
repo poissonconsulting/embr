@@ -26,7 +26,7 @@ sensitivity.mb_analysis <- function(x, by = "term", param_type = "all",
   chk_string(param_type)
   chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
   chk_number(mb.dcjs)
-  chk_gt(mb.dcjs)
+  chk_gt(mb.dcjs, 0)
 
   x <- add_sensitivity(x, ...)
 
