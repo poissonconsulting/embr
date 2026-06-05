@@ -31,6 +31,7 @@ add_sensitivity.mb_analysis <- function(x, new_expr = NULL, replace = FALSE, ...
   }
 
   ps <- powerscale_sensitivity(x_ps, ...)
+  chk::chk_equal(names(ps), c("variable", "prior", "likelihood", "diagnosis"))
   ps <- data.frame(
     term = ps$variable,
     prior = ps$prior,
