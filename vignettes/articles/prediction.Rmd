@@ -4,10 +4,6 @@ output:
   rmarkdown::html_vignette:
     toc: true
     toc_depth: 2
-vignette: >
-  %\VignetteIndexEntry{Prediction Patterns with predict()}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include = FALSE}
@@ -374,7 +370,7 @@ xnew_data(data, treatment) |>
 
 Zeroing a random effect (the default for the omitted-factor case below)
 gives the prediction for the *typical* or *average* group, e.g., expected count for an average site, with amongst-site variability collapsed away. To predict
-for a *new* site that wasn't in the data with appropraite uncertainty, draw a fresh random effect from its population distribution. The model's`new_expr` already defines an `unobserved` term to do this:
+for a *new* site that wasn't in the data with appropriate uncertainty, draw a fresh random effect from its population distribution. The model's `new_expr` already defines an `unobserved` term to do this:
 
 ```r
 unobserved[i] <- exp(bIntercept +

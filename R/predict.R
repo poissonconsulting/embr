@@ -36,8 +36,9 @@ fitted.mb_analysis <- function(object, ...) {
 #'
 #' @inheritParams mcmc_derive_data.mb_analysis
 #' @param conf_level A number specifying the confidence level. By default 0.95.
-#' @return A data frame with columns `estimate`, `lower`,
-#'   `upper`, `svalue`, and all columns of `new_data`.
+#' @return A data frame with one row per row of `new_data`, containing the
+#'   posterior summary columns produced by [coef.mcmc_data()] and all columns
+#'   of `new_data`.
 #' @seealso
 #' * The [prediction article](https://poissonconsulting.github.io/embr/articles/prediction.html)
 #'   for detailed examples of prediction patterns.
@@ -130,10 +131,10 @@ predict.mb_analysis <- function(
 
 #' Predict from a `mb_analyses` object
 #'
-#' Get predictions from meta-anlysis `mb_analyses` object.
+#' Returns IC-weighted model-averaged predictions across an `mb_analyses` list.
 #'
 #' @inheritParams predict.mb_analysis
-#' @return A data frame with the same structure as [predict.mb_analysis()].
+#' @return A data frame with one row per row of `new_data`.
 #' @seealso [predict.mb_analysis()] for full argument documentation and
 #'   examples.
 #' @export

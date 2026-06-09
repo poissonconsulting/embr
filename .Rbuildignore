@@ -16,5 +16,6 @@
 ^\.git$
 ^vignettes/.*_cache$
 ^vignettes/.*_files$
+^vignettes/articles$
 ^\.claude$
 ^CLAUDE\.md$

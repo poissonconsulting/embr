@@ -51,10 +51,10 @@ If \code{FALSE}, no reference applied. If \code{TRUE}, the reference is a 1 row 
 \item{...}{Additional arguments.}
 }
 \value{
-A data frame with the same structure as \code{\link[=predict.mb_analysis]{predict.mb_analysis()}}.
+A data frame with one row per row of \code{new_data}.
 }
 \description{
-Get predictions from meta-anlysis \code{mb_analyses} object.
+Returns IC-weighted model-averaged predictions across an \code{mb_analyses} list.
 }
 \seealso{
 \code{\link[=predict.mb_analysis]{predict.mb_analysis()}} for full argument documentation and

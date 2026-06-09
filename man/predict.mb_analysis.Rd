@@ -54,8 +54,9 @@ If \code{FALSE}, no reference applied. If \code{TRUE}, the reference is a 1 row 
 \item{...}{Additional arguments.}
 }
 \value{
-A data frame with columns \code{estimate}, \code{lower},
-\code{upper}, \code{svalue}, and all columns of \code{new_data}.
+A data frame with one row per row of \code{new_data}, containing the
+posterior summary columns produced by \code{\link[mcmcdata:coef.mcmc_data]{mcmcdata::coef.mcmc_data()}} and all columns
+of \code{new_data}.
 }
 \description{
 Summarises the posterior predictive distribution at new covariate values.

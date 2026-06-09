@@ -4,10 +4,6 @@ output:
   rmarkdown::html_vignette:
     toc: true
     toc_depth: 2
-vignette: >
-  %\VignetteIndexEntry{Fitting Models with analyse()}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r setup, include = FALSE}
@@ -166,7 +162,7 @@ count_model <- model(
         bSite[site[i]] +
         bSiteAnnual[site[i], annual[i]]
       prediction[i] <- eCount[i]
-      fit[i] <- log(eCount[i])
+      fit[i] <- eCount[i]
       log_lik[i] <- log_lik_neg_binom(count[i], eCount[i], bPhi)
     }
   },
@@ -189,8 +185,10 @@ A few notes on the `model()` arguments:
 
 - `code`: the Stan model code.
 - `new_expr`: an R expression evaluated post-fitting against MCMC draws. It
-  defines `prediction[i]` (used by `predict()`), `fit[i]` (link-scale
-  values), and `log_lik[i]` (used by IC and prior-sensitivity tools). Scalar
+  defines `prediction[i]` (used by `predict()`), `fit[i]` (used by
+  `fitted()` and for residuals), and `log_lik[i]` (used by IC and
+  prior-sensitivity tools). The scale of `fit[i]` is model-specific — define
+  it to match what your `res_*` and `log_lik_*` helpers expect. Scalar
   derived quantities such as `eBaseCount` and `eRestoredEffect` can be
   extracted directly with `predict(analysis, new_data = character(0),
   term = "eBaseCount")`.
@@ -384,8 +382,8 @@ to the `mb_model` method. Use it for one-shot fits; use the explicit
 ## Next steps
 
 - See `?analyse` for the full per-engine argument documentation.
-- See `vignette("prediction")` for posterior predictive summaries,
-  effect-size calculations, and the `mcmc_derive` / `mcmc_derive_data` tools
-  for derived quantities.
+- See the [prediction article](prediction.html) for posterior predictive
+  summaries, effect-size calculations, and the `mcmc_derive` /
+  `mcmc_derive_data` tools for derived quantities.
 - `coef()`, `glance()`, `residuals()`, and `plot_residuals()` are the
   standard inspection tools for an `mb_analysis`.

@@ -57,12 +57,10 @@ Suggests:
     cli,
     covr,
     jmbr,
-    knitr,
     rmarkdown,
     scales,
     smbr2,
     testthat (>= 3.0.0)
-VignetteBuilder: knitr
 RdMacros:
     lifecycle
 Remotes:
