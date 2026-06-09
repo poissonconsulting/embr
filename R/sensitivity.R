@@ -5,28 +5,34 @@
 #'   or "all".
 #' @param param_type A string specifying which parameters to include: 'fixed',
 #'   'random', 'derived', 'primary', or 'all'.
-#' @param mb.dcjs A number specifying the CJS threshold for weak prior and
-#'   strong data classification.
+#' @param mb.prior_cjs A number specifying the CJS threshold for strong prior 
+#'   classification.
+#' @param mb.lik_cjs A number specifying the CJS threshold for weak data 
+#'   classification.
 #' @param ... Arguments passed to [add_sensitivity()].
 #'
 #' @return A tibble summarizing the sensitivity of the analysis object.
 #' @export
 sensitivity <- function(x, by = "term", param_type = "all",
-                        mb.dcjs = getOption("mb.dcjs", 0.1), ...) {
+                        mb.prior_cjs = getOption("mb.prior_cjs", 0.1),
+                        mb.lik_cjs = getOption("mb.lik_cjs", 0.05), ...) {
   UseMethod("sensitivity")
 }
 
 #' @export
 sensitivity.mb_analysis <- function(x, by = "term", param_type = "all",
-                                    mb.dcjs = getOption("mb.dcjs", 0.1),
+                                    mb.prior_cjs = getOption("mb.prior_cjs", 0.1),
+                                    mb.lik_cjs = getOption("mb.lik_cjs", 0.05),
                                     ...) {
   check_mb_analysis(x)
   chk_string(by)
   chk_subset(by, c("all", "parameter", "term"))
   chk_string(param_type)
   chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
-  chk_number(mb.dcjs)
-  chk_gt(mb.dcjs, 0)
+  chk_number(mb.prior_cjs)
+  chk_gt(mb.prior_cjs, 0)
+  chk_number(mb.lik_cjs)
+  chk_gt(mb.lik_cjs, 0)
 
   x <- add_sensitivity(x, ...)
 
@@ -40,8 +46,8 @@ sensitivity.mb_analysis <- function(x, by = "term", param_type = "all",
       "parameter", "term", "prior", "likelihood"
     ) |>
     dplyr::mutate(
-      weak_prior = .data$prior < mb.dcjs,
-      strong_data = .data$likelihood >= mb.dcjs,
+      weak_prior = .data$prior < mb.prior_cjs,
+      strong_data = .data$likelihood >= mb.lik_cjs,
       dplyr::across(c("prior", "likelihood"), \(x) round(x, 3))
     ) |>
     dplyr::arrange(.data$term)

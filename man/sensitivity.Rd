@@ -8,7 +8,8 @@ sensitivity(
   x,
   by = "term",
   param_type = "all",
-  mb.dcjs = getOption("mb.dcjs", 0.1),
+  mb.prior_cjs = getOption("mb.prior_cjs", 0.1),
+  mb.lik_cjs = getOption("mb.lik_cjs", 0.05),
   ...
 )
 }
@@ -21,8 +22,11 @@ or "all".}
 \item{param_type}{A string specifying which parameters to include: 'fixed',
 'random', 'derived', 'primary', or 'all'.}
 
-\item{mb.dcjs}{A number specifying the CJS threshold for weak prior and
-strong data classification.}
+\item{mb.prior_cjs}{A number specifying the CJS threshold for strong prior
+classification.}
+
+\item{mb.lik_cjs}{A number specifying the CJS threshold for weak data
+classification.}
 
 \item{...}{Arguments passed to \code{\link[=add_sensitivity]{add_sensitivity()}}.}
 }

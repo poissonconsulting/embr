@@ -4,11 +4,10 @@
       mutate(sensitivity(analysis, by = "all"), across(c(prior, likelihood), function(
         x) signif(x, digits = 4)))
     Output
-      # A tibble: 2 x 5
+      # A tibble: 1 x 5
         nterms prior likelihood weak_prior strong_data
          <int> <dbl>      <dbl> <lgl>      <lgl>      
-      1      1 0          0.092 TRUE       FALSE      
-      2      2 0.001      0.113 TRUE       TRUE       
+      1      3 0.001      0.092 TRUE       TRUE       
 
 # sensitivity summarizes by 'parameter' for JAGS model
 
@@ -16,12 +15,11 @@
       mutate(sensitivity(analysis, by = "parameter"), across(c(prior, likelihood),
       function(x) signif(x, digits = 4)))
     Output
-      # A tibble: 3 x 6
+      # A tibble: 2 x 6
         parameter nterms prior likelihood weak_prior strong_data
         <chr>      <int> <dbl>      <dbl> <lgl>      <lgl>      
-      1 bSpecies       1 0          0.092 TRUE       FALSE      
-      2 bSpecies       1 0.001      0.113 TRUE       TRUE       
-      3 sMass          1 0          0.134 TRUE       TRUE       
+      1 bSpecies       2 0.001      0.092 TRUE       TRUE       
+      2 sMass          1 0          0.134 TRUE       TRUE       
 
 # sensitivity summarizes by 'term' for JAGS model
 
@@ -33,7 +31,7 @@
         parameter term        prior likelihood weak_prior strong_data
         <chr>     <term>      <dbl>      <dbl> <lgl>      <lgl>      
       1 bSpecies  bSpecies[1] 0.001      0.113 TRUE       TRUE       
-      2 bSpecies  bSpecies[2] 0          0.092 TRUE       FALSE      
+      2 bSpecies  bSpecies[2] 0          0.092 TRUE       TRUE       
       3 sMass     sMass       0          0.134 TRUE       TRUE       
 
 # sensitivity summarizes by 'all' for Stan model
@@ -42,11 +40,10 @@
       mutate(sensitivity(analysis, by = "all"), across(c(prior, likelihood), function(
         x) signif(x, digits = 4)))
     Output
-      # A tibble: 2 x 5
+      # A tibble: 1 x 5
         nterms prior likelihood weak_prior strong_data
          <int> <dbl>      <dbl> <lgl>      <lgl>      
-      1      2 0.001      0.095 TRUE       FALSE      
-      2      1 0          0.113 TRUE       TRUE       
+      1      3 0.001      0.095 TRUE       TRUE       
 
 # sensitivity summarizes by 'parameter' for Stan model
 
@@ -57,7 +54,7 @@
       # A tibble: 2 x 6
         parameter nterms prior likelihood weak_prior strong_data
         <chr>      <int> <dbl>      <dbl> <lgl>      <lgl>      
-      1 bSpecies       2 0.001      0.095 TRUE       FALSE      
+      1 bSpecies       2 0.001      0.095 TRUE       TRUE       
       2 sMass          1 0          0.113 TRUE       TRUE       
 
 # sensitivity summarizes by 'term' for Stan model
@@ -69,8 +66,8 @@
       # A tibble: 3 x 6
         parameter term        prior likelihood weak_prior strong_data
         <chr>     <term>      <dbl>      <dbl> <lgl>      <lgl>      
-      1 bSpecies  bSpecies[1] 0.001      0.099 TRUE       FALSE      
-      2 bSpecies  bSpecies[2] 0          0.095 TRUE       FALSE      
+      1 bSpecies  bSpecies[1] 0.001      0.099 TRUE       TRUE       
+      2 bSpecies  bSpecies[2] 0          0.095 TRUE       TRUE       
       3 sMass     sMass       0          0.113 TRUE       TRUE       
 
 # sensitivity param_type = 'fixed' by term for JAGS RE model
@@ -148,10 +145,10 @@
        3 bYear     bYear[3]  0.003      0.046 TRUE       FALSE      
        4 bYear     bYear[4]  0.002      0.044 TRUE       FALSE      
        5 bYear     bYear[5]  0.003      0.045 TRUE       FALSE      
-       6 bYear     bYear[6]  0.003      0.054 TRUE       FALSE      
-       7 bYear     bYear[7]  0.003      0.051 TRUE       FALSE      
+       6 bYear     bYear[6]  0.003      0.054 TRUE       TRUE       
+       7 bYear     bYear[7]  0.003      0.051 TRUE       TRUE       
        8 bYear     bYear[8]  0.003      0.049 TRUE       FALSE      
-       9 bYear     bYear[9]  0.002      0.052 TRUE       FALSE      
+       9 bYear     bYear[9]  0.002      0.052 TRUE       TRUE       
       10 bYear     bYear[10] 0.003      0.045 TRUE       FALSE      
 
 # sensitivity param_type = 'fixed' by parameter for Stan RE model
@@ -176,7 +173,7 @@
       # A tibble: 1 x 6
         parameter term   prior likelihood weak_prior strong_data
         <chr>     <term> <dbl>      <dbl> <lgl>      <lgl>      
-      1 ratio     ratio      0      0.074 TRUE       FALSE      
+      1 ratio     ratio      0      0.074 TRUE       TRUE       
 
 # sensitivity param_type = 'primary' by parameter for Stan RE model
 
@@ -184,13 +181,14 @@
       mutate(sensitivity(analysis, by = "parameter", param_type = "primary"), across(
         c(prior, likelihood), function(x) signif(x, digits = 4)))
     Output
-      # A tibble: 4 x 6
+      # A tibble: 5 x 6
         parameter nterms prior likelihood weak_prior strong_data
         <chr>      <int> <dbl>      <dbl> <lgl>      <lgl>      
       1 bSpecies       2 0.003      0.045 TRUE       FALSE      
-      2 bYear         10 0.003      0.037 TRUE       FALSE      
-      3 sMass          1 0.001      0.118 TRUE       TRUE       
-      4 sYear          1 0.014      0.039 TRUE       FALSE      
+      2 bYear          7 0.003      0.037 TRUE       FALSE      
+      3 bYear          3 0.003      0.051 TRUE       TRUE       
+      4 sMass          1 0.001      0.118 TRUE       TRUE       
+      5 sYear          1 0.014      0.039 TRUE       FALSE      
 
 # sensitivity errors if x is not an mb_analysis object
 
@@ -264,34 +262,71 @@
       Error in `sensitivity.mb_analysis()`:
       ! `param_type` must match 'all', 'derived', 'fixed', 'primary' or 'random', not 'other'.
 
-# sensitivity errors if `mb.dcjs` is not a number
+# sensitivity errors if `mb.prior_cjs` is not a number
 
     Code
-      sensitivity(analysis, mb.dcjs = "high")
+      sensitivity(analysis, mb.prior_cjs = "high")
     Condition
       Error in `sensitivity.mb_analysis()`:
-      ! `mb.dcjs` must be a number (non-missing numeric scalar).
+      ! `mb.prior_cjs` must be a number (non-missing numeric scalar).
 
-# sensitivity errors if `mb.dcjs` is NA
+# sensitivity errors if `mb.prior_cjs` is NA
 
     Code
-      sensitivity(analysis, mb.dcjs = NA)
+      sensitivity(analysis, mb.prior_cjs = NA)
     Condition
       Error in `sensitivity.mb_analysis()`:
-      ! `mb.dcjs` must be a number (non-missing numeric scalar).
+      ! `mb.prior_cjs` must be a number (non-missing numeric scalar).
 
-# sensitivity errors if `mb.dcjs` is numeric(0)
+# sensitivity errors if `mb.prior_cjs` is numeric(0)
 
     Code
-      sensitivity(analysis, mb.dcjs = numeric(0))
+      sensitivity(analysis, mb.prior_cjs = numeric(0))
     Condition
       Error in `sensitivity.mb_analysis()`:
-      ! `mb.dcjs` must be a number (non-missing numeric scalar).
+      ! `mb.prior_cjs` must be a number (non-missing numeric scalar).
 
-# sensitivity mb.dcjs changes weak_prior and strong_data classification
+# sensitivity errors if `mb.lik_cjs` is not a number
 
     Code
-      mutate(sensitivity(analysis, by = "all", mb.dcjs = 0.12), across(c(prior,
+      sensitivity(analysis, mb.lik_cjs = "high")
+    Condition
+      Error in `sensitivity.mb_analysis()`:
+      ! `mb.lik_cjs` must be a number (non-missing numeric scalar).
+
+# sensitivity errors if `mb.lik_cjs` is NA
+
+    Code
+      sensitivity(analysis, mb.lik_cjs = NA)
+    Condition
+      Error in `sensitivity.mb_analysis()`:
+      ! `mb.lik_cjs` must be a number (non-missing numeric scalar).
+
+# sensitivity errors if `mb.lik_cjs` is numeric(0)
+
+    Code
+      sensitivity(analysis, mb.lik_cjs = numeric(0))
+    Condition
+      Error in `sensitivity.mb_analysis()`:
+      ! `mb.lik_cjs` must be a number (non-missing numeric scalar).
+
+# sensitivity mb.prior_cjs changes weak_prior classification
+
+    Code
+      mutate(sensitivity(analysis, by = "all", mb.prior_cjs = 0.01), across(c(prior,
+        likelihood), function(x) signif(x, digits = 4)))
+    Output
+      # A tibble: 3 x 5
+        nterms prior likelihood weak_prior strong_data
+         <int> <dbl>      <dbl> <lgl>      <lgl>      
+      1      1 0.017      0.023 FALSE      FALSE      
+      2     12 0.004      0.018 TRUE       FALSE      
+      3      1 0.001      0.14  TRUE       TRUE       
+
+# sensitivity mb.lik_cjs changes strong_data classification
+
+    Code
+      mutate(sensitivity(analysis, by = "all", mb.lik_cjs = 0.12), across(c(prior,
         likelihood), function(x) signif(x, digits = 4)))
     Output
       # A tibble: 2 x 5
