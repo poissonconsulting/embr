@@ -2,13 +2,8 @@
 #'
 #' @description
 #' Fit a Bayesian hierarchical model to data using Stan (via rstan or cmdstanr)
-#' or JAGS (via rjags).
-#'
-#' For fitting a list of models simultaneously, see [analyse.mb_models()]; for
-#' fitting from raw model code, see [analyse.character()].
-#'
-#' The estimation backend is determined by the model class (JAGS or Stan) and,
-#' for Stan models, by the `stan_engine` argument.
+#' or JAGS (via rjags). The estimation backend is determined by the model
+#' class (JAGS or Stan) and, for Stan models, by the `stan_engine` argument.
 #'
 #' @details
 #' The following applies to Stan models using a `cmdstan-*` `stan_engine`. For
@@ -89,6 +84,8 @@
 #'
 #' @seealso
 #' * [model()] to build a model.
+#' * [analyse.mb_models()] to fit a list of models simultaneously.
+#' * [analyse.character()] to fit from raw model code.
 #' * [predict.mb_analysis()] and [coef.mb_analysis()] to summarise an
 #'   analysis.
 #' * [reanalyse()] to refit with different sampling settings.
@@ -144,7 +141,7 @@ analyse <- function(x, ...) {
 #' @description
 #' Called by [analyse.mb_model()] once the data have been validated and the
 #' model has been compiled. Backend packages register methods on `analyse1`
-#' for each supported engine — for example, `analyse1.cmdstan_mcmc_model` and
+#' for each supported engine; for example, `analyse1.cmdstan_mcmc_model` and
 #' the other `cmdstan_*` variants in `smbr2`, and `analyse1.jmb_model` in
 #' `jmbr`.
 #'

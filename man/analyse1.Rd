@@ -51,7 +51,7 @@ An \code{mb_analysis} object.
 \description{
 Called by \code{\link[=analyse.mb_model]{analyse.mb_model()}} once the data have been validated and the
 model has been compiled. Backend packages register methods on \code{analyse1}
-for each supported engine — for example, \code{analyse1.cmdstan_mcmc_model} and
+for each supported engine; for example, \code{analyse1.cmdstan_mcmc_model} and
 the other \verb{cmdstan_*} variants in \code{smbr2}, and \code{analyse1.jmb_model} in
 \code{jmbr}.
 

@@ -69,13 +69,8 @@ An \code{mb_analysis} if \code{data} is a single data frame, or an
 }
 \description{
 Fit a Bayesian hierarchical model to data using Stan (via rstan or cmdstanr)
-or JAGS (via rjags).
-
-For fitting a list of models simultaneously, see \code{\link[=analyse.mb_models]{analyse.mb_models()}}; for
-fitting from raw model code, see \code{\link[=analyse.character]{analyse.character()}}.
-
-The estimation backend is determined by the model class (JAGS or Stan) and,
-for Stan models, by the \code{stan_engine} argument.
+or JAGS (via rjags). The estimation backend is determined by the model
+class (JAGS or Stan) and, for Stan models, by the \code{stan_engine} argument.
 }
 \details{
 The following applies to Stan models using a \verb{cmdstan-*} \code{stan_engine}. For
@@ -201,6 +196,8 @@ analyses <- analyse(model, list(dataset1 = data1, dataset2 = data2))
 \seealso{
 \itemize{
 \item \code{\link[=model]{model()}} to build a model.
+\item \code{\link[=analyse.mb_models]{analyse.mb_models()}} to fit a list of models simultaneously.
+\item \code{\link[=analyse.character]{analyse.character()}} to fit from raw model code.
 \item \code{\link[=predict.mb_analysis]{predict.mb_analysis()}} and \code{\link[=coef.mb_analysis]{coef.mb_analysis()}} to summarise an
 analysis.
 \item \code{\link[=reanalyse]{reanalyse()}} to refit with different sampling settings.
