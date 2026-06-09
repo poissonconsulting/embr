@@ -62,10 +62,10 @@ Summarises the posterior predictive distribution at new covariate values.
 Returns a tidy data frame with point estimates and compatibility intervals.
 }
 \details{
-\code{new_data} defaults to \code{data_set(object)}. Covariates not specified are held
-at a reference value: mean for continuous, first level for factors. Build
-covariate grids with \code{newdata::xnew_data()} and related helpers
-(\code{xnew_seq()}, \code{xcast()}, \code{xobs_only()}).
+\code{new_data} defaults to \code{\link[=data_set]{data_set()}}. Covariates not specified are held at a
+reference value: mean for continuous, first level for factors. Build
+covariate grids with \code{\link[newdata:xnew_data]{newdata::xnew_data()}} and related helpers
+(\code{\link[newdata:xnew_seq]{newdata::xnew_seq()}}, \code{\link[newdata:xcast]{newdata::xcast()}}, \code{\link[newdata:xobs_only]{newdata::xobs_only()}}).
 
 \code{term} selects the quantity defined in the model's \code{new_expr} to calculate
 (default \code{"prediction"}). Pass \code{new_data = character(0)} to extract a scalar

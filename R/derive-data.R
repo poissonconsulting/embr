@@ -84,12 +84,15 @@ mcmcdata::mcmc_derive_data
 #' @param ...  Additional arguments.
 #' @return A object of class mcmc_data.
 #' @seealso
+#' * The [prediction article](https://poissonconsulting.github.io/embr/articles/prediction.html)
+#'   for worked patterns including group-level summaries.
 #' * [predict.mb_analysis()] for tidy posterior summaries at new covariate
 #'   values.
 #' * [mcmc_derive.mb_analysis()] for scalar derived quantities and arithmetic
 #'   on `mcmcr` posteriors.
 #' * [mcmcr::combine_samples()] for combining MCMC samples across independent
 #'   analyses on shared data keys.
+#' * [newdata::xnew_data()] for building covariate grids.
 #' @examples
 #' \dontrun{
 #' # `analysis` is a fitted mb_analysis with factors site, treatment and
@@ -173,6 +176,8 @@ mcmc_derive_data.mb_analysis <- function(
 #' @param beep A flag indicating whether to beep on completion of the analysis.
 #' @param ...  Additional arguments.
 #' @return A object of class mcmc_data.
+#' @seealso [mcmc_derive_data.mb_analysis()] for full argument documentation
+#'   and examples.
 #' @export
 mcmc_derive_data.mb_analyses <- function(
   object,

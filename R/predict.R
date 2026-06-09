@@ -25,10 +25,10 @@ fitted.mb_analysis <- function(object, ...) {
 #' Returns a tidy data frame with point estimates and compatibility intervals.
 #'
 #' @details
-#' `new_data` defaults to `data_set(object)`. Covariates not specified are held
-#' at a reference value: mean for continuous, first level for factors. Build
-#' covariate grids with `newdata::xnew_data()` and related helpers
-#' (`xnew_seq()`, `xcast()`, `xobs_only()`).
+#' `new_data` defaults to [data_set()]. Covariates not specified are held at a
+#' reference value: mean for continuous, first level for factors. Build
+#' covariate grids with [newdata::xnew_data()] and related helpers
+#' ([newdata::xnew_seq()], [newdata::xcast()], [newdata::xobs_only()]).
 #'
 #' `term` selects the quantity defined in the model's `new_expr` to calculate
 #' (default `"prediction"`). Pass `new_data = character(0)` to extract a scalar

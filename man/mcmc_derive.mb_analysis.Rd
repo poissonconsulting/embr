@@ -59,18 +59,18 @@ Calculate derived parameters.
 \examples{
 \dontrun{
 # `analysis` is a fitted mb_analysis whose new_expr defines scalar terms
-# `eBaseCount` and `eHighEffect`.
+# `eBaseCount` and `eRestoredEffect`.
 
 # Pull related scalars by regex; shared iteration ordering supports
 # downstream arithmetic.
 scalars <- mcmc_derive(
   analysis,
   new_data = character(0),
-  term = "^(eBaseCount|eHighEffect)$"
+  term = "^(eBaseCount|eRestoredEffect)$"
 )
 
 # Arithmetic on mcmcr objects propagates posterior uncertainty
-high_count <- scalars$eBaseCount * scalars$eHighEffect
+high_count <- scalars$eBaseCount * scalars$eRestoredEffect
 coef(high_count)
 
 # Custom expression with injected scalar constants
@@ -84,6 +84,8 @@ as.mcmcr(analysis) |>
 }
 \seealso{
 \itemize{
+\item The \href{https://poissonconsulting.github.io/embr/articles/prediction.html}{prediction article}
+for worked patterns including arithmetic on \code{mcmcr} posteriors.
 \item \code{\link[=predict.mb_analysis]{predict.mb_analysis()}} for tidy posterior summaries at new covariate
 values.
 \item \code{\link[=mcmc_derive_data.mb_analysis]{mcmc_derive_data.mb_analysis()}} for raw MCMC samples paired with

@@ -5,6 +5,8 @@
 #' @inheritParams mcmc_derive_data.mb_analysis
 #' @return A object of class mcmcr.
 #' @seealso
+#' * The [prediction article](https://poissonconsulting.github.io/embr/articles/prediction.html)
+#'   for worked patterns including arithmetic on `mcmcr` posteriors.
 #' * [predict.mb_analysis()] for tidy posterior summaries at new covariate
 #'   values.
 #' * [mcmc_derive_data.mb_analysis()] for raw MCMC samples paired with
@@ -14,18 +16,18 @@
 #' @examples
 #' \dontrun{
 #' # `analysis` is a fitted mb_analysis whose new_expr defines scalar terms
-#' # `eBaseCount` and `eHighEffect`.
+#' # `eBaseCount` and `eRestoredEffect`.
 #'
 #' # Pull related scalars by regex; shared iteration ordering supports
 #' # downstream arithmetic.
 #' scalars <- mcmc_derive(
 #'   analysis,
 #'   new_data = character(0),
-#'   term = "^(eBaseCount|eHighEffect)$"
+#'   term = "^(eBaseCount|eRestoredEffect)$"
 #' )
 #'
 #' # Arithmetic on mcmcr objects propagates posterior uncertainty
-#' high_count <- scalars$eBaseCount * scalars$eHighEffect
+#' high_count <- scalars$eBaseCount * scalars$eRestoredEffect
 #' coef(high_count)
 #'
 #' # Custom expression with injected scalar constants

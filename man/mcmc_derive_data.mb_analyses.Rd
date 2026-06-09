@@ -53,3 +53,7 @@ A object of class mcmc_data.
 \description{
 Calculate derived parameters.
 }
+\seealso{
+\code{\link[=mcmc_derive_data.mb_analysis]{mcmc_derive_data.mb_analysis()}} for full argument documentation
+and examples.
+}

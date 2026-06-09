@@ -81,11 +81,14 @@ mcmc_derive_data(analysis, new_data = data, term = "^eCount$") |>
 }
 \seealso{
 \itemize{
+\item The \href{https://poissonconsulting.github.io/embr/articles/prediction.html}{prediction article}
+for worked patterns including group-level summaries.
 \item \code{\link[=predict.mb_analysis]{predict.mb_analysis()}} for tidy posterior summaries at new covariate
 values.
 \item \code{\link[=mcmc_derive.mb_analysis]{mcmc_derive.mb_analysis()}} for scalar derived quantities and arithmetic
 on \code{mcmcr} posteriors.
 \item \code{\link[mcmcr:combine_samples]{mcmcr::combine_samples()}} for combining MCMC samples across independent
 analyses on shared data keys.
+\item \code{\link[newdata:xnew_data]{newdata::xnew_data()}} for building covariate grids.
 }
 }
