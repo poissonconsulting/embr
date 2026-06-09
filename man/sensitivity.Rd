@@ -22,10 +22,10 @@ or "all".}
 \item{param_type}{A string specifying which parameters to include: 'fixed',
 'random', 'derived', 'primary', or 'all'.}
 
-\item{mb.prior_cjs}{A number specifying the CJS threshold for strong prior
+\item{mb.prior_cjs}{A number specifying the CJS threshold for weak prior
 classification.}
 
-\item{mb.lik_cjs}{A number specifying the CJS threshold for weak data
+\item{mb.lik_cjs}{A number specifying the CJS threshold for strong data
 classification.}
 
 \item{...}{Arguments passed to \code{\link[=add_sensitivity]{add_sensitivity()}}.}

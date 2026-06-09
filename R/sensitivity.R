@@ -7,7 +7,7 @@
 #'   'random', 'derived', 'primary', or 'all'.
 #' @param mb.prior_cjs A number specifying the CJS threshold for strong prior 
 #'   classification.
-#' @param mb.lik_cjs A number specifying the CJS threshold for weak data 
+#' @param mb.lik_cjs A number specifying the CJS threshold for strong data 
 #'   classification.
 #' @param ... Arguments passed to [add_sensitivity()].
 #'
