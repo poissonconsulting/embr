@@ -39,15 +39,14 @@ fitted.mb_analysis <- function(object, ...) {
 #' relative to that reference state. `ref_data = TRUE` uses `data_set(object)`
 #' reduced to a single reference row. The default
 #' `ref_fun2 = proportional_change2` returns `(new - ref) / ref`; supply a
-#' custom function for absolute difference (`function(x) x[2] - x[1]`), log
+#' custom function, e.g. for absolute difference (`function(x) x[2] - x[1]`), log
 #' ratio, etc.
 #'
 #' @section Random-effect zeroing:
 #' `random_effects` controls whether random effects are collapsed to the
 #' population level:
 #'
-#' * `NULL` (default): collapse each random effect whose factor is held
-#'   constant in `new_data` (i.e. omitted from `xnew_data()`), giving the
+#' * `NULL` (default): collapse each random effect whose factor is at first level in `new_data` (i.e. omitted from `xnew_data()`), giving the
 #'   population-level prediction for that factor.
 #' * `FALSE`: keep all random-effect samples; the prediction is specific to
 #'   whatever level appears in `new_data`.
@@ -74,7 +73,7 @@ fitted.mb_analysis <- function(object, ...) {
 #' library(newdata)
 #'
 #' # Minimal example model with continuous fixed effect and categorical fixed and random effects. `new_expr`
-#' # defines prediction[i], fit[i], and scalars eBaseCount and eHighEffect.
+#' # defines prediction[i], fit[i], and scalar eBaseCount.
 #' model <- model(
 #'   code = stan_code,
 #'   new_expr = {
@@ -101,8 +100,7 @@ fitted.mb_analysis <- function(object, ...) {
 #' analysis <- analyse(model, data)
 #' data <- data_set(analysis)
 #'
-#' # --- Covariate grids ----------------------------------------------------
-#'
+#' # --- xnew_data covariate grids ----------------------------------------------------
 #' # Continuous covariate; other covariates held at reference values
 #' xnew_data(data, temperature) |>
 #'   predict(analysis, new_data = _)
@@ -111,24 +109,18 @@ fitted.mb_analysis <- function(object, ...) {
 #' xnew_data(data, xnew_seq(temperature, length_out = 5)) |>
 #'   predict(analysis, new_data = _)
 #'
-#' # Factor (random effect)
-#' xnew_data(data, site) |>
+#' # All factor levels and hold continuous covariate at specific value
+#' xnew_data(data, site, temperature = 1.5) |>
 #'   predict(analysis, new_data = _)
 #'
-#' # Vary a factor at a fixed value of another covariate
-#' xnew_data(data, treatment, temperature = 1.5) |>
-#'   predict(analysis, new_data = _)
-#'
-#' # Cast specific factor levels
+#' # Specify specific factor levels
 #' xnew_data(
 #'   data,
-#'   xcast(site = "a", treatment = "high"),
-#'   temperature = 2
+#'   xcast(site = "a", treatment = "high")
 #' ) |>
 #'   predict(analysis, new_data = _)
 #'
 #' # --- Term selection -----------------------------------------------------
-#'
 #' # Get 'fit' term instead of default 'prediction'
 #' xnew_data(data, treatment) |>
 #'   predict(analysis, new_data = _, term = "fit")
@@ -137,7 +129,6 @@ fitted.mb_analysis <- function(object, ...) {
 #' predict(analysis, new_data = character(0), term = "eBaseCount")
 #'
 #' # --- Override new_expr --------------------------------------------------
-#'
 #' # Substitute new_expr and inject a scalar constant (e.g. area correction)
 #' predict(
 #'   analysis,
@@ -152,7 +143,6 @@ fitted.mb_analysis <- function(object, ...) {
 #' )
 #'
 #' # --- Reference data and effect sizes ------------------------------------
-#'
 #' # Default ref_fun2 = proportional_change2: (new - ref) / ref
 #' # Shows proportional change relative to 1-row reference data ('high' treatment).
 #' ref <- xnew_data(data, xcast(treatment = "high"))
@@ -169,12 +159,10 @@ fitted.mb_analysis <- function(object, ...) {
 #'   )
 #'
 #' # --- Random-effect zeroing ----------------------------------------------
-#'
 #' # NULL (default), site omitted: site and annual both at level 1, so both
 #' # z_bSite and z_bSiteAnnual are zeroed for population-level prediction
 #' xnew_data(data, temperature) |>
 #'   predict(analysis, new_data = _)
-#'
 #'
 #' # FALSE: all zeroing skipped, both z_bSite and z_bSiteAnnual kept and predicted at first level
 #' xnew_data(data, temperature) |>
