@@ -24,8 +24,8 @@ set.seed(42)
 
 `analyse()` is embr's main entry point for fitting a Bayesian hierarchical
 model to data using Stan (via rstan or cmdstanr) or JAGS (via rjags). This
-guide walks through the primary `analyse.mb_model` method on a realistic
-fish-count model, then briefly covers the two convenience methods
+guide walks through the primary `analyse.mb_model` method on a simple example
+fish count model, then briefly covers the two convenience methods
 `analyse.mb_models` (for fitting a list of models) and `analyse.character`
 (for fitting from a raw code string).
 
@@ -35,9 +35,9 @@ library(smbr2)
 library(dplyr)
 ```
 
-## A plausible model
+## Example model
 
-The shared example is a juvenile-salmonid count model: counts at 5 sites
+The example model is a fish count model, where data has counts at 5 sites
 across 5 annual periods under two treatments (`control`, `restored`), with
 stream temperature as a continuous covariate. Sampling is unbalanced: 4 sites
 are monitored in all 5 years; the 5th site is sampled in only 2 years.
@@ -48,8 +48,11 @@ years <- 1:5
 treatments <- c("control", "restored")
 
 design <- expand.grid(
-  site = sites, annual = years, treatment = treatments,
-  rep = 1:3, stringsAsFactors = FALSE
+  site = sites,
+  annual = years,
+  treatment = treatments,
+  rep = 1:3,
+  stringsAsFactors = FALSE
 ) |>
   filter(!(site == "e" & annual %in% c(1, 2, 3))) |>
   mutate(
@@ -69,7 +72,8 @@ bPhi_true <- 5
 re_site <- setNames(rnorm(length(sites), 0, sSite_true), sites)
 re_site_annual <- matrix(
   rnorm(length(sites) * length(years), 0, sSiteAnnual_true),
-  nrow = length(sites), dimnames = list(sites, years)
+  nrow = length(sites),
+  dimnames = list(sites, years)
 )
 
 data <- design |>
@@ -79,7 +83,11 @@ data <- design |>
       bTreatment_true * (treatment == "restored") +
       bTemp_true * temp_c +
       re_site[as.character(site)] +
-      mapply(function(s, a) re_site_annual[s, a], as.character(site), as.character(annual)),
+      mapply(
+        function(s, a) re_site_annual[s, a],
+        as.character(site),
+        as.character(annual)
+      ),
     count = as.integer(rnbinom(n(), mu = exp(log_mu), size = bPhi_true))
   ) |>
   select(count, site, annual, treatment, temperature)
@@ -90,11 +98,8 @@ head(data)
 ## Defining the model
 
 The model is defined in two parts: the Stan code (likelihood and priors) and
-an R `new_expr` (used post-fitting for predictions, residuals, and the log
-likelihood). `select_data` declares the columns to extract from `data` and
-how to validate / transform them. `random_effects` maps the non-centred
-parameters (`z_b*`) to their factor columns so embr can zero them at
-prediction time.
+an R `new_expr` (used post-fitting for predictions, residuals, sensitivity, and the log likelihood). `select_data` declares the columns to extract from `data` and how to validate / transform them. `random_effects` maps the relevant
+parameters (e.g., `z_b*` in parameterization below) to their factor columns so embr can zero them at prediction time to get predictions for 'typical' values. 
 
 ```{r stan-code}
 count_code <- "
@@ -190,7 +195,7 @@ A few notes on the `model()` arguments:
   extracted directly with `predict(analysis, new_data = character(0),
   term = "eBaseCount")`.
 - `select_data`: the columns required from `data`. A trailing `*` on
-  `temperature` requests centring and scaling; the original `temperature`
+  `temperature` requests scaling; the original `temperature`
   column is replaced with the scaled version in the analysis dataset.
 - `random_effects`: tells embr which factors each non-centred random-effect
   parameter depends on. `predict()` uses this to decide when to zero `z_b*`
@@ -198,9 +203,8 @@ A few notes on the `model()` arguments:
 
 ## Fitting with `analyse.mb_model`
 
-The default backend is rstan. To use cmdstanr's MCMC sampler, pass
-`stan_engine = "cmdstan-mcmc"`. Three chains with 500 warmup + 500 sampling
-iterations is enough for this model.
+The default backend is rstan for backwards-compatibility. However, it is recommended for Stan to use cmdstanr's MCMC sampler via smbr2 package by passing
+`stan_engine = "cmdstan-mcmc"`. We also set `niters`, `niters_warmup`, and `nchains` although this is also typically handled by the `set_analysis_mode()` function. 
 
 ```{r fit-default}
 analysis <- analyse(
@@ -263,7 +267,7 @@ For each cmdstanr engine, embr sets a fixed set of cmdstanr arguments
 own parameters. Other cmdstanr arguments can be passed through `...`. See
 `?analyse` for the exact list of embr-controlled arguments per engine.
 
-A pathfinder fit on the same model takes a fraction of the time:
+A pathfinder fit on the same model takes a fraction of the time, but posterior distributions will be less reliable, especially for complex hierarchical models:
 
 ```{r fit-pathfinder}
 analysis_pf <- analyse(
@@ -280,9 +284,6 @@ coef(analysis_pf, include_constant = FALSE, simplify = TRUE) |>
   filter(term %in% c("bIntercept", "bTreatment_dev[1]", "bTemp")) |>
   mutate(across(estimate:svalue, ~ signif(.x, 3)))
 ```
-
-Compatibility limits from pathfinder are wider and more approximate than the
-MCMC fit; use MCMC for final inference.
 
 ## Engine-specific arguments via `...`
 
@@ -316,14 +317,14 @@ analyse(
 )
 ```
 
-## Brief: `analyse(mb_models, ...)`
+## In brief: `analyse(mb_models, ...)`
 
 To fit several model structures against the same data, wrap them in
 `models()` and call `analyse()` once:
 
 ```{r mb-models, eval = FALSE}
 count_model_no_temp <- model(
-  code = count_code,  # in practice, with bTemp dropped
+  code = count_code, # in practice, with bTemp dropped
   new_expr = {
     # ... no temperature term ...
   },
@@ -355,7 +356,7 @@ analyses <- analyse(
 The result is an `mb_analyses` list. `predict.mb_analyses()` returns
 IC-weighted model-averaged predictions across the list.
 
-## Brief: `analyse(character, ...)`
+## In brief: `analyse(character, ...)`
 
 For quick prototyping without a separate `model()` object, pass a Stan or
 JAGS code string directly to `analyse()` with a `select_data` list:
