@@ -4,6 +4,38 @@
 #'
 #' @inheritParams mcmc_derive_data.mb_analysis
 #' @return A object of class mcmcr.
+#' @seealso
+#' * [predict.mb_analysis()] for tidy posterior summaries at new covariate
+#'   values.
+#' * [mcmc_derive_data.mb_analysis()] for raw MCMC samples paired with
+#'   `new_data` and group-level summaries.
+#' * [mcmcr::combine_samples()] for combining MCMC samples across independent
+#'   analyses on shared data keys.
+#' @examples
+#' \dontrun{
+#' # `analysis` is a fitted mb_analysis whose new_expr defines scalar terms
+#' # `eBaseCount` and `eHighEffect`.
+#'
+#' # Pull related scalars by regex; shared iteration ordering supports
+#' # downstream arithmetic.
+#' scalars <- mcmc_derive(
+#'   analysis,
+#'   new_data = character(0),
+#'   term = "^(eBaseCount|eHighEffect)$"
+#' )
+#'
+#' # Arithmetic on mcmcr objects propagates posterior uncertainty
+#' high_count <- scalars$eBaseCount * scalars$eHighEffect
+#' coef(high_count)
+#'
+#' # Custom expression with injected scalar constants
+#' as.mcmcr(analysis) |>
+#'   mcmc_derive(
+#'     expr = "biomass <- exp(bIntercept) * mean_mass_g",
+#'     values = list(mean_mass_g = 250)
+#'   ) |>
+#'   coef()
+#' }
 #' @export
 mcmc_derive.mb_analysis <- function(object,
                                     new_data = data_set(object),

@@ -2,7 +2,7 @@
 % Please edit documentation in R/predict.R
 \name{predict.mb_analysis}
 \alias{predict.mb_analysis}
-\title{Predict}
+\title{Predict from a Bayesian Model}
 \usage{
 \method{predict}{mb_analysis}(
   object,
@@ -24,9 +24,11 @@
 \arguments{
 \item{object}{An object inheriting from class mb_analysis.}
 
-\item{new_data}{The data frame to calculate the predictions for.}
+\item{new_data}{A data frame to calculate the predictions for.
+Pass \code{character(0)} to extract a scalar \code{term} from new_expr.}
 
-\item{new_expr}{A string of R code specifying the predictive relationship.}
+\item{new_expr}{A string of R code specifying the predictive relationship.
+If \code{NULL}, uses the string set in \code{\link[=model]{model()}} and stored in \code{mb_analysis} object.}
 
 \item{new_values}{A named list of new or replacement values to pass to new_expr.}
 
@@ -36,7 +38,8 @@
 
 \item{modify_new_data}{A single argument function to modify new data (in list form) immediately prior to calculating new_expr.}
 
-\item{ref_data}{A flag or a data frame with 1 row indicating the reference values for calculating the effects size.}
+\item{ref_data}{A flag or a data frame with 1 row indicating the reference values for calculating the effects size.
+If \code{FALSE}, no reference applied. If \code{TRUE}, the reference is a 1 row data.frame with all variables held at reference value.}
 
 \item{ref_fun2}{A function whose first argument takes a vector of two numbers and returns a scalar of a metric of the difference between them.}
 
@@ -50,6 +53,220 @@
 
 \item{...}{Additional arguments.}
 }
+\value{
+A data frame with columns \code{estimate}, \code{lower},
+\code{upper}, \code{svalue}, and all columns of \code{new_data}.
+}
 \description{
-Predict
+Summarises the posterior predictive distribution at new covariate values.
+Returns a tidy data frame with point estimates and compatibility intervals.
+
+For raw MCMC samples paired with \code{new_data}, see
+\code{\link[=mcmc_derive_data.mb_analysis]{mcmc_derive_data.mb_analysis()}}. For IC-weighted model-averaged predictions
+across an \code{mb_analyses} list, see \code{\link[=predict.mb_analyses]{predict.mb_analyses()}}.
+}
+\details{
+\code{new_data} defaults to \code{data_set(object)}. Covariates not specified are held
+at a reference value: mean for continuous, first level for factors. Build
+covariate grids with \code{newdata::xnew_data()} and related helpers
+(\code{xnew_seq()}, \code{xcast()}, \code{xobs_only()}).
+
+\code{term} selects the quantity defined in the model's \code{new_expr} to summarise
+(default \code{"prediction"}). Pass \code{new_data = character(0)} to extract a scalar
+quantity.
+
+\code{new_expr} overrides the model's default predictive expression as a string.
+\code{new_values} injects named scalar constants into that expression's
+environment.
+}
+\section{Reference data and effect sizes}{
+
+When \code{ref_data} is a 1-row data frame (or \code{TRUE}, which builds default 1-row data.frame with all variables held at reference value), per MCMC iteration the function:
+\enumerate{
+\item Predicts at the reference state, yielding \code{ref_iter}.
+\item Predicts at each row of \code{new_data}, yielding \code{new_iter}.
+\item Applies \code{ref_fun2(c(ref_iter, new_iter))} per iteration.
+\item Summarises the resulting scalar across iterations.
+}
+
+The returned summary describes the posterior of the transformed quantity,
+not of the raw prediction. The default \code{ref_fun2} is \code{proportional_change2}
+from the \code{extras} package (\code{(new - ref) / ref}); pass a custom function for
+absolute difference, log ratio, etc.
+}
+
+\section{Random-effect zeroing}{
+
+A random-effect parameter is zeroed when \emph{any} of its associated factor columns in \code{new_data}
+is entirely at level 1. For a single-factor RE such as \code{z_bSite = "site"},
+that means \code{site} must be entirely at level 1; for a multi-factor RE such
+as \code{z_bSiteAnnual = c("site", "annual")}, zeroing fires if \emph{either} \code{site}
+or \code{annual} is entirely at level 1.
+\itemize{
+\item \code{NULL} (default): zero any RE whose any associated factor is all at level
+1.
+\item \code{FALSE}: skip all zeroing regardless of factor levels; the full
+random-effect samples are kept.
+\item Named list: only the listed \verb{z_b*} parameters (with their factor
+mappings) are candidates for zeroing; unlisted REs are kept regardless.
+}
+}
+
+\examples{
+\dontrun{
+library(newdata)
+
+# Minimal model: one fixed factor (treatment, 2 levels), two factor
+# covariates (site, annual) entering through single- and multi-factor
+# random effects, one continuous covariate (temperature). new_expr
+# defines prediction[i], fit[i], and scalars eBaseCount and eHighEffect.
+model <- model(
+  code = stan_code,
+  new_expr = {
+    bSite <- z_bSite * sSite
+    bSiteAnnual <- z_bSiteAnnual * sSiteAnnual
+    bTreatment <- c(0, bTreatment_dev)
+    eBaseCount <- exp(bIntercept)
+    eHighEffect <- exp(bTreatment_dev)
+    for (i in 1:nObs) {
+      log(eCount[i]) <- bIntercept +
+        bTreatment[treatment[i]] +
+        bTemp * temperature[i] +
+        bSite[site[i]] +
+        bSiteAnnual[site[i], annual[i]]
+      prediction[i] <- eCount[i]
+      fit[i] <- log(eCount[i])
+    }
+  },
+  new_expr_vec = TRUE,
+  select_data = list(
+    count = 1L,
+    treatment = factor("a"),
+    site = factor("a"),
+    annual = factor("a"),
+    `temperature*` = 1
+  ),
+  random_effects = list(
+    z_bSite = "site",
+    z_bSiteAnnual = c("site", "annual")
+  )
+)
+analysis <- analyse(model, data)
+data <- data_set(analysis)
+
+# --- Covariate grids ----------------------------------------------------
+
+# Continuous covariate; other covariates held at reference values
+xnew_data(data, temperature) |>
+  predict(analysis, new_data = _)
+
+# Specific sequence of values
+xnew_data(data, xnew_seq(temperature, length_out = 5)) |>
+  predict(analysis, new_data = _)
+
+# Factor (random effect)
+xnew_data(data, site) |>
+  predict(analysis, new_data = _)
+
+# Vary a factor at a fixed value of another covariate
+xnew_data(data, treatment, temperature = 1.5) |>
+  predict(analysis, new_data = _)
+
+# Cast specific factor levels
+xnew_data(
+  data,
+  xcast(site = "a", treatment = "high"),
+  temperature = 2
+) |>
+  predict(analysis, new_data = _)
+
+# --- Term selection -----------------------------------------------------
+
+# Link-scale fit instead of default prediction
+xnew_data(data, treatment) |>
+  predict(analysis, new_data = _, term = "fit")
+
+# Scalar derived quantity from new_expr
+predict(analysis, new_data = character(0), term = "eBaseCount")
+
+# --- Override new_expr --------------------------------------------------
+
+# Substitute new_expr and inject a scalar constant (e.g. area correction)
+predict(
+  analysis,
+  new_data = xnew_data(data, site),
+  new_expr = "
+    bSite <- z_bSite * sSite
+    for (i in 1:length(site)) {
+      prediction[i] <- exp(bIntercept + bSite[site[i]]) * area_correction
+    }
+  ",
+  new_values = list(area_correction = 10)
+)
+
+# --- Reference data and effect sizes ------------------------------------
+
+# Default ref_fun2 = proportional_change2: (new - ref) / ref
+ref <- xnew_data(data, xcast(treatment = "high"))
+xnew_data(data, treatment) |>
+  predict(analysis, new_data = _, ref_data = ref)
+
+# Custom ref_fun2: absolute difference
+xnew_data(data, treatment) |>
+  predict(
+    analysis,
+    new_data = _,
+    ref_data = ref,
+    ref_fun2 = function(x) x[2] - x[1]
+  )
+
+# --- Random-effect zeroing ----------------------------------------------
+
+# NULL (default), site omitted: site and annual both at level 1, so both
+# z_bSite and z_bSiteAnnual are zeroed -> population-level prediction
+xnew_data(data, temperature) |>
+  predict(analysis, new_data = _)
+
+# NULL, site varied: site is not at level 1 so z_bSite is kept, but annual
+# is still at level 1 so z_bSiteAnnual is zeroed (any-factor rule)
+xnew_data(data, site) |>
+  predict(analysis, new_data = _, random_effects = NULL)
+
+# FALSE: all zeroing skipped, both z_bSite and z_bSiteAnnual kept,
+# differing from the NULL case above
+xnew_data(data, site) |>
+  predict(analysis, new_data = _, random_effects = FALSE)
+
+# Named list, zero only z_bSite: z_bSiteAnnual excluded from candidates so
+# annual at level 1 no longer triggers zeroing for it
+xnew_data(data, site) |>
+  predict(
+    analysis,
+    new_data = _,
+    random_effects = list(z_bSite = "site")
+  )
+
+# Named list, zero only z_bSiteAnnual (annual at level 1 triggers it);
+# z_bSite excluded so site variation is kept across levels
+xnew_data(data, site) |>
+  predict(
+    analysis,
+    new_data = _,
+    random_effects = list(z_bSiteAnnual = c("site", "annual"))
+  )
+}
+}
+\seealso{
+\itemize{
+\item \code{\link[=predict.mb_analyses]{predict.mb_analyses()}} for predictions on meta-analysis object.
+\item \code{\link[=mcmc_derive_data.mb_analysis]{mcmc_derive_data.mb_analysis()}} for raw MCMC samples paired with
+\code{new_data}, regex term matching, and group-level summaries via
+\code{group_by()} + \code{summarise()}.
+\item \code{\link[=mcmc_derive.mb_analysis]{mcmc_derive.mb_analysis()}} for scalar derived quantities and arithmetic
+on \code{mcmcr} posteriors.
+\item \code{\link[mcmcr:combine_samples]{mcmcr::combine_samples()}} for combining MCMC samples across independent
+analyses on shared data keys.
+\item \code{\link[=model]{model()}} for \code{new_expr} syntax.
+\item \code{\link[newdata:xnew_data]{newdata::xnew_data()}} for building covariate grids.
+}
 }

@@ -57,16 +57,22 @@ Suggests:
     cli,
     covr,
     jmbr,
+    knitr,
+    rmarkdown,
+    scales,
+    smbr2,
     testthat (>= 3.0.0)
-RdMacros: 
+VignetteBuilder: knitr
+RdMacros:
     lifecycle
-Remotes: 
+Remotes:
     poissonconsulting/jmbr,
     poissonconsulting/mcmcr,
     poissonconsulting/mcmcdata,
     poissonconsulting/mcmcderive,
     poissonconsulting/newdata,
-    poissonconsulting/rescale
+    poissonconsulting/rescale,
+    poissonconsulting/smbr2
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.3.9000

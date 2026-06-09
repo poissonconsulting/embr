@@ -24,9 +24,11 @@
 \arguments{
 \item{object}{An object inheriting from class mb_analysis.}
 
-\item{new_data}{The data frame to calculate the predictions for.}
+\item{new_data}{A data frame to calculate the predictions for.
+Pass \code{character(0)} to extract a scalar \code{term} from new_expr.}
 
-\item{new_expr}{A string of R code specifying the predictive relationship.}
+\item{new_expr}{A string of R code specifying the predictive relationship.
+If \code{NULL}, uses the string set in \code{\link[=model]{model()}} and stored in \code{mb_analysis} object.}
 
 \item{new_values}{A named list of new or replacement values to pass to new_expr.}
 
@@ -34,7 +36,8 @@
 
 \item{modify_new_data}{A single argument function to modify new data (in list form) immediately prior to calculating new_expr.}
 
-\item{ref_data}{A flag or a data frame with 1 row indicating the reference values for calculating the effects size.}
+\item{ref_data}{A flag or a data frame with 1 row indicating the reference values for calculating the effects size.
+If \code{FALSE}, no reference applied. If \code{TRUE}, the reference is a 1 row data.frame with all variables held at reference value.}
 
 \item{ref_fun2}{A function whose first argument takes a vector of two numbers and returns a scalar of a metric of the difference between them.}
 
@@ -55,4 +58,34 @@ A object of class mcmc_data.
 }
 \description{
 Calculate derived parameters.
+}
+\examples{
+\dontrun{
+# `analysis` is a fitted mb_analysis with factors site, treatment and
+# new_expr that defines per-row term `eCount`.
+data <- data_set(analysis)
+
+# Per-group posterior summaries via group_by() + summarise().
+# Default .fun = sum; use mean for the per-treatment posterior mean.
+mcmc_derive_data(analysis, new_data = data, term = "^eCount$") |>
+  group_by(treatment) |>
+  summarise(.fun = mean) |>
+  coef()
+
+# Custom summarise function, e.g. range within group
+mcmc_derive_data(analysis, new_data = data, term = "^eCount$") |>
+  group_by(treatment) |>
+  summarise(.fun = function(x) max(x) - min(x)) |>
+  coef()
+}
+}
+\seealso{
+\itemize{
+\item \code{\link[=predict.mb_analysis]{predict.mb_analysis()}} for tidy posterior summaries at new covariate
+values.
+\item \code{\link[=mcmc_derive.mb_analysis]{mcmc_derive.mb_analysis()}} for scalar derived quantities and arithmetic
+on \code{mcmcr} posteriors.
+\item \code{\link[mcmcr:combine_samples]{mcmcr::combine_samples()}} for combining MCMC samples across independent
+analyses on shared data keys.
+}
 }

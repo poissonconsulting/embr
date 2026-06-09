@@ -2,7 +2,7 @@
 % Please edit documentation in R/predict.R
 \name{predict.mb_analyses}
 \alias{predict.mb_analyses}
-\title{Predict}
+\title{Predict (IC-weighted Model Average)}
 \usage{
 \method{predict}{mb_analyses}(
   object,
@@ -23,9 +23,11 @@
 \arguments{
 \item{object}{An object inheriting from class mb_analysis.}
 
-\item{new_data}{The data frame to calculate the predictions for.}
+\item{new_data}{A data frame to calculate the predictions for.
+Pass \code{character(0)} to extract a scalar \code{term} from new_expr.}
 
-\item{new_expr}{A string of R code specifying the predictive relationship.}
+\item{new_expr}{A string of R code specifying the predictive relationship.
+If \code{NULL}, uses the string set in \code{\link[=model]{model()}} and stored in \code{mb_analysis} object.}
 
 \item{new_values}{A named list of new or replacement values to pass to new_expr.}
 
@@ -35,7 +37,8 @@
 
 \item{modify_new_data}{A single argument function to modify new data (in list form) immediately prior to calculating new_expr.}
 
-\item{ref_data}{A flag or a data frame with 1 row indicating the reference values for calculating the effects size.}
+\item{ref_data}{A flag or a data frame with 1 row indicating the reference values for calculating the effects size.
+If \code{FALSE}, no reference applied. If \code{TRUE}, the reference is a 1 row data.frame with all variables held at reference value.}
 
 \item{ref_fun2}{A function whose first argument takes a vector of two numbers and returns a scalar of a metric of the difference between them.}
 
@@ -47,6 +50,18 @@
 
 \item{...}{Additional arguments.}
 }
+\value{
+A data frame with the same structure as \code{\link[=predict.mb_analysis]{predict.mb_analysis()}},
+with \code{estimate} as the IC-weighted average and \code{sd}, \code{zscore}, \code{lower},
+\code{upper}, and \code{pvalue} set to \code{NA}.
+}
 \description{
-Predict
+Returns IC-weighted model-averaged predictions across an \code{mb_analyses} list.
+Arguments are forwarded to \code{\link[=predict.mb_analysis]{predict.mb_analysis()}} for each model; results
+are combined using IC weights. Interval columns are \code{NA} in the averaged
+output.
+}
+\seealso{
+\code{\link[=predict.mb_analysis]{predict.mb_analysis()}} for full argument documentation and
+examples.
 }
