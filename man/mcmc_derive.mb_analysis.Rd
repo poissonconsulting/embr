@@ -2,6 +2,7 @@
 % Please edit documentation in R/derive.R
 \name{mcmc_derive.mb_analysis}
 \alias{mcmc_derive.mb_analysis}
+\alias{mcmc_derive.mb_analyses}
 \title{Derive}
 \usage{
 \method{mcmc_derive}{mb_analysis}(
@@ -19,6 +20,20 @@
   quiet = getOption("mb.quiet", TRUE),
   ...
 )
+
+\method{mcmc_derive}{mb_analyses}(
+  object,
+  new_data = data_set(object),
+  new_expr = NULL,
+  new_values = list(),
+  term = "prediction",
+  modify_new_data = NULL,
+  ref_data = FALSE,
+  new_expr_vec = getOption("mb.new_expr_vec", FALSE),
+  parallel = getOption("mb.parallel", FALSE),
+  quiet = getOption("mb.quiet", TRUE),
+  ...
+)
 }
 \arguments{
 \item{object}{An object inheriting from class mb_analysis.}
@@ -26,8 +41,9 @@
 \item{new_data}{A data frame to calculate the predictions for.
 Pass \code{character(0)} to extract a scalar \code{term} from new_expr.}
 
-\item{new_expr}{A string of R code specifying the predictive relationship.
-If \code{NULL}, uses the string set in \code{\link[=model]{model()}} and stored in \code{mb_analysis} object.}
+\item{new_expr}{An R expression (e.g. \code{{ ... }}) or a character string of R
+code specifying the predictive relationship. If \code{NULL}, uses the expression
+set in \code{\link[=model]{model()}} and stored in the \code{mb_analysis} object.}
 
 \item{new_values}{A named list of new or replacement values to pass to new_expr.}
 

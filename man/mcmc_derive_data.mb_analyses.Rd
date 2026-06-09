@@ -25,7 +25,8 @@
 
 \item{new_data}{The data frame to calculate the predictions for.}
 
-\item{new_expr}{A string of R code specifying the predictive relationship.}
+\item{new_expr}{An R expression (e.g. \code{{ ... }}) or a character string of R
+code specifying the predictive relationship.}
 
 \item{new_values}{A named list of new or replacement values to pass to new_expr.}
 

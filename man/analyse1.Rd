@@ -57,3 +57,4 @@ the other \verb{cmdstan_*} variants in \code{smbr2}, and \code{analyse1.jmb_mode
 
 End users should call \code{\link[=analyse]{analyse()}}, not \code{analyse1()} directly.
 }
+\keyword{internal}

@@ -74,7 +74,7 @@ fitted.mb_analysis <- function(object, ...) {
 #'   predict(analysis, new_data = _)
 #'
 #' # Proportional change relative to a 1-row reference state
-#' ref <- xnew_data(data, xcast(treatment = "high"))
+#' ref <- xnew_data(data, xcast(treatment = "control"))
 #' xnew_data(data, treatment) |>
 #'   predict(analysis, new_data = _, ref_data = ref)
 #'

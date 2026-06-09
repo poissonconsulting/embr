@@ -187,7 +187,7 @@ A few notes on the `model()` arguments:
 - `new_expr`: an R expression evaluated post-fitting against MCMC draws. It
   defines `prediction[i]` (used by `predict()`), `fit[i]` (used by
   `fitted()` and for residuals), and `log_lik[i]` (used by IC and
-  prior-sensitivity tools). The scale of `fit[i]` is model-specific — define
+  prior-sensitivity tools). The scale of `fit[i]` is model-specific; define
   it to match what your `res_*` and `log_lik_*` helpers expect. Scalar
   derived quantities such as `eBaseCount` and `eRestoredEffect` can be
   extracted directly with `predict(analysis, new_data = character(0),

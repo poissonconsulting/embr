@@ -272,7 +272,7 @@ plot_pointrange(pred_site, site) +
 
 ### Multiple factors with the hyperprior filling in
 
-When `site` and `annual` are crossed, the full 25-row grid is returned —
+When `site` and `annual` are crossed, the full 25-row grid is returned
 even though only 22 site×annual cells were observed. Predictions for the
 unobserved combinations come from the `z_bSiteAnnual` hyperprior.
 
@@ -293,7 +293,7 @@ xnew_data(data, xobs_only(site, annual)) |>
   nrow()
 ```
 
-22 rows instead of 25 — exactly the unbalanced combinations from the
+22 rows instead of 25: exactly the unbalanced combinations from the
 design.
 
 ### Casting specific factor levels with `xcast()`
@@ -408,7 +408,7 @@ bind_rows(typical, unobserved) |>
   labs(y = "Expected count", x = "Treatment", colour = NULL)
 ```
 
-Compatibility limits are wider for `unobserved site` — the interval now
+Compatibility limits are wider for `unobserved site`; the interval now
 reflects amongst-site variation in addition to parameter uncertainty.
 
 ## Overriding `new_expr` and injecting constants
@@ -518,9 +518,9 @@ coef(biomass)
 ```
 
 `by` names the data columns to join on (here `site`); rows present in both
-inputs are paired. `fun` is applied to the matched MCMC draws — `prod` gives
-the row-wise product across iterations. The result is an `mcmc_data` with
-one row per joined key and a propagated posterior in `biomass`.
+inputs are paired. `fun` is applied to the matched MCMC draws, so `prod`
+gives the row-wise product across iterations. The result is an `mcmc_data`
+with one row per joined key and a propagated posterior in `biomass`.
 
 For the two analyses to combine:
 
@@ -528,11 +528,11 @@ For the two analyses to combine:
   and iterations (e.g. both 3 chains × 500 saved draws). `combine_samples()`
   pairs draws position-by-position; mismatched dimensions error out.
 * **`by` columns must exist in both `$data` slots.** Rows are paired by an
-  inner join — non-matching rows are dropped silently. Make sure factor
+  inner join, so non-matching rows are dropped silently. Make sure factor
   levels and column types line up.
 
 Within a single analysis, prefer expressing the composition directly in
-`new_expr` — `combine_samples()` earns its keep when the components come
+`new_expr`; `combine_samples()` earns its keep when the components come
 from independently fitted models whose draws need joining without re-running
 them.
 
@@ -567,7 +567,7 @@ coef(eExpectedRestored)
 ```
 
 This is the absolute expected count at reference site and temperature under
-the restored treatment — the analytic posterior of a function of parameters,
+the restored treatment: the analytic posterior of a function of parameters,
 not a posterior over a per-row prediction grid.
 
 ## Random-effect zeroing
@@ -591,7 +591,7 @@ xnew_data(data, temperature) |>
 
 ### `random_effects = FALSE`
 
-Skip all zeroing — the random effects are kept and `predict()` returns the
+Skip all zeroing; the random effects are kept and `predict()` returns the
 estimate for `site` level 1 and `annual` level 1 literally rather than the
 population-level prediction:
 

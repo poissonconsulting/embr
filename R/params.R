@@ -12,11 +12,11 @@
 #' @param seed A positive whole number specifying the seed to use. The default is random. This is currently only implemented for Stan models.
 #' @param niters_warmup A count of the number of warmup iterations. The default is to use the same number of iterations as `niters`. This is currently only implemented for Stan models.
 #' @param stan_engine A string selecting the Stan engine:
-#' * `"cmdstan-mcmc"` — MCMC via [cmdstanr::sample()].
-#' * `"cmdstan-pathfinder"` — pathfinder via [cmdstanr::pathfinder()].
-#' * `"cmdstan-variational"` — variational ADVI via [cmdstanr::variational()].
-#' * `"cmdstan-optimize"` — optimization via [cmdstanr::optimize()].
-#' * `"cmdstan-laplace"` — Laplace approximation via [cmdstanr::laplace()].
+#' * `"cmdstan-mcmc"`: MCMC via [cmdstanr::sample()].
+#' * `"cmdstan-pathfinder"`: pathfinder via [cmdstanr::pathfinder()].
+#' * `"cmdstan-variational"`: variational ADVI via [cmdstanr::variational()].
+#' * `"cmdstan-optimize"`: optimization via [cmdstanr::optimize()].
+#' * `"cmdstan-laplace"`: Laplace approximation via [cmdstanr::laplace()].
 #'
 #' Defaults to `character(0)`. Any value other than the five above (including
 #' the empty default) falls back to MCMC via [rstan::sampling()]. Ignored for

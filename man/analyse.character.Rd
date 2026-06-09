@@ -47,11 +47,11 @@ classes, values, transforms, and scaling options. Passed to \code{\link[=model]{
 
 \item{stan_engine}{A string selecting the Stan engine:
 \itemize{
-\item \code{"cmdstan-mcmc"} — MCMC via \code{\link[cmdstanr:model-method-sample]{cmdstanr::sample()}}.
-\item \code{"cmdstan-pathfinder"} — pathfinder via \code{\link[cmdstanr:model-method-pathfinder]{cmdstanr::pathfinder()}}.
-\item \code{"cmdstan-variational"} — variational ADVI via \code{\link[cmdstanr:model-method-variational]{cmdstanr::variational()}}.
-\item \code{"cmdstan-optimize"} — optimization via \code{\link[cmdstanr:model-method-optimize]{cmdstanr::optimize()}}.
-\item \code{"cmdstan-laplace"} — Laplace approximation via \code{\link[cmdstanr:model-method-laplace]{cmdstanr::laplace()}}.
+\item \code{"cmdstan-mcmc"}: MCMC via \code{\link[cmdstanr:model-method-sample]{cmdstanr::sample()}}.
+\item \code{"cmdstan-pathfinder"}: pathfinder via \code{\link[cmdstanr:model-method-pathfinder]{cmdstanr::pathfinder()}}.
+\item \code{"cmdstan-variational"}: variational ADVI via \code{\link[cmdstanr:model-method-variational]{cmdstanr::variational()}}.
+\item \code{"cmdstan-optimize"}: optimization via \code{\link[cmdstanr:model-method-optimize]{cmdstanr::optimize()}}.
+\item \code{"cmdstan-laplace"}: Laplace approximation via \code{\link[cmdstanr:model-method-laplace]{cmdstanr::laplace()}}.
 }
 
 Defaults to \code{character(0)}. Any value other than the five above (including
@@ -69,6 +69,11 @@ An \code{mb_analysis} or \code{mb_meta_analysis}. See \code{\link[=analyse]{anal
 Converts raw Stan or JAGS code to an \code{\link[=model]{model()}} object, then fits it via
 \code{\link[=analyse]{analyse()}}. A convenience shortcut when you do not need to inspect or
 reuse the \code{mb_model} object.
+}
+\details{
+Only \code{select_data} is forwarded to \code{\link[=model]{model()}}. If you need to set
+\code{new_expr}, \code{random_effects}, \code{new_expr_vec}, or \code{gen_inits}, build the
+model with \code{\link[=model]{model()}} directly and pass it to \code{\link[=analyse]{analyse()}}.
 }
 \seealso{
 \code{\link[=analyse]{analyse()}} for full argument documentation and engine details.

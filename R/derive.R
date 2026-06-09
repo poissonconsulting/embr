@@ -117,12 +117,7 @@ mcmc_derive.mb_analysis <- function(object,
   object
 }
 
-#' Derive
-#'
-#' Calculate derived parameters.
-#'
-#' @inheritParams mcmc_derive_data.mb_analysis
-#' @return A object of class mcmcr.
+#' @rdname mcmc_derive.mb_analysis
 #' @export
 mcmc_derive.mb_analyses <- function(object,
                                     new_data = data_set(object),

@@ -156,6 +156,7 @@ analyse <- function(x, ...) {
 #' @param ... Additional arguments passed to the engine-specific estimation
 #'   function.
 #' @return An `mb_analysis` object.
+#' @keywords internal
 #' @export
 analyse1 <- function(model, data, loaded, nchains, niters, nthin, quiet, glance, parallel, seed, niters_warmup, ...) {
   UseMethod("analyse1")
@@ -189,6 +190,10 @@ analyse_model <- function(x, name = NULL, data, parallel, nchains, niters, nthin
 #' Converts raw Stan or JAGS code to an [model()] object, then fits it via
 #' [analyse()]. A convenience shortcut when you do not need to inspect or
 #' reuse the `mb_model` object.
+#'
+#' Only `select_data` is forwarded to [model()]. If you need to set
+#' `new_expr`, `random_effects`, `new_expr_vec`, or `gen_inits`, build the
+#' model with [model()] directly and pass it to [analyse()].
 #'
 #' @param x A character string of Stan or JAGS model code.
 #' @param data A data frame.
@@ -292,7 +297,7 @@ analyse.mb_model <- function(x, data,
 
   names <- names(data)
   if (is.null(names)) {
-    names(data) <- 1:length(x)
+    names(data) <- seq_along(data)
   }
 
   analyses <- purrr::imap(data, analyse_data,
@@ -339,7 +344,7 @@ analyse.mb_models <- function(x, data,
   if (beep) on.exit(beepr::beep())
 
   names <- names(x)
-  if (is.null(names)) names(x) <- 1:length(x)
+  if (is.null(names)) names(x) <- seq_along(x)
 
   analyses <- purrr::imap(x, analyse_model,
     data = data,

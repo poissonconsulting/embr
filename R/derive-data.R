@@ -68,8 +68,9 @@ mcmcdata::mcmc_derive_data
 #' @param object An object inheriting from class mb_analysis.
 #' @param new_data A data frame to calculate the predictions for.
 #'   Pass `character(0)` to extract a scalar `term` from new_expr.
-#' @param new_expr A string of R code specifying the predictive relationship.
-#' If `NULL`, uses the string set in [model()] and stored in `mb_analysis` object.
+#' @param new_expr An R expression (e.g. `{ ... }`) or a character string of R
+#'   code specifying the predictive relationship. If `NULL`, uses the expression
+#'   set in [model()] and stored in the `mb_analysis` object.
 #' @param new_values A named list of new or replacement values to pass to new_expr.
 #' @param term A string of the term in new_expr.
 #' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
@@ -164,7 +165,8 @@ mcmc_derive_data.mb_analysis <- function(
 #'
 #' @param object An object inheriting from class mb_analysis.
 #' @param new_data The data frame to calculate the predictions for.
-#' @param new_expr A string of R code specifying the predictive relationship.
+#' @param new_expr An R expression (e.g. `{ ... }`) or a character string of R
+#'   code specifying the predictive relationship.
 #' @param new_values A named list of new or replacement values to pass to new_expr.
 #' @param term A string of the term in new_expr.
 #' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.

@@ -27,8 +27,9 @@
 \item{new_data}{A data frame to calculate the predictions for.
 Pass \code{character(0)} to extract a scalar \code{term} from new_expr.}
 
-\item{new_expr}{A string of R code specifying the predictive relationship.
-If \code{NULL}, uses the string set in \code{\link[=model]{model()}} and stored in \code{mb_analysis} object.}
+\item{new_expr}{An R expression (e.g. \code{{ ... }}) or a character string of R
+code specifying the predictive relationship. If \code{NULL}, uses the expression
+set in \code{\link[=model]{model()}} and stored in the \code{mb_analysis} object.}
 
 \item{new_values}{A named list of new or replacement values to pass to new_expr.}
 
@@ -94,7 +95,7 @@ xnew_data(data, xobs_only(site, annual)) |>
   predict(analysis, new_data = _)
 
 # Proportional change relative to a 1-row reference state
-ref <- xnew_data(data, xcast(treatment = "high"))
+ref <- xnew_data(data, xcast(treatment = "control"))
 xnew_data(data, treatment) |>
   predict(analysis, new_data = _, ref_data = ref)
 
