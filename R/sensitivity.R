@@ -5,7 +5,7 @@
 #'   or "all".
 #' @param param_type A string specifying which parameters to include: 'fixed',
 #'   'random', 'derived', 'primary', or 'all'.
-#' @param mb.prior_cjs A number specifying the CJS threshold for strong prior 
+#' @param mb.prior_cjs A number specifying the CJS threshold for weak prior 
 #'   classification.
 #' @param mb.lik_cjs A number specifying the CJS threshold for strong data 
 #'   classification.
