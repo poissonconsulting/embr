@@ -1,6 +1,9 @@
 ---
-title: "Prediction Patterns with predict()"
-output: rmarkdown::html_vignette
+title: "Prediction with predict() and Related Functions"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 2
 vignette: >
   %\VignetteIndexEntry{Prediction Patterns with predict()}
   %\VignetteEngine{knitr::rmarkdown}
@@ -21,26 +24,30 @@ set.seed(42)
 
 `predict.mb_analysis()` summarises the posterior predictive distribution of a
 fitted Bayesian model at new covariate values, returning a tidy data frame
-with point estimates and compatibility limits. This vignette demonstrates the
-core prediction patterns — covariate grids, term selection, effect sizes,
-random-effect zeroing — and the lower-level tools `mcmc_derive()` and
-`mcmc_derive_data()` for derived quantities and group-level summaries.
+with point estimates and compatibility limits. This vignette covers:
+
+* [Covariate grids](#covariate-grids-with-the-newdata-helpers) built with the `newdata` helpers.
+* [Scalar quantities from `new_expr`](#scalar-quantities-from-new_expr).
+* [Reference data and effect sizes](#reference-data-and-effect-sizes) for proportional and absolute effects.
+* [Predicting for an unobserved site](#predicting-for-an-unobserved-site) to include amongst-level variation.
+* [Overriding `new_expr` and injecting constants](#overriding-new_expr-and-injecting-constants) for ad-hoc derived quantities.
+* [Group-level summaries with `mcmc_derive_data()`](#group-level-summaries-with-mcmc_derive_data) for per-group aggregates.
+* [Combining across analyses with `combine_samples()`](#combining-across-analyses-with-combine_samples) for joining samples from independent fits.
+* [Scalar derived quantities with `mcmc_derive()`](#scalar-derived-quantities-with-mcmc_derive) and arithmetic on `mcmcr` posteriors.
+* [Random-effect zeroing](#random-effect-zeroing) for controlling which `z_b*` parameters collapse to the population level.
+* [Cheat sheet](#cheat-sheet) mapping common goals to tools.
 
 ```{r libraries, message = FALSE}
 library(embr)
 library(smbr2)
 library(newdata)
+library(mcmcr)
+library(mcmcderive)
 library(dplyr)
 library(ggplot2)
 ```
 
-## Plot helpers
-
-Two small helpers keep plots consistent across the vignette. `pointrange` is
-the default for discrete predictions (per factor level); `ribbon` is for
-predictions over a continuous covariate.
-
-```{r plot-helpers}
+```{r plot-helpers, include = FALSE}
 plot_pointrange <- function(df, x) {
   ggplot(df, aes({{ x }}, estimate, ymin = lower, ymax = upper)) +
     geom_pointrange() +
@@ -55,19 +62,20 @@ plot_ribbon <- function(df, x) {
 }
 ```
 
-## Setup: fit the shared model
+## Setup: fit demo model
+A simple demo fish count model is fit with Stan (via cmdstanr and smbr2). The simulated data has 5 sites × 5 years × 2 treatments, with an unbalanced design (i.e., not all sites have all years with data). 
 
-The same fish-count model used in `vignette("analyse")`: 5 sites × 5 years ×
-2 treatments, with an unbalanced design.
-
-```{r simulate}
+```{r simulate, include = FALSE}
 sites <- letters[1:5]
 years <- 1:5
 treatments <- c("control", "restored")
 
 design <- expand.grid(
-  site = sites, annual = years, treatment = treatments,
-  rep = 1:3, stringsAsFactors = FALSE
+  site = sites,
+  annual = years,
+  treatment = treatments,
+  rep = 1:3,
+  stringsAsFactors = FALSE
 ) |>
   filter(!(site == "e" & annual %in% c(1, 2, 3))) |>
   mutate(
@@ -80,16 +88,23 @@ design <- expand.grid(
 re_site <- setNames(rnorm(length(sites), 0, 0.4), sites)
 re_site_annual <- matrix(
   rnorm(length(sites) * length(years), 0, 0.2),
-  nrow = length(sites), dimnames = list(sites, years)
+  nrow = length(sites),
+  dimnames = list(sites, years)
 )
 
 data <- design |>
   mutate(
     temp_c = (temperature - mean(temperature)) / sd(temperature),
-    log_mu = log(40) + 0.5 * (treatment == "restored") + 0.15 * temp_c +
+    log_mu = log(40) +
+      0.5 * (treatment == "restored") +
+      0.15 * temp_c +
       re_site[as.character(site)] +
-      mapply(function(s, a) re_site_annual[s, a], as.character(site), as.character(annual)),
-    count = rnbinom(n(), mu = exp(log_mu), size = 5)
+      mapply(
+        function(s, a) re_site_annual[s, a],
+        as.character(site),
+        as.character(annual)
+      ),
+    count = as.integer(rnbinom(n(), mu = exp(log_mu), size = 5))
   ) |>
   select(count, site, annual, treatment, temperature)
 ```
@@ -159,7 +174,14 @@ count_model <- model(
         bSite[site[i]] +
         bSiteAnnual[site[i], annual[i]]
       prediction[i] <- eCount[i]
-      fit[i] <- log(eCount[i])
+      fit[i] <- eCount[i]
+      unobserved[i] <- exp(
+        bIntercept +
+          bTreatment[treatment[i]] +
+          bTemp * temperature[i] +
+          rnorm(1, 0, sSite) +
+          rnorm(1, 0, sSiteAnnual)
+      )
       log_lik[i] <- log_lik_neg_binom(count[i], eCount[i], bPhi)
     }
   },
@@ -192,15 +214,13 @@ analysis <- analyse(
   beep = FALSE
 )
 
-data <- data_set(analysis)  # carries the scaled temperature column
-
 coef(analysis, include_constant = FALSE, simplify = TRUE) |>
   mutate(across(estimate:svalue, ~ signif(.x, 3)))
 ```
 
 ## Default prediction
 
-With no `new_data`, `predict()` returns fitted values for every row of the
+With no `new_data`, `predict()` returns predicted values for every row of the
 analysis dataset:
 
 ```{r default-predict}
@@ -213,10 +233,14 @@ Covariates not specified in `xnew_data()` are held at a reference value:
 mean for continuous, first level for factors.
 
 ### Continuous covariate
+By default, specifying the name of a continuous covariate will generate a sequence from min to max with length 30.
 
 ```{r grid-temperature}
-pred_temp <- xnew_data(data, temperature) |>
-  predict(analysis, new_data = _)
+temp_data <- xnew_data(data, temperature)
+head(temp_data)
+nrow(temp_data)
+
+pred_temp <- predict(analysis, new_data = temp_data)
 
 head(pred_temp)
 
@@ -224,12 +248,19 @@ plot_ribbon(pred_temp, temperature) +
   labs(y = "Expected count", x = "Temperature (scaled)")
 ```
 
-### Specific values via `xnew_seq()`
+### Specific values via `xnew_seq()` or with `=`
 
 ```{r grid-seq}
 xnew_data(data, xnew_seq(temperature, length_out = 5)) |>
   predict(analysis, new_data = _)
 ```
+
+```{r grid-seq}
+xnew_data(data, temperature = 10) |>
+  predict(analysis, new_data = _)
+```
+
+Note that any required transformations due to centering or scaling are automatically handled by `predict()`.
 
 ### Single factor
 
@@ -269,13 +300,6 @@ xnew_data(data, xobs_only(site, annual)) |>
 22 rows instead of 25 — exactly the unbalanced combinations from the
 design.
 
-### Mixing factor and continuous covariates
-
-```{r grid-mix}
-xnew_data(data, treatment, temperature = 1.5) |>
-  predict(analysis, new_data = _)
-```
-
 ### Casting specific factor levels with `xcast()`
 
 ```{r grid-xcast}
@@ -287,22 +311,10 @@ xnew_data(
   predict(analysis, new_data = _)
 ```
 
-## Term selection
+## Scalar quantities from `new_expr`
 
-`term` chooses which quantity in `new_expr` to summarise. The default is
-`"prediction"`; `"fit"` returns the link-scale (log) prediction:
-
-```{r term-fit}
-xnew_data(data, treatment) |>
-  predict(analysis, new_data = _, term = "fit") |>
-  mutate(across(estimate:svalue, ~ signif(.x, 3)))
-```
-
-`exp(fit) = prediction` at every row, as expected from the model.
-
-### Scalar derived quantities
-
-Pass `new_data = character(0)` to extract a scalar quantity from `new_expr`:
+Pass `new_data = character(0)` to extract a scalar quantity defined in
+`new_expr`. `term` selects which scalar:
 
 ```{r term-scalar}
 predict(analysis, new_data = character(0), term = "eBaseCount")
@@ -312,36 +324,6 @@ predict(analysis, new_data = character(0), term = "eRestoredEffect")
 `eBaseCount` is the expected count at reference temperature and the control
 treatment (population-level). `eRestoredEffect` is the multiplicative effect
 of the restoration treatment.
-
-## Overriding `new_expr` and injecting constants
-
-`new_expr` can be replaced inline as a string. `new_values` supplies named
-scalar constants into that expression's environment. A realistic use:
-back-calculate true abundance from observed counts using a known detection
-probability:
-
-```{r new-expr-override}
-xnew_data(data, site) |>
-  predict(analysis, new_data = _) |>
-  head(2)
-
-predict(
-  analysis,
-  new_data = xnew_data(data, site),
-  new_expr = "
-    bSite <- z_bSite * sSite
-    for (i in 1:length(site)) {
-      prediction[i] <- exp(bIntercept + bSite[site[i]]) / p_detection
-    }
-  ",
-  new_values = list(p_detection = 0.6)
-) |>
-  head(2)
-```
-
-The second call divides the predicted observed count by a detection
-probability of 0.6, giving the estimated true abundance. Compatibility
-limits widen proportionally.
 
 ## Reference data and effect sizes
 
@@ -370,7 +352,13 @@ plot_pointrange(pred_prop, treatment) +
 The control row sits at exactly 0% by construction. The restored row gives
 the proportional change in expected count.
 
-### Absolute difference
+### Custom `ref_fun2`: absolute difference
+
+Pass any two-argument function `f(x)` (where `x` is the vector
+`c(ref_iter, new_iter)`) to summarise a different transformation of the
+two posteriors. Absolute difference reports the effect on the count scale
+(restored minus control) rather than as a percentage, which is often easier
+to interpret directly:
 
 ```{r ref-diff}
 xnew_data(data, treatment) |>
@@ -382,163 +370,101 @@ xnew_data(data, treatment) |>
   )
 ```
 
-### Log ratio
+## Predicting for an unobserved site
 
-```{r ref-logratio}
-xnew_data(data, treatment) |>
-  predict(
-    analysis,
-    new_data = _,
-    ref_data = ref_control,
-    ref_fun2 = function(x) log(x[2] / x[1])
-  )
+Zeroing a random effect (the default for the omitted-factor case below)
+gives the prediction for the *typical* or *average* group, e.g., expected count for an average site, with amongst-site variability collapsed away. To predict
+for a *new* site that wasn't in the data with appropraite uncertainty, draw a fresh random effect from its population distribution. The model's`new_expr` already defines an `unobserved` term to do this:
+
+```r
+unobserved[i] <- exp(bIntercept +
+  bTreatment[treatment[i]] +
+  bTemp * temperature[i] +
+  rnorm(1, 0, sSite) +
+  rnorm(1, 0, sSiteAnnual))
 ```
 
-Log ratios are symmetric (a 50% increase and a 33% decrease have the same
-magnitude on the log scale) which makes them well-behaved when averaging
-effects across studies; proportional change is bounded below at -100% but
-unbounded above.
+Each MCMC iteration draws fresh site and site×annual deviations from the
+posterior of `sSite` and `sSiteAnnual`, propagating amongst-site
+uncertainty into the prediction.
 
-## Random-effect zeroing
+Setting `term = "unobserved"` tells `predict()` to summarise this named
+quantity from `new_expr` instead of the default `"prediction"`. Compare the
+two scopes side-by-side:
 
-A `z_b*` parameter is zeroed (collapsing predictions to the population
-level) when *any* of its associated factor columns in `new_data` is entirely
-at level 1. `random_effects` controls which `z_b*` parameters are candidates
-for zeroing.
-
-### `NULL` (default), site omitted
-
-`xnew_data(data, temperature)` leaves both `site` and `annual` at level 1.
-Both `z_bSite` and `z_bSiteAnnual` are zeroed → population-level prediction:
-
-```{r re-null-site-omitted}
-xnew_data(data, temperature) |>
+```{r unobserved-vs-typical}
+typical <- xnew_data(data, treatment) |>
   predict(analysis, new_data = _) |>
-  head(3)
+  mutate(scope = "typical site")
+
+unobserved <- xnew_data(data, treatment) |>
+  predict(analysis, new_data = _, term = "unobserved") |>
+  mutate(scope = "unobserved site")
+
+bind_rows(typical, unobserved)
 ```
 
-### `NULL`, site varied
+```{r unobserved-plot}
+bind_rows(typical, unobserved) |>
+  ggplot(aes(treatment, estimate, ymin = lower, ymax = upper, colour = scope)) +
+  geom_pointrange(position = position_dodge(width = 0.3)) +
+  theme_minimal() +
+  labs(y = "Expected count", x = "Treatment", colour = NULL)
+```
 
-`xnew_data(data, site)` varies `site` but `annual` is still at level 1.
-`z_bSite` is kept (site varies), but `z_bSiteAnnual` is still zeroed because
-`annual` triggers the any-factor rule:
+Compatibility limits are wider for `unobserved site` — the interval now
+reflects amongst-site variation in addition to parameter uncertainty.
 
-```{r re-null-site-varied}
+## Overriding `new_expr` and injecting constants
+
+`new_expr` can be replaced inline as a string. `new_values` supplies named
+scalar constants into that expression's environment. For example, convert
+counts to biomass by multiplying through a literature or independently
+measured mean fish mass (g), without refitting the count model:
+
+```{r new-expr-override}
 xnew_data(data, site) |>
-  predict(analysis, new_data = _, random_effects = NULL)
-```
+  predict(analysis, new_data = _) |>
+  head(2)
 
-### `FALSE`: skip all zeroing
-
-```{r re-false}
-xnew_data(data, site) |>
-  predict(analysis, new_data = _, random_effects = FALSE)
-```
-
-Both random effects are kept regardless of the factor levels. The point
-estimates shift slightly relative to the `NULL` case because the
-`z_bSiteAnnual` posterior centred at zero is now propagated rather than
-zeroed.
-
-### Named list: zero only one parameter
-
-To zero only `z_bSite` (keep `z_bSiteAnnual` regardless of factor levels):
-
-```{r re-named-site}
-xnew_data(data, site) |>
-  predict(
-    analysis,
-    new_data = _,
-    random_effects = list(z_bSite = "site")
-  )
-```
-
-The opposite — zero only `z_bSiteAnnual` (`z_bSite` always kept):
-
-```{r re-named-site-annual}
-xnew_data(data, site) |>
-  predict(
-    analysis,
-    new_data = _,
-    random_effects = list(z_bSiteAnnual = c("site", "annual"))
-  )
-```
-
-The rule across all four cases: a multi-factor random effect is zeroed when
-*any* (OR, not AND) of its factor columns is constant at level 1; the named
-list narrows the set of candidates considered.
-
-## Scalar derived quantities with `mcmc_derive()`
-
-`mcmc_derive()` returns the raw MCMC samples for one or more scalar terms in
-`new_expr`. Useful when you want to compute functions of parameters with
-full uncertainty propagation.
-
-### Pull related scalars by regex
-
-Both `eBaseCount` and `eRestoredEffect` are extracted in one call, sharing
-the same iteration ordering:
-
-```{r mcmc-derive-regex}
-scalars <- mcmc_derive(
+predict(
   analysis,
-  new_data = character(0),
-  term = "^(eBaseCount|eRestoredEffect)$"
-)
-
-coef(scalars)
+  new_data = xnew_data(data, site),
+  new_expr = "
+    bSite <- z_bSite * sSite
+    for (i in 1:length(site)) {
+      prediction[i] <- exp(bIntercept + bSite[site[i]]) * mean_mass_g
+    }
+  ",
+  new_values = list(mean_mass_g = 12)
+) |>
+  head(2)
 ```
 
-### Arithmetic on `mcmcr` objects propagates uncertainty
-
-Multiplying `mcmcr` objects acts element-wise across MCMC iterations:
-
-```{r mcmc-derive-arithmetic}
-eExpectedRestored <- scalars$eBaseCount * scalars$eRestoredEffect
-coef(eExpectedRestored)
-```
-
-This is the absolute expected count at reference site and temperature under
-the restored treatment — the analytic posterior of a function of parameters,
-not a posterior over a per-row prediction grid.
-
-### Custom expression + injected constants
-
-A common use is converting counts to biomass with an externally measured
-mean fish mass. No refit required:
-
-```{r mcmc-derive-custom}
-as.mcmcr(analysis) |>
-  mcmc_derive(
-    expr = "biomass <- exp(bIntercept) * mean_mass_g",
-    values = list(mean_mass_g = 12),
-    silent = TRUE
-  ) |>
-  coef()
-```
+The second call multiplies the predicted count by an external mean mass of
+12 g, giving the posterior of expected biomass per site. Compatibility
+limits scale proportionally because the constant has no uncertainty
+attached.
 
 ## Group-level summaries with `mcmc_derive_data()`
 
 `mcmc_derive_data()` pairs MCMC samples with the per-row data and returns an
 `mcmc_data` object. `group_by()` + `summarise()` then aggregates across rows
-within each group per MCMC iteration — propagating posterior correlations
-that ad-hoc summarisation of point estimates would discard.
+within each group per MCMC iteration to produce per-group posterior distribution summaries.
 
 ### Total expected count per treatment
 
 ```{r mcd-total}
 mcmc_derive_data(analysis, new_data = data, term = "^eCount$") |>
   group_by(treatment) |>
-  summarise(.fun = sum) |>
+  summarise() |>
   coef()
 ```
 
-The default `.fun = sum` returns the posterior of *total* abundance per
-treatment across all rows. Summing point estimates after `predict()` would
-give the same central tendency but understated uncertainty.
+The default summary function is `sum`, which returns the posterior of *total* abundance per treatment across all rows. 
 
 ### Per-site mean abundance
-
+Provide a different summarise function, or define a custom one:
 ```{r mcd-per-site}
 mcmc_derive_data(analysis, new_data = data, term = "^eCount$") |>
   group_by(site) |>
@@ -546,11 +472,8 @@ mcmc_derive_data(analysis, new_data = data, term = "^eCount$") |>
   coef()
 ```
 
-### Custom `.fun`: between-site CV per treatment
-
 A coefficient of variation across sites measures spatial heterogeneity in
-expected counts. Computed within each MCMC iteration to propagate
-uncertainty into the variability metric:
+expected counts. 
 
 ```{r mcd-custom-fun}
 mcmc_derive_data(analysis, new_data = data, term = "^eCount$") |>
@@ -568,7 +491,7 @@ derived from *independent* analyses: for example, multiplying an abundance
 posterior by a mass-per-fish posterior to get biomass, where each component
 was fitted from a different dataset.
 
-A sketch — assume a separate `mass_analysis` was fitted to size-measurement
+Assume a separate `mass_analysis` was fitted to size-measurement
 data (different observation model, same site factor), and both analyses
 expose a per-site quantity:
 
@@ -603,10 +526,100 @@ inputs are paired. `fun` is applied to the matched MCMC draws — `prod` gives
 the row-wise product across iterations. The result is an `mcmc_data` with
 one row per joined key and a propagated posterior in `biomass`.
 
+For the two analyses to combine:
+
+* **MCMC dimensions must match.** Both fits need the same number of chains
+  and iterations (e.g. both 3 chains × 500 saved draws). `combine_samples()`
+  pairs draws position-by-position; mismatched dimensions error out.
+* **`by` columns must exist in both `$data` slots.** Rows are paired by an
+  inner join — non-matching rows are dropped silently. Make sure factor
+  levels and column types line up.
+
 Within a single analysis, prefer expressing the composition directly in
 `new_expr` — `combine_samples()` earns its keep when the components come
 from independently fitted models whose draws need joining without re-running
 them.
+
+## Scalar derived quantities with `mcmc_derive()`
+
+`mcmc_derive()` returns the raw MCMC samples for one or more scalar terms in
+`new_expr`. This is useful when you want to compute functions of parameters with
+full uncertainty propagation.
+
+### Pull related scalars by regex
+
+Both `eBaseCount` and `eRestoredEffect` are extracted in one call, sharing
+the same iteration ordering:
+
+```{r mcmc-derive-regex}
+scalars <- mcmc_derive(
+  analysis,
+  new_data = character(0),
+  term = "^(eBaseCount|eRestoredEffect)$"
+)
+
+coef(scalars)
+```
+
+### Arithmetic on `mcmcr` objects propagates uncertainty
+
+Multiplying `mcmcr` objects acts element-wise across MCMC iterations:
+
+```{r mcmc-derive-arithmetic}
+eExpectedRestored <- scalars$eBaseCount * scalars$eRestoredEffect
+coef(eExpectedRestored)
+```
+
+This is the absolute expected count at reference site and temperature under
+the restored treatment — the analytic posterior of a function of parameters,
+not a posterior over a per-row prediction grid.
+
+## Random-effect zeroing
+
+`random_effects` controls which `z_b*` parameters are eligible for
+collapsing to the population level. A `z_b*` parameter is zeroed when its
+associated factor in `new_data` is constant at level 1 (e.g. the factor
+was omitted from `xnew_data()`).
+
+### Default behaviour
+
+`xnew_data(data, temperature)` leaves both `site` and `annual` at level 1,
+so both `z_bSite` and `z_bSiteAnnual` are zeroed, giving the population-level
+prediction:
+
+```{r re-default}
+xnew_data(data, temperature) |>
+  predict(analysis, new_data = _) |>
+  head(3)
+```
+
+### `random_effects = FALSE`
+
+Skip all zeroing — the random effects are kept and `predict()` returns the
+estimate for `site` level 1 and `annual` level 1 literally rather than the
+population-level prediction:
+
+```{r re-false}
+xnew_data(data, temperature) |>
+  predict(analysis, new_data = _, random_effects = FALSE) |>
+  head(3)
+```
+
+### Named list: zero a subset of random effects
+
+Narrow the candidate list to `z_bSite` only. `z_bSiteAnnual` is now kept
+regardless, so the prediction uses level 1 of `annual` literally, while
+`z_bSite` is still zeroed (because `site` is constant at level 1):
+
+```{r re-named}
+xnew_data(data, temperature) |>
+  predict(
+    analysis,
+    new_data = _,
+    random_effects = list(z_bSite = "site")
+  ) |>
+  head(3)
+```
 
 ## Cheat sheet
 
@@ -614,10 +627,11 @@ them.
 |---|---|
 | Posterior summary at new covariate values | `predict()` |
 | Compatibility intervals for a derived quantity | `predict()` with `new_expr` override |
-| Effect size (proportional, absolute, log ratio) | `predict()` with `ref_data` + `ref_fun2` |
-| Scalar parameter posteriors and arithmetic | `mcmc_derive()` |
+| Prediction for an unobserved factor level (includes amongst-level variation) | `new_expr` term with `rnorm(1, 0, s*)` for the random effect |
+| Effect size (proportional, absolute) | `predict()` with `ref_data` + `ref_fun2` |
 | Group-level aggregates (sum, mean, custom) per MCMC iteration | `mcmc_derive_data()` + `group_by()` + `summarise()` |
 | Combine quantities derived from independent analyses | `mcmcr::combine_samples()` |
+| Scalar parameter posteriors and arithmetic | `mcmc_derive()` |
 
 See `?predict.mb_analysis`, `?mcmc_derive.mb_analysis`,
 `?mcmc_derive_data.mb_analysis`, and `?mcmcr::combine_samples` for full

@@ -1,6 +1,9 @@
 ---
 title: "Fitting Models with analyse()"
-output: rmarkdown::html_vignette
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 2
 vignette: >
   %\VignetteIndexEntry{Fitting Models with analyse()}
   %\VignetteEngine{knitr::rmarkdown}
@@ -77,7 +80,7 @@ data <- design |>
       bTemp_true * temp_c +
       re_site[as.character(site)] +
       mapply(function(s, a) re_site_annual[s, a], as.character(site), as.character(annual)),
-    count = rnbinom(n(), mu = exp(log_mu), size = bPhi_true)
+    count = as.integer(rnbinom(n(), mu = exp(log_mu), size = bPhi_true))
   ) |>
   select(count, site, annual, treatment, temperature)
 
