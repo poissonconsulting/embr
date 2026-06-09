@@ -255,7 +255,7 @@ xnew_data(data, xnew_seq(temperature, length_out = 5)) |>
   predict(analysis, new_data = _)
 ```
 
-```{r grid-seq}
+```{r grid-eq}
 xnew_data(data, temperature = 10) |>
   predict(analysis, new_data = _)
 ```
@@ -626,7 +626,7 @@ xnew_data(data, temperature) |>
 | Goal | Tool |
 |---|---|
 | Posterior summary at new covariate values | `predict()` |
-| Compatibility intervals for a derived quantity | `predict()` with `new_expr` override |
+| Posterior summary for a scalar derived quantity | `predict()` with `new_data = character(0)` and `term` specified |
 | Prediction for an unobserved factor level (includes amongst-level variation) | `new_expr` term with `rnorm(1, 0, s*)` for the random effect |
 | Effect size (proportional, absolute) | `predict()` with `ref_data` + `ref_fun2` |
 | Group-level aggregates (sum, mean, custom) per MCMC iteration | `mcmc_derive_data()` + `group_by()` + `summarise()` |
@@ -636,3 +636,5 @@ xnew_data(data, temperature) |>
 See `?predict.mb_analysis`, `?mcmc_derive.mb_analysis`,
 `?mcmc_derive_data.mb_analysis`, and `?mcmcr::combine_samples` for full
 argument documentation.
+
+

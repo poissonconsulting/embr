@@ -195,6 +195,8 @@ analyses <- analyse(model, list(dataset1 = data1, dataset2 = data2))
 }
 \seealso{
 \itemize{
+\item The \href{https://poissonconsulting.github.io/embr/articles/analyse.html}{analyse article}
+for a walkthrough of the fitting workflow.
 \item \code{\link[=model]{model()}} to build a model.
 \item \code{\link[=analyse.mb_models]{analyse.mb_models()}} to fit a list of models simultaneously.
 \item \code{\link[=analyse.character]{analyse.character()}} to fit from raw model code.

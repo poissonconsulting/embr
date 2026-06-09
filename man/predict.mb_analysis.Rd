@@ -2,7 +2,7 @@
 % Please edit documentation in R/predict.R
 \name{predict.mb_analysis}
 \alias{predict.mb_analysis}
-\title{Predict from a Bayesian Model}
+\title{Predict from a \code{mb_analysis} object}
 \usage{
 \method{predict}{mb_analysis}(
   object,
@@ -71,133 +71,44 @@ covariate grids with \code{newdata::xnew_data()} and related helpers
 (default \code{"prediction"}). Pass \code{new_data = character(0)} to extract a scalar
 quantity.
 }
-\section{Reference data and effect sizes}{
-
-Pass a 1-row data frame to \code{ref_data} to summarise each prediction
-relative to that reference state. \code{ref_data = TRUE} uses \code{data_set(object)}
-reduced to a single reference row. The default
-\code{ref_fun2 = proportional_change2} returns \code{(new - ref) / ref}; supply a
-custom function, e.g. for absolute difference (\code{function(x) x[2] - x[1]}), log
-ratio, etc.
-}
-
-\section{Random-effect zeroing}{
-
-\code{random_effects} controls whether random effects are collapsed to the
-population level:
-\itemize{
-\item \code{NULL} (default): collapse each random effect whose factor is at first level in \code{new_data} (i.e. omitted from \code{xnew_data()}), giving the
-population-level prediction for that factor.
-\item \code{FALSE}: keep all random-effect samples; the prediction is specific to
-whatever level appears in \code{new_data}.
-\item Named list of \verb{z_b*} parameters and their factors: only the listed
-parameters are eligible for collapsing.
-}
-}
-
 \examples{
 \dontrun{
 library(newdata)
-
-# Minimal example model with continuous fixed effect and categorical fixed and random effects. `new_expr`
-# defines prediction[i], fit[i], and scalar eBaseCount.
-model <- model(
-  code = stan_code,
-  new_expr = {
-    bSite <- z_bSite * sSite
-    bSiteAnnual <- z_bSiteAnnual * sSiteAnnual
-    bTreatment <- c(0, bTreatment_dev)
-    eBaseCount <- exp(bIntercept)
-    for (i in 1:nObs) {
-      log(eCount[i]) <- bIntercept +
-        bTreatment[treatment[i]] +
-        bTemp * temperature[i] +
-        bSite[site[i]] +
-        bSiteAnnual[site[i], annual[i]]
-      prediction[i] <- eCount[i]
-      fit[i] <- log(eCount[i])
-    }
-  },
-  new_expr_vec = TRUE,
-  random_effects = list(
-    z_bSite = "site",
-    z_bSiteAnnual = c("site", "annual")
-  )
-)
-analysis <- analyse(model, data)
 data <- data_set(analysis)
 
-# --- xnew_data covariate grids ----------------------------------------------------
-# Continuous covariate; other covariates held at reference values
+# Predict over a continuous covariate; other covariates held at reference values
 xnew_data(data, temperature) |>
   predict(analysis, new_data = _)
 
-# Specific sequence of values
+# Set custom sequence for continuous covariate
 xnew_data(data, xnew_seq(temperature, length_out = 5)) |>
   predict(analysis, new_data = _)
 
-# All factor levels and hold continuous covariate at specific value
-xnew_data(data, site, temperature = 1.5) |>
+# Predict for all factor levels and set specific continuous reference value
+xnew_data(data, site, temperature = 5) |>
   predict(analysis, new_data = _)
 
-# Specify specific factor levels
-xnew_data(
-  data,
-  xcast(site = "a", treatment = "high")
-) |>
+# Predict only for observed combinations of factor levels
+xnew_data(data, xobs_only(site, annual)) |>
   predict(analysis, new_data = _)
 
-# --- Term selection -----------------------------------------------------
-# Get 'fit' term instead of default 'prediction'
-xnew_data(data, treatment) |>
-  predict(analysis, new_data = _, term = "fit")
-
-# Get scalar derived quantity from new_expr
-predict(analysis, new_data = character(0), term = "eBaseCount")
-
-# --- Override new_expr --------------------------------------------------
-# Substitute new_expr and inject a scalar constant (e.g. area correction)
-predict(
-  analysis,
-  new_data = xnew_data(data, site),
-  new_expr = "
-    bSite <- z_bSite * sSite
-    for (i in 1:length(site)) {
-      prediction[i] <- exp(bIntercept + bSite[site[i]]) * area_correction
-    }
-  ",
-  new_values = list(area_correction = 10)
-)
-
-# --- Reference data and effect sizes ------------------------------------
-# Default ref_fun2 = proportional_change2: (new - ref) / ref
-# Shows proportional change relative to 1-row reference data ('high' treatment).
+# Proportional change relative to a 1-row reference state
 ref <- xnew_data(data, xcast(treatment = "high"))
 xnew_data(data, treatment) |>
   predict(analysis, new_data = _, ref_data = ref)
 
-# Custom ref_fun2: absolute difference
-xnew_data(data, treatment) |>
-  predict(
-    analysis,
-    new_data = _,
-    ref_data = ref,
-    ref_fun2 = function(x) x[2] - x[1]
-  )
-
-# --- Random-effect zeroing ----------------------------------------------
-# NULL (default), site omitted: site and annual both at level 1, so both
-# z_bSite and z_bSiteAnnual are zeroed for population-level prediction
-xnew_data(data, temperature) |>
-  predict(analysis, new_data = _)
-
-# FALSE: all zeroing skipped, both z_bSite and z_bSiteAnnual kept and predicted at first level
+# Predict for first level of random effect levels rather than 'typical'
 xnew_data(data, temperature) |>
   predict(analysis, new_data = _, random_effects = FALSE)
+
+# Extract a scalar derived quantity from new_expr
+predict(analysis, new_data = character(0), term = "eBaseCount")
 }
 }
 \seealso{
 \itemize{
+\item The \href{https://poissonconsulting.github.io/embr/articles/prediction.html}{prediction article}
+for detailed examples of prediction patterns.
 \item \code{\link[=predict.mb_analyses]{predict.mb_analyses()}} for predictions on meta-analysis object.
 \item \code{\link[=mcmc_derive_data.mb_analysis]{mcmc_derive_data.mb_analysis()}} for raw MCMC samples paired with
 \code{new_data}, regex term matching, and group-level summaries via

@@ -83,6 +83,8 @@
 #' `mb_meta_analysis` if `data` is a named list of data frames.
 #'
 #' @seealso
+#' * The [analyse article](https://poissonconsulting.github.io/embr/articles/analyse.html)
+#'   for a walkthrough of the fitting workflow.
 #' * [model()] to build a model.
 #' * [analyse.mb_models()] to fit a list of models simultaneously.
 #' * [analyse.character()] to fit from raw model code.

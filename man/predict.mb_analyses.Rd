@@ -2,7 +2,7 @@
 % Please edit documentation in R/predict.R
 \name{predict.mb_analyses}
 \alias{predict.mb_analyses}
-\title{Predict (IC-weighted Model Average)}
+\title{Predict from a \code{mb_analyses} object}
 \usage{
 \method{predict}{mb_analyses}(
   object,
@@ -51,15 +51,10 @@ If \code{FALSE}, no reference applied. If \code{TRUE}, the reference is a 1 row 
 \item{...}{Additional arguments.}
 }
 \value{
-A data frame with the same structure as \code{\link[=predict.mb_analysis]{predict.mb_analysis()}},
-with \code{estimate} as the IC-weighted average and \code{sd}, \code{zscore}, \code{lower},
-\code{upper}, and \code{pvalue} set to \code{NA}.
+A data frame with the same structure as \code{\link[=predict.mb_analysis]{predict.mb_analysis()}}.
 }
 \description{
-Returns IC-weighted model-averaged predictions across an \code{mb_analyses} list.
-Arguments are forwarded to \code{\link[=predict.mb_analysis]{predict.mb_analysis()}} for each model; results
-are combined using IC weights. Interval columns are \code{NA} in the averaged
-output.
+Get predictions from meta-anlysis \code{mb_analyses} object.
 }
 \seealso{
 \code{\link[=predict.mb_analysis]{predict.mb_analysis()}} for full argument documentation and
