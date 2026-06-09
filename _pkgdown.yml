@@ -6,5 +6,5 @@ articles:
   - title: Guides
     navbar: ~
     contents:
-    - analyse
-    - prediction
+    - articles/analyse
+    - articles/prediction
