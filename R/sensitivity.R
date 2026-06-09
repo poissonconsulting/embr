@@ -46,9 +46,9 @@ sensitivity.mb_analysis <- function(x, by = "term", param_type = "all",
       "parameter", "term", "prior", "likelihood"
     ) |>
     dplyr::mutate(
+      dplyr::across(c("prior", "likelihood"), \(x) round(x, 3)),
       weak_prior = .data$prior < mb.prior_cjs,
-      strong_data = .data$likelihood >= mb.lik_cjs,
-      dplyr::across(c("prior", "likelihood"), \(x) round(x, 3))
+      strong_data = .data$likelihood >= mb.lik_cjs
     ) |>
     dplyr::arrange(.data$term)
 

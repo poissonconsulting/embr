@@ -140,7 +140,7 @@
       # A tibble: 10 x 6
          parameter term      prior likelihood weak_prior strong_data
          <chr>     <term>    <dbl>      <dbl> <lgl>      <lgl>      
-       1 bYear     bYear[1]  0.003      0.05  TRUE       FALSE      
+       1 bYear     bYear[1]  0.003      0.05  TRUE       TRUE       
        2 bYear     bYear[2]  0.002      0.037 TRUE       FALSE      
        3 bYear     bYear[3]  0.003      0.046 TRUE       FALSE      
        4 bYear     bYear[4]  0.002      0.044 TRUE       FALSE      
@@ -185,8 +185,8 @@
         parameter nterms prior likelihood weak_prior strong_data
         <chr>      <int> <dbl>      <dbl> <lgl>      <lgl>      
       1 bSpecies       2 0.003      0.045 TRUE       FALSE      
-      2 bYear          7 0.003      0.037 TRUE       FALSE      
-      3 bYear          3 0.003      0.051 TRUE       TRUE       
+      2 bYear          6 0.003      0.037 TRUE       FALSE      
+      3 bYear          4 0.003      0.05  TRUE       TRUE       
       4 sMass          1 0.001      0.118 TRUE       TRUE       
       5 sYear          1 0.014      0.039 TRUE       FALSE      
 
