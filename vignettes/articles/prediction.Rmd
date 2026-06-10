@@ -27,9 +27,9 @@ with point estimates and compatibility limits. This vignette covers:
 * [Reference data and effect sizes](#reference-data-and-effect-sizes), e.g., for proportional change.
 * [Predicting for an unobserved level](#predicting-for-an-unobserved-level) to include amongst-level variation.
 * [Overriding `new_expr` and injecting constants](#overriding-new_expr-and-injecting-constants) for ad-hoc derived quantities.
-* [Group-level summaries with `mcmc_derive_data()`](#group-level-summaries-with-mcmc_derive_data) for per-group summaries.
+* [Group-level summaries with `mcmc_derive_data()`](#group-level-summaries-with-mcmc_derive_data).
 * [Combining across analyses with `combine_samples()`](#combining-across-analyses-with-combine_samples) for joining and summarising samples from independent fits.
-* [Scalar derived quantities with `mcmc_derive()`](#scalar-derived-quantities-with-mcmc_derive) and arithmetic on `mcmcr` posteriors.
+* [Scalar derived quantities with `mcmc_derive()`](#scalar-derived-quantities-with-mcmc_derive) and arithmetic on raw `mcmcr` posteriors.
 * [Random-effect zeroing](#random-effect-zeroing) control.
 * [Cheat sheet](#cheat-sheet) mapping common goals to tools.
 
@@ -217,7 +217,7 @@ coef(analysis, include_constant = FALSE, simplify = TRUE) |>
 ## Default prediction
 
 With no `new_data`, `predict()` returns predicted values for every row of the
-analysis dataset:
+analysis dataset. This is pulled from the `prediction[i]` line in `new_expr`:
 
 ```{r default-predict}
 predict(analysis) |> head()
@@ -225,11 +225,10 @@ predict(analysis) |> head()
 
 ## Covariate grids with the `newdata` helpers
 
-Covariates not specified in `xnew_data()` are held at a reference value:
-mean for continuous, first level for factors.
+Covariate grids can be generated with `newdata::xnew_data()`. Covariates not specified in `xnew_data()` are held at a reference value: mean for continuous, first level for factors.
 
 ### Continuous covariate
-By default, specifying the name of a continuous covariate will generate a sequence from min to max with length 30.
+By default, specifying the name of a continuous covariate will generate a sequence from min to max, with length 30. Notice factors (e.g., site) are held at the first level. 
 
 ```{r grid-temperature}
 temp_data <- xnew_data(data, temperature)
@@ -256,10 +255,11 @@ xnew_data(data, temperature = 10) |>
   predict(analysis, new_data = _)
 ```
 
-Note that any required transformations due to centering or scaling are automatically handled by `predict()`.
+Note that any rescaling transformations are automatically handled by `predict()`.
 
 ### Single factor
 
+Generate a row for each level of site. Notice that temperature is held at mean value. 
 ```{r grid-site}
 pred_site <- xnew_data(data, site) |>
   predict(analysis, new_data = _)
@@ -298,6 +298,7 @@ design.
 
 ### Casting specific factor levels with `xcast()`
 
+To get specific values of factors, use `xcast()`. 
 ```{r grid-xcast}
 xnew_data(
   data,
@@ -306,6 +307,8 @@ xnew_data(
 ) |>
   predict(analysis, new_data = _)
 ```
+
+`xnew_data(site = "a")` will fail. 
 
 ## Scalar quantities from `new_expr`
 
@@ -316,10 +319,6 @@ Pass `new_data = character(0)` to extract a scalar quantity defined in
 predict(analysis, new_data = character(0), term = "eBaseCount")
 predict(analysis, new_data = character(0), term = "eRestoredEffect")
 ```
-
-`eBaseCount` is the expected count at reference temperature and the control
-treatment, on the population level. `eRestoredEffect` is the multiplicative
-effect of the restoration treatment.
 
 ## Random-effect zeroing
 
@@ -341,7 +340,7 @@ xnew_data(data, temperature) |>
 
 ### `random_effects = FALSE`
 
-If `random_effects = FALSE`, all zeroing is skipped and predictions are made for the first level of the factor (e.g., for `site` level 1 and `annual` level 1).
+If `random_effects = FALSE`, zeroing is skipped and predictions are made for the first level of the factor (e.g., for `site` level 1 and `annual` level 1).
 
 ```{r re-false}
 xnew_data(data, temperature) |>
@@ -351,7 +350,7 @@ xnew_data(data, temperature) |>
 
 ### Named list: zero a subset of random effects
 
-Passing a named list will also override the `random_effects`. 
+Passing a named list will override the `random_effects` defined in `model()` for more customised behaviour. 
 
 ```{r re-named}
 xnew_data(data, temperature) |>
@@ -365,12 +364,10 @@ xnew_data(data, temperature) |>
 
 ## Reference data and effect sizes
 
-When `ref_data` is a 1-row data frame, `predict()` computes
-`ref_fun2(c(ref_draw, new_draw))` per MCMC iteration, where each element is
-the scalar posterior draw at the reference row and the `new_data` row
+`ref_data` must be a flag or a data.frame with one row. When `ref_data` is a one-row data frame, `predict()` computes `ref_fun2(c(ref_draw, new_draw))` per MCMC iteration, where each element is the scalar posterior draw at the reference row and the `new_data` row
 respectively. The returned summary describes the posterior of the
 *transformed* quantity, not of the raw prediction. The default `ref_fun2`
-is `proportional_change2` from the `extras` package (`(new - ref) / ref`).
+is `proportional_change2` from the `extras` package (`(new - ref) / ref`), which gives the proportional change of each row in `new_data` with the `ref_data`. When `ref_data` is `TRUE`, a one-row data.frame is automatically generated with all variables held at reference value. 
 
 ### Proportional change vs control
 
@@ -388,14 +385,14 @@ plot_pointrange(pred_prop, treatment) +
   labs(y = "Change vs control", x = "Treatment")
 ```
 
-The control row sits at exactly 0% by construction. The restored row gives
+The control row sits at exactly 0%. The restored row gives
 the proportional change in expected count.
 
-### Custom `ref_fun2`: absolute difference
+### Custom `ref_fun2`: e.g., absolute difference
 
 Pass any function whose first argument takes a vector of two numbers and
 returns a scalar to summarise a different transformation of the two
-posteriors. Absolute difference reports the effect on the count scale
+posteriors. For example, absolute difference reports the effect on the count scale
 (restored minus control) rather than as a percentage:
 
 ```{r ref-diff}
@@ -410,7 +407,7 @@ xnew_data(data, treatment) |>
 
 ## Predicting for an unobserved level
 
-Zeroing a random effect gives the prediction for the *typical* or *average* group level, e.g., expected count for an average site, with amongst-site variability collapsed away. To predict for a *new* level that wasn't in the data with appropriate uncertainty, draw a fresh random effect from its population distribution. The model's `new_expr` already defines an `unobserved` term to do this:
+Zeroing a random effect gives the prediction for the *typical* or *average* group level, e.g., expected count for an average site, with amongst-site variability removed. However, for a *new*, *unobserved* level the uncertainty should be wider to account for amonst-level variation. This is done by drawing a new random effect from its population distribution, which typically will incorporate mean 0 (for random effects centred at 0) and the SD of the random effect, which is estimated. The model's `new_expr` already defines an `unobserved` term to do this:
 
 ```r
 unobserved[i] <- exp(bIntercept +
@@ -419,10 +416,6 @@ unobserved[i] <- exp(bIntercept +
   rnorm(1, 0, sSite) +
   rnorm(1, 0, sSiteAnnual))
 ```
-
-Each MCMC iteration draws fresh site and site×annual deviations from the
-posterior of `sSite` and `sSiteAnnual`, propagating amongst-site
-uncertainty into the prediction.
 
 Setting `term = "unobserved"` tells `predict()` to summarise this named
 quantity from `new_expr` instead of the default `"prediction"`. Compare the
@@ -448,7 +441,7 @@ bind_rows(typical, unobserved) |>
   labs(y = "Expected count", x = "Treatment", colour = NULL)
 ```
 
-Compatibility limits are wider for `unobserved site` as the interval now
+Compatibility limits are appropriately wider for `unobserved site` as the interval now
 reflects amongst-site variation in addition to parameter uncertainty.
 
 ## Overriding `new_expr` and injecting constants
@@ -524,7 +517,7 @@ joins two `mcmc_data` objects on shared data columns and applies a function
 to align MCMC draws row-by-row. Its natural use is composing quantities
 derived from *independent* analyses: for example, multiplying an abundance
 posterior by a mass-per-fish posterior to get biomass, where each component
-was fitted from a different dataset.
+was fitted from a different dataset. Note `mcmc_data` objects are generated from `mcmc_derive_data()`, which is useful for capturing posterior distributions (with associated data) without summarizing, as in `predict()`. 
 
 Assume a separate `mass_analysis` was fitted to size-measurement
 data (different observation model, same site factor), and both analyses
@@ -577,13 +570,11 @@ independently fitted models whose draws need joining.
 ## Scalar derived quantities with `mcmc_derive()`
 
 `mcmc_derive()` returns the raw MCMC samples for one or more scalar terms in
-`new_expr`. This is useful when you want to compute functions of parameters with
-full uncertainty propagation, without first summarising to a point estimate.
+`new_expr`. As with `mcmc_derive_data()`, this is useful when you want to compute posteriors without summarising to a point estimate and compatibility limits. 
 
 ### Pull related scalars by regex
 
-Both `eBaseCount` and `eRestoredEffect` are extracted in one call, sharing
-the same iteration ordering:
+Unlike `predict()`, the `term` argument in `mcmc_derive()` can accept a regular expression. For example, both `eBaseCount` and `eRestoredEffect` are extracted in one call:
 
 ```{r mcmc-derive-regex}
 scalars <- mcmc_derive(
@@ -595,6 +586,8 @@ scalars <- mcmc_derive(
 coef(scalars)
 ```
 
+`coef()` is run on the `mcmc_derive()` output to get point estimte with compatibility limits. 
+
 ### Arithmetic on `mcmcr` objects propagates uncertainty
 
 Multiplying `mcmcr` objects acts element-wise across MCMC iterations:
@@ -604,10 +597,6 @@ eExpectedRestored <- scalars$eBaseCount * scalars$eRestoredEffect
 class(eExpectedRestored)
 coef(eExpectedRestored)
 ```
-
-This is the absolute expected count at reference site and temperature under
-the restored treatment: the analytic posterior of a function of parameters,
-not a posterior over a per-row prediction grid.
 
 ## Cheat sheet
 
