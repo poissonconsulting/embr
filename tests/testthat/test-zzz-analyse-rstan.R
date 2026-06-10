@@ -2,6 +2,8 @@ test_that(
   "model pars for smbr2 and cmdstan engine",
   {
     skip_if_not_installed("smbr")
+    skip_if_not_installed("rstan")
+    skip_if_not_installed("BH")
 
     library(smbr)
     data <- embr::density99
