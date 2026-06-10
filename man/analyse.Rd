@@ -198,6 +198,8 @@ analyses <- analyse(model, list(dataset1 = data1, dataset2 = data2))
 \item The \href{https://poissonconsulting.github.io/embr/articles/analyse.html}{analyse article}
 for a walkthrough of the fitting workflow.
 \item \code{\link[=model]{model()}} to build a model.
+\item \code{\link[=set_analysis_mode]{set_analysis_mode()}} to set session-wide sampling defaults (e.g.,
+\code{"quick"} for iteration, \code{"report"} for final fits).
 \item \code{\link[=analyse.mb_models]{analyse.mb_models()}} to fit a list of models simultaneously.
 \item \code{\link[=analyse.character]{analyse.character()}} to fit from raw model code.
 \item \code{\link[=predict.mb_analysis]{predict.mb_analysis()}} and \code{\link[=coef.mb_analysis]{coef.mb_analysis()}} to summarise an

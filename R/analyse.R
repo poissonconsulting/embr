@@ -86,6 +86,8 @@
 #' * The [analyse article](https://poissonconsulting.github.io/embr/articles/analyse.html)
 #'   for a walkthrough of the fitting workflow.
 #' * [model()] to build a model.
+#' * [set_analysis_mode()] to set session-wide sampling defaults (e.g.,
+#'   `"quick"` for iteration, `"report"` for final fits).
 #' * [analyse.mb_models()] to fit a list of models simultaneously.
 #' * [analyse.character()] to fit from raw model code.
 #' * [predict.mb_analysis()] and [coef.mb_analysis()] to summarise an

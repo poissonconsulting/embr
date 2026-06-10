@@ -28,34 +28,63 @@ update_model(
 
 \item{code}{A string of the model template or an object inheriting from class mb_code.}
 
-\item{gen_inits}{A single argument function taking the modified data and
-returning a named list of initial values.}
+\item{gen_inits}{A single-argument function returning a named list of
+initial values per chain. Receives the modified data list (i.e. after
+\code{select_data}, rescaling, type coercion, factor-count and \code{nObs}
+injection, and \code{modify_data}). Returning \code{list()} lets the backend fall
+back to its own defaults (JAGS samples from priors; Stan uses its
+random init). Non-MCMC \verb{cmdstan-*} engines ignore it. For tmb models
+\code{gen_inits} must specify all the fixed parameters; missing random
+parameters are assigned 0.}
 
-\item{random_effects}{A named list specifying the random effects and the associated factors.}
+\item{random_effects}{Named list mapping parameter names in the model
+code to one or more grouping factor columns from \code{select_data}. A
+length-1 character vector specifies a one-way effect; a length-2 vector
+specifies a crossed effect that is matrix-indexed in the model code (do
+not pre-build an interaction column). Each named factor must appear in
+\code{select_data} and must not also be in \code{derived}. Names in
+\code{random_effects} are added to the monitor set on top of \code{fixed}.}
 
-\item{fixed}{A string of a regular expression specifying the fixed pars to monitor.}
+\item{fixed}{Perl regex of parameter names to monitor as fixed effects.
+Defaults to \code{getOption("mb.fixed", "^[^e]")}.}
 
-\item{derived}{A character vector of the derived pars to monitor.}
+\item{derived}{Character vector of additional parameter names to monitor
+beyond those captured by \code{fixed} and \code{random_effects}. Cannot overlap
+with \code{select_data} column names or \code{random_effects} names.}
 
-\item{select_data}{A named list specifying the columns to select and their associated classes and values as well as transformations and scaling options.}
+\item{select_data}{Named list specifying the columns to select and how to
+transform them. See the \strong{select_data} section of \code{\link[=model]{model()}}.}
 
 \item{center}{A character vector of the columns to center.}
 
 \item{scale}{A character vector of the columns to scale (after centering).}
 
-\item{modify_data}{A single argument function to modify the data (in list form) immediately prior to the analysis.}
+\item{modify_data}{Single-argument function applied to the modified data
+\strong{list} (not a data frame) immediately before the analysis. Use for
+restructuring not expressible via \code{select_data}, e.g. reshaping
+multi-pass columns into a matrix or adding derived counts (\code{nPass},
+\code{nStage}). Must return a list. Default is \code{identity}.}
 
-\item{nthin}{A count specifying the thinning interval.}
+\item{nthin}{Count of the thinning interval baked into the model.
+Defaults from \code{getOption("mb.nthin", 1L)}; overridable from \code{\link[=analyse]{analyse()}}.}
 
-\item{new_expr}{A string of R code specifying the predictive relationships.}
+\item{new_expr}{An R expression or character string of R code defining
+the predictive relationships and derived terms. See the \strong{new_expr}
+section of \code{\link[=model]{model()}}.}
 
-\item{new_expr_vec}{A flag specifying whether to vectorize the new_expr code.}
+\item{new_expr_vec}{Flag controlling whether to vectorise the \code{new_expr}
+code via \code{\link[mcmcderive:expression_vectorize]{mcmcderive::expression_vectorize()}}. See the \strong{new_expr}
+section of \code{\link[=model]{model()}} for safe patterns and silent fallbacks.}
 
-\item{modify_new_data}{A single argument function to modify new data (in list form) immediately prior to calculating new_expr.}
+\item{modify_new_data}{Single-argument function applied to new data (in
+list form) immediately before \code{new_expr} is evaluated. Lets prediction
+datasets undergo the structural reshaping that \code{modify_data} applies to
+the analysis data.}
 
-\item{drops}{A list of character vector of possible scalar pars to drop (fix at 0).}
+\item{drops}{List of character vectors naming scalar parameters to fix at
+0 in the model.}
 
-\item{...}{Unused arguments.}
+\item{...}{These dots are for future extensions and must be empty.}
 }
 \value{
 An object inheriting from class mb_model.

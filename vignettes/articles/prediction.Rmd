@@ -24,13 +24,13 @@ with point estimates and compatibility limits. This vignette covers:
 
 * [Covariate grids](#covariate-grids-with-the-newdata-helpers) built with the `newdata` helpers.
 * [Scalar quantities from `new_expr`](#scalar-quantities-from-new_expr).
-* [Reference data and effect sizes](#reference-data-and-effect-sizes) for proportional and absolute effects.
-* [Predicting for an unobserved site](#predicting-for-an-unobserved-site) to include amongst-level variation.
+* [Reference data and effect sizes](#reference-data-and-effect-sizes), e.g., for proportional change.
+* [Predicting for an unobserved level](#predicting-for-an-unobserved-level) to include amongst-level variation.
 * [Overriding `new_expr` and injecting constants](#overriding-new_expr-and-injecting-constants) for ad-hoc derived quantities.
-* [Group-level summaries with `mcmc_derive_data()`](#group-level-summaries-with-mcmc_derive_data) for per-group aggregates.
-* [Combining across analyses with `combine_samples()`](#combining-across-analyses-with-combine_samples) for joining samples from independent fits.
+* [Group-level summaries with `mcmc_derive_data()`](#group-level-summaries-with-mcmc_derive_data) for per-group summaries.
+* [Combining across analyses with `combine_samples()`](#combining-across-analyses-with-combine_samples) for joining and summarising samples from independent fits.
 * [Scalar derived quantities with `mcmc_derive()`](#scalar-derived-quantities-with-mcmc_derive) and arithmetic on `mcmcr` posteriors.
-* [Random-effect zeroing](#random-effect-zeroing) for controlling which `z_b*` parameters collapse to the population level.
+* [Random-effect zeroing](#random-effect-zeroing) control.
 * [Cheat sheet](#cheat-sheet) mapping common goals to tools.
 
 ```{r libraries, message = FALSE}
@@ -59,7 +59,7 @@ plot_ribbon <- function(df, x) {
 ```
 
 ## Setup: fit demo model
-A simple demo fish count model is fit with Stan (via cmdstanr and smbr2). The simulated data has 5 sites × 5 years × 2 treatments, with an unbalanced design (i.e., not all sites have all years with data). 
+A simple example fish count model is fit with Stan (via cmdstanr and smbr2). The simulated data has 5 sites × 5 years × 2 treatments, with an unbalanced design (i.e., not all sites have all years with data). 
 
 ```{r simulate, include = FALSE}
 sites <- letters[1:5]
@@ -321,6 +321,46 @@ predict(analysis, new_data = character(0), term = "eRestoredEffect")
 treatment (population-level). `eRestoredEffect` is the multiplicative effect
 of the restoration treatment.
 
+## Random-effect zeroing
+
+By default (`random_effects = NULL`), when the value of a factor column in new_data is set at the first level and that factor is defined as a random effect in the model (via `random_effects` argument in `model()`), predictions will be made for the 'typical' (or 'average') group by setting the random effect to 0 (e.g., z_bSite set to 0). 
+
+### Default behaviour
+
+For example, `xnew_data(data, temperature)` leaves both `site` and `annual` at level 1,
+so both `z_bSite` and `z_bSiteAnnual` are zeroed, giving the population-level
+prediction:
+
+```{r re-default}
+xnew_data(data, temperature) |>
+  predict(analysis, new_data = _) |>
+  head(3)
+```
+
+### `random_effects = FALSE`
+
+If `random_effects = FALSE`, all zeroing is skipped and predictions are made for the first level of the factor (e..g, for `site` level 1 and `annual` level 1 literally).
+
+```{r re-false}
+xnew_data(data, temperature) |>
+  predict(analysis, new_data = _, random_effects = FALSE) |>
+  head(3)
+```
+
+### Named list: zero a subset of random effects
+
+Passing a named list will also override the `random_effects`. 
+
+```{r re-named}
+xnew_data(data, temperature) |>
+  predict(
+    analysis,
+    new_data = _,
+    random_effects = list(z_bSite = "site")
+  ) |>
+  head(3)
+```
+
 ## Reference data and effect sizes
 
 When `ref_data` is a 1-row data frame, `predict()` computes
@@ -353,8 +393,7 @@ the proportional change in expected count.
 Pass any two-argument function `f(x)` (where `x` is the vector
 `c(ref_iter, new_iter)`) to summarise a different transformation of the
 two posteriors. Absolute difference reports the effect on the count scale
-(restored minus control) rather than as a percentage, which is often easier
-to interpret directly:
+(restored minus control) rather than as a percentage:
 
 ```{r ref-diff}
 xnew_data(data, treatment) |>
@@ -366,11 +405,9 @@ xnew_data(data, treatment) |>
   )
 ```
 
-## Predicting for an unobserved site
+## Predicting for an unobserved level
 
-Zeroing a random effect (the default for the omitted-factor case below)
-gives the prediction for the *typical* or *average* group, e.g., expected count for an average site, with amongst-site variability collapsed away. To predict
-for a *new* site that wasn't in the data with appropriate uncertainty, draw a fresh random effect from its population distribution. The model's `new_expr` already defines an `unobserved` term to do this:
+Zeroing a random effect gives the prediction for the *typical* or *average* group level, e.g., expected count for an average site, with amongst-site variability collapsed away. To predict for a *new* level that wasn't in the data with appropriate uncertainty, draw a fresh random effect from its population distribution. The model's `new_expr` already defines an `unobserved` term to do this:
 
 ```r
 unobserved[i] <- exp(bIntercept +
@@ -408,7 +445,7 @@ bind_rows(typical, unobserved) |>
   labs(y = "Expected count", x = "Treatment", colour = NULL)
 ```
 
-Compatibility limits are wider for `unobserved site`; the interval now
+Compatibility limits are wider for `unobserved site` as the interval now
 reflects amongst-site variation in addition to parameter uncertainty.
 
 ## Overriding `new_expr` and injecting constants
@@ -457,7 +494,7 @@ mcmc_derive_data(analysis, new_data = data, term = "^eCount$") |>
   coef()
 ```
 
-The default summary function is `sum`, which returns the posterior of *total* abundance per treatment across all rows. 
+The default summary function is `sum`, which returns the summary of *total* abundance per treatment across all rows. 
 
 ### Per-site mean abundance
 Provide a different summarise function, or define a custom one:
@@ -540,7 +577,7 @@ them.
 
 `mcmc_derive()` returns the raw MCMC samples for one or more scalar terms in
 `new_expr`. This is useful when you want to compute functions of parameters with
-full uncertainty propagation.
+full uncertainty propagation, i.e., without summarizing to estimate and CI.
 
 ### Pull related scalars by regex
 
@@ -563,59 +600,13 @@ Multiplying `mcmcr` objects acts element-wise across MCMC iterations:
 
 ```{r mcmc-derive-arithmetic}
 eExpectedRestored <- scalars$eBaseCount * scalars$eRestoredEffect
+class(eExpectedRestored)
 coef(eExpectedRestored)
 ```
 
 This is the absolute expected count at reference site and temperature under
 the restored treatment: the analytic posterior of a function of parameters,
 not a posterior over a per-row prediction grid.
-
-## Random-effect zeroing
-
-`random_effects` controls which `z_b*` parameters are eligible for
-collapsing to the population level. A `z_b*` parameter is zeroed when its
-associated factor in `new_data` is constant at level 1 (e.g. the factor
-was omitted from `xnew_data()`).
-
-### Default behaviour
-
-`xnew_data(data, temperature)` leaves both `site` and `annual` at level 1,
-so both `z_bSite` and `z_bSiteAnnual` are zeroed, giving the population-level
-prediction:
-
-```{r re-default}
-xnew_data(data, temperature) |>
-  predict(analysis, new_data = _) |>
-  head(3)
-```
-
-### `random_effects = FALSE`
-
-Skip all zeroing; the random effects are kept and `predict()` returns the
-estimate for `site` level 1 and `annual` level 1 literally rather than the
-population-level prediction:
-
-```{r re-false}
-xnew_data(data, temperature) |>
-  predict(analysis, new_data = _, random_effects = FALSE) |>
-  head(3)
-```
-
-### Named list: zero a subset of random effects
-
-Narrow the candidate list to `z_bSite` only. `z_bSiteAnnual` is now kept
-regardless, so the prediction uses level 1 of `annual` literally, while
-`z_bSite` is still zeroed (because `site` is constant at level 1):
-
-```{r re-named}
-xnew_data(data, temperature) |>
-  predict(
-    analysis,
-    new_data = _,
-    random_effects = list(z_bSite = "site")
-  ) |>
-  head(3)
-```
 
 ## Cheat sheet
 
