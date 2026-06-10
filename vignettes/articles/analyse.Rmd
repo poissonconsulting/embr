@@ -18,10 +18,9 @@ knitr::opts_chunk$set(
 set.seed(42)
 ```
 
-`analyse()` is embr's main entry point for fitting a Bayesian hierarchical
+`analyse()` is used to fit a Bayesian hierarchical
 model to data using Stan (via rstan or cmdstanr) or JAGS (via rjags). This
-guide walks through the primary `analyse.mb_model` method on a simple example
-fish count model, then briefly covers the two convenience methods
+guide walks through the primary `analyse.mb_model` method on an example model, then briefly covers the two convenience methods
 `analyse.mb_models` (for fitting a list of models) and `analyse.character`
 (for fitting from a raw code string).
 
@@ -192,7 +191,7 @@ A few notes on the `model()` arguments:
 - `code`: the Stan model code.
 - `new_expr`: an R expression evaluated post-fitting against MCMC draws. It
   defines `prediction[i]` (used by `predict()`), `fit[i]` (used by
-  `fitted()` and for residuals), and `log_lik[i]` (used by IC and
+  `fitted()` and for residuals), and `log_lik[i]` (used by model comparison and
   prior-sensitivity tools). The scale of `fit[i]` is model-specific; define
   it to match what your `res_*` and `log_lik_*` helpers expect. Scalar
   derived quantities such as `eBaseCount` and `eRestoredEffect` can be
@@ -213,7 +212,7 @@ A few notes on the `model()` arguments:
 
   `*` is the default choice for continuous covariates. 
 - `random_effects`: tells embr which factors each random-effect parameter
-  is indexed by. `predict()` uses this to decide when to zero `z_b*`
+  is indexed by. `predict()` uses this to decide when to zero
   parameters (see the prediction article).
 
 ## Fitting with `analyse.mb_model`
@@ -265,8 +264,6 @@ The following arguments cover most typical use of `analyse.mb_model`:
 | `beep` | Beep on completion (helpful for long fits). |
 
 Stan-only options (`niters_warmup`, `seed`) are ignored by JAGS models.
-
-### How `niters`, `niters_warmup`, and `nthin` combine
 
 `niters` is the number of saved samples per chain *after* thinning, not
 the total iterations run. Per chain:
