@@ -1,5 +1,6 @@
 <urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
 <url><loc>https://poissonconsulting.github.io/embr/404.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/embr/CLAUDE.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/CODE_OF_CONDUCT.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/CONTRIBUTING.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/LICENSE-text.html</loc></url>
@@ -13,6 +14,7 @@
 <url><loc>https://poissonconsulting.github.io/embr/reference/R2.mb_analysis.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/add_analyses.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/add_models.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/embr/reference/add_sensitivity.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/analyse.character.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/analyse.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/analyse.mb_model.html</loc></url>
@@ -111,7 +113,6 @@
 <url><loc>https://poissonconsulting.github.io/embr/reference/sd_priors_by.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/select_rescale_data.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/sensitivity.html</loc></url>
-<url><loc>https://poissonconsulting.github.io/embr/reference/sensitivity.mb_analysis.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/set_analysis_mode.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/simulate_residuals.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/sort_by_ic.html</loc></url>

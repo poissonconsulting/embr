@@ -5,7 +5,14 @@ Summarize model sensitivity
 ## Usage
 
 ``` r
-sensitivity(x, by = "term", ...)
+sensitivity(
+  x,
+  by = "term",
+  param_type = "all",
+  mb.prior_cjs = getOption("mb.prior_cjs", 0.1),
+  mb.lik_cjs = getOption("mb.lik_cjs", 0.05),
+  ...
+)
 ```
 
 ## Arguments
@@ -19,11 +26,24 @@ sensitivity(x, by = "term", ...)
   A string indicating whether to determine by "term", "parameter", or
   "all".
 
+- param_type:
+
+  A string specifying which parameters to include: 'fixed', 'random',
+  'derived', 'primary', or 'all'.
+
+- mb.prior_cjs:
+
+  A number specifying the CJS threshold for weak prior classification.
+
+- mb.lik_cjs:
+
+  A number specifying the CJS threshold for strong data classification.
+
 - ...:
 
-  Additional arguments passed to
-  [`priorsense::powerscale_sensitivity()`](https://n-kall.github.io/priorsense/reference/powerscale-sensitivity.html).
+  Arguments passed to
+  [`add_sensitivity()`](https://poissonconsulting.github.io/embr/reference/add_sensitivity.md).
 
 ## Value
 
-A dataframe summarizing the sensitivity of the analysis object.
+A tibble summarizing the sensitivity of the analysis object.

@@ -12,6 +12,8 @@
   : Add analyses
 - [`add_models()`](https://poissonconsulting.github.io/embr/reference/add_models.md)
   : Add model(s)
+- [`add_sensitivity()`](https://poissonconsulting.github.io/embr/reference/add_sensitivity.md)
+  : Add sensitivity data frame to an analysis object
 - [`analyse()`](https://poissonconsulting.github.io/embr/reference/analyse.md)
   : Analyse Models
 - [`analyse(`*`<character>`*`)`](https://poissonconsulting.github.io/embr/reference/analyse.character.md)
@@ -203,8 +205,6 @@
 - [`select_rescale_data()`](https://poissonconsulting.github.io/embr/reference/select_rescale_data.md)
   : Select and Rescale Data
 - [`sensitivity()`](https://poissonconsulting.github.io/embr/reference/sensitivity.md)
-  : Summarize model sensitivity
-- [`sensitivity(`*`<mb_analysis>`*`)`](https://poissonconsulting.github.io/embr/reference/sensitivity.mb_analysis.md)
   : Summarize model sensitivity
 - [`set_analysis_mode()`](https://poissonconsulting.github.io/embr/reference/set_analysis_mode.md)
   : Set Analysis Mode
