@@ -82,9 +82,8 @@ code via \code{\link[mcmcderive:expression_vectorize]{mcmcderive::expression_vec
 section of \code{\link[=model]{model()}} for safe patterns and silent fallbacks.}
 
 \item{modify_new_data}{Single-argument function applied to new data (in
-list form) immediately before \code{new_expr} is evaluated. Lets prediction
-datasets undergo the structural reshaping that \code{modify_data} applies to
-the analysis data.}
+list form) immediately before \code{new_expr} is evaluated. Counterpart to
+\code{modify_data} applied to new data passed to \code{predict()} and friends.}
 
 \item{drops}{List of character vectors naming scalar parameters to fix at
 0 in the model.}
@@ -93,11 +92,9 @@ the analysis data.}
 An object inheriting from class \code{"mb_model"}.
 }
 \description{
-Captures the model code together with the data specification, monitoring
-rules, and post-fitting expressions needed to fit and summarise a Bayesian
-hierarchical model. The returned \code{mb_model} is consumed by \code{\link[=analyse]{analyse()}} and
-downstream by \code{\link[=predict.mb_analysis]{predict.mb_analysis()}}, \code{\link[=mcmc_derive_data]{mcmc_derive_data()}}, and related
-helpers; nothing in \code{model()} runs MCMC.
+Captures the model code with its data, monitoring, and post-fitting
+specification. The returned \code{mb_model} is consumed by \code{\link[=analyse]{analyse()}} and
+downstream by \code{\link[=predict.mb_analysis]{predict.mb_analysis()}} and \code{\link[=mcmc_derive_data]{mcmc_derive_data()}}.
 }
 \details{
 The data passed to \code{\link[=analyse]{analyse()}} is transformed through a fixed pipeline
@@ -109,9 +106,10 @@ list. \code{gen_inits} is then invoked against this same modified list, once
 per chain, to seed initial values.
 
 The monitored parameter set is the union of: names matching the \code{fixed}
-regex, the names of \code{random_effects}, and \code{derived}. The default \code{fixed = "^[^e]"} matches the JAGS convention (everything not starting with \code{e}).
-Stan models with non-centred random effects typically set
-\code{fixed = "^(b|s)"} so that the raw \verb{z_b*} parameters are not monitored.
+regex, the names of \code{random_effects}, and \code{derived}. The default
+\code{fixed = "^[^e]"} matches everything not starting with \code{e}. Stan models
+with non-centred random effects typically set \code{fixed = "^(b|s)"} so that
+the raw \verb{z_b*} parameters are not monitored.
 
 Non-MCMC \verb{cmdstan-*} engines (pathfinder, variational, optimize, laplace)
 ignore \code{gen_inits}; see \code{\link[=analyse]{analyse()}} for engine-specific behaviour.
@@ -147,8 +145,8 @@ a deprecation warning; prefer \code{select_data} suffixes.
 
 An R expression (e.g. \code{{ ... }}) or a character string of R code that is
 evaluated post-fitting against the MCMC draws. It has access to the
-sampled parameters, the modified data list, and the helper functions
-exported by \code{extras}. The expression typically defines the named terms
+sampled parameters, the modified data list, and \code{extras} helpers such as
+\verb{log_lik_*} and \verb{res_*}. The expression typically defines the named terms
 used by downstream tooling:
 \itemize{
 \item \code{prediction[i]} for \code{\link[=predict.mb_analysis]{predict.mb_analysis()}}

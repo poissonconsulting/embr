@@ -23,7 +23,7 @@
 \arguments{
 \item{object}{An object inheriting from class mb_analysis.}
 
-\item{new_data}{A data frame to calculate the predictions for.
+\item{new_data}{A data frame at which to derive the term.
 Pass \code{character(0)} to extract a scalar \code{term} from new_expr.}
 
 \item{new_expr}{An R expression (e.g. \code{{ ... }}) or a character string of R

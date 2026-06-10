@@ -318,12 +318,14 @@ predict(analysis, new_data = character(0), term = "eRestoredEffect")
 ```
 
 `eBaseCount` is the expected count at reference temperature and the control
-treatment (population-level). `eRestoredEffect` is the multiplicative effect
-of the restoration treatment.
+treatment, on the population level. `eRestoredEffect` is the multiplicative
+effect of the restoration treatment.
 
 ## Random-effect zeroing
 
-By default (`random_effects = NULL`), when the value of a factor column in new_data is set at the first level and that factor is defined as a random effect in the model (via `random_effects` argument in `model()`), predictions will be made for the 'typical' (or 'average') group by setting the random effect to 0 (e.g., z_bSite set to 0). 
+By default (`random_effects = NULL`), a random-effect parameter is zeroed
+when its associated factor is held at the first level in `new_data`. This
+gives the prediction for the 'typical' (population-level) group.
 
 ### Default behaviour
 
@@ -339,7 +341,7 @@ xnew_data(data, temperature) |>
 
 ### `random_effects = FALSE`
 
-If `random_effects = FALSE`, all zeroing is skipped and predictions are made for the first level of the factor (e..g, for `site` level 1 and `annual` level 1 literally).
+If `random_effects = FALSE`, all zeroing is skipped and predictions are made for the first level of the factor (e.g., for `site` level 1 and `annual` level 1).
 
 ```{r re-false}
 xnew_data(data, temperature) |>
@@ -364,10 +366,11 @@ xnew_data(data, temperature) |>
 ## Reference data and effect sizes
 
 When `ref_data` is a 1-row data frame, `predict()` computes
-`ref_fun2(c(ref_iter, new_iter))` per MCMC iteration and summarises the
-result. The returned summary describes the posterior of the *transformed*
-quantity, not of the raw prediction. The default `ref_fun2` is
-`proportional_change2` from the `extras` package (`(new - ref) / ref`).
+`ref_fun2(c(ref_draw, new_draw))` per MCMC iteration, where each element is
+the scalar posterior draw at the reference row and the `new_data` row
+respectively. The returned summary describes the posterior of the
+*transformed* quantity, not of the raw prediction. The default `ref_fun2`
+is `proportional_change2` from the `extras` package (`(new - ref) / ref`).
 
 ### Proportional change vs control
 
@@ -390,9 +393,9 @@ the proportional change in expected count.
 
 ### Custom `ref_fun2`: absolute difference
 
-Pass any two-argument function `f(x)` (where `x` is the vector
-`c(ref_iter, new_iter)`) to summarise a different transformation of the
-two posteriors. Absolute difference reports the effect on the count scale
+Pass any function whose first argument takes a vector of two numbers and
+returns a scalar to summarise a different transformation of the two
+posteriors. Absolute difference reports the effect on the count scale
 (restored minus control) rather than as a percentage:
 
 ```{r ref-diff}
@@ -494,7 +497,7 @@ mcmc_derive_data(analysis, new_data = data, term = "^eCount$") |>
   coef()
 ```
 
-The default summary function is `sum`, which returns the summary of *total* abundance per treatment across all rows. 
+The default summary function is `sum`, which returns the posterior of *total* abundance per treatment across all rows.
 
 ### Per-site mean abundance
 Provide a different summarise function, or define a custom one:
@@ -505,8 +508,7 @@ mcmc_derive_data(analysis, new_data = data, term = "^eCount$") |>
   coef()
 ```
 
-A coefficient of variation across sites measures spatial heterogeneity in
-expected counts. 
+Or a custom function, e.g. coefficient of variation:
 
 ```{r mcd-custom-fun}
 mcmc_derive_data(analysis, new_data = data, term = "^eCount$") |>
@@ -569,15 +571,14 @@ For the two analyses to combine:
   levels and column types line up.
 
 Within a single analysis, prefer expressing the composition directly in
-`new_expr`; `combine_samples()` earns its keep when the components come
-from independently fitted models whose draws need joining without re-running
-them.
+`new_expr`; `combine_samples()` is most useful when the components come from
+independently fitted models whose draws need joining.
 
 ## Scalar derived quantities with `mcmc_derive()`
 
 `mcmc_derive()` returns the raw MCMC samples for one or more scalar terms in
 `new_expr`. This is useful when you want to compute functions of parameters with
-full uncertainty propagation, i.e., without summarizing to estimate and CI.
+full uncertainty propagation, without first summarising to a point estimate.
 
 ### Pull related scalars by regex
 

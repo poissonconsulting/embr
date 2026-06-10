@@ -65,7 +65,6 @@ data frames).
 \description{
 Fits each model in an \code{mb_models} list against the same data, returning
 an \code{mb_analyses} (or \code{mb_meta_analyses} if \code{data} is a list of data frames).
-Used to compare model structures.
 }
 \seealso{
 \code{\link[=analyse]{analyse()}} for full argument documentation and engine details.

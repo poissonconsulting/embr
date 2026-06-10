@@ -77,9 +77,8 @@ code via \code{\link[mcmcderive:expression_vectorize]{mcmcderive::expression_vec
 section of \code{\link[=model]{model()}} for safe patterns and silent fallbacks.}
 
 \item{modify_new_data}{Single-argument function applied to new data (in
-list form) immediately before \code{new_expr} is evaluated. Lets prediction
-datasets undergo the structural reshaping that \code{modify_data} applies to
-the analysis data.}
+list form) immediately before \code{new_expr} is evaluated. Counterpart to
+\code{modify_data} applied to new data passed to \code{predict()} and friends.}
 
 \item{drops}{List of character vectors naming scalar parameters to fix at
 0 in the model.}

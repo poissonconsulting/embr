@@ -22,7 +22,7 @@ fitted.mb_analysis <- function(object, ...) {
 #'
 #' @description
 #' Summarises the posterior predictive distribution at new covariate values.
-#' Returns a tidy data frame with point estimates and compatibility intervals.
+#' Returns a tidy data frame with point estimates and compatibility limits.
 #'
 #' @details
 #' `new_data` defaults to [data_set()]. Covariates not specified are held at a
@@ -50,7 +50,6 @@ fitted.mb_analysis <- function(object, ...) {
 #'   on `mcmcr` posteriors.
 #' * [mcmcr::combine_samples()] for combining MCMC samples across independent
 #'   analyses on shared data keys.
-#' * [model()] for `new_expr` syntax.
 #' * [newdata::xnew_data()] for building covariate grids.
 #' @examples
 #' \dontrun{

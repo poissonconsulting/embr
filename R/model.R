@@ -1,11 +1,9 @@
 #' Define a Model
 #'
 #' @description
-#' Captures the model code together with the data specification, monitoring
-#' rules, and post-fitting expressions needed to fit and summarise a Bayesian
-#' hierarchical model. The returned `mb_model` is consumed by [analyse()] and
-#' downstream by [predict.mb_analysis()], [mcmc_derive_data()], and related
-#' helpers; nothing in `model()` runs MCMC.
+#' Captures the model code with its data, monitoring, and post-fitting
+#' specification. The returned `mb_model` is consumed by [analyse()] and
+#' downstream by [predict.mb_analysis()] and [mcmc_derive_data()].
 #'
 #' @details
 #' The data passed to [analyse()] is transformed through a fixed pipeline
@@ -17,10 +15,10 @@
 #' per chain, to seed initial values.
 #'
 #' The monitored parameter set is the union of: names matching the `fixed`
-#' regex, the names of `random_effects`, and `derived`. The default `fixed =
-#' "^[^e]"` matches the JAGS convention (everything not starting with `e`).
-#' Stan models with non-centred random effects typically set
-#' `fixed = "^(b|s)"` so that the raw `z_b*` parameters are not monitored.
+#' regex, the names of `random_effects`, and `derived`. The default
+#' `fixed = "^[^e]"` matches everything not starting with `e`. Stan models
+#' with non-centred random effects typically set `fixed = "^(b|s)"` so that
+#' the raw `z_b*` parameters are not monitored.
 #'
 #' Non-MCMC `cmdstan-*` engines (pathfinder, variational, optimize, laplace)
 #' ignore `gen_inits`; see [analyse()] for engine-specific behaviour.
@@ -53,8 +51,8 @@
 #' @section new_expr:
 #' An R expression (e.g. `{ ... }`) or a character string of R code that is
 #' evaluated post-fitting against the MCMC draws. It has access to the
-#' sampled parameters, the modified data list, and the helper functions
-#' exported by `extras`. The expression typically defines the named terms
+#' sampled parameters, the modified data list, and `extras` helpers such as
+#' `log_lik_*` and `res_*`. The expression typically defines the named terms
 #' used by downstream tooling:
 #'
 #' * `prediction[i]` for [predict.mb_analysis()]
@@ -122,9 +120,8 @@
 #'   code via [mcmcderive::expression_vectorize()]. See the **new_expr**
 #'   section of [model()] for safe patterns and silent fallbacks.
 #' @param modify_new_data Single-argument function applied to new data (in
-#'   list form) immediately before `new_expr` is evaluated. Lets prediction
-#'   datasets undergo the structural reshaping that `modify_data` applies to
-#'   the analysis data.
+#'   list form) immediately before `new_expr` is evaluated. Counterpart to
+#'   `modify_data` applied to new data passed to `predict()` and friends.
 #' @param drops List of character vectors naming scalar parameters to fix at
 #'   0 in the model.
 #'

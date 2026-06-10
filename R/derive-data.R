@@ -66,7 +66,7 @@ mcmcdata::mcmc_derive_data
 #' Calculate derived parameters.
 #'
 #' @param object An object inheriting from class mb_analysis.
-#' @param new_data A data frame to calculate the predictions for.
+#' @param new_data A data frame at which to derive the term.
 #'   Pass `character(0)` to extract a scalar `term` from new_expr.
 #' @param new_expr An R expression (e.g. `{ ... }`) or a character string of R
 #'   code specifying the predictive relationship. If `NULL`, uses the expression

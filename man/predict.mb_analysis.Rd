@@ -24,7 +24,7 @@
 \arguments{
 \item{object}{An object inheriting from class mb_analysis.}
 
-\item{new_data}{A data frame to calculate the predictions for.
+\item{new_data}{A data frame at which to derive the term.
 Pass \code{character(0)} to extract a scalar \code{term} from new_expr.}
 
 \item{new_expr}{An R expression (e.g. \code{{ ... }}) or a character string of R
@@ -61,7 +61,7 @@ of \code{new_data}.
 }
 \description{
 Summarises the posterior predictive distribution at new covariate values.
-Returns a tidy data frame with point estimates and compatibility intervals.
+Returns a tidy data frame with point estimates and compatibility limits.
 }
 \details{
 \code{new_data} defaults to \code{\link[=data_set]{data_set()}}. Covariates not specified are held at a
@@ -119,7 +119,6 @@ for detailed examples of prediction patterns.
 on \code{mcmcr} posteriors.
 \item \code{\link[mcmcr:combine_samples]{mcmcr::combine_samples()}} for combining MCMC samples across independent
 analyses on shared data keys.
-\item \code{\link[=model]{model()}} for \code{new_expr} syntax.
 \item \code{\link[newdata:xnew_data]{newdata::xnew_data()}} for building covariate grids.
 }
 }

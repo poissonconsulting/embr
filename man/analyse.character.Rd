@@ -66,9 +66,7 @@ JAGS models, which always use \link[rjags:rjags-package]{rjags}.}
 An \code{mb_analysis} or \code{mb_meta_analysis}. See \code{\link[=analyse]{analyse()}} for details.
 }
 \description{
-Converts raw Stan or JAGS code to an \code{\link[=model]{model()}} object, then fits it via
-\code{\link[=analyse]{analyse()}}. A convenience shortcut when you do not need to inspect or
-reuse the \code{mb_model} object.
+A convenience that builds the model and fits it in one call.
 }
 \details{
 Only \code{select_data} is forwarded to \code{\link[=model]{model()}}. If you need to set

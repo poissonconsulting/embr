@@ -94,8 +94,8 @@ head(data)
 ## Defining the model
 
 The model is defined in two parts: the Stan code (likelihood and priors) and
-an R `new_expr` (used post-fitting for e.g., predictions, residuals, sensitivity, and log likelihood). `select_data` declares the columns to extract from `data` and how to validate / transform them. `random_effects` maps the relevant
-parameters (e.g., `z_b*` in parameterization below) to their factor columns so embr can zero them at prediction time to get predictions for 'typical' a group level. 
+an R `new_expr` (used post-fitting for predictions, residuals, sensitivity, and log likelihood). `select_data` declares the columns to extract from `data` and how to validate / transform them. `random_effects` maps the relevant
+parameters (e.g., `z_b*` in parameterization below) to their factor columns so embr can zero them at prediction time to get predictions for a 'typical' group level.
 
 ```{r stan-code}
 count_code <- "
@@ -212,14 +212,17 @@ A few notes on the `model()` arguments:
   | `*` | Subtract mean and divide by SD (standardise) | Continuous covariates; improves convergence and makes coefficients comparable |
 
   `*` is the default choice for continuous covariates. 
-- `random_effects`: tells embr which factors each non-centred random-effect
-  parameter depends on. `predict()` uses this to decide when to zero `z_b*`
-  parameters (see the prediction vignette).
+- `random_effects`: tells embr which factors each random-effect parameter
+  is indexed by. `predict()` uses this to decide when to zero `z_b*`
+  parameters (see the prediction article).
 
 ## Fitting with `analyse.mb_model`
 
-The default backend is rstan for backwards-compatibility. However, it is recommended for Stan to use cmdstanr's MCMC sampler via smbr2 package by passing
-`stan_engine = "cmdstan-mcmc"`. We also set `niters`, `niters_warmup`, and `nchains` although this is also typically handled by the `set_analysis_mode()` function. 
+rstan is the default fallback when no `stan_engine` is set; for new projects,
+`stan_engine = "cmdstan-mcmc"` via smbr2 is recommended for faster compilation
+and better diagnostics. `niters`, `niters_warmup`, and `nchains` are typically
+set via `set_analysis_mode()`; here they are specified per call to keep the
+example self-contained.
 
 ```{r fit-default}
 analysis <- analyse(
@@ -284,7 +287,8 @@ saved samples, for `1500` total posterior draws.
 (via options) so individual `analyse()` calls don't need to
 respecify the same arguments. The mode controls `nchains`, `niters`,
 `nthin`, `parallel`, `quiet`, `glance`, `beep`, the reanalysis loop
-(`nreanalyses`, `rhat`, `esr`, `duration`), and `conf_level`. This is typically set in 'header.R' script. 
+(`nreanalyses`, `rhat`, `esr`, `duration`), and `conf_level`. Typically set
+once at the top of an analysis script.
 
 | Mode | When to use | `nchains` | `niters` |
 |---|---|---|---|
@@ -310,8 +314,8 @@ argument passed to `analyse()` always overrides the corresponding option.
 
 ## Engine dispatch
 
-The `stan_engine` argument selects the Stan backend for Stan models. JAGS
-models always go through `rjags` regardless of this argument.
+The `stan_engine` argument selects the Stan backend. JAGS models always go
+through `rjags` regardless of this argument.
 
 | `stan_engine` | Backend | Use case |
 |---|---|---|
@@ -322,12 +326,11 @@ models always go through `rjags` regardless of this argument.
 | `"cmdstan-optimize"` | `cmdstanr::optimize()` | Point estimate (MAP); no posterior uncertainty. |
 | `"cmdstan-laplace"` | `cmdstanr::laplace()` | Laplace approximation around the mode. |
 
-For each cmdstanr engine, embr sets a fixed set of cmdstanr arguments
-(`chains`, `iter_warmup`, `iter_sampling`, `data`, `seed`, etc.) from its
-own parameters. Other cmdstanr arguments can be passed through `...`. See
-`?analyse` for the exact list of embr-controlled arguments per engine.
+See `?analyse` for the per-engine list of embr-controlled vs pass-through
+arguments.
 
-A pathfinder fit on the same model takes a fraction of the time, but posterior distributions will be less reliable, especially for complex hierarchical models:
+A pathfinder fit on the same model is much faster but less reliable for
+hierarchical models:
 
 ```{r fit-pathfinder}
 analysis_pf <- analyse(
