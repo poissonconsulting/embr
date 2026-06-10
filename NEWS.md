@@ -1,5 +1,16 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# embr 1.0.0
+
+- Merge pull request #111 from poissonconsulting/update-sensitivity.
+
+  Add `add_sensitivity()` and extend `sensitivity()` with param_type and new options to control CJS-distance cutoff for detecting prior and likelihood sensitivity.
+
+- Merge pull request #110 from poissonconsulting/add-codeowners.
+
+  Add CODEOWNERS assigning @joethorley
+
+
 # embr 0.2.0.9001
 
 - Use word boundaries in log_lik detection to avoid partial matches.
