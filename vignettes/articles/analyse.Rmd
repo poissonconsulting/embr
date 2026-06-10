@@ -263,6 +263,21 @@ The following arguments cover most typical use of `analyse.mb_model`:
 
 Stan-only options (`niters_warmup`, `seed`) are ignored by JAGS models.
 
+### How `niters`, `niters_warmup`, and `nthin` combine
+
+`niters` is the number of saved samples per chain *after* thinning, not
+the total iterations run. Per chain:
+
+- Warmup iterations (discarded): `niters_warmup`
+- Post-warmup iterations: `niters * nthin`
+- Saved samples: `niters` (every `nthin`-th post-warmup iteration)
+- Total iterations run: `niters_warmup + niters * nthin`
+
+Across all chains the saved posterior has `nchains * niters` draws. So
+with `nchains = 3`, `niters = 500`, `niters_warmup = 500`, `nthin = 2`,
+each chain runs `500 + 500 * 2 = 1500` iterations and contributes 500
+saved samples, for `1500` total posterior draws.
+
 ## Analysis mode
 
 `set_analysis_mode()` sets a bundle of session-wide defaults
