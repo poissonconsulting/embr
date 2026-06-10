@@ -1,5 +1,24 @@
 # Changelog
 
+## embr 1.0.0
+
+- Merge pull request
+  [\#111](https://github.com/poissonconsulting/embr/issues/111) from
+  poissonconsulting/update-sensitivity.
+
+  Add
+  [`add_sensitivity()`](https://poissonconsulting.github.io/embr/reference/add_sensitivity.md)
+  and extend
+  [`sensitivity()`](https://poissonconsulting.github.io/embr/reference/sensitivity.md)
+  with param_type and new options to control CJS-distance cutoff for
+  detecting prior and likelihood sensitivity.
+
+- Merge pull request
+  [\#110](https://github.com/poissonconsulting/embr/issues/110) from
+  poissonconsulting/add-codeowners.
+
+  Add CODEOWNERS assigning [@joethorley](https://github.com/joethorley)
+
 ## embr 0.2.0.9001
 
 - Use word boundaries in log_lik detection to avoid partial matches.
