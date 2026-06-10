@@ -165,6 +165,12 @@ count_model <- model(
       fit[i] <- eCount[i]
       log_lik[i] <- log_lik_neg_binom(count[i], eCount[i], bPhi)
     }
+    lprior[1] <- log_lik_norm(bIntercept, 0, 5)
+    lprior[2] <- sum(log_lik_norm(bTreatment_dev, 0, 5))
+    lprior[3] <- log_lik_norm(bTemp, 0, 5)
+    lprior[4] <- log_lik_exp(sSite, 1)
+    lprior[5] <- log_lik_exp(sSiteAnnual, 1)
+    lprior[6] <- dgamma(bPhi, 2, 0.5, log = TRUE)
   },
   new_expr_vec = TRUE,
   select_data = list(
