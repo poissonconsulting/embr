@@ -30,16 +30,16 @@ These objects are imported from other packages. Follow the links
 below to see their documentation.
 
 \describe{
-  \item{extras}{\code{\link[extras]{log_odds_ratio2}}, \code{\link[extras]{odds_ratio2}}, \code{\link[extras]{proportional_change2}}, \code{\link[extras]{proportional_difference2}}}
+  \item{extras}{\code{\link[extras:log_odds_ratio2]{log_odds_ratio2()}}, \code{\link[extras:odds_ratio2]{odds_ratio2()}}, \code{\link[extras:proportional_change2]{proportional_change2()}}, \code{\link[extras:proportional_difference2]{proportional_difference2()}}}
 
-  \item{generics}{\code{\link[generics]{augment}}, \code{\link[generics]{glance}}, \code{\link[generics]{tidy}}}
+  \item{generics}{\code{\link[generics:augment]{augment()}}, \code{\link[generics:glance]{glance()}}, \code{\link[generics:tidy]{tidy()}}}
 
-  \item{mcmcdata}{\code{\link[mcmcdata]{mcmc_derive_data}}}
+  \item{mcmcdata}{\code{\link[mcmcdata:mcmc_derive_data]{mcmc_derive_data()}}}
 
-  \item{priorsense}{\code{\link[priorsense]{log_lik_draws}}, \code{\link[priorsense]{log_prior_draws}}, \code{\link[priorsense:powerscale-sensitivity]{powerscale_sensitivity}}}
+  \item{priorsense}{\code{\link[priorsense:log_lik_draws]{log_lik_draws()}}, \code{\link[priorsense:log_prior_draws]{log_prior_draws()}}, \code{\link[priorsense:powerscale_sensitivity]{powerscale_sensitivity()}}}
 
-  \item{stats}{\code{\link[stats]{coef}}, \code{\link[stats:fitted.values]{fitted}}, \code{\link[stats]{logLik}}, \code{\link[stats]{predict}}, \code{\link[stats]{terms}}}
+  \item{stats}{\code{\link[stats:coef]{coef()}}, \code{\link[stats:fitted]{fitted()}}, \code{\link[stats:logLik]{logLik()}}, \code{\link[stats:predict]{predict()}}, \code{\link[stats:terms]{terms()}}}
 
-  \item{universals}{\code{\link[universals]{estimates}}}
+  \item{universals}{\code{\link[universals:estimates]{estimates()}}}
 }}
 

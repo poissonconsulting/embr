@@ -4,19 +4,34 @@
 \alias{sensitivity}
 \title{Summarize model sensitivity}
 \usage{
-sensitivity(x, by = "term", ...)
+sensitivity(
+  x,
+  by = "term",
+  param_type = "all",
+  mb.prior_cjs = getOption("mb.prior_cjs", 0.1),
+  mb.lik_cjs = getOption("mb.lik_cjs", 0.05),
+  ...
+)
 }
 \arguments{
 \item{x}{The mb_analysis object.}
 
-\item{by}{A string indicating whether to determine by "term", "parameter", or
-"all".}
+\item{by}{A string indicating whether to determine by "term", "parameter",
+or "all".}
 
-\item{...}{Additional arguments passed to
-\code{\link[priorsense:powerscale-sensitivity]{priorsense::powerscale_sensitivity()}}.}
+\item{param_type}{A string specifying which parameters to include: 'fixed',
+'random', 'derived', 'primary', or 'all'.}
+
+\item{mb.prior_cjs}{A number specifying the CJS threshold for weak prior
+classification.}
+
+\item{mb.lik_cjs}{A number specifying the CJS threshold for strong data
+classification.}
+
+\item{...}{Arguments passed to \code{\link[=add_sensitivity]{add_sensitivity()}}.}
 }
 \value{
-A dataframe summarizing the sensitivity of the analysis object.
+A tibble summarizing the sensitivity of the analysis object.
 }
 \description{
 Summarize model sensitivity

@@ -47,11 +47,11 @@ associated classes and values as well as transformations and scaling options.}
 
 \item{stan_engine}{A string specifying the Stan engine to use:
 \itemize{
-\item \code{"rstan"} for MCMC sampling via \code{\link[rstan:stanmodel-method-sampling]{rstan::sampling()}} (default).
-\item \code{"cmdstan-mcmc"} for MCMC sampling via \code{\link[cmdstanr:model-method-sample]{cmdstanr::sample()}}
-\item \code{"cmdstan-pathfinder"} for pathfinder estimation via \code{\link[cmdstanr:model-method-pathfinder]{cmdstanr::pathfinder()}}
-\item \code{"cmdstan-optimize"} for optimization via \code{\link[cmdstanr:model-method-optimize]{cmdstanr::optimize()}}
-\item \code{"cmdstan-laplace"} for Laplace approximation via \code{\link[cmdstanr:model-method-laplace]{cmdstanr::laplace()}}
+\item \code{"rstan"} for MCMC sampling via \code{\link[rstan:sampling]{rstan::sampling()}} (default).
+\item \code{"cmdstan-mcmc"} for MCMC sampling via \code{\link[cmdstanr:sample]{cmdstanr::sample()}}
+\item \code{"cmdstan-pathfinder"} for pathfinder estimation via \code{\link[cmdstanr:pathfinder]{cmdstanr::pathfinder()}}
+\item \code{"cmdstan-optimize"} for optimization via \code{\link[cmdstanr:optimize]{cmdstanr::optimize()}}
+\item \code{"cmdstan-laplace"} for Laplace approximation via \code{\link[cmdstanr:laplace]{cmdstanr::laplace()}}
 }}
 
 \item{niters_warmup}{A count of the number of warmup iterations. The default is to use the same number of iterations as \code{niters}. This is currently only implemented for Stan models.}
