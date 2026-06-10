@@ -20,13 +20,11 @@
 #' with non-centred random effects typically set `fixed = "^(b|s)"` so that
 #' the raw `z_b*` parameters are not monitored.
 #'
-#' Non-MCMC `cmdstan-*` engines (pathfinder, variational, optimize, laplace)
-#' ignore `gen_inits`; see [analyse()] for engine-specific behaviour.
 #'
 #' @section select_data:
 #' Named list mapping data column names to type or range specifications. The
 #' recommended default is a permissive type-only spec: `1L` for integer, `1`
-#' for numeric, `factor("a")` for factor, `TRUE` for logical. Where an
+#' for numeric, `factor("")` for factor, `TRUE` for logical. Where an
 #' explicit check is wanted, use a range form such as `c(0L, 100L)` and
 #' append `NA` to allow missing values: `c(0L, 100L, NA)`.
 #'
@@ -88,41 +86,25 @@
 #'   `select_data`, rescaling, type coercion, factor-count and `nObs`
 #'   injection, and `modify_data`). Returning `list()` lets the backend fall
 #'   back to its own defaults (JAGS samples from priors; Stan uses its
-#'   random init). Non-MCMC `cmdstan-*` engines ignore it. For tmb models
-#'   `gen_inits` must specify all the fixed parameters; missing random
-#'   parameters are assigned 0.
+#'   random init). Non-MCMC `cmdstan-*` engines ignore it.
 #' @param random_effects Named list mapping parameter names in the model
-#'   code to one or more grouping factor columns from `select_data`. A
-#'   length-1 character vector specifies a one-way effect; a length-2 vector
-#'   specifies a crossed effect that is matrix-indexed in the model code (do
-#'   not pre-build an interaction column). Each named factor must appear in
-#'   `select_data` and must not also be in `derived`. Names in
-#'   `random_effects` are added to the monitor set on top of `fixed`.
-#' @param fixed Perl regex of parameter names to monitor as fixed effects.
-#'   Defaults to `getOption("mb.fixed", "^[^e]")`.
-#' @param derived Character vector of additional parameter names to monitor
-#'   beyond those captured by `fixed` and `random_effects`. Cannot overlap
-#'   with `select_data` column names or `random_effects` names.
-#' @param select_data Named list specifying the columns to select and how to
-#'   transform them. See the **select_data** section of [model()].
+#'   code to one or more grouping factor columns from `select_data`.
+#'   Each named factor must appear in `select_data` and must not also be in
+#'   `derived`.
+#' @param fixed A string of a regular expression of parameter names to monitor as fixed effects.
+#' @param derived A character vector of derived parameters to monitor.
+#' @param select_data A named list specifying the columns to select and their expected classes and values as well as transformations and scaling options. See the **select_data** section of [model()].
 #' @inheritParams rescale::rescale
-#' @param modify_data Single-argument function applied to the modified data
-#'   **list** (not a data frame) immediately before the analysis. Use for
-#'   restructuring not expressible via `select_data`, e.g. reshaping
-#'   multi-pass columns into a matrix or adding derived counts (`nPass`,
-#'   `nStage`). Must return a list. Default is `identity`.
-#' @param nthin Count of the thinning interval baked into the model.
-#'   Defaults from `getOption("mb.nthin", 1L)`; overridable from [analyse()].
+#' @param modify_data A single argument function to modify the data (in list form) immediately prior to the analysis.
+#' @param nthin An integer specifying the thinning interval.
 #' @param new_expr An R expression or character string of R code defining
-#'   the predictive relationships and derived terms. See the **new_expr**
+#'   the predictive relationships and derived quantities. See the **new_expr**
 #'   section of [model()].
 #' @param new_expr_vec Flag controlling whether to vectorise the `new_expr`
 #'   code via [mcmcderive::expression_vectorize()]. See the **new_expr**
 #'   section of [model()] for safe patterns and silent fallbacks.
-#' @param modify_new_data Single-argument function applied to new data (in
-#'   list form) immediately before `new_expr` is evaluated. Counterpart to
-#'   `modify_data` applied to new data passed to `predict()` and friends.
-#' @param drops List of character vectors naming scalar parameters to fix at
+#' @param modify_new_data SA single argument function to modify new data (in list form) immediately prior to calculating new_expr.
+#' @param drops A list of character vectors naming scalar parameters to fix at
 #'   0 in the model.
 #'
 #' @return An object inheriting from class `"mb_model"`.
@@ -134,9 +116,6 @@
 #' * [analyse()] to fit the model to data.
 #' * [analyse.character()] for a shortcut that builds and fits in one call.
 #' * [update_model()] to change arguments on an existing `mb_model`.
-#' * [set_analysis_mode()] to set session-wide sampling defaults.
-#' * [newdata::xnew_data()] to build covariate grids consistent with
-#'   `select_data`.
 #'
 #' @examples
 #' \dontrun{

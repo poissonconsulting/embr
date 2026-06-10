@@ -92,7 +92,7 @@ list form) immediately before \code{new_expr} is evaluated. Counterpart to
 An object inheriting from class \code{"mb_model"}.
 }
 \description{
-Captures the model code with its data, monitoring, and post-fitting
+Define a model, including code, data, monitoring, and post-fitting
 specification. The returned \code{mb_model} is consumed by \code{\link[=analyse]{analyse()}} and
 downstream by \code{\link[=predict.mb_analysis]{predict.mb_analysis()}} and \code{\link[=mcmc_derive_data]{mcmc_derive_data()}}.
 }
