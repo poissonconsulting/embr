@@ -38,54 +38,38 @@ initial values per chain. Receives the modified data list (i.e. after
 \code{select_data}, rescaling, type coercion, factor-count and \code{nObs}
 injection, and \code{modify_data}). Returning \code{list()} lets the backend fall
 back to its own defaults (JAGS samples from priors; Stan uses its
-random init). Non-MCMC \verb{cmdstan-*} engines ignore it. For tmb models
-\code{gen_inits} must specify all the fixed parameters; missing random
-parameters are assigned 0.}
+random init). Non-MCMC \verb{cmdstan-*} engines ignore it.}
 
 \item{random_effects}{Named list mapping parameter names in the model
-code to one or more grouping factor columns from \code{select_data}. A
-length-1 character vector specifies a one-way effect; a length-2 vector
-specifies a crossed effect that is matrix-indexed in the model code (do
-not pre-build an interaction column). Each named factor must appear in
-\code{select_data} and must not also be in \code{derived}. Names in
-\code{random_effects} are added to the monitor set on top of \code{fixed}.}
+code to one or more grouping factor columns from \code{select_data}.
+Each named factor must appear in \code{select_data} and must not also be in
+\code{derived}.}
 
-\item{fixed}{Perl regex of parameter names to monitor as fixed effects.
-Defaults to \code{getOption("mb.fixed", "^[^e]")}.}
+\item{fixed}{A string of a regular expression of parameter names to monitor as fixed effects.}
 
-\item{derived}{Character vector of additional parameter names to monitor
-beyond those captured by \code{fixed} and \code{random_effects}. Cannot overlap
-with \code{select_data} column names or \code{random_effects} names.}
+\item{derived}{A character vector of derived parameters to monitor.}
 
-\item{select_data}{Named list specifying the columns to select and how to
-transform them. See the \strong{select_data} section of \code{\link[=model]{model()}}.}
+\item{select_data}{A named list specifying the columns to select and their expected classes and values as well as transformations and scaling options. See the \strong{select_data} section of \code{\link[=model]{model()}}.}
 
 \item{center}{A character vector of the columns to center.}
 
 \item{scale}{A character vector of the columns to scale (after centering).}
 
-\item{modify_data}{Single-argument function applied to the modified data
-\strong{list} (not a data frame) immediately before the analysis. Use for
-restructuring not expressible via \code{select_data}, e.g. reshaping
-multi-pass columns into a matrix or adding derived counts (\code{nPass},
-\code{nStage}). Must return a list. Default is \code{identity}.}
+\item{modify_data}{A single argument function to modify the data (in list form) immediately prior to the analysis.}
 
-\item{nthin}{Count of the thinning interval baked into the model.
-Defaults from \code{getOption("mb.nthin", 1L)}; overridable from \code{\link[=analyse]{analyse()}}.}
+\item{nthin}{An integer specifying the thinning interval.}
 
 \item{new_expr}{An R expression or character string of R code defining
-the predictive relationships and derived terms. See the \strong{new_expr}
+the predictive relationships and derived quantities. See the \strong{new_expr}
 section of \code{\link[=model]{model()}}.}
 
 \item{new_expr_vec}{Flag controlling whether to vectorise the \code{new_expr}
 code via \code{\link[mcmcderive:expression_vectorize]{mcmcderive::expression_vectorize()}}. See the \strong{new_expr}
 section of \code{\link[=model]{model()}} for safe patterns and silent fallbacks.}
 
-\item{modify_new_data}{Single-argument function applied to new data (in
-list form) immediately before \code{new_expr} is evaluated. Counterpart to
-\code{modify_data} applied to new data passed to \code{predict()} and friends.}
+\item{modify_new_data}{SA single argument function to modify new data (in list form) immediately prior to calculating new_expr.}
 
-\item{drops}{List of character vectors naming scalar parameters to fix at
+\item{drops}{A list of character vectors naming scalar parameters to fix at
 0 in the model.}
 }
 \value{
@@ -110,15 +94,12 @@ regex, the names of \code{random_effects}, and \code{derived}. The default
 \code{fixed = "^[^e]"} matches everything not starting with \code{e}. Stan models
 with non-centred random effects typically set \code{fixed = "^(b|s)"} so that
 the raw \verb{z_b*} parameters are not monitored.
-
-Non-MCMC \verb{cmdstan-*} engines (pathfinder, variational, optimize, laplace)
-ignore \code{gen_inits}; see \code{\link[=analyse]{analyse()}} for engine-specific behaviour.
 }
 \section{select_data}{
 
 Named list mapping data column names to type or range specifications. The
 recommended default is a permissive type-only spec: \code{1L} for integer, \code{1}
-for numeric, \code{factor("a")} for factor, \code{TRUE} for logical. Where an
+for numeric, \code{factor("")} for factor, \code{TRUE} for logical. Where an
 explicit check is wanted, use a range form such as \code{c(0L, 100L)} and
 append \code{NA} to allow missing values: \code{c(0L, 100L, NA)}.
 
@@ -228,8 +209,5 @@ structure.
 \item \code{\link[=analyse]{analyse()}} to fit the model to data.
 \item \code{\link[=analyse.character]{analyse.character()}} for a shortcut that builds and fits in one call.
 \item \code{\link[=update_model]{update_model()}} to change arguments on an existing \code{mb_model}.
-\item \code{\link[=set_analysis_mode]{set_analysis_mode()}} to set session-wide sampling defaults.
-\item \code{\link[newdata:xnew_data]{newdata::xnew_data()}} to build covariate grids consistent with
-\code{select_data}.
 }
 }
