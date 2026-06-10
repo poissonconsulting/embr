@@ -1,7 +1,7 @@
 #' Define a Model
 #'
 #' @description
-#' Captures the model code with its data, monitoring, and post-fitting
+#' Define a model, including code, data, monitoring, and post-fitting
 #' specification. The returned `mb_model` is consumed by [analyse()] and
 #' downstream by [predict.mb_analysis()] and [mcmc_derive_data()].
 #'
@@ -186,22 +186,23 @@
 #' }
 #' @export
 model <- function(
-    x = NULL,
-    ...,
-    code = NULL,
-    gen_inits = NULL,
-    random_effects = list(),
-    fixed = getOption("mb.fixed", "^[^e]"),
-    derived = character(0),
-    select_data = list(),
-    center = character(0),
-    scale = character(0),
-    modify_data = identity,
-    nthin = getOption("mb.nthin", 1L),
-    new_expr = NULL,
-    new_expr_vec = getOption("mb.new_expr_vec", FALSE),
-    modify_new_data = identity,
-    drops = list()) {
+  x = NULL,
+  ...,
+  code = NULL,
+  gen_inits = NULL,
+  random_effects = list(),
+  fixed = getOption("mb.fixed", "^[^e]"),
+  derived = character(0),
+  select_data = list(),
+  center = character(0),
+  scale = character(0),
+  modify_data = identity,
+  nthin = getOption("mb.nthin", 1L),
+  new_expr = NULL,
+  new_expr_vec = getOption("mb.new_expr_vec", FALSE),
+  modify_new_data = identity,
+  drops = list()
+) {
   chk_unused(...)
 
   if (is.null(x)) {
@@ -255,51 +256,86 @@ model <- function(
   check_drops(drops)
 
   select_colnames <- rescale::get_rescaler_colnames(names(select_data))
-  if (!length(select_colnames)) select_colnames <- NULL
+  if (!length(select_colnames)) {
+    select_colnames <- NULL
+  }
 
   if (!identical(center, character(0)) || !identical(scale, character(0))) {
     if (!identical(names(select_data), select_colnames)) {
-      err("scaling (and transforms) should be specified with select_data or center/scale not both", tidy = FALSE)
+      err(
+        "scaling (and transforms) should be specified with select_data or center/scale not both",
+        tidy = FALSE
+      )
     }
 
-    warning("arguments center and scale are deprecated; please use select_data instead.",
+    warning(
+      "arguments center and scale are deprecated; please use select_data instead.",
       call. = FALSE
     )
   }
 
   check_all_elements_class_character(random_effects)
-  check_x_in_y(unlist(random_effects), select_colnames,
-    x_name = "random_effects", y_name = "select_data",
-    type_x = "elements", type_y = "names"
+  check_x_in_y(
+    unlist(random_effects),
+    select_colnames,
+    x_name = "random_effects",
+    y_name = "select_data",
+    type_x = "elements",
+    type_y = "names"
   )
-  check_x_not_in_y(names(random_effects), select_colnames,
-    x_name = "random_effects", y_name = "select_data",
-    type_x = "names", type_y = "names"
+  check_x_not_in_y(
+    names(random_effects),
+    select_colnames,
+    x_name = "random_effects",
+    y_name = "select_data",
+    type_x = "names",
+    type_y = "names"
   )
-  check_x_not_in_y(derived, select_colnames,
-    x_name = "derived", y_name = "select_data", type_y = "names"
+  check_x_not_in_y(
+    derived,
+    select_colnames,
+    x_name = "derived",
+    y_name = "select_data",
+    type_y = "names"
   )
-  check_x_not_in_y(names(random_effects), derived,
-    x_name = "random_effects", y_name = "derived", type_x = "names"
+  check_x_not_in_y(
+    names(random_effects),
+    derived,
+    x_name = "random_effects",
+    y_name = "derived",
+    type_x = "names"
   )
-  check_x_not_in_y(unlist(random_effects), center,
+  check_x_not_in_y(
+    unlist(random_effects),
+    center,
     x_name = "random_effects",
     type_x = "elements"
   )
-  check_x_not_in_y(unlist(random_effects), scale,
+  check_x_not_in_y(
+    unlist(random_effects),
+    scale,
     x_name = "random_effects",
     type_x = "elements"
   )
-  check_x_not_in_y(derived, center,
+  check_x_not_in_y(
+    derived,
+    center,
     x_name = "random_effects",
     type_x = "elements"
   )
-  check_x_not_in_y(derived, scale,
+  check_x_not_in_y(
+    derived,
+    scale,
     x_name = "random_effects",
     type_x = "elements"
   )
 
-  check_x_in_y(center, select_colnames, y_name = "select_data", type_y = "names")
+  check_x_in_y(
+    center,
+    select_colnames,
+    y_name = "select_data",
+    type_y = "names"
+  )
   check_x_in_y(scale, select_colnames, y_name = "select_data", type_y = "names")
 
   derived <- check_model_pars(
