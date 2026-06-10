@@ -220,7 +220,7 @@ A few notes on the `model()` arguments:
 rstan is the default fallback when no `stan_engine` is set; for new projects,
 `stan_engine = "cmdstan-mcmc"` via smbr2 is recommended for faster compilation
 and better diagnostics. `niters`, `niters_warmup`, and `nchains` are typically
-set via `set_analysis_mode()`; here they are specified per call to keep the
+set via `set_analysis_mode()`; here they are specified within the function to keep the
 example self-contained.
 
 ```{r fit-default}
@@ -326,8 +326,7 @@ through `rjags` regardless of this argument.
 See `?analyse` for the per-engine list of embr-controlled vs pass-through
 arguments.
 
-A pathfinder fit on the same model is much faster but less reliable for
-hierarchical models:
+A pathfinder fit on the same model is much faster but less reliable, especially for complex hierarchical models:
 
 ```{r fit-pathfinder}
 analysis_pf <- analyse(
