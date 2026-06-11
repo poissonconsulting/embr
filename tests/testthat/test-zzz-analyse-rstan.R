@@ -4,6 +4,13 @@ test_that(
     skip_if_not_installed("smbr")
     skip_if_not_installed("rstan")
     skip_if_not_installed("BH")
+    # MCMC trajectories diverge across R / rstan / Boost combos; snapshots
+    # stay locked to one platform. Skip on R-devel where the toolchain
+    # drifts ahead of the recorded values.
+    skip_if(
+      R.version$status == "Under development (unstable)",
+      "R-devel: rstan snapshot tolerance unreliable"
+    )
 
     library(smbr)
     data <- embr::density99
