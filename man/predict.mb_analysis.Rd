@@ -70,7 +70,7 @@ covariate grids with
 \code{\link[newdata:xcast]{newdata::xcast()}}, \code{\link[newdata:xobs_only]{newdata::xobs_only()}}) for explicit control over
 which covariates vary. A character vector of column names is also accepted
 as a shortcut: \code{predict(analysis, "year")} is equivalent to
-\code{predict(analysis, new_data = newdata::new_data(data_set(analysis), "year"))},
+\code{predict(analysis, new_data = newdata::xnew_data(data_set(analysis), year))},
 which generates a grid varying \code{year} and holding the rest at their
 reference values. Covariates not specified are held at a reference value:
 mean for continuous, first level for factors.

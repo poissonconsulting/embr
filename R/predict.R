@@ -31,7 +31,7 @@ fitted.mb_analysis <- function(object, ...) {
 #' [newdata::xcast()], [newdata::xobs_only()]) for explicit control over
 #' which covariates vary. A character vector of column names is also accepted
 #' as a shortcut: `predict(analysis, "year")` is equivalent to
-#' `predict(analysis, new_data = newdata::new_data(data_set(analysis), "year"))`,
+#' `predict(analysis, new_data = newdata::xnew_data(data_set(analysis), year))`,
 #' which generates a grid varying `year` and holding the rest at their
 #' reference values. Covariates not specified are held at a reference value:
 #' mean for continuous, first level for factors.
