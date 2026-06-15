@@ -28,6 +28,7 @@ guide walks through the primary `analyse.mb_model` method on an example model, t
 library(embr)
 library(smbr2)
 library(dplyr)
+library(extras)
 ```
 
 ## Example model
@@ -83,7 +84,11 @@ data <- design |>
         as.character(site),
         as.character(annual)
       ),
-    count = as.integer(ran_neg_binom(n(), mu = exp(log_mu), size = bPhi_true))
+    count = as.integer(ran_neg_binom(
+      n(),
+      lambda = exp(log_mu),
+      theta = bPhi_true
+    ))
   ) |>
   select(count, site, annual, treatment, temperature)
 
