@@ -74,20 +74,20 @@ Calculate derived parameters.
 }
 \examples{
 \dontrun{
-# `analysis` is a fitted mb_analysis whose new_expr defines scalar terms
-# `eBaseCount` and `eRestoredEffect`.
+# Pull multiple scalar terms in one call by regex. Quantities defined in
+# new_expr are usually easiest to extract individually with predict();
+# mcmc_derive() is most useful when (a) you want raw mcmcr samples for
+# downstream operations predict() does not support (probability
+# statements, custom quantiles) or (b) you want to compose multiple terms
+# with arbitrary arithmetic. See vignette("prediction") for worked
+# patterns.
 
-# Pull related scalars by regex; shared iteration ordering supports
-# downstream arithmetic.
 scalars <- mcmc_derive(
   analysis,
   new_data = character(0),
   term = "^(eBaseCount|eRestoredEffect)$"
 )
-
-# Arithmetic on mcmcr objects propagates posterior uncertainty
-high_count <- scalars$eBaseCount * scalars$eRestoredEffect
-coef(high_count)
+coef(scalars)
 
 # Custom expression with injected scalar constants
 as.mcmcr(analysis) |>

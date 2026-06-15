@@ -91,14 +91,12 @@ per chain, to seed initial values.
 
 The monitored parameter set is the union of: names matching the \code{fixed}
 regex, the names of \code{random_effects}, and \code{derived}. The default
-\code{fixed = "^[^e]"} matches everything not starting with \code{e}. Stan models
-with non-centred random effects typically set \code{fixed = "^(b|s)"} so that
-the raw \verb{z_b*} parameters are not monitored.
+\code{fixed = "^[^e]"} matches everything not starting with \code{e}. Names listed
+in \code{random_effects} are always monitored regardless of the regex.
 }
 \section{select_data}{
 
-Named list mapping data column names to type or range specifications. The
-recommended default is a permissive type-only spec: \code{1L} for integer, \code{1}
+Named list mapping data column names to type or range specifications: \code{1L} for integer, \code{1}
 for numeric, \code{factor("")} for factor, \code{TRUE} for logical. Where an
 explicit check is wanted, use a range form such as \code{c(0L, 100L)} and
 append \code{NA} to allow missing values: \code{c(0L, 100L, NA)}.
@@ -166,7 +164,6 @@ count_model <- model(
     `temperature*` = 1
   ),
   random_effects = list(z_bSite = "site"),
-  fixed = "^(b|s)",
   new_expr = {
     bSite <- z_bSite * sSite
     for (i in 1:nObs) {

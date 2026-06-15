@@ -25,10 +25,16 @@ fitted.mb_analysis <- function(object, ...) {
 #' Returns a tidy data frame with point estimates and compatibility limits.
 #'
 #' @details
-#' `new_data` defaults to [data_set()]. Covariates not specified are held at a
-#' reference value: mean for continuous, first level for factors. Build
-#' covariate grids with [newdata::xnew_data()] and related helpers
-#' ([newdata::xnew_seq()], [newdata::xcast()], [newdata::xobs_only()]).
+#' `new_data` defaults to `data_set(object)` (the analysis dataset). Build
+#' covariate grids with
+#' [newdata::xnew_data()] and related helpers ([newdata::xnew_seq()],
+#' [newdata::xcast()], [newdata::xobs_only()]) for explicit control over
+#' which covariates vary. A character vector of column names is also accepted
+#' as a shortcut: `predict(analysis, "year")` is equivalent to
+#' `predict(analysis, new_data = newdata::new_data(data_set(analysis), "year"))`,
+#' which generates a grid varying `year` and holding the rest at their
+#' reference values. Covariates not specified are held at a reference value:
+#' mean for continuous, first level for factors.
 #'
 #' `term` selects the quantity defined in the model's `new_expr` to calculate
 #' (default `"prediction"`). Pass `new_data = character(0)` to extract a scalar
@@ -56,7 +62,10 @@ fitted.mb_analysis <- function(object, ...) {
 #' library(newdata)
 #' data <- data_set(analysis)
 #'
-#' # Predict over a continuous covariate; other covariates held at reference values
+#' # Character shortcut: vary a single column, hold others at reference
+#' predict(analysis, "temperature")
+#'
+#' # Equivalent explicit form
 #' xnew_data(data, temperature) |>
 #'   predict(analysis, new_data = _)
 #'

@@ -64,10 +64,16 @@ Summarises the posterior predictive distribution at new covariate values.
 Returns a tidy data frame with point estimates and compatibility limits.
 }
 \details{
-\code{new_data} defaults to \code{\link[=data_set]{data_set()}}. Covariates not specified are held at a
-reference value: mean for continuous, first level for factors. Build
-covariate grids with \code{\link[newdata:xnew_data]{newdata::xnew_data()}} and related helpers
-(\code{\link[newdata:xnew_seq]{newdata::xnew_seq()}}, \code{\link[newdata:xcast]{newdata::xcast()}}, \code{\link[newdata:xobs_only]{newdata::xobs_only()}}).
+\code{new_data} defaults to \code{data_set(object)} (the analysis dataset). Build
+covariate grids with
+\code{\link[newdata:xnew_data]{newdata::xnew_data()}} and related helpers (\code{\link[newdata:xnew_seq]{newdata::xnew_seq()}},
+\code{\link[newdata:xcast]{newdata::xcast()}}, \code{\link[newdata:xobs_only]{newdata::xobs_only()}}) for explicit control over
+which covariates vary. A character vector of column names is also accepted
+as a shortcut: \code{predict(analysis, "year")} is equivalent to
+\code{predict(analysis, new_data = newdata::new_data(data_set(analysis), "year"))},
+which generates a grid varying \code{year} and holding the rest at their
+reference values. Covariates not specified are held at a reference value:
+mean for continuous, first level for factors.
 
 \code{term} selects the quantity defined in the model's \code{new_expr} to calculate
 (default \code{"prediction"}). Pass \code{new_data = character(0)} to extract a scalar
@@ -78,7 +84,10 @@ quantity.
 library(newdata)
 data <- data_set(analysis)
 
-# Predict over a continuous covariate; other covariates held at reference values
+# Character shortcut: vary a single column, hold others at reference
+predict(analysis, "temperature")
+
+# Equivalent explicit form
 xnew_data(data, temperature) |>
   predict(analysis, new_data = _)
 

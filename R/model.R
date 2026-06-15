@@ -16,14 +16,12 @@
 #'
 #' The monitored parameter set is the union of: names matching the `fixed`
 #' regex, the names of `random_effects`, and `derived`. The default
-#' `fixed = "^[^e]"` matches everything not starting with `e`. Stan models
-#' with non-centred random effects typically set `fixed = "^(b|s)"` so that
-#' the raw `z_b*` parameters are not monitored.
+#' `fixed = "^[^e]"` matches everything not starting with `e`. Names listed
+#' in `random_effects` are always monitored regardless of the regex.
 #'
 #'
 #' @section select_data:
-#' Named list mapping data column names to type or range specifications. The
-#' recommended default is a permissive type-only spec: `1L` for integer, `1`
+#' Named list mapping data column names to type or range specifications: `1L` for integer, `1`
 #' for numeric, `factor("")` for factor, `TRUE` for logical. Where an
 #' explicit check is wanted, use a range form such as `c(0L, 100L)` and
 #' append `NA` to allow missing values: `c(0L, 100L, NA)`.
@@ -129,7 +127,6 @@
 #'     `temperature*` = 1
 #'   ),
 #'   random_effects = list(z_bSite = "site"),
-#'   fixed = "^(b|s)",
 #'   new_expr = {
 #'     bSite <- z_bSite * sSite
 #'     for (i in 1:nObs) {
