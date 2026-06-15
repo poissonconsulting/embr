@@ -82,11 +82,7 @@ design <- expand.grid(
   )
 
 re_site <- setNames(rnorm(length(sites), 0, 0.4), sites)
-re_site_annual <- matrix(
-  rnorm(length(sites) * length(years), 0, 0.2),
-  nrow = length(sites),
-  dimnames = list(sites, years)
-)
+re_annual <- setNames(rnorm(length(years), 0, 0.2), as.character(years))
 
 data <- design |>
   mutate(
@@ -95,11 +91,7 @@ data <- design |>
       0.5 * (treatment == "restored") +
       0.15 * temp_c +
       re_site[as.character(site)] +
-      mapply(
-        function(s, a) re_site_annual[s, a],
-        as.character(site),
-        as.character(annual)
-      ),
+      re_annual[as.character(annual)],
     count = as.integer(rnbinom(n(), mu = exp(log_mu), size = 5))
   ) |>
   select(count, site, annual, treatment, temperature)
@@ -123,14 +115,14 @@ parameters {
   vector[ntreatment - 1] bTreatment_dev;
   real bTemp;
   real<lower=0> sSite;
-  real<lower=0> sSiteAnnual;
+  real<lower=0> sAnnual;
   real<lower=0> bPhi;
   vector[nsite] z_bSite;
-  matrix[nsite, nannual] z_bSiteAnnual;
+  vector[nannual] z_bAnnual;
 }
 model {
   vector[nsite] bSite = z_bSite * sSite;
-  matrix[nsite, nannual] bSiteAnnual = z_bSiteAnnual * sSiteAnnual;
+  vector[nannual] bAnnual = z_bAnnual * sAnnual;
   vector[ntreatment] bTreatment;
   bTreatment[1] = 0;
   for (k in 2:ntreatment) bTreatment[k] = bTreatment_dev[k - 1];
@@ -139,17 +131,17 @@ model {
   for (i in 1:nObs) {
     log_eCount[i] = bIntercept + bTreatment[treatment[i]] +
                     bTemp * temperature[i] + bSite[site[i]] +
-                    bSiteAnnual[site[i], annual[i]];
+                    bAnnual[annual[i]];
   }
 
   bIntercept ~ normal(0, 5);
   bTreatment_dev ~ normal(0, 5);
   bTemp ~ normal(0, 5);
   sSite ~ exponential(1);
-  sSiteAnnual ~ exponential(1);
+  sAnnual ~ exponential(1);
   bPhi ~ gamma(2, 0.5);
   to_vector(z_bSite) ~ std_normal();
-  to_vector(z_bSiteAnnual) ~ std_normal();
+  to_vector(z_bAnnual) ~ std_normal();
 
   count ~ neg_binomial_2_log(log_eCount, bPhi);
 }
@@ -159,7 +151,7 @@ count_model <- model(
   code = count_code,
   new_expr = {
     bSite <- z_bSite * sSite
-    bSiteAnnual <- z_bSiteAnnual * sSiteAnnual
+    bAnnual <- z_bAnnual * sAnnual
     bTreatment <- c(0, bTreatment_dev)
     eBaseCount <- exp(bIntercept)
     eRestoredEffect <- exp(bTreatment_dev[1])
@@ -168,7 +160,7 @@ count_model <- model(
         bTreatment[treatment[i]] +
         bTemp * temperature[i] +
         bSite[site[i]] +
-        bSiteAnnual[site[i], annual[i]]
+        bAnnual[annual[i]]
       prediction[i] <- eCount[i]
       fit[i] <- eCount[i]
       unobserved[i] <- exp(
@@ -176,7 +168,7 @@ count_model <- model(
           bTreatment[treatment[i]] +
           bTemp * temperature[i] +
           rnorm(1, 0, sSite) +
-          rnorm(1, 0, sSiteAnnual)
+          rnorm(1, 0, sAnnual)
       )
       log_lik[i] <- log_lik_neg_binom(count[i], eCount[i], bPhi)
     }
@@ -191,7 +183,7 @@ count_model <- model(
   ),
   random_effects = list(
     z_bSite = "site",
-    z_bSiteAnnual = c("site", "annual")
+    z_bAnnual = "annual"
   )
 )
 ```
@@ -225,7 +217,7 @@ predict(analysis) |> head()
 
 ## Covariate grids with the `newdata` helpers
 
-Covariate grids can be generated with `newdata::xnew_data()`. Covariates not specified in `xnew_data()` are held at a reference value: mean for continuous, first level for factors.
+Covariate grids can be generated with `newdata::xnew_data()`. Covariates not specified in `xnew_data()` are held at a reference value: mean for continuous, first level for factors (categorical fixed or random effects). When all values of a random effect factor are held at the first level, predictions are made for a 'typical' level (i.e., by dropping that random effect from calculations). To remove this behaviour (i.e., to calculate predictions for the first level), set `random_effects = FALSE` in `predict()`. See "Random effect zeroing" section for more details. In the case of categorical fixed effects, predictions are made for the first level. 
 
 ### Continuous covariate
 By default, specifying the name of a continuous covariate will generate a sequence from min to max, with length 30. Notice factors (e.g., site) are held at the first level. 
@@ -270,11 +262,10 @@ plot_pointrange(pred_site, site) +
   labs(y = "Expected count", x = "Site")
 ```
 
-### Multiple factors with the hyperprior filling in
+### `xobs_only()` for observed combinations only
 
-When `site` and `annual` are crossed, the full 25-row grid is returned
-even though only 22 site×annual cells were observed. Predictions for the
-unobserved combinations come from the `z_bSiteAnnual` hyperprior.
+By default `xnew_data(data, site, annual)` returns the full 25-row crossed
+grid:
 
 ```{r grid-site-annual}
 xnew_data(data, site, annual) |>
@@ -282,10 +273,8 @@ xnew_data(data, site, annual) |>
   nrow()
 ```
 
-### `xobs_only()` for observed combinations only
-
-`xobs_only()` restricts the grid to combinations actually present in the
-data:
+If you only want predictions for the (`site`, `annual`) combinations
+actually observed in the data, wrap them in `xobs_only()`:
 
 ```{r grid-xobs-only}
 xnew_data(data, xobs_only(site, annual)) |>
@@ -293,8 +282,8 @@ xnew_data(data, xobs_only(site, annual)) |>
   nrow()
 ```
 
-22 rows instead of 25: exactly the unbalanced combinations from the
-design.
+22 rows instead of 25: the unbalanced combinations from the design (site
+`e` is missing from years 1, 2, and 3).
 
 ### Casting specific factor levels with `xcast()`
 
@@ -328,9 +317,9 @@ gives the prediction for the 'typical' (population-level) group.
 
 ### Default behaviour
 
-For example, `xnew_data(data, temperature)` leaves both `site` and `annual` at level 1,
-so both `z_bSite` and `z_bSiteAnnual` are zeroed, giving the population-level
-prediction:
+For example, `xnew_data(data, temperature)` leaves both `site` and `annual`
+at level 1, so both `z_bSite` and `z_bAnnual` are zeroed, giving the
+population-level prediction:
 
 ```{r re-default}
 xnew_data(data, temperature) |>
@@ -350,7 +339,12 @@ xnew_data(data, temperature) |>
 
 ### Named list: zero a subset of random effects
 
-Passing a named list will override the `random_effects` defined in `model()` for more customised behaviour. 
+Passing a named list overrides the `random_effects` defined in `model()`,
+restricting the set of parameters eligible for zeroing to those listed.
+Parameters not in the list are kept at their literal value for the first
+level of their associated factor in `new_data`. This is useful when you
+want to marginalize over one random effect while keeping another at a
+specific level.
 
 ```{r re-named}
 xnew_data(data, temperature) |>
@@ -361,6 +355,18 @@ xnew_data(data, temperature) |>
   ) |>
   head(3)
 ```
+
+For the call above (with `site` and `annual` both at level 1 in
+`new_data`):
+
+- `z_bSite` is listed and `site` is at level 1, so `z_bSite` is zeroed
+  (population-mean site, i.e. averaged across sites).
+- `z_bAnnual` is *not* listed, so it is kept at its literal value for
+  `annual = 1` — the specific year-1 effect.
+
+This gives the prediction averaged across sites but anchored to year 1
+specifically.
+
 
 ## Reference data and effect sizes
 
@@ -396,13 +402,19 @@ posteriors. For example, absolute difference reports the effect on the count sca
 (restored minus control) rather than as a percentage:
 
 ```{r ref-diff}
-xnew_data(data, treatment) |>
+pred_diff <- xnew_data(data, treatment) |>
   predict(
     analysis,
     new_data = _,
     ref_data = ref_control,
     ref_fun2 = function(x) x[2] - x[1]
   )
+
+pred_diff
+
+plot_pointrange(pred_diff, treatment) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  labs(y = "Change vs control (count)", x = "Treatment")
 ```
 
 ## Predicting for an unobserved level
@@ -414,7 +426,7 @@ unobserved[i] <- exp(bIntercept +
   bTreatment[treatment[i]] +
   bTemp * temperature[i] +
   rnorm(1, 0, sSite) +
-  rnorm(1, 0, sSiteAnnual))
+  rnorm(1, 0, sAnnual))
 ```
 
 Setting `term = "unobserved"` tells `predict()` to summarize this named
@@ -492,16 +504,10 @@ mcmc_derive_data(analysis, new_data = data, term = "^eCount$") |>
 
 The default summary function is `sum`, which returns the posterior of *total* abundance per treatment across all rows.
 
-### Per-site mean abundance
-Provide a different summarize function, or define a custom one:
-```{r mcd-per-site}
-mcmc_derive_data(analysis, new_data = data, term = "^eCount$") |>
-  group_by(site) |>
-  summarize(.fun = mean) |>
-  coef()
-```
+### Custom summary function
 
-Or a custom function, e.g. coefficient of variation:
+Provide any function via `.fun`. For example, the coefficient of variation
+of expected count across rows within each treatment:
 
 ```{r mcd-custom-fun}
 mcmc_derive_data(analysis, new_data = data, term = "^eCount$") |>
@@ -509,6 +515,7 @@ mcmc_derive_data(analysis, new_data = data, term = "^eCount$") |>
   summarize(.fun = function(x) sd(x) / mean(x)) |>
   coef()
 ```
+
 
 ## Combining across analyses with `combine_samples()`
 
@@ -545,8 +552,6 @@ biomass <- mcmcr::combine_samples(
   by = "site",
   fun = prod
 )
-
-coef(biomass)
 ```
 
 `by` names the data columns to join on (here `site`); rows present in both
@@ -588,14 +593,42 @@ coef(scalars)
 
 `coef()` is run on the `mcmc_derive()` output to get point estimte with compatibility limits. 
 
-### Arithmetic on `mcmcr` objects propagates uncertainty
+### Arithmetic on `mcmcr` objects
 
-Multiplying `mcmcr` objects acts element-wise across MCMC iterations:
+Quantities you anticipate are usually cleanest to define directly in
+`new_expr` and pull with `predict()`. Raw `mcmcr` arithmetic earns its
+keep when the question requires *composing* outputs of different
+post-fit operations — for example, combining a group-aggregated quantity
+from `mcmc_derive_data()` with a scalar from `mcmc_derive()`, or
+producing summaries `predict()` cannot (probability statements, custom
+posterior quantiles).
 
-```{r mcmc-derive-arithmetic}
-eExpectedRestored <- scalars$eBaseCount * scalars$eRestoredEffect
-class(eExpectedRestored)
-coef(eExpectedRestored)
+First, get totals per treatment, then extract each row as raw MCMC draws:
+
+```{r mcmc-derive-totals}
+totals <- mcmc_derive_data(analysis, new_data = data, term = "^eCount$") |>
+  group_by(treatment) |>
+  summarize()
+
+restored_total <- as.mcmcr(filter(totals, treatment == "restored"))[[1]]
+control_total <- as.mcmcr(filter(totals, treatment == "control"))[[1]]
+```
+
+The posterior of the absolute difference in total expected catch
+(restored minus control), summed over the observed design — a count-scale
+effect size that `eRestoredEffect` (a multiplicative ratio) doesn't
+quantify:
+
+```{r mcmc-derive-diff}
+extra_catch <- restored_total - control_total
+coef(extra_catch)
+```
+
+And the posterior probability that restoration adds at least 2000 fish
+in total — a question `predict()` cannot answer:
+
+```{r mcmc-derive-prob}
+mean(extra_catch >= 2000)
 ```
 
 ## Cheat sheet
