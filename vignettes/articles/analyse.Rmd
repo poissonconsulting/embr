@@ -83,7 +83,7 @@ data <- design |>
         as.character(site),
         as.character(annual)
       ),
-    count = as.integer(rnbinom(n(), mu = exp(log_mu), size = bPhi_true))
+    count = as.integer(ran_neg_binom(n(), mu = exp(log_mu), size = bPhi_true))
   ) |>
   select(count, site, annual, treatment, temperature)
 
@@ -169,7 +169,7 @@ count_model <- model(
     lprior[3] <- log_lik_norm(bTemp, 0, 5)
     lprior[4] <- log_lik_exp(sSite, 1)
     lprior[5] <- log_lik_exp(sSiteAnnual, 1)
-    lprior[6] <- dgamma(bPhi, 2, 0.5, log = TRUE)
+    lprior[6] <- log_lik_gamma(bPhi, 2, 0.5)
   },
   new_expr_vec = TRUE,
   select_data = list(
@@ -177,7 +177,7 @@ count_model <- model(
     site = factor("a"),
     annual = factor("a"),
     treatment = factor("a"),
-    `temperature*` = 1
+    `temperature*` = c(0, 100)
   ),
   random_effects = list(
     z_bSite = "site",
@@ -197,7 +197,14 @@ A few notes on the `model()` arguments:
   derived quantities such as `eBaseCount` and `eRestoredEffect` can be
   extracted directly with `predict(analysis, new_data = character(0),
   term = "eBaseCount")`.
-- `select_data`: the columns required from `data`. A trailing suffix on a
+- `select_data`: the columns required from `data`, validation checks on expected type or range of values, and rescaling transformations. 
+
+Named list mapping data column names to type or range specifications: `1L` for integer, `1`
+#' for numeric, `factor("")` for factor, `TRUE` for logical. Where an
+#' explicit check is wanted, use a range form such as `c(0L, 100L)` and
+#' append `NA` to allow missing values: `c(0L, 100L, NA)`.
+
+A trailing suffix on a
   name requests a transformation; the original column is replaced with the
   transformed version in the analysis dataset. Available suffixes:
 
@@ -208,7 +215,7 @@ A few notes on the `model()` arguments:
   | `-` | Subtract the minimum (shift to 0) | Year or date, intercept at first year |
   | `=` | Subtract the minimum and add 1 (shift to 1) | Indices that must start at 1 |
   | `/` | Divide by SD (scale) | When preserving the offset matters but units differ |
-  | `*` | Subtract mean and divide by SD (standardise) | Continuous covariates; improves convergence and makes coefficients comparable |
+  | `*` | Subtract mean and divide by SD (standardize) | Continuous covariates; improves convergence, makes prior specification simpler and makes coefficients comparable |
 
   `*` is the default choice for continuous covariates. 
 - `random_effects`: tells embr which factors each random-effect parameter
@@ -230,7 +237,6 @@ analysis <- analyse(
   stan_engine = "cmdstan-mcmc",
   nchains = 3L,
   niters = 500L,
-  niters_warmup = 500L,
   seed = 42L,
   parallel = TRUE,
   quiet = TRUE,
@@ -287,22 +293,26 @@ respecify the same arguments. The mode controls `nchains`, `niters`,
 (`nreanalyses`, `rhat`, `esr`, `duration`), and `conf_level`. Typically set
 once at the top of an analysis script.
 
-| Mode | When to use | `nchains` | `niters` |
-|---|---|---|---|
-| `"debug"` | Rapidly identify problems with a model definition | 2 | 10 |
-| `"quick"` | Quickly test that code runs | 2 | 10 |
-| `"check"` | Run when checking a package | 2 | 500 |
-| `"report"` | Produce results for a report | 3 | 500 |
-| `"paper"` | Produce results for a peer-reviewed paper | 4 | 1000 |
-| `"reset"` | Reset all options to `NULL` (per-call defaults) | — | — |
+| Mode | When to use | `nchains` | `niters` | `rhat` | `esr` |
+|---|---|---|---|---|---|
+| `"debug"` | Rapidly identify problems with a model definition | 2 | 10 | 1.05 | 0.1 |
+| `"quick"` | Quickly test that code runs | 2 | 10 | 1.05 | 0.1 |
+| `"check"` | Run when checking a package | 2 | 500 | 1.0 | 1.0 |
+| `"report"` | Produce results for a report | 3 | 500 | 1.05 | 0.1 |
+| `"paper"` | Produce results for a peer-reviewed paper | 4 | 1000 | 1.01 | 0.25 |
+| `"reset"` | Reset all options to `NULL` (per-call defaults) | — | — | — | — |
+
+`rhat` is the maximum acceptable R-hat (closer to 1 is stricter); `esr` is
+the minimum effective sample rate (effective sample size / total samples;
+closer to 1 is stricter).
 
 Typical workflow:
 
 ```{r set-analysis-mode, eval = FALSE}
-set_analysis_mode("quick") # iterate during development
+set_analysis_mode("quick") # check that model basically runs without error
 analyse(count_model, data = data, stan_engine = "cmdstan-mcmc")
 
-set_analysis_mode("report") # final fit
+set_analysis_mode("report") # final fit and iterative model development
 analyse(count_model, data = data, stan_engine = "cmdstan-mcmc")
 ```
 
