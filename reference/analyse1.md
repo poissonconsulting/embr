@@ -1,6 +1,13 @@
-# Analyse
+# Internal dispatch for fitting a single model + dataset
 
-Analyse
+Called by
+[`analyse.mb_model()`](https://poissonconsulting.github.io/embr/reference/analyse.md)
+once the data have been validated and the model has been compiled.
+Backend packages (`smbr2`, `jmbr`) register methods for each engine.
+
+End users should call
+[`analyse()`](https://poissonconsulting.github.io/embr/reference/analyse.md),
+not `analyse1()` directly.
 
 ## Usage
 
@@ -29,11 +36,12 @@ analyse1(
 
 - data:
 
-  The data.
+  A validated data frame.
 
 - loaded:
 
-  The loaded model.
+  The compiled / loaded model, as returned by
+  [`load_model()`](https://poissonconsulting.github.io/embr/reference/load_model.md).
 
 - nchains:
 
@@ -74,4 +82,9 @@ analyse1(
 
 - ...:
 
-  Additional arguments.
+  Additional arguments passed to the engine-specific estimation
+  function.
+
+## Value
+
+An `mb_analysis` object.

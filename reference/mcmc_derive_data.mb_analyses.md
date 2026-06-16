@@ -35,7 +35,8 @@ mcmc_derive_data(
 
 - new_expr:
 
-  A string of R code specifying the predictive relationship.
+  An R expression (e.g. `{ ... }`) or a character string of R code
+  specifying the predictive relationship.
 
 - new_values:
 
@@ -84,3 +85,8 @@ mcmc_derive_data(
 ## Value
 
 A object of class mcmc_data.
+
+## See also
+
+[`mcmc_derive_data.mb_analysis()`](https://poissonconsulting.github.io/embr/reference/mcmc_derive_data.mb_analysis.md)
+for full argument documentation and examples.

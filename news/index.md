@@ -116,7 +116,8 @@
 
 ## embr 0.0.1.9032
 
-- `mcmc_derive()` and
+- [`mcmc_derive()`](https://poissonconsulting.github.io/mcmcderive/reference/mcmc_derive.html)
+  and
   [`mcmc_derive_data()`](https://rdrr.io/pkg/mcmcdata/man/mcmc_derive_data.html)
   no longer vectorize new expression by default
 - Rename from mbr to embr.
@@ -185,13 +186,19 @@ replace chkor
   been decreased from `1.1` to `1.05` for report mode and from `1.05` to
   `1.01` for paper mode.
 
-- `parameters()` now returns `character(0)` as opposed to `NULL` if no
-  parameters.
+- [`parameters()`](https://poissonconsulting.github.io/term/reference/deprecated.html)
+  now returns `character(0)` as opposed to `NULL` if no parameters.
 
-- Rename `derive()` and `derive_data()` to `mcmc_derive()` and
+- Rename
+  [`derive()`](https://ggplot2.tidyverse.org/reference/sec_axis.html)
+  and `derive_data()` to
+  [`mcmc_derive()`](https://poissonconsulting.github.io/mcmcderive/reference/mcmc_derive.html)
+  and
   [`mcmc_derive_data()`](https://rdrr.io/pkg/mcmcdata/man/mcmc_derive_data.html).
 
-- Moved `pow()` to `mcmcderive` package.
+- Moved
+  [`pow()`](https://poissonconsulting.github.io/extras/reference/pow.html)
+  to `mcmcderive` package.
 
 ## embr 0.0.1
 

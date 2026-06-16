@@ -32,11 +32,16 @@ mcmc_derive_data(
 
 - new_data:
 
-  The data frame to calculate the predictions for.
+  A data frame at which to derive the term. Pass `character(0)` to
+  extract a scalar `term` from new_expr.
 
 - new_expr:
 
-  A string of R code specifying the predictive relationship.
+  An R expression (e.g. `{ ... }`) or a character string of R code
+  specifying the predictive relationship. If `NULL`, uses the expression
+  set in
+  [`model()`](https://poissonconsulting.github.io/embr/reference/model.md)
+  and stored in the `mb_analysis` object.
 
 - new_values:
 
@@ -54,7 +59,9 @@ mcmc_derive_data(
 - ref_data:
 
   A flag or a data frame with 1 row indicating the reference values for
-  calculating the effects size.
+  calculating the effects size. If `FALSE`, no reference applied. If
+  `TRUE`, the reference is a 1 row data.frame with all variables held at
+  reference value.
 
 - ref_fun2:
 
@@ -89,3 +96,45 @@ mcmc_derive_data(
 ## Value
 
 A object of class mcmc_data.
+
+## See also
+
+- The [prediction
+  article](https://poissonconsulting.github.io/embr/articles/prediction.html)
+  for worked patterns including group-level summaries.
+
+- [`predict.mb_analysis()`](https://poissonconsulting.github.io/embr/reference/predict.mb_analysis.md)
+  for tidy posterior summaries at new covariate values.
+
+- [`mcmc_derive.mb_analysis()`](https://poissonconsulting.github.io/embr/reference/mcmc_derive.mb_analysis.md)
+  for scalar derived quantities and arithmetic on `mcmcr` posteriors.
+
+- [`mcmcr::combine_samples()`](https://poissonconsulting.github.io/mcmcr/reference/combine_samples.html)
+  for combining MCMC samples across independent analyses on shared data
+  keys.
+
+- [`newdata::xnew_data()`](https://poissonconsulting.github.io/newdata/reference/xnew_data.html)
+  for building covariate grids.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+# `analysis` is a fitted mb_analysis with factors site, treatment and
+# new_expr that defines per-row term `eCount`.
+data <- data_set(analysis)
+
+# Per-group posterior summaries via group_by() + summarise().
+# Default .fun = sum; use mean for the per-treatment posterior mean.
+mcmc_derive_data(analysis, new_data = data, term = "^eCount$") |>
+  group_by(treatment) |>
+  summarise(.fun = mean) |>
+  coef()
+
+# Custom summarise function, e.g. range within group
+mcmc_derive_data(analysis, new_data = data, term = "^eCount$") |>
+  group_by(treatment) |>
+  summarise(.fun = function(x) max(x) - min(x)) |>
+  coef()
+} # }
+```

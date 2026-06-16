@@ -38,25 +38,35 @@ update_model(
 
 - gen_inits:
 
-  A single argument function taking the modified data and returning a
-  named list of initial values.
+  A single-argument function returning a named list of initial values
+  per chain. Receives the modified data list (i.e. after `select_data`,
+  rescaling, type coercion, factor-count and `nObs` injection, and
+  `modify_data`). Returning [`list()`](https://rdrr.io/r/base/list.html)
+  lets the backend fall back to its own defaults (JAGS samples from
+  priors; Stan uses its random init). Non-MCMC `cmdstan-*` engines
+  ignore it.
 
 - random_effects:
 
-  A named list specifying the random effects and the associated factors.
+  Named list mapping parameter names in the model code to one or more
+  grouping factor columns from `select_data`. Each named factor must
+  appear in `select_data` and must not also be in `derived`.
 
 - fixed:
 
-  A string of a regular expression specifying the fixed pars to monitor.
+  A string of a regular expression of parameter names to monitor as
+  fixed effects.
 
 - derived:
 
-  A character vector of the derived pars to monitor.
+  A character vector of derived parameters to monitor.
 
 - select_data:
 
-  A named list specifying the columns to select and their associated
-  classes and values as well as transformations and scaling options.
+  A named list specifying the columns to select and their expected
+  classes and values as well as transformations and scaling options. See
+  the **select_data** section of
+  [`model()`](https://poissonconsulting.github.io/embr/reference/model.md).
 
 - center:
 
@@ -73,28 +83,35 @@ update_model(
 
 - nthin:
 
-  A count specifying the thinning interval.
+  An integer specifying the thinning interval.
 
 - new_expr:
 
-  A string of R code specifying the predictive relationships.
+  An R expression or character string of R code defining the predictive
+  relationships and derived quantities. See the **new_expr** section of
+  [`model()`](https://poissonconsulting.github.io/embr/reference/model.md).
 
 - new_expr_vec:
 
-  A flag specifying whether to vectorize the new_expr code.
+  Flag controlling whether to vectorise the `new_expr` code via
+  [`mcmcderive::expression_vectorize()`](https://poissonconsulting.github.io/mcmcderive/reference/expression_vectorize.html).
+  See the **new_expr** section of
+  [`model()`](https://poissonconsulting.github.io/embr/reference/model.md)
+  for safe patterns and silent fallbacks.
 
 - modify_new_data:
 
-  A single argument function to modify new data (in list form)
+  SA single argument function to modify new data (in list form)
   immediately prior to calculating new_expr.
 
 - drops:
 
-  A list of character vector of possible scalar pars to drop (fix at 0).
+  A list of character vectors naming scalar parameters to fix at 0 in
+  the model.
 
 - ...:
 
-  Unused arguments.
+  These dots are for future extensions and must be empty.
 
 ## Value
 

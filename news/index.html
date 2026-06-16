@@ -16,6 +16,11 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/analyse.html">Fitting Models with analyse()</a></li>
+    <li><a class="dropdown-item" href="../articles/prediction.html">Prediction with predict() and Related Functions</a></li>
+  </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -112,7 +117,7 @@
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.1.9032" id="embr-0019032">embr 0.0.1.9032<a class="anchor" aria-label="anchor" href="#embr-0019032"></a></h2>
 <ul><li>
-<code>mcmc_derive()</code> and <code><a href="https://rdrr.io/pkg/mcmcdata/man/mcmc_derive_data.html" class="external-link">mcmc_derive_data()</a></code> no longer vectorize new expression by default</li>
+<code><a href="https://poissonconsulting.github.io/mcmcderive/reference/mcmc_derive.html" class="external-link">mcmc_derive()</a></code> and <code><a href="https://rdrr.io/pkg/mcmcdata/man/mcmc_derive_data.html" class="external-link">mcmc_derive_data()</a></code> no longer vectorize new expression by default</li>
 <li>Rename from mbr to embr.</li>
 <li>
 <code><a href="../reference/posterior_predictive_check.html">posterior_predictive_check()</a></code> now gives zeros by default.</li>
@@ -147,9 +152,9 @@
 <li><p>add <code>marginalize_random_effects</code> argument to <code>data_set</code></p></li>
 <li><p>numericize difftime values as cause problems for STAN</p></li>
 <li><p><code><a href="../reference/set_analysis_mode.html">set_analysis_mode()</a></code> now ensures all options are set unless <code>mode = "reset"</code> and <code>rhat</code> has been decreased from <code>1.1</code> to <code>1.05</code> for report mode and from <code>1.05</code> to <code>1.01</code> for paper mode.</p></li>
-<li><p><code>parameters()</code> now returns <code>character(0)</code> as opposed to <code>NULL</code> if no parameters.</p></li>
-<li><p>Rename <code>derive()</code> and <code>derive_data()</code> to <code>mcmc_derive()</code> and <code><a href="https://rdrr.io/pkg/mcmcdata/man/mcmc_derive_data.html" class="external-link">mcmc_derive_data()</a></code>.</p></li>
-<li><p>Moved <code>pow()</code> to <code>mcmcderive</code> package.</p></li>
+<li><p><code><a href="https://poissonconsulting.github.io/term/reference/deprecated.html" class="external-link">parameters()</a></code> now returns <code>character(0)</code> as opposed to <code>NULL</code> if no parameters.</p></li>
+<li><p>Rename <code><a href="https://ggplot2.tidyverse.org/reference/sec_axis.html" class="external-link">derive()</a></code> and <code>derive_data()</code> to <code><a href="https://poissonconsulting.github.io/mcmcderive/reference/mcmc_derive.html" class="external-link">mcmc_derive()</a></code> and <code><a href="https://rdrr.io/pkg/mcmcdata/man/mcmc_derive_data.html" class="external-link">mcmc_derive_data()</a></code>.</p></li>
+<li><p>Moved <code><a href="https://poissonconsulting.github.io/extras/reference/pow.html" class="external-link">pow()</a></code> to <code>mcmcderive</code> package.</p></li>
 </ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.0.1" id="embr-001">embr 0.0.1<a class="anchor" aria-label="anchor" href="#embr-001"></a></h2>

@@ -55,19 +55,28 @@ Parameter Descriptions
 
 - stan_engine:
 
-  A string specifying the Stan engine to use:
+  A string selecting the Stan engine:
 
-  - `"rstan"` for MCMC sampling via `rstan::sampling()` (default).
+  - `"cmdstan-mcmc"`: MCMC via
+    [`cmdstanr::sample()`](https://mc-stan.org/cmdstanr/reference/model-method-sample.html).
 
-  - `"cmdstan-mcmc"` for MCMC sampling via `cmdstanr::sample()`
+  - `"cmdstan-pathfinder"`: pathfinder via
+    [`cmdstanr::pathfinder()`](https://mc-stan.org/cmdstanr/reference/model-method-pathfinder.html).
 
-  - `"cmdstan-pathfinder"` for pathfinder estimation via
-    `cmdstanr::pathfinder()`
+  - `"cmdstan-variational"`: variational ADVI via
+    [`cmdstanr::variational()`](https://mc-stan.org/cmdstanr/reference/model-method-variational.html).
 
-  - `"cmdstan-optimize"` for optimization via `cmdstanr::optimize()`
+  - `"cmdstan-optimize"`: optimization via
+    [`cmdstanr::optimize()`](https://mc-stan.org/cmdstanr/reference/model-method-optimize.html).
 
-  - `"cmdstan-laplace"` for Laplace approximation via
-    `cmdstanr::laplace()`
+  - `"cmdstan-laplace"`: Laplace approximation via
+    [`cmdstanr::laplace()`](https://mc-stan.org/cmdstanr/reference/model-method-laplace.html).
+
+  Defaults to `character(0)`. Any value other than the five above
+  (including the empty default) falls back to MCMC via
+  [`rstan::sampling()`](https://mc-stan.org/rstan/reference/stanmodel-method-sampling.html).
+  Ignored for JAGS models, which always use
+  [rjags](https://rdrr.io/pkg/rjags/man/rjags-package.html).
 
 - ...:
 

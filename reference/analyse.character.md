@@ -1,9 +1,6 @@
-# Analyse Character Model
+# Analyse from Character Code
 
-Analyses a model defined as a character string containing Stan or JAGS
-code. The character string is first converted to an mb_model object,
-then passed on to
-[`analyse.mb_model()`](https://poissonconsulting.github.io/embr/reference/analyse.mb_model.md)
+A convenience that builds the model and fits it in one call.
 
 ## Usage
 
@@ -31,16 +28,17 @@ analyse(
 
 - x:
 
-  A character string containing Stan or JAGS model code.
+  A character string of Stan or JAGS model code.
 
 - data:
 
-  The data frame to analyse.
+  A data frame.
 
 - select_data:
 
-  A named list specifying the columns to select and their associated
-  classes and values as well as transformations and scaling options.
+  A named list specifying columns to select with their classes, values,
+  transforms, and scaling options. Passed to
+  [`model()`](https://poissonconsulting.github.io/embr/reference/model.md).
 
 - nchains:
 
@@ -79,19 +77,28 @@ analyse(
 
 - stan_engine:
 
-  A string specifying the Stan engine to use:
+  A string selecting the Stan engine:
 
-  - `"rstan"` for MCMC sampling via `rstan::sampling()` (default).
+  - `"cmdstan-mcmc"`: MCMC via
+    [`cmdstanr::sample()`](https://mc-stan.org/cmdstanr/reference/model-method-sample.html).
 
-  - `"cmdstan-mcmc"` for MCMC sampling via `cmdstanr::sample()`
+  - `"cmdstan-pathfinder"`: pathfinder via
+    [`cmdstanr::pathfinder()`](https://mc-stan.org/cmdstanr/reference/model-method-pathfinder.html).
 
-  - `"cmdstan-pathfinder"` for pathfinder estimation via
-    `cmdstanr::pathfinder()`
+  - `"cmdstan-variational"`: variational ADVI via
+    [`cmdstanr::variational()`](https://mc-stan.org/cmdstanr/reference/model-method-variational.html).
 
-  - `"cmdstan-optimize"` for optimization via `cmdstanr::optimize()`
+  - `"cmdstan-optimize"`: optimization via
+    [`cmdstanr::optimize()`](https://mc-stan.org/cmdstanr/reference/model-method-optimize.html).
 
-  - `"cmdstan-laplace"` for Laplace approximation via
-    `cmdstanr::laplace()`
+  - `"cmdstan-laplace"`: Laplace approximation via
+    [`cmdstanr::laplace()`](https://mc-stan.org/cmdstanr/reference/model-method-laplace.html).
+
+  Defaults to `character(0)`. Any value other than the five above
+  (including the empty default) falls back to MCMC via
+  [`rstan::sampling()`](https://mc-stan.org/rstan/reference/stanmodel-method-sampling.html).
+  Ignored for JAGS models, which always use
+  [rjags](https://rdrr.io/pkg/rjags/man/rjags-package.html).
 
 - niters_warmup:
 
@@ -101,18 +108,26 @@ analyse(
 
 - ...:
 
-  Additional arguments passed to the underlying estimation function. See
-  [`analyse.mb_model()`](https://poissonconsulting.github.io/embr/reference/analyse.mb_model.md)
-  for details.
+  Additional arguments passed to
+  [`analyse()`](https://poissonconsulting.github.io/embr/reference/analyse.md).
 
 ## Value
 
-An mb_analysis object containing the fitted model results.
+An `mb_analysis` or `mb_meta_analysis`. See
+[`analyse()`](https://poissonconsulting.github.io/embr/reference/analyse.md)
+for details.
+
+## Details
+
+Only `select_data` is forwarded to
+[`model()`](https://poissonconsulting.github.io/embr/reference/model.md).
+If you need to set `new_expr`, `random_effects`, `new_expr_vec`, or
+`gen_inits`, build the model with
+[`model()`](https://poissonconsulting.github.io/embr/reference/model.md)
+directly and pass it to
+[`analyse()`](https://poissonconsulting.github.io/embr/reference/analyse.md).
 
 ## See also
 
-- [`analyse.mb_model()`](https://poissonconsulting.github.io/embr/reference/analyse.mb_model.md)
-  for analysing a single model
-
-- [`analyse.mb_models()`](https://poissonconsulting.github.io/embr/reference/analyse.mb_models.md)
-  for analysing multiple models
+[`analyse()`](https://poissonconsulting.github.io/embr/reference/analyse.md)
+for full argument documentation and engine details.

@@ -6,6 +6,9 @@
 <url><loc>https://poissonconsulting.github.io/embr/LICENSE-text.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/LICENSE.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/SUPPORT.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/embr/articles/analyse.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/embr/articles/index.html</loc></url>
+<url><loc>https://poissonconsulting.github.io/embr/articles/prediction.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/authors.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/index.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/news/index.html</loc></url>
@@ -17,7 +20,6 @@
 <url><loc>https://poissonconsulting.github.io/embr/reference/add_sensitivity.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/analyse.character.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/analyse.html</loc></url>
-<url><loc>https://poissonconsulting.github.io/embr/reference/analyse.mb_model.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/analyse.mb_models.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/analyse1.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/analyse_residuals.html</loc></url>
@@ -73,7 +75,6 @@
 <url><loc>https://poissonconsulting.github.io/embr/reference/log_prior_draws.mb_analysis.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/make_all_models.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/mb_code.html</loc></url>
-<url><loc>https://poissonconsulting.github.io/embr/reference/mcmc_derive.mb_analyses.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/mcmc_derive.mb_analysis.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/mcmc_derive_data.mb_analyses.html</loc></url>
 <url><loc>https://poissonconsulting.github.io/embr/reference/mcmc_derive_data.mb_analysis.html</loc></url>

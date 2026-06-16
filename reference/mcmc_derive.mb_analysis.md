@@ -21,6 +21,21 @@ mcmc_derive(
   quiet = getOption("mb.quiet", TRUE),
   ...
 )
+
+# S3 method for class 'mb_analyses'
+mcmc_derive(
+  object,
+  new_data = data_set(object),
+  new_expr = NULL,
+  new_values = list(),
+  term = "prediction",
+  modify_new_data = NULL,
+  ref_data = FALSE,
+  new_expr_vec = getOption("mb.new_expr_vec", FALSE),
+  parallel = getOption("mb.parallel", FALSE),
+  quiet = getOption("mb.quiet", TRUE),
+  ...
+)
 ```
 
 ## Arguments
@@ -31,11 +46,16 @@ mcmc_derive(
 
 - new_data:
 
-  The data frame to calculate the predictions for.
+  A data frame at which to derive the term. Pass `character(0)` to
+  extract a scalar `term` from new_expr.
 
 - new_expr:
 
-  A string of R code specifying the predictive relationship.
+  An R expression (e.g. `{ ... }`) or a character string of R code
+  specifying the predictive relationship. If `NULL`, uses the expression
+  set in
+  [`model()`](https://poissonconsulting.github.io/embr/reference/model.md)
+  and stored in the `mb_analysis` object.
 
 - new_values:
 
@@ -53,7 +73,9 @@ mcmc_derive(
 - ref_data:
 
   A flag or a data frame with 1 row indicating the reference values for
-  calculating the effects size.
+  calculating the effects size. If `FALSE`, no reference applied. If
+  `TRUE`, the reference is a 1 row data.frame with all variables held at
+  reference value.
 
 - ref_fun2:
 
@@ -84,3 +106,48 @@ mcmc_derive(
 ## Value
 
 A object of class mcmcr.
+
+## See also
+
+- The [prediction
+  article](https://poissonconsulting.github.io/embr/articles/prediction.html)
+  for worked patterns including arithmetic on `mcmcr` posteriors.
+
+- [`predict.mb_analysis()`](https://poissonconsulting.github.io/embr/reference/predict.mb_analysis.md)
+  for tidy posterior summaries at new covariate values.
+
+- [`mcmc_derive_data.mb_analysis()`](https://poissonconsulting.github.io/embr/reference/mcmc_derive_data.mb_analysis.md)
+  for raw MCMC samples paired with `new_data` and group-level summaries.
+
+- [`mcmcr::combine_samples()`](https://poissonconsulting.github.io/mcmcr/reference/combine_samples.html)
+  for combining MCMC samples across independent analyses on shared data
+  keys.
+
+## Examples
+
+``` r
+if (FALSE) { # \dontrun{
+# Pull multiple scalar terms in one call by regex. Quantities defined in
+# new_expr are usually easiest to extract individually with predict();
+# mcmc_derive() is most useful when (a) you want raw mcmcr samples for
+# downstream operations predict() does not support (probability
+# statements, custom quantiles) or (b) you want to compose multiple terms
+# with arbitrary arithmetic. See vignette("prediction") for worked
+# patterns.
+
+scalars <- mcmc_derive(
+  analysis,
+  new_data = character(0),
+  term = "^(eBaseCount|eRestoredEffect)$"
+)
+coef(scalars)
+
+# Custom expression with injected scalar constants
+as.mcmcr(analysis) |>
+  mcmc_derive(
+    expr = "biomass <- exp(bIntercept) * mean_mass_g",
+    values = list(mean_mass_g = 250)
+  ) |>
+  coef()
+} # }
+```

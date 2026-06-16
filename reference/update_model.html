@@ -16,6 +16,11 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto"><li class="active nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles"><li><a class="dropdown-item" href="../articles/analyse.html">Fitting Models with analyse()</a></li>
+    <li><a class="dropdown-item" href="../articles/prediction.html">Prediction with predict() and Related Functions</a></li>
+  </ul></li>
 <li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul><ul class="navbar-nav"><li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json"></form></li>
@@ -72,24 +77,31 @@
 
 
 <dt id="arg-gen-inits">gen_inits<a class="anchor" aria-label="anchor" href="#arg-gen-inits"></a></dt>
-<dd><p>A single argument function taking the modified data and
-returning a named list of initial values.</p></dd>
+<dd><p>A single-argument function returning a named list of
+initial values per chain. Receives the modified data list (i.e. after
+<code>select_data</code>, rescaling, type coercion, factor-count and <code>nObs</code>
+injection, and <code>modify_data</code>). Returning <code><a href="https://rdrr.io/r/base/list.html" class="external-link">list()</a></code> lets the backend fall
+back to its own defaults (JAGS samples from priors; Stan uses its
+random init). Non-MCMC <code>cmdstan-*</code> engines ignore it.</p></dd>
 
 
 <dt id="arg-random-effects">random_effects<a class="anchor" aria-label="anchor" href="#arg-random-effects"></a></dt>
-<dd><p>A named list specifying the random effects and the associated factors.</p></dd>
+<dd><p>Named list mapping parameter names in the model
+code to one or more grouping factor columns from <code>select_data</code>.
+Each named factor must appear in <code>select_data</code> and must not also be in
+<code>derived</code>.</p></dd>
 
 
 <dt id="arg-fixed">fixed<a class="anchor" aria-label="anchor" href="#arg-fixed"></a></dt>
-<dd><p>A string of a regular expression specifying the fixed pars to monitor.</p></dd>
+<dd><p>A string of a regular expression of parameter names to monitor as fixed effects.</p></dd>
 
 
 <dt id="arg-derived">derived<a class="anchor" aria-label="anchor" href="#arg-derived"></a></dt>
-<dd><p>A character vector of the derived pars to monitor.</p></dd>
+<dd><p>A character vector of derived parameters to monitor.</p></dd>
 
 
 <dt id="arg-select-data">select_data<a class="anchor" aria-label="anchor" href="#arg-select-data"></a></dt>
-<dd><p>A named list specifying the columns to select and their associated classes and values as well as transformations and scaling options.</p></dd>
+<dd><p>A named list specifying the columns to select and their expected classes and values as well as transformations and scaling options. See the <strong>select_data</strong> section of <code><a href="model.html">model()</a></code>.</p></dd>
 
 
 <dt id="arg-center">center<a class="anchor" aria-label="anchor" href="#arg-center"></a></dt>
@@ -105,27 +117,32 @@ returning a named list of initial values.</p></dd>
 
 
 <dt id="arg-nthin">nthin<a class="anchor" aria-label="anchor" href="#arg-nthin"></a></dt>
-<dd><p>A count specifying the thinning interval.</p></dd>
+<dd><p>An integer specifying the thinning interval.</p></dd>
 
 
 <dt id="arg-new-expr">new_expr<a class="anchor" aria-label="anchor" href="#arg-new-expr"></a></dt>
-<dd><p>A string of R code specifying the predictive relationships.</p></dd>
+<dd><p>An R expression or character string of R code defining
+the predictive relationships and derived quantities. See the <strong>new_expr</strong>
+section of <code><a href="model.html">model()</a></code>.</p></dd>
 
 
 <dt id="arg-new-expr-vec">new_expr_vec<a class="anchor" aria-label="anchor" href="#arg-new-expr-vec"></a></dt>
-<dd><p>A flag specifying whether to vectorize the new_expr code.</p></dd>
+<dd><p>Flag controlling whether to vectorise the <code>new_expr</code>
+code via <code><a href="https://poissonconsulting.github.io/mcmcderive/reference/expression_vectorize.html" class="external-link">mcmcderive::expression_vectorize()</a></code>. See the <strong>new_expr</strong>
+section of <code><a href="model.html">model()</a></code> for safe patterns and silent fallbacks.</p></dd>
 
 
 <dt id="arg-modify-new-data">modify_new_data<a class="anchor" aria-label="anchor" href="#arg-modify-new-data"></a></dt>
-<dd><p>A single argument function to modify new data (in list form) immediately prior to calculating new_expr.</p></dd>
+<dd><p>SA single argument function to modify new data (in list form) immediately prior to calculating new_expr.</p></dd>
 
 
 <dt id="arg-drops">drops<a class="anchor" aria-label="anchor" href="#arg-drops"></a></dt>
-<dd><p>A list of character vector of possible scalar pars to drop (fix at 0).</p></dd>
+<dd><p>A list of character vectors naming scalar parameters to fix at
+0 in the model.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
-<dd><p>Unused arguments.</p></dd>
+<dd><p>These dots are for future extensions and must be empty.</p></dd>
 
 </dl></div>
     <div class="section level2">

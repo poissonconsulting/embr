@@ -1,6 +1,7 @@
-# Predict
+# Predict from a `mb_analyses` object
 
-Predict
+Returns IC-weighted model-averaged predictions across an `mb_analyses`
+list.
 
 ## Usage
 
@@ -31,11 +32,16 @@ predict(
 
 - new_data:
 
-  The data frame to calculate the predictions for.
+  A data frame at which to derive the term. Pass `character(0)` to
+  extract a scalar `term` from new_expr.
 
 - new_expr:
 
-  A string of R code specifying the predictive relationship.
+  An R expression (e.g. `{ ... }`) or a character string of R code
+  specifying the predictive relationship. If `NULL`, uses the expression
+  set in
+  [`model()`](https://poissonconsulting.github.io/embr/reference/model.md)
+  and stored in the `mb_analysis` object.
 
 - new_values:
 
@@ -57,7 +63,9 @@ predict(
 - ref_data:
 
   A flag or a data frame with 1 row indicating the reference values for
-  calculating the effects size.
+  calculating the effects size. If `FALSE`, no reference applied. If
+  `TRUE`, the reference is a 1 row data.frame with all variables held at
+  reference value.
 
 - ref_fun2:
 
@@ -80,3 +88,12 @@ predict(
 - ...:
 
   Additional arguments.
+
+## Value
+
+A data frame with one row per row of `new_data`.
+
+## See also
+
+[`predict.mb_analysis()`](https://poissonconsulting.github.io/embr/reference/predict.mb_analysis.md)
+for full argument documentation and examples.
