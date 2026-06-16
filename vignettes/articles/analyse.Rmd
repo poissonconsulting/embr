@@ -98,8 +98,9 @@ head(data)
 ## Defining the model
 
 The model is defined in two parts: the Stan code (likelihood and priors) and
-an R `new_expr` (used post-fitting for predictions, residuals, sensitivity, and log likelihood). `select_data` declares the columns to extract from `data` and how to validate / transform them. `random_effects` maps the relevant
-parameters (e.g., `z_b*` in parameterization below) to their factor columns so embr can zero them at prediction time to get predictions for a 'typical' group level.
+an R `new_expr` (used post-fitting for predictions, residuals, sensitivity,
+and log likelihood). `select_data` and `random_effects` are described in the
+notes that follow.
 
 ```{r stan-code}
 count_code <- "
@@ -202,16 +203,16 @@ A few notes on the `model()` arguments:
   derived quantities such as `eBaseCount` and `eRestoredEffect` can be
   extracted directly with `predict(analysis, new_data = character(0),
   term = "eBaseCount")`.
-- `select_data`: the columns required from `data`, validation checks on expected type or range of values, and rescaling transformations. 
+- `select_data`: a named list declaring the columns required from `data`,
+  validation checks on their type or range of values, and optional
+  rescaling transformations. Type specifications are `1L` for integer,
+  `1` for numeric, `factor("")` for factor, `TRUE` for logical. Where
+  an explicit value-range check is wanted, use a range form such as
+  `c(0L, 100L)`; append `NA` to allow missing values: `c(0L, 100L, NA)`.
 
-Named list mapping data column names to type or range specifications: `1L` for integer, `1`
-#' for numeric, `factor("")` for factor, `TRUE` for logical. Where an
-#' explicit check is wanted, use a range form such as `c(0L, 100L)` and
-#' append `NA` to allow missing values: `c(0L, 100L, NA)`.
-
-A trailing suffix on a
-  name requests a transformation; the original column is replaced with the
-  transformed version in the analysis dataset. Available suffixes:
+  A trailing suffix on a name requests a rescaling transformation; the
+  original column is replaced with the transformed version in the
+  analysis dataset. Available suffixes:
 
   | Suffix | Transformation | Typical use |
   |---|---|---|
@@ -220,20 +221,20 @@ A trailing suffix on a
   | `-` | Subtract the minimum (shift to 0) | Year or date, intercept at first year |
   | `=` | Subtract the minimum and add 1 (shift to 1) | Indices that must start at 1 |
   | `/` | Divide by SD (scale) | When preserving the offset matters but units differ |
-  | `*` | Subtract mean and divide by SD (standardize) | Continuous covariates; improves convergence, makes prior specification simpler and makes coefficients comparable |
+  | `*` | Subtract mean and divide by SD (standardize) | Continuous covariates; improves convergence, makes prior specification simpler, and makes coefficients comparable |
 
-  `*` is the default choice for continuous covariates. 
+  `*` is the default choice for continuous covariates.
 - `random_effects`: tells embr which factors each random-effect parameter
   is indexed by. `predict()` uses this to decide when to zero
   parameters (see the prediction article).
 
 ## Fitting with `analyse.mb_model`
 
-rstan is the default fallback when no `stan_engine` is set; for new projects,
-`stan_engine = "cmdstan-mcmc"` via smbr2 is recommended for faster compilation
-and better diagnostics. `niters`, `niters_warmup`, and `nchains` are typically
-set via `set_analysis_mode()`; here they are specified within the function to keep the
-example self-contained.
+rstan is the default fallback when no `stan_engine` is set; cmdstanr via
+`stan_engine = "cmdstan-mcmc"` is recommended for faster compilation and
+better diagnostics. `niters`, `niters_warmup`, and `nchains` are typically
+set via `set_analysis_mode()`; here they are specified explicitly per call
+to keep the example self-contained.
 
 ```{r fit-default}
 analysis <- analyse(
@@ -314,10 +315,10 @@ closer to 1 is stricter).
 Typical workflow:
 
 ```{r set-analysis-mode, eval = FALSE}
-set_analysis_mode("quick") # check that model basically runs without error
+set_analysis_mode("quick") # check that model runs without error
 analyse(count_model, data = data, stan_engine = "cmdstan-mcmc")
 
-set_analysis_mode("report") # final fit and iterative model development
+set_analysis_mode("report") # report-grade fits
 analyse(count_model, data = data, stan_engine = "cmdstan-mcmc")
 ```
 

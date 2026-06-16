@@ -24,13 +24,13 @@ with point estimates and compatibility limits. This vignette covers:
 
 * [Covariate grids](#covariate-grids-with-the-newdata-helpers) built with the `newdata` helpers.
 * [Scalar quantities from `new_expr`](#scalar-quantities-from-new_expr).
+* [Random-effect zeroing](#random-effect-zeroing) control.
 * [Reference data and effect sizes](#reference-data-and-effect-sizes), e.g., for proportional change.
 * [Predicting for an unobserved level](#predicting-for-an-unobserved-level) to include amongst-level variation.
 * [Overriding `new_expr` and injecting constants](#overriding-new_expr-and-injecting-constants) for ad-hoc derived quantities.
 * [Group-level summaries with `mcmc_derive_data()`](#group-level-summaries-with-mcmc_derive_data).
 * [Combining across analyses with `combine_samples()`](#combining-across-analyses-with-combine_samples) for joining and summarizing samples from independent fits.
 * [Scalar derived quantities with `mcmc_derive()`](#scalar-derived-quantities-with-mcmc_derive) and arithmetic on raw `mcmcr` posteriors.
-* [Random-effect zeroing](#random-effect-zeroing) control.
 * [Cheat sheet](#cheat-sheet) mapping common goals to tools.
 
 ```{r libraries, message = FALSE}
@@ -217,7 +217,7 @@ predict(analysis) |> head()
 
 ## Covariate grids with the `newdata` helpers
 
-Covariate grids can be generated with `newdata::xnew_data()`. Covariates not specified in `xnew_data()` are held at a reference value: mean for continuous, first level for factors (categorical fixed or random effects). When all values of a random effect factor are held at the first level, predictions are made for a 'typical' level (i.e., by dropping that random effect from calculations). To remove this behaviour (i.e., to calculate predictions for the first level), set `random_effects = FALSE` in `predict()`. See "Random effect zeroing" section for more details. In the case of categorical fixed effects, predictions are made for the first level. 
+Covariate grids can be generated with `newdata::xnew_data()`. Covariates not specified are held at a reference value: mean for continuous, first level for factors. For categorical fixed effects this is the literal first level; for random-effect factors at the first level, that random effect is zeroed by default — see *Random-effect zeroing* below.
 
 ### Continuous covariate
 By default, specifying the name of a continuous covariate will generate a sequence from min to max, with length 30. Notice factors (e.g., site) are held at the first level. 
@@ -297,7 +297,7 @@ xnew_data(
   predict(analysis, new_data = _)
 ```
 
-`xnew_data(site = "a")` will fail. 
+Note that `xnew_data(data, site = "a")` will not work: bare `=` assignment is for *continuous* covariates (e.g., `temperature = 1`). To fix a factor at a specific level, wrap it in `xcast()`.
 
 ## Scalar quantities from `new_expr`
 
@@ -329,7 +329,7 @@ xnew_data(data, temperature) |>
 
 ### `random_effects = FALSE`
 
-If `random_effects = FALSE`, zeroing is skipped and predictions are made for the first level of the factor (e.g., for `site` level 1 and `annual` level 1).
+If `random_effects = FALSE`, zeroing is skipped and predictions use the literal first level of each random-effect factor (here, `site = "a"` and `annual = 1`).
 
 ```{r re-false}
 xnew_data(data, temperature) |>
@@ -419,7 +419,7 @@ plot_pointrange(pred_diff, treatment) +
 
 ## Predicting for an unobserved level
 
-Zeroing a random effect gives the prediction for the *typical* or *average* group level, e.g., expected count for an average site, with amongst-site variability removed. However, for a *new*, *unobserved* level the uncertainty should be wider to account for amonst-level variation. This is done by drawing a new random effect from its population distribution, which typically will incorporate mean 0 (for random effects centred at 0) and the SD of the random effect, which is estimated. The model's `new_expr` already defines an `unobserved` term to do this:
+Zeroing a random effect gives the prediction for the *typical* or *average* group level, e.g., expected count for an average site, with amongst-site variability removed. However, for a *new*, *unobserved* level the uncertainty should be wider to account for amongst-level variation. This is done by drawing a new random effect from its population distribution, which typically will incorporate mean 0 (for random effects centred at 0) and the SD of the random effect, which is estimated. The model's `new_expr` already defines an `unobserved` term to do this:
 
 ```r
 unobserved[i] <- exp(bIntercept +
@@ -453,7 +453,7 @@ bind_rows(typical, unobserved) |>
   labs(y = "Expected count", x = "Treatment", colour = NULL)
 ```
 
-Compatibility limits are appropriately wider for `unobserved site` as the interval now
+Compatibility limits are wider for `unobserved site`, as the interval now
 reflects amongst-site variation in addition to parameter uncertainty.
 
 ## Overriding `new_expr` and injecting constants
@@ -519,12 +519,16 @@ mcmc_derive_data(analysis, new_data = data, term = "^eCount$") |>
 
 ## Combining across analyses with `combine_samples()`
 
+`mcmc_data` objects come from `mcmc_derive_data()`; they hold the raw
+per-row MCMC samples together with the associated data, without the
+point-estimate-and-limits summarisation that `predict()` performs.
+
 `mcmcr::combine_samples()` (with the `mcmc_data` method from `mcmcdata`)
 joins two `mcmc_data` objects on shared data columns and applies a function
 to align MCMC draws row-by-row. Its natural use is composing quantities
 derived from *independent* analyses: for example, multiplying an abundance
 posterior by a mass-per-fish posterior to get biomass, where each component
-was fitted from a different dataset. Note `mcmc_data` objects are generated from `mcmc_derive_data()`, which is useful for capturing posterior distributions (with associated data) without summarizing, as in `predict()`. 
+was fitted from a different dataset.
 
 Assume a separate `mass_analysis` was fitted to size-measurement
 data (different observation model, same site factor), and both analyses
@@ -574,8 +578,10 @@ independently fitted models whose draws need joining.
 
 ## Scalar derived quantities with `mcmc_derive()`
 
-`mcmc_derive()` returns the raw MCMC samples for one or more scalar terms in
-`new_expr`. As with `mcmc_derive_data()`, this is useful when you want to compute posteriors without summarizing to a point estimate and compatibility limits. 
+`mcmc_derive()` returns the raw MCMC samples for one or more scalar terms
+in `new_expr`. As with `mcmc_derive_data()`, this is useful when you want
+to work with the raw MCMC samples directly rather than `predict()`'s
+estimate-and-limits summary.
 
 ### Pull related scalars by regex
 
@@ -591,7 +597,7 @@ scalars <- mcmc_derive(
 coef(scalars)
 ```
 
-`coef()` is run on the `mcmc_derive()` output to get point estimte with compatibility limits. 
+`coef()` is run on the `mcmc_derive()` output to get point estimates with compatibility limits.
 
 ### Arithmetic on `mcmcr` objects
 
