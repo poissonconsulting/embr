@@ -1,3 +1,10 @@
 url: https://poissonconsulting.github.io/embr/
 template:
   package: poissontemplate
+
+articles:
+  - title: Guides
+    navbar: ~
+    contents:
+    - articles/analyse
+    - articles/prediction

@@ -2,7 +2,7 @@
 % Please edit documentation in R/model.R
 \name{model}
 \alias{model}
-\title{MB Model}
+\title{Define a Model}
 \usage{
 model(
   x = NULL,
@@ -24,23 +24,32 @@ model(
 )
 }
 \arguments{
-\item{x}{A string, or an object inheriting from class \code{"mb_code"}.}
+\item{x}{An \code{mb_code} object built with \code{\link[=mb_code]{mb_code()}}, or \code{NULL} (the
+default). When \code{NULL}, the model code is built inline from \code{code}.
+Passing a character string or an \code{mb_analysis} is deprecated.}
 
-\item{...}{Unused arguments.}
+\item{...}{These dots are for future extensions and must be empty.}
 
-\item{code}{Passed on to \code{\link[=mb_code]{mb_code()}}. If \code{x} is not \code{NULL}, \code{code} must be \code{NULL},
-and vice versa.}
+\item{code}{Model code (Stan or JAGS expression or string) to pass to
+\code{\link[=mb_code]{mb_code()}}. Only used when \code{x = NULL}.}
 
-\item{gen_inits}{A single argument function taking the modified data and
-returning a named list of initial values.}
+\item{gen_inits}{A single-argument function returning a named list of
+initial values per chain. Receives the modified data list (i.e. after
+\code{select_data}, rescaling, type coercion, factor-count and \code{nObs}
+injection, and \code{modify_data}). Returning \code{list()} lets the backend fall
+back to its own defaults (JAGS samples from priors; Stan uses its
+random init). Non-MCMC \verb{cmdstan-*} engines ignore it.}
 
-\item{random_effects}{A named list specifying the random effects and the associated factors.}
+\item{random_effects}{Named list mapping parameter names in the model
+code to one or more grouping factor columns from \code{select_data}.
+Each named factor must appear in \code{select_data} and must not also be in
+\code{derived}.}
 
-\item{fixed}{A string of a regular expression specifying the fixed pars to monitor.}
+\item{fixed}{A string of a regular expression of parameter names to monitor as fixed effects.}
 
-\item{derived}{A character vector of the derived pars to monitor.}
+\item{derived}{A character vector of derived parameters to monitor.}
 
-\item{select_data}{A named list specifying the columns to select and their associated classes and values as well as transformations and scaling options.}
+\item{select_data}{A named list specifying the columns to select and their expected classes and values as well as transformations and scaling options. See the \strong{select_data} section of \code{\link[=model]{model()}}.}
 
 \item{center}{A character vector of the columns to center.}
 
@@ -48,28 +57,154 @@ returning a named list of initial values.}
 
 \item{modify_data}{A single argument function to modify the data (in list form) immediately prior to the analysis.}
 
-\item{nthin}{A count specifying the thinning interval.}
+\item{nthin}{An integer specifying the thinning interval.}
 
-\item{new_expr}{A string of R code specifying the predictive relationships.}
+\item{new_expr}{An R expression or character string of R code defining
+the predictive relationships and derived quantities. See the \strong{new_expr}
+section of \code{\link[=model]{model()}}.}
 
-\item{new_expr_vec}{A flag specifying whether to vectorize the new_expr code.}
+\item{new_expr_vec}{Flag controlling whether to vectorise the \code{new_expr}
+code via \code{\link[mcmcderive:expression_vectorize]{mcmcderive::expression_vectorize()}}. See the \strong{new_expr}
+section of \code{\link[=model]{model()}} for safe patterns and silent fallbacks.}
 
-\item{modify_new_data}{A single argument function to modify new data (in list form) immediately prior to calculating new_expr.}
+\item{modify_new_data}{SA single argument function to modify new data (in list form) immediately prior to calculating new_expr.}
 
-\item{drops}{A list of character vector of possible scalar pars to drop (fix at 0).}
+\item{drops}{A list of character vectors naming scalar parameters to fix at
+0 in the model.}
 }
 \value{
-An object inherting from class mb_model.
+An object inheriting from class \code{"mb_model"}.
 }
 \description{
-Creates MB model.
+Define a model, including code, data, monitoring, and post-fitting
+specification. The returned \code{mb_model} is consumed by \code{\link[=analyse]{analyse()}} and
+downstream by \code{\link[=predict.mb_analysis]{predict.mb_analysis()}} and \code{\link[=mcmc_derive_data]{mcmc_derive_data()}}.
 }
 \details{
-For tmb models gen_inits must specify all the fixed pars.
-Missing random pars are assigned the value 0.
+The data passed to \code{\link[=analyse]{analyse()}} is transformed through a fixed pipeline
+before reaching the model code: \code{select_data} selects columns and applies
+any rescaling suffixes; logical, date, and difftime columns are coerced to
+numeric; one \verb{n<Factor>} count is injected per factor; \code{nObs} is injected;
+and finally the user's \code{modify_data} function runs against the resulting
+list. \code{gen_inits} is then invoked against this same modified list, once
+per chain, to seed initial values.
 
-For jmb models unspecified the initial values for each chain are drawn from the prior distributions.
+The monitored parameter set is the union of: names matching the \code{fixed}
+regex, the names of \code{random_effects}, and \code{derived}. The default
+\code{fixed = "^[^e]"} matches everything not starting with \code{e}. Names listed
+in \code{random_effects} are always monitored regardless of the regex.
+}
+\section{select_data}{
+
+Named list mapping data column names to type or range specifications: \code{1L} for integer, \code{1}
+for numeric, \code{factor("")} for factor, \code{TRUE} for logical. Where an
+explicit check is wanted, use a range form such as \code{c(0L, 100L)} and
+append \code{NA} to allow missing values: \code{c(0L, 100L, NA)}.
+
+Appending a suffix to a column name requests a rescaling transformation;
+the original column is replaced with the transformed version in the
+analysis dataset.\tabular{ll}{
+   Suffix \tab Transformation \cr
+   (none) \tab Raw, untransformed \cr
+   \code{+} \tab Subtract the mean (center) \cr
+   \code{-} \tab Subtract the minimum (shift to 0) \cr
+   \code{=} \tab Subtract the minimum and add 1 (shift to 1) \cr
+   \code{/} \tab Divide by SD (scale) \cr
+   \code{*} \tab Subtract the mean and divide by SD (standardise) \cr
+}
+
+
+\code{*} is conventional for continuous covariates and \code{+} for year or date
+variables. Never apply a suffix to the response. The \code{center} and \code{scale}
+character-vector arguments are kept for backwards compatibility and emit
+a deprecation warning; prefer \code{select_data} suffixes.
+}
+
+\section{new_expr}{
+
+An R expression (e.g. \code{{ ... }}) or a character string of R code that is
+evaluated post-fitting against the MCMC draws. It has access to the
+sampled parameters, the modified data list, and \code{extras} helpers such as
+\verb{log_lik_*} and \verb{res_*}. The expression typically defines the named terms
+used by downstream tooling:
+\itemize{
+\item \code{prediction[i]} for \code{\link[=predict.mb_analysis]{predict.mb_analysis()}}
+\item \code{fit[i]} for \code{\link[=fitted.mb_analysis]{fitted.mb_analysis()}} and for residuals
+\item \code{log_lik[i]} for information criteria and prior sensitivity
+\item \code{lprior[k]} for prior sensitivity
+}
+
+The scale of \code{fit[i]} is model-specific: define it to match the signature
+of the \verb{res_*} and \verb{log_lik_*} helpers you use (e.g. response-scale for
+\code{res_neg_binom}, log-scale for \code{res_student} on log-normal data). Scalar
+derived quantities defined outside the loop are extractable via
+\code{predict(analysis, new_data = character(0), term = "myScalar")}.
+
+If \code{new_expr} is supplied as a string without wrapping braces they are
+added automatically. Setting \code{new_expr_vec = TRUE} vectorises the for-loop
+body via \code{\link[mcmcderive:expression_vectorize]{mcmcderive::expression_vectorize()}} for substantial speed gains.
+Vectorisation silently falls back to the un-vectorised loop (no error)
+when the loop body contains \code{sum()}, nested for loops, or dynamic range
+indexing such as \code{eK[year[i]:(year[i] + n)]}. Safe patterns: linear
+predictors built from indexed terms, single-level (\code{bSite[site[i]]}) and
+multi-level (\code{bParam[site[i], annual[i]]}) indexing, link-function
+assignments (\code{log(eY[i]) <- ...}), and polynomial terms on standardised
+predictors.
+}
+
+\examples{
+\dontrun{
+# Stan model with a standardised continuous covariate and a site
+# random effect.
+count_model <- model(
+  code = count_code, # a string or read_file("stan/count.stan")
+  select_data = list(
+    count = 1L,
+    site = factor("a"),
+    `temperature*` = 1
+  ),
+  random_effects = list(z_bSite = "site"),
+  new_expr = {
+    bSite <- z_bSite * sSite
+    for (i in 1:nObs) {
+      log(eCount[i]) <- bIntercept + bTemp * temperature[i] +
+        bSite[site[i]]
+      prediction[i] <- eCount[i]
+      fit[i] <- eCount[i]
+      log_lik[i] <- log_lik_neg_binom(count[i], eCount[i], bPhi)
+    }
+  },
+  new_expr_vec = TRUE
+)
+
+# Reshape multi-pass data into a matrix and add a per-row pass count
+# before the analysis runs; seed eAbundance with the observed totals.
+depletion_model <- model(
+  code = depletion_code,
+  select_data = list(
+    Pass1 = 1L, Pass2 = 1L, Pass3 = 1L,
+    site = factor("a")
+  ),
+  modify_data = function(data) {
+    Pass <- as.matrix(data[c("Pass1", "Pass2", "Pass3")])
+    data$Pass <- Pass
+    data$nPass <- ncol(Pass)
+    data$Pass1 <- data$Pass2 <- data$Pass3 <- NULL
+    data
+  },
+  gen_inits = function(data) {
+    list(eAbundance = rowSums(data$Pass, na.rm = TRUE) + 1)
+  }
+)
+}
 }
 \seealso{
-\code{\link[chk:check_data]{chk::check_data()}} \code{\link[rescale:rescale_c]{rescale::rescale_c()}}
+\itemize{
+\item The \href{https://poissonconsulting.github.io/embr/articles/analyse.html}{analyse article}
+for a walkthrough including \code{select_data} transformations and \code{new_expr}
+structure.
+\item \code{\link[=analyse]{analyse()}} to fit the model to data.
+\item \code{\link[=analyse.character]{analyse.character()}} for a shortcut that builds and fits in one call.
+\item \code{\link[=update_model]{update_model()}} to change arguments on an existing \code{mb_model}.
+}
 }

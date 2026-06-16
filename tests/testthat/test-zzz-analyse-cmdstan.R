@@ -2,6 +2,14 @@ test_that(
   "model pars for smbr2 and cmdstan engine",
   {
     skip_if_not_installed("smbr2")
+    skip_if_not_installed("cmdstanr")
+    skip_if(
+      inherits(
+        tryCatch(cmdstanr::cmdstan_path(), error = identity),
+        "error"
+      ),
+      "CmdStan not installed"
+    )
 
     library(smbr2)
     data <- embr::density99

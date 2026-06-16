@@ -2,7 +2,7 @@
 % Please edit documentation in R/analyse.R
 \name{analyse.character}
 \alias{analyse.character}
-\title{Analyse Character Model}
+\title{Analyse from Character Code}
 \usage{
 \method{analyse}{character}(
   x,
@@ -22,12 +22,12 @@
 )
 }
 \arguments{
-\item{x}{A character string containing Stan or JAGS model code.}
+\item{x}{A character string of Stan or JAGS model code.}
 
-\item{data}{The data frame to analyse.}
+\item{data}{A data frame.}
 
-\item{select_data}{A named list specifying the columns to select and their
-associated classes and values as well as transformations and scaling options.}
+\item{select_data}{A named list specifying columns to select with their
+classes, values, transforms, and scaling options. Passed to \code{\link[=model]{model()}}.}
 
 \item{nchains}{A count of the number of chains (default: 3).}
 
@@ -45,30 +45,34 @@ associated classes and values as well as transformations and scaling options.}
 
 \item{seed}{A positive whole number specifying the seed to use. The default is random. This is currently only implemented for Stan models.}
 
-\item{stan_engine}{A string specifying the Stan engine to use:
+\item{stan_engine}{A string selecting the Stan engine:
 \itemize{
-\item \code{"rstan"} for MCMC sampling via \code{\link[rstan:sampling]{rstan::sampling()}} (default).
-\item \code{"cmdstan-mcmc"} for MCMC sampling via \code{\link[cmdstanr:sample]{cmdstanr::sample()}}
-\item \code{"cmdstan-pathfinder"} for pathfinder estimation via \code{\link[cmdstanr:pathfinder]{cmdstanr::pathfinder()}}
-\item \code{"cmdstan-optimize"} for optimization via \code{\link[cmdstanr:optimize]{cmdstanr::optimize()}}
-\item \code{"cmdstan-laplace"} for Laplace approximation via \code{\link[cmdstanr:laplace]{cmdstanr::laplace()}}
-}}
+\item \code{"cmdstan-mcmc"}: MCMC via \code{\link[cmdstanr:model-method-sample]{cmdstanr::sample()}}.
+\item \code{"cmdstan-pathfinder"}: pathfinder via \code{\link[cmdstanr:model-method-pathfinder]{cmdstanr::pathfinder()}}.
+\item \code{"cmdstan-variational"}: variational ADVI via \code{\link[cmdstanr:model-method-variational]{cmdstanr::variational()}}.
+\item \code{"cmdstan-optimize"}: optimization via \code{\link[cmdstanr:model-method-optimize]{cmdstanr::optimize()}}.
+\item \code{"cmdstan-laplace"}: Laplace approximation via \code{\link[cmdstanr:model-method-laplace]{cmdstanr::laplace()}}.
+}
+
+Defaults to \code{character(0)}. Any value other than the five above (including
+the empty default) falls back to MCMC via \code{\link[rstan:stanmodel-method-sampling]{rstan::sampling()}}. Ignored for
+JAGS models, which always use \link[rjags:rjags-package]{rjags}.}
 
 \item{niters_warmup}{A count of the number of warmup iterations. The default is to use the same number of iterations as \code{niters}. This is currently only implemented for Stan models.}
 
-\item{...}{Additional arguments passed to the underlying estimation function.
-See \code{\link[=analyse.mb_model]{analyse.mb_model()}} for details.}
+\item{...}{Additional arguments passed to \code{\link[=analyse]{analyse()}}.}
 }
 \value{
-An mb_analysis object containing the fitted model results.
+An \code{mb_analysis} or \code{mb_meta_analysis}. See \code{\link[=analyse]{analyse()}} for details.
 }
 \description{
-Analyses a model defined as a character string containing Stan or JAGS code.
-The character string is first converted to an mb_model object, then passed on to \code{\link[=analyse.mb_model]{analyse.mb_model()}}
+A convenience that builds the model and fits it in one call.
+}
+\details{
+Only \code{select_data} is forwarded to \code{\link[=model]{model()}}. If you need to set
+\code{new_expr}, \code{random_effects}, \code{new_expr_vec}, or \code{gen_inits}, build the
+model with \code{\link[=model]{model()}} directly and pass it to \code{\link[=analyse]{analyse()}}.
 }
 \seealso{
-\itemize{
-\item \code{\link[=analyse.mb_model]{analyse.mb_model()}} for analysing a single model
-\item \code{\link[=analyse.mb_models]{analyse.mb_models()}} for analysing multiple models
-}
+\code{\link[=analyse]{analyse()}} for full argument documentation and engine details.
 }

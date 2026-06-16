@@ -4,6 +4,40 @@
 #'
 #' @inheritParams mcmc_derive_data.mb_analysis
 #' @return A object of class mcmcr.
+#' @seealso
+#' * The [prediction article](https://poissonconsulting.github.io/embr/articles/prediction.html)
+#'   for worked patterns including arithmetic on `mcmcr` posteriors.
+#' * [predict.mb_analysis()] for tidy posterior summaries at new covariate
+#'   values.
+#' * [mcmc_derive_data.mb_analysis()] for raw MCMC samples paired with
+#'   `new_data` and group-level summaries.
+#' * [mcmcr::combine_samples()] for combining MCMC samples across independent
+#'   analyses on shared data keys.
+#' @examples
+#' \dontrun{
+#' # Pull multiple scalar terms in one call by regex. Quantities defined in
+#' # new_expr are usually easiest to extract individually with predict();
+#' # mcmc_derive() is most useful when (a) you want raw mcmcr samples for
+#' # downstream operations predict() does not support (probability
+#' # statements, custom quantiles) or (b) you want to compose multiple terms
+#' # with arbitrary arithmetic. See vignette("prediction") for worked
+#' # patterns.
+#'
+#' scalars <- mcmc_derive(
+#'   analysis,
+#'   new_data = character(0),
+#'   term = "^(eBaseCount|eRestoredEffect)$"
+#' )
+#' coef(scalars)
+#'
+#' # Custom expression with injected scalar constants
+#' as.mcmcr(analysis) |>
+#'   mcmc_derive(
+#'     expr = "biomass <- exp(bIntercept) * mean_mass_g",
+#'     values = list(mean_mass_g = 250)
+#'   ) |>
+#'   coef()
+#' }
 #' @export
 mcmc_derive.mb_analysis <- function(object,
                                     new_data = data_set(object),
@@ -83,12 +117,7 @@ mcmc_derive.mb_analysis <- function(object,
   object
 }
 
-#' Derive
-#'
-#' Calculate derived parameters.
-#'
-#' @inheritParams mcmc_derive_data.mb_analysis
-#' @return A object of class mcmcr.
+#' @rdname mcmc_derive.mb_analysis
 #' @export
 mcmc_derive.mb_analyses <- function(object,
                                     new_data = data_set(object),

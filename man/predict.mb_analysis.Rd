@@ -2,7 +2,7 @@
 % Please edit documentation in R/predict.R
 \name{predict.mb_analysis}
 \alias{predict.mb_analysis}
-\title{Predict}
+\title{Predict from a \code{mb_analysis} object}
 \usage{
 \method{predict}{mb_analysis}(
   object,
@@ -24,9 +24,12 @@
 \arguments{
 \item{object}{An object inheriting from class mb_analysis.}
 
-\item{new_data}{The data frame to calculate the predictions for.}
+\item{new_data}{A data frame at which to derive the term.
+Pass \code{character(0)} to extract a scalar \code{term} from new_expr.}
 
-\item{new_expr}{A string of R code specifying the predictive relationship.}
+\item{new_expr}{An R expression (e.g. \code{{ ... }}) or a character string of R
+code specifying the predictive relationship. If \code{NULL}, uses the expression
+set in \code{\link[=model]{model()}} and stored in the \code{mb_analysis} object.}
 
 \item{new_values}{A named list of new or replacement values to pass to new_expr.}
 
@@ -36,7 +39,8 @@
 
 \item{modify_new_data}{A single argument function to modify new data (in list form) immediately prior to calculating new_expr.}
 
-\item{ref_data}{A flag or a data frame with 1 row indicating the reference values for calculating the effects size.}
+\item{ref_data}{A flag or a data frame with 1 row indicating the reference values for calculating the effects size.
+If \code{FALSE}, no reference applied. If \code{TRUE}, the reference is a 1 row data.frame with all variables held at reference value.}
 
 \item{ref_fun2}{A function whose first argument takes a vector of two numbers and returns a scalar of a metric of the difference between them.}
 
@@ -50,6 +54,80 @@
 
 \item{...}{Additional arguments.}
 }
+\value{
+A data frame with one row per row of \code{new_data}, containing the
+posterior summary columns produced by \code{\link[mcmcdata:coef.mcmc_data]{mcmcdata::coef.mcmc_data()}} and all columns
+of \code{new_data}.
+}
 \description{
-Predict
+Summarises the posterior predictive distribution at new covariate values.
+Returns a tidy data frame with point estimates and compatibility limits.
+}
+\details{
+\code{new_data} defaults to \code{data_set(object)} (the analysis dataset). Build
+covariate grids with
+\code{\link[newdata:xnew_data]{newdata::xnew_data()}} and related helpers (\code{\link[newdata:xnew_seq]{newdata::xnew_seq()}},
+\code{\link[newdata:xcast]{newdata::xcast()}}, \code{\link[newdata:xobs_only]{newdata::xobs_only()}}) for explicit control over
+which covariates vary. A character vector of column names is also accepted
+as a shortcut: \code{predict(analysis, "year")} is equivalent to
+\code{predict(analysis, new_data = newdata::xnew_data(data_set(analysis), year))},
+which generates a grid varying \code{year} and holding the rest at their
+reference values. Covariates not specified are held at a reference value:
+mean for continuous, first level for factors.
+
+\code{term} selects the quantity defined in the model's \code{new_expr} to calculate
+(default \code{"prediction"}). Pass \code{new_data = character(0)} to extract a scalar
+quantity.
+}
+\examples{
+\dontrun{
+library(newdata)
+data <- data_set(analysis)
+
+# Character shortcut: vary a single column, hold others at reference
+predict(analysis, "temperature")
+
+# Equivalent explicit form
+xnew_data(data, temperature) |>
+  predict(analysis, new_data = _)
+
+# Set custom sequence for continuous covariate
+xnew_data(data, xnew_seq(temperature, length_out = 5)) |>
+  predict(analysis, new_data = _)
+
+# Predict for all factor levels and set specific continuous reference value
+xnew_data(data, site, temperature = 5) |>
+  predict(analysis, new_data = _)
+
+# Predict only for observed combinations of factor levels
+xnew_data(data, xobs_only(site, annual)) |>
+  predict(analysis, new_data = _)
+
+# Proportional change relative to a 1-row reference state
+ref <- xnew_data(data, xcast(treatment = "control"))
+xnew_data(data, treatment) |>
+  predict(analysis, new_data = _, ref_data = ref)
+
+# Predict for first level of random effect levels rather than 'typical'
+xnew_data(data, temperature) |>
+  predict(analysis, new_data = _, random_effects = FALSE)
+
+# Extract a scalar derived quantity from new_expr
+predict(analysis, new_data = character(0), term = "eBaseCount")
+}
+}
+\seealso{
+\itemize{
+\item The \href{https://poissonconsulting.github.io/embr/articles/prediction.html}{prediction article}
+for detailed examples of prediction patterns.
+\item \code{\link[=predict.mb_analyses]{predict.mb_analyses()}} for predictions on meta-analysis object.
+\item \code{\link[=mcmc_derive_data.mb_analysis]{mcmc_derive_data.mb_analysis()}} for raw MCMC samples paired with
+\code{new_data}, regex term matching, and group-level summaries via
+\code{group_by()} + \code{summarise()}.
+\item \code{\link[=mcmc_derive.mb_analysis]{mcmc_derive.mb_analysis()}} for scalar derived quantities and arithmetic
+on \code{mcmcr} posteriors.
+\item \code{\link[mcmcr:combine_samples]{mcmcr::combine_samples()}} for combining MCMC samples across independent
+analyses on shared data keys.
+\item \code{\link[newdata:xnew_data]{newdata::xnew_data()}} for building covariate grids.
+}
 }

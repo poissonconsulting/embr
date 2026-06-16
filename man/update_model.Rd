@@ -28,16 +28,23 @@ update_model(
 
 \item{code}{A string of the model template or an object inheriting from class mb_code.}
 
-\item{gen_inits}{A single argument function taking the modified data and
-returning a named list of initial values.}
+\item{gen_inits}{A single-argument function returning a named list of
+initial values per chain. Receives the modified data list (i.e. after
+\code{select_data}, rescaling, type coercion, factor-count and \code{nObs}
+injection, and \code{modify_data}). Returning \code{list()} lets the backend fall
+back to its own defaults (JAGS samples from priors; Stan uses its
+random init). Non-MCMC \verb{cmdstan-*} engines ignore it.}
 
-\item{random_effects}{A named list specifying the random effects and the associated factors.}
+\item{random_effects}{Named list mapping parameter names in the model
+code to one or more grouping factor columns from \code{select_data}.
+Each named factor must appear in \code{select_data} and must not also be in
+\code{derived}.}
 
-\item{fixed}{A string of a regular expression specifying the fixed pars to monitor.}
+\item{fixed}{A string of a regular expression of parameter names to monitor as fixed effects.}
 
-\item{derived}{A character vector of the derived pars to monitor.}
+\item{derived}{A character vector of derived parameters to monitor.}
 
-\item{select_data}{A named list specifying the columns to select and their associated classes and values as well as transformations and scaling options.}
+\item{select_data}{A named list specifying the columns to select and their expected classes and values as well as transformations and scaling options. See the \strong{select_data} section of \code{\link[=model]{model()}}.}
 
 \item{center}{A character vector of the columns to center.}
 
@@ -45,17 +52,22 @@ returning a named list of initial values.}
 
 \item{modify_data}{A single argument function to modify the data (in list form) immediately prior to the analysis.}
 
-\item{nthin}{A count specifying the thinning interval.}
+\item{nthin}{An integer specifying the thinning interval.}
 
-\item{new_expr}{A string of R code specifying the predictive relationships.}
+\item{new_expr}{An R expression or character string of R code defining
+the predictive relationships and derived quantities. See the \strong{new_expr}
+section of \code{\link[=model]{model()}}.}
 
-\item{new_expr_vec}{A flag specifying whether to vectorize the new_expr code.}
+\item{new_expr_vec}{Flag controlling whether to vectorise the \code{new_expr}
+code via \code{\link[mcmcderive:expression_vectorize]{mcmcderive::expression_vectorize()}}. See the \strong{new_expr}
+section of \code{\link[=model]{model()}} for safe patterns and silent fallbacks.}
 
-\item{modify_new_data}{A single argument function to modify new data (in list form) immediately prior to calculating new_expr.}
+\item{modify_new_data}{SA single argument function to modify new data (in list form) immediately prior to calculating new_expr.}
 
-\item{drops}{A list of character vector of possible scalar pars to drop (fix at 0).}
+\item{drops}{A list of character vectors naming scalar parameters to fix at
+0 in the model.}
 
-\item{...}{Unused arguments.}
+\item{...}{These dots are for future extensions and must be empty.}
 }
 \value{
 An object inheriting from class mb_model.

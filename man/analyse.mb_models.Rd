@@ -2,7 +2,7 @@
 % Please edit documentation in R/analyse.R
 \name{analyse.mb_models}
 \alias{analyse.mb_models}
-\title{Analyse}
+\title{Analyse Multiple Models}
 \usage{
 \method{analyse}{mb_models}(
   x,
@@ -21,9 +21,9 @@
 )
 }
 \arguments{
-\item{x}{An object inheriting from class mb_model or a list of such objects.}
+\item{x}{An \code{mb_models} list.}
 
-\item{data}{The data frame to analyse.}
+\item{data}{A data frame, or a named list of data frames for meta-analysis.}
 
 \item{nchains}{A count of the number of chains (default: 3).}
 
@@ -41,19 +41,31 @@
 
 \item{seed}{A positive whole number specifying the seed to use. The default is random. This is currently only implemented for Stan models.}
 
-\item{stan_engine}{A string specifying the Stan engine to use:
+\item{stan_engine}{A string selecting the Stan engine:
 \itemize{
-\item \code{"rstan"} for MCMC sampling via \code{\link[rstan:sampling]{rstan::sampling()}} (default).
-\item \code{"cmdstan-mcmc"} for MCMC sampling via \code{\link[cmdstanr:sample]{cmdstanr::sample()}}
-\item \code{"cmdstan-pathfinder"} for pathfinder estimation via \code{\link[cmdstanr:pathfinder]{cmdstanr::pathfinder()}}
-\item \code{"cmdstan-optimize"} for optimization via \code{\link[cmdstanr:optimize]{cmdstanr::optimize()}}
-\item \code{"cmdstan-laplace"} for Laplace approximation via \code{\link[cmdstanr:laplace]{cmdstanr::laplace()}}
-}}
+\item \code{"cmdstan-mcmc"}: MCMC via \code{\link[cmdstanr:model-method-sample]{cmdstanr::sample()}}.
+\item \code{"cmdstan-pathfinder"}: pathfinder via \code{\link[cmdstanr:model-method-pathfinder]{cmdstanr::pathfinder()}}.
+\item \code{"cmdstan-variational"}: variational ADVI via \code{\link[cmdstanr:model-method-variational]{cmdstanr::variational()}}.
+\item \code{"cmdstan-optimize"}: optimization via \code{\link[cmdstanr:model-method-optimize]{cmdstanr::optimize()}}.
+\item \code{"cmdstan-laplace"}: Laplace approximation via \code{\link[cmdstanr:model-method-laplace]{cmdstanr::laplace()}}.
+}
+
+Defaults to \code{character(0)}. Any value other than the five above (including
+the empty default) falls back to MCMC via \code{\link[rstan:stanmodel-method-sampling]{rstan::sampling()}}. Ignored for
+JAGS models, which always use \link[rjags:rjags-package]{rjags}.}
 
 \item{niters_warmup}{A count of the number of warmup iterations. The default is to use the same number of iterations as \code{niters}. This is currently only implemented for Stan models.}
 
-\item{...}{Additional arguments.}
+\item{...}{Additional arguments passed to \code{\link[=analyse]{analyse()}}.}
+}
+\value{
+An \code{mb_analyses} (single data frame) or \code{mb_meta_analyses} (list of
+data frames).
 }
 \description{
-Analyse
+Fits each model in an \code{mb_models} list against the same data, returning
+an \code{mb_analyses} (or \code{mb_meta_analyses} if \code{data} is a list of data frames).
+}
+\seealso{
+\code{\link[=analyse]{analyse()}} for full argument documentation and engine details.
 }

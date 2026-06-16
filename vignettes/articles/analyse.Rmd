@@ -1,0 +1,466 @@
+---
+title: "Fitting Models with analyse()"
+output:
+  rmarkdown::html_vignette:
+    toc: true
+    toc_depth: 2
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  cache = TRUE,
+  cache.lazy = FALSE,
+  fig.width = 7,
+  fig.height = 4
+)
+set.seed(42)
+```
+
+`analyse()` is used to fit a Bayesian hierarchical
+model to data using Stan (via rstan or cmdstanr) or JAGS (via rjags). This
+guide walks through the primary `analyse.mb_model` method on an example model, then briefly covers the two convenience methods
+`analyse.mb_models` (for fitting a list of models) and `analyse.character`
+(for fitting from a raw code string).
+
+```{r libraries, message = FALSE}
+library(embr)
+library(smbr2)
+library(dplyr)
+library(extras)
+```
+
+## Example model
+
+The example is a fish count model, where data has counts at 5 sites
+across 5 annual periods under two treatments (`control`, `restored`), with
+stream temperature as a continuous covariate. Sampling is unbalanced: 4 sites
+are monitored in all 5 years; the 5th site is sampled in only 2 years.
+
+```{r simulate}
+sites <- letters[1:5]
+years <- 1:5
+treatments <- c("control", "restored")
+
+design <- expand.grid(
+  site = sites,
+  annual = years,
+  treatment = treatments,
+  rep = 1:3,
+  stringsAsFactors = FALSE
+) |>
+  filter(!(site == "e" & annual %in% c(1, 2, 3))) |>
+  mutate(
+    site = factor(site, levels = sites),
+    annual = factor(annual, levels = years),
+    treatment = factor(treatment, levels = treatments),
+    temperature = rnorm(n(), mean = 12, sd = 2)
+  )
+
+bIntercept_true <- log(40)
+bTreatment_true <- 0.5
+bTemp_true <- 0.15
+sSite_true <- 0.4
+sSiteAnnual_true <- 0.2
+bPhi_true <- 5
+
+re_site <- setNames(rnorm(length(sites), 0, sSite_true), sites)
+re_site_annual <- matrix(
+  rnorm(length(sites) * length(years), 0, sSiteAnnual_true),
+  nrow = length(sites),
+  dimnames = list(sites, years)
+)
+
+data <- design |>
+  mutate(
+    temp_c = (temperature - mean(temperature)) / sd(temperature),
+    log_mu = bIntercept_true +
+      bTreatment_true * (treatment == "restored") +
+      bTemp_true * temp_c +
+      re_site[as.character(site)] +
+      mapply(
+        function(s, a) re_site_annual[s, a],
+        as.character(site),
+        as.character(annual)
+      ),
+    count = as.integer(ran_neg_binom(
+      n(),
+      lambda = exp(log_mu),
+      theta = bPhi_true
+    ))
+  ) |>
+  select(count, site, annual, treatment, temperature)
+
+head(data)
+```
+
+## Defining the model
+
+The model is defined in two parts: the Stan code (likelihood and priors) and
+an R `new_expr` (used post-fitting for predictions, residuals, sensitivity,
+and log likelihood). `select_data` and `random_effects` are described in the
+notes that follow.
+
+```{r stan-code}
+count_code <- "
+data {
+  int<lower=2> nObs;
+  int<lower=1> nsite;
+  int<lower=1> nannual;
+  int<lower=1> ntreatment;
+  array[nObs] int<lower=1> site;
+  array[nObs] int<lower=1> annual;
+  array[nObs] int<lower=1> treatment;
+  vector[nObs] temperature;
+  array[nObs] int<lower=0> count;
+}
+parameters {
+  real bIntercept;
+  vector[ntreatment - 1] bTreatment_dev;
+  real bTemp;
+  real<lower=0> sSite;
+  real<lower=0> sSiteAnnual;
+  real<lower=0> bPhi;
+  vector[nsite] z_bSite;
+  matrix[nsite, nannual] z_bSiteAnnual;
+}
+model {
+  vector[nsite] bSite = z_bSite * sSite;
+  matrix[nsite, nannual] bSiteAnnual = z_bSiteAnnual * sSiteAnnual;
+  vector[ntreatment] bTreatment;
+  bTreatment[1] = 0;
+  for (k in 2:ntreatment) bTreatment[k] = bTreatment_dev[k - 1];
+
+  vector[nObs] log_eCount;
+  for (i in 1:nObs) {
+    log_eCount[i] = bIntercept + bTreatment[treatment[i]] +
+                    bTemp * temperature[i] + bSite[site[i]] +
+                    bSiteAnnual[site[i], annual[i]];
+  }
+
+  bIntercept ~ normal(0, 5);
+  bTreatment_dev ~ normal(0, 5);
+  bTemp ~ normal(0, 5);
+  sSite ~ exponential(1);
+  sSiteAnnual ~ exponential(1);
+  bPhi ~ gamma(2, 0.5);
+  to_vector(z_bSite) ~ std_normal();
+  to_vector(z_bSiteAnnual) ~ std_normal();
+
+  count ~ neg_binomial_2_log(log_eCount, bPhi);
+}
+"
+
+count_model <- model(
+  code = count_code,
+  new_expr = {
+    bSite <- z_bSite * sSite
+    bSiteAnnual <- z_bSiteAnnual * sSiteAnnual
+    bTreatment <- c(0, bTreatment_dev)
+    eBaseCount <- exp(bIntercept)
+    eRestoredEffect <- exp(bTreatment_dev[1])
+    for (i in 1:nObs) {
+      log(eCount[i]) <- bIntercept +
+        bTreatment[treatment[i]] +
+        bTemp * temperature[i] +
+        bSite[site[i]] +
+        bSiteAnnual[site[i], annual[i]]
+      prediction[i] <- eCount[i]
+      fit[i] <- eCount[i]
+      log_lik[i] <- log_lik_neg_binom(count[i], eCount[i], bPhi)
+    }
+    lprior[1] <- log_lik_norm(bIntercept, 0, 5)
+    lprior[2] <- sum(log_lik_norm(bTreatment_dev, 0, 5))
+    lprior[3] <- log_lik_norm(bTemp, 0, 5)
+    lprior[4] <- log_lik_exp(sSite, 1)
+    lprior[5] <- log_lik_exp(sSiteAnnual, 1)
+    lprior[6] <- log_lik_gamma(bPhi, 2, 0.5)
+  },
+  new_expr_vec = TRUE,
+  select_data = list(
+    count = 1L,
+    site = factor("a"),
+    annual = factor("a"),
+    treatment = factor("a"),
+    `temperature*` = c(0, 100)
+  ),
+  random_effects = list(
+    z_bSite = "site",
+    z_bSiteAnnual = c("site", "annual")
+  )
+)
+```
+
+A few notes on the `model()` arguments:
+
+- `code`: the Stan model code.
+- `new_expr`: an R expression evaluated post-fitting against MCMC draws. It
+  defines `prediction[i]` (used by `predict()`), `fit[i]` (used by
+  `fitted()` and for residuals), and `log_lik[i]` (used by model comparison and
+  prior-sensitivity tools). The scale of `fit[i]` is model-specific; define
+  it to match what your `res_*` and `log_lik_*` helpers expect. Scalar
+  derived quantities such as `eBaseCount` and `eRestoredEffect` can be
+  extracted directly with `predict(analysis, new_data = character(0),
+  term = "eBaseCount")`.
+- `select_data`: a named list declaring the columns required from `data`,
+  validation checks on their type or range of values, and optional
+  rescaling transformations. Type specifications are `1L` for integer,
+  `1` for numeric, `factor("")` for factor, `TRUE` for logical. Where
+  an explicit value-range check is wanted, use a range form such as
+  `c(0L, 100L)`; append `NA` to allow missing values: `c(0L, 100L, NA)`.
+
+  A trailing suffix on a name requests a rescaling transformation; the
+  original column is replaced with the transformed version in the
+  analysis dataset. Available suffixes:
+
+  | Suffix | Transformation | Typical use |
+  |---|---|---|
+  | (none) | Raw, untransformed | Response variables, factors, logicals, raw data for in-model transforms |
+  | `+` | Subtract the mean (center) | Year or date variables, interpretable intercept at mean |
+  | `-` | Subtract the minimum (shift to 0) | Year or date, intercept at first year |
+  | `=` | Subtract the minimum and add 1 (shift to 1) | Indices that must start at 1 |
+  | `/` | Divide by SD (scale) | When preserving the offset matters but units differ |
+  | `*` | Subtract mean and divide by SD (standardize) | Continuous covariates; improves convergence, makes prior specification simpler, and makes coefficients comparable |
+
+  `*` is the default choice for continuous covariates.
+- `random_effects`: tells embr which factors each random-effect parameter
+  is indexed by. `predict()` uses this to decide when to zero
+  parameters (see the prediction article).
+
+## Fitting with `analyse.mb_model`
+
+rstan is the default fallback when no `stan_engine` is set; cmdstanr via
+`stan_engine = "cmdstan-mcmc"` is recommended for faster compilation and
+better diagnostics. `niters`, `niters_warmup`, and `nchains` are typically
+set via `set_analysis_mode()`; here they are specified explicitly per call
+to keep the example self-contained.
+
+```{r fit-default}
+analysis <- analyse(
+  count_model,
+  data = data,
+  stan_engine = "cmdstan-mcmc",
+  nchains = 3L,
+  niters = 500L,
+  seed = 42L,
+  parallel = TRUE,
+  quiet = TRUE,
+  beep = FALSE
+)
+
+glance(analysis)
+```
+
+`coef()` extracts the fixed-effect and scale parameters:
+
+```{r coef}
+coef(analysis, include_constant = FALSE, simplify = TRUE) |>
+  mutate(across(estimate:svalue, ~ signif(.x, 3)))
+```
+
+## Common arguments
+
+The following arguments cover most typical use of `analyse.mb_model`:
+
+| Argument | Purpose |
+|---|---|
+| `nchains` | Number of MCMC chains. Default 3. |
+| `niters` | Number of sampling iterations saved per chain. |
+| `niters_warmup` | Number of warmup iterations (Stan only). Defaults to `niters`. |
+| `nthin` | Thinning interval. Defaults to the value set in `model()`. |
+| `seed` | Positive integer for reproducible sampling. |
+| `parallel` | Run chains in parallel (`foreach` backend). |
+| `quiet` | Suppress sampling progress messages. |
+| `glance` | Print a one-line model summary after fitting. |
+| `beep` | Beep on completion (helpful for long fits). |
+
+Stan-only options (`niters_warmup`, `seed`) are ignored by JAGS models.
+
+`niters` is the number of saved samples per chain *after* thinning, not
+the total iterations run. Per chain:
+
+- Warmup iterations (discarded): `niters_warmup`
+- Post-warmup iterations: `niters * nthin`
+- Saved samples: `niters` (every `nthin`-th post-warmup iteration)
+- Total iterations run: `niters_warmup + niters * nthin`
+
+Across all chains the saved posterior has `nchains * niters` draws. So
+with `nchains = 3`, `niters = 500`, `niters_warmup = 500`, `nthin = 2`,
+each chain runs `500 + 500 * 2 = 1500` iterations and contributes 500
+saved samples, for `1500` total posterior draws.
+
+## Analysis mode
+
+`set_analysis_mode()` sets a bundle of session-wide defaults
+(via options) so individual `analyse()` calls don't need to
+respecify the same arguments. The mode controls `nchains`, `niters`,
+`nthin`, `parallel`, `quiet`, `glance`, `beep`, the reanalysis loop
+(`nreanalyses`, `rhat`, `esr`, `duration`), and `conf_level`. Typically set
+once at the top of an analysis script.
+
+| Mode | When to use | `nchains` | `niters` | `rhat` | `esr` |
+|---|---|---|---|---|---|
+| `"debug"` | Rapidly identify problems with a model definition | 2 | 10 | 1.05 | 0.1 |
+| `"quick"` | Quickly test that code runs | 2 | 10 | 1.05 | 0.1 |
+| `"check"` | Run when checking a package | 2 | 500 | 1.0 | 1.0 |
+| `"report"` | Produce results for a report | 3 | 500 | 1.05 | 0.1 |
+| `"paper"` | Produce results for a peer-reviewed paper | 4 | 1000 | 1.01 | 0.25 |
+| `"reset"` | Reset all options to `NULL` (per-call defaults) | — | — | — | — |
+
+`rhat` is the maximum acceptable R-hat (closer to 1 is stricter); `esr` is
+the minimum effective sample rate (effective sample size / total samples;
+closer to 1 is stricter).
+
+Typical workflow:
+
+```{r set-analysis-mode, eval = FALSE}
+set_analysis_mode("quick") # check that model runs without error
+analyse(count_model, data = data, stan_engine = "cmdstan-mcmc")
+
+set_analysis_mode("report") # report-grade fits
+analyse(count_model, data = data, stan_engine = "cmdstan-mcmc")
+```
+
+`get_analysis_mode()` returns the current option values. An explicit
+argument passed to `analyse()` always overrides the corresponding option.
+
+## Engine dispatch
+
+The `stan_engine` argument selects the Stan backend. JAGS models always go
+through `rjags` regardless of this argument.
+
+| `stan_engine` | Backend | Use case |
+|---|---|---|
+| `character(0)` (default) | `rstan::sampling()` | Default MCMC; rstan-only options like `control = list(adapt_delta = ...)`. |
+| `"cmdstan-mcmc"` | `cmdstanr::sample()` | Full MCMC via cmdstanr. Faster compilation, better diagnostics than rstan. |
+| `"cmdstan-pathfinder"` | `cmdstanr::pathfinder()` | Fast variational approximation; useful for initialisation or rough exploration. |
+| `"cmdstan-variational"` | `cmdstanr::variational()` | ADVI; faster than MCMC, less accurate for hierarchical models. |
+| `"cmdstan-optimize"` | `cmdstanr::optimize()` | Point estimate (MAP); no posterior uncertainty. |
+| `"cmdstan-laplace"` | `cmdstanr::laplace()` | Laplace approximation around the mode. |
+
+See `?analyse` for the per-engine list of embr-controlled vs pass-through
+arguments.
+
+A pathfinder fit on the same model is much faster but less reliable, especially for complex hierarchical models:
+
+```{r fit-pathfinder}
+analysis_pf <- analyse(
+  count_model,
+  data = data,
+  stan_engine = "cmdstan-pathfinder",
+  niters = 500L,
+  seed = 42L,
+  quiet = TRUE,
+  beep = FALSE
+)
+
+coef(analysis_pf, include_constant = FALSE, simplify = TRUE) |>
+  filter(term %in% c("bIntercept", "bTreatment_dev[1]", "bTemp")) |>
+  mutate(across(estimate:svalue, ~ signif(.x, 3)))
+```
+
+## Engine-specific arguments via `...`
+
+Additional cmdstanr arguments are passed through `...`. For example, to
+tighten the NUTS step size:
+
+```{r fit-adapt, eval = FALSE}
+analyse(
+  count_model,
+  data = data,
+  stan_engine = "cmdstan-mcmc",
+  adapt_delta = 0.95,
+  max_treedepth = 12,
+  seed = 42L
+)
+```
+
+`init` is the one embr-supplied argument that *can* be overridden via `...`.
+Supply a zero-argument function returning a named list of initial values per
+chain:
+
+```{r fit-init, eval = FALSE}
+init_fun <- function() list(bIntercept = log(40))
+
+analyse(
+  count_model,
+  data = data,
+  stan_engine = "cmdstan-mcmc",
+  init = init_fun,
+  seed = 42L
+)
+```
+
+## In brief: `analyse(mb_models, ...)`
+
+To fit several model structures against the same data, wrap them in
+`models()` and call `analyse()` once:
+
+```{r mb-models, eval = FALSE}
+count_model_no_temp <- model(
+  code = count_code, # in practice, with bTemp dropped
+  new_expr = {
+    # ... no temperature term ...
+  },
+  select_data = list(
+    count = 1L,
+    site = factor("a"),
+    annual = factor("a"),
+    treatment = factor("a")
+  ),
+  random_effects = list(
+    z_bSite = "site",
+    z_bSiteAnnual = c("site", "annual")
+  )
+)
+
+candidate_models <- models(
+  with_temp = count_model,
+  without_temp = count_model_no_temp
+)
+
+analyses <- analyse(
+  candidate_models,
+  data = data,
+  stan_engine = "cmdstan-mcmc",
+  seed = 42L
+)
+```
+
+The result is an `mb_analyses` list. `predict.mb_analyses()` returns
+IC-weighted model-averaged predictions across the list.
+
+## In brief: `analyse(character, ...)`
+
+For quick prototyping without a separate `model()` object, pass a Stan or
+JAGS code string directly to `analyse()` with a `select_data` list:
+
+```{r mb-character, eval = FALSE}
+analyse(
+  count_code,
+  data = data,
+  select_data = list(
+    count = 1L,
+    site = factor("a"),
+    annual = factor("a"),
+    treatment = factor("a"),
+    `temperature*` = 1
+  ),
+  stan_engine = "cmdstan-mcmc",
+  seed = 42L
+)
+```
+
+This is a convenience wrapper: it calls `model()` internally and dispatches
+to the `mb_model` method. Use it for one-shot fits; use the explicit
+`model()` form when you want to reuse, modify, or inspect the model object.
+
+## Next steps
+
+- See `?analyse` for the full per-engine argument documentation.
+- See the [prediction article](prediction.html) for posterior predictive
+  summaries, effect-size calculations, and the `mcmc_derive` /
+  `mcmc_derive_data` tools for derived quantities.
+- `coef()`, `glance()`, `residuals()`, and `plot_residuals()` are the
+  standard inspection tools for an `mb_analysis`.

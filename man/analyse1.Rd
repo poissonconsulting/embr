@@ -2,7 +2,7 @@
 % Please edit documentation in R/analyse.R
 \name{analyse1}
 \alias{analyse1}
-\title{Analyse}
+\title{Internal dispatch for fitting a single model + dataset}
 \usage{
 analyse1(
   model,
@@ -22,9 +22,9 @@ analyse1(
 \arguments{
 \item{model}{The mb_model to analyse.}
 
-\item{data}{The data.}
+\item{data}{A validated data frame.}
 
-\item{loaded}{The loaded model.}
+\item{loaded}{The compiled / loaded model, as returned by \code{\link[=load_model]{load_model()}}.}
 
 \item{nchains}{A count of the number of chains (default: 3).}
 
@@ -42,8 +42,17 @@ analyse1(
 
 \item{niters_warmup}{A count of the number of warmup iterations. The default is to use the same number of iterations as \code{niters}. This is currently only implemented for Stan models.}
 
-\item{...}{Additional arguments.}
+\item{...}{Additional arguments passed to the engine-specific estimation
+function.}
+}
+\value{
+An \code{mb_analysis} object.
 }
 \description{
-Analyse
+Called by \code{\link[=analyse.mb_model]{analyse.mb_model()}} once the data have been validated and the
+model has been compiled. Backend packages (\code{smbr2}, \code{jmbr}) register
+methods for each engine.
+
+End users should call \code{\link[=analyse]{analyse()}}, not \code{analyse1()} directly.
 }
+\keyword{internal}

@@ -1,50 +1,184 @@
-#' MB Model
+#' Define a Model
 #'
-#' Creates MB model.
+#' @description
+#' Define a model, including code, data, monitoring, and post-fitting
+#' specification. The returned `mb_model` is consumed by [analyse()] and
+#' downstream by [predict.mb_analysis()] and [mcmc_derive_data()].
 #'
-#' For tmb models gen_inits must specify all the fixed pars.
-#' Missing random pars are assigned the value 0.
+#' @details
+#' The data passed to [analyse()] is transformed through a fixed pipeline
+#' before reaching the model code: `select_data` selects columns and applies
+#' any rescaling suffixes; logical, date, and difftime columns are coerced to
+#' numeric; one `n<Factor>` count is injected per factor; `nObs` is injected;
+#' and finally the user's `modify_data` function runs against the resulting
+#' list. `gen_inits` is then invoked against this same modified list, once
+#' per chain, to seed initial values.
 #'
-#' For jmb models unspecified the initial values for each chain are drawn from the prior distributions.
+#' The monitored parameter set is the union of: names matching the `fixed`
+#' regex, the names of `random_effects`, and `derived`. The default
+#' `fixed = "^[^e]"` matches everything not starting with `e`. Names listed
+#' in `random_effects` are always monitored regardless of the regex.
 #'
-#' @param x A string, or an object inheriting from class `"mb_code"`.
+#'
+#' @section select_data:
+#' Named list mapping data column names to type or range specifications: `1L` for integer, `1`
+#' for numeric, `factor("")` for factor, `TRUE` for logical. Where an
+#' explicit check is wanted, use a range form such as `c(0L, 100L)` and
+#' append `NA` to allow missing values: `c(0L, 100L, NA)`.
+#'
+#' Appending a suffix to a column name requests a rescaling transformation;
+#' the original column is replaced with the transformed version in the
+#' analysis dataset.
+#'
+#' | Suffix | Transformation |
+#' |---|---|
+#' | (none) | Raw, untransformed |
+#' | `+` | Subtract the mean (center) |
+#' | `-` | Subtract the minimum (shift to 0) |
+#' | `=` | Subtract the minimum and add 1 (shift to 1) |
+#' | `/` | Divide by SD (scale) |
+#' | `*` | Subtract the mean and divide by SD (standardise) |
+#'
+#' `*` is conventional for continuous covariates and `+` for year or date
+#' variables. Never apply a suffix to the response. The `center` and `scale`
+#' character-vector arguments are kept for backwards compatibility and emit
+#' a deprecation warning; prefer `select_data` suffixes.
+#'
+#' @section new_expr:
+#' An R expression (e.g. `{ ... }`) or a character string of R code that is
+#' evaluated post-fitting against the MCMC draws. It has access to the
+#' sampled parameters, the modified data list, and `extras` helpers such as
+#' `log_lik_*` and `res_*`. The expression typically defines the named terms
+#' used by downstream tooling:
+#'
+#' * `prediction[i]` for [predict.mb_analysis()]
+#' * `fit[i]` for [fitted.mb_analysis()] and for residuals
+#' * `log_lik[i]` for information criteria and prior sensitivity
+#' * `lprior[k]` for prior sensitivity
+#'
+#' The scale of `fit[i]` is model-specific: define it to match the signature
+#' of the `res_*` and `log_lik_*` helpers you use (e.g. response-scale for
+#' `res_neg_binom`, log-scale for `res_student` on log-normal data). Scalar
+#' derived quantities defined outside the loop are extractable via
+#' `predict(analysis, new_data = character(0), term = "myScalar")`.
+#'
+#' If `new_expr` is supplied as a string without wrapping braces they are
+#' added automatically. Setting `new_expr_vec = TRUE` vectorises the for-loop
+#' body via [mcmcderive::expression_vectorize()] for substantial speed gains.
+#' Vectorisation silently falls back to the un-vectorised loop (no error)
+#' when the loop body contains `sum()`, nested for loops, or dynamic range
+#' indexing such as `eK[year[i]:(year[i] + n)]`. Safe patterns: linear
+#' predictors built from indexed terms, single-level (`bSite[site[i]]`) and
+#' multi-level (`bParam[site[i], annual[i]]`) indexing, link-function
+#' assignments (`log(eY[i]) <- ...`), and polynomial terms on standardised
+#' predictors.
+#'
+#' @param x An `mb_code` object built with [mb_code()], or `NULL` (the
+#'   default). When `NULL`, the model code is built inline from `code`.
+#'   Passing a character string or an `mb_analysis` is deprecated.
 #' @inheritParams rlang::args_dots_empty
-#' @param code Passed on to [mb_code()]. If `x` is not `NULL`, `code` must be `NULL`,
-#'   and vice versa.
-#' @param gen_inits A single argument function taking the modified data and
-#'   returning a named list of initial values.
-#' @param random_effects A named list specifying the random effects and the associated factors.
-#' @param fixed A string of a regular expression specifying the fixed pars to monitor.
-#' @param derived A character vector of the derived pars to monitor.
-#' @param select_data A named list specifying the columns to select and their associated classes and values as well as transformations and scaling options.
+#' @param code Model code (Stan or JAGS expression or string) to pass to
+#'   [mb_code()]. Only used when `x = NULL`.
+#' @param gen_inits A single-argument function returning a named list of
+#'   initial values per chain. Receives the modified data list (i.e. after
+#'   `select_data`, rescaling, type coercion, factor-count and `nObs`
+#'   injection, and `modify_data`). Returning `list()` lets the backend fall
+#'   back to its own defaults (JAGS samples from priors; Stan uses its
+#'   random init). Non-MCMC `cmdstan-*` engines ignore it.
+#' @param random_effects Named list mapping parameter names in the model
+#'   code to one or more grouping factor columns from `select_data`.
+#'   Each named factor must appear in `select_data` and must not also be in
+#'   `derived`.
+#' @param fixed A string of a regular expression of parameter names to monitor as fixed effects.
+#' @param derived A character vector of derived parameters to monitor.
+#' @param select_data A named list specifying the columns to select and their expected classes and values as well as transformations and scaling options. See the **select_data** section of [model()].
 #' @inheritParams rescale::rescale
 #' @param modify_data A single argument function to modify the data (in list form) immediately prior to the analysis.
-#' @param nthin A count specifying the thinning interval.
-#' @param new_expr A string of R code specifying the predictive relationships.
-#' @param new_expr_vec A flag specifying whether to vectorize the new_expr code.
-#' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
-#' @param drops A list of character vector of possible scalar pars to drop (fix at 0).
-#' @param ... Unused arguments.
-#' @return An object inherting from class mb_model.
-#' @seealso [chk::check_data()] [rescale::rescale_c()]
+#' @param nthin An integer specifying the thinning interval.
+#' @param new_expr An R expression or character string of R code defining
+#'   the predictive relationships and derived quantities. See the **new_expr**
+#'   section of [model()].
+#' @param new_expr_vec Flag controlling whether to vectorise the `new_expr`
+#'   code via [mcmcderive::expression_vectorize()]. See the **new_expr**
+#'   section of [model()] for safe patterns and silent fallbacks.
+#' @param modify_new_data SA single argument function to modify new data (in list form) immediately prior to calculating new_expr.
+#' @param drops A list of character vectors naming scalar parameters to fix at
+#'   0 in the model.
+#'
+#' @return An object inheriting from class `"mb_model"`.
+#'
+#' @seealso
+#' * The [analyse article](https://poissonconsulting.github.io/embr/articles/analyse.html)
+#'   for a walkthrough including `select_data` transformations and `new_expr`
+#'   structure.
+#' * [analyse()] to fit the model to data.
+#' * [analyse.character()] for a shortcut that builds and fits in one call.
+#' * [update_model()] to change arguments on an existing `mb_model`.
+#'
+#' @examples
+#' \dontrun{
+#' # Stan model with a standardised continuous covariate and a site
+#' # random effect.
+#' count_model <- model(
+#'   code = count_code, # a string or read_file("stan/count.stan")
+#'   select_data = list(
+#'     count = 1L,
+#'     site = factor("a"),
+#'     `temperature*` = 1
+#'   ),
+#'   random_effects = list(z_bSite = "site"),
+#'   new_expr = {
+#'     bSite <- z_bSite * sSite
+#'     for (i in 1:nObs) {
+#'       log(eCount[i]) <- bIntercept + bTemp * temperature[i] +
+#'         bSite[site[i]]
+#'       prediction[i] <- eCount[i]
+#'       fit[i] <- eCount[i]
+#'       log_lik[i] <- log_lik_neg_binom(count[i], eCount[i], bPhi)
+#'     }
+#'   },
+#'   new_expr_vec = TRUE
+#' )
+#'
+#' # Reshape multi-pass data into a matrix and add a per-row pass count
+#' # before the analysis runs; seed eAbundance with the observed totals.
+#' depletion_model <- model(
+#'   code = depletion_code,
+#'   select_data = list(
+#'     Pass1 = 1L, Pass2 = 1L, Pass3 = 1L,
+#'     site = factor("a")
+#'   ),
+#'   modify_data = function(data) {
+#'     Pass <- as.matrix(data[c("Pass1", "Pass2", "Pass3")])
+#'     data$Pass <- Pass
+#'     data$nPass <- ncol(Pass)
+#'     data$Pass1 <- data$Pass2 <- data$Pass3 <- NULL
+#'     data
+#'   },
+#'   gen_inits = function(data) {
+#'     list(eAbundance = rowSums(data$Pass, na.rm = TRUE) + 1)
+#'   }
+#' )
+#' }
 #' @export
 model <- function(
-    x = NULL,
-    ...,
-    code = NULL,
-    gen_inits = NULL,
-    random_effects = list(),
-    fixed = getOption("mb.fixed", "^[^e]"),
-    derived = character(0),
-    select_data = list(),
-    center = character(0),
-    scale = character(0),
-    modify_data = identity,
-    nthin = getOption("mb.nthin", 1L),
-    new_expr = NULL,
-    new_expr_vec = getOption("mb.new_expr_vec", FALSE),
-    modify_new_data = identity,
-    drops = list()) {
+  x = NULL,
+  ...,
+  code = NULL,
+  gen_inits = NULL,
+  random_effects = list(),
+  fixed = getOption("mb.fixed", "^[^e]"),
+  derived = character(0),
+  select_data = list(),
+  center = character(0),
+  scale = character(0),
+  modify_data = identity,
+  nthin = getOption("mb.nthin", 1L),
+  new_expr = NULL,
+  new_expr_vec = getOption("mb.new_expr_vec", FALSE),
+  modify_new_data = identity,
+  drops = list()
+) {
   chk_unused(...)
 
   if (is.null(x)) {
@@ -98,51 +232,86 @@ model <- function(
   check_drops(drops)
 
   select_colnames <- rescale::get_rescaler_colnames(names(select_data))
-  if (!length(select_colnames)) select_colnames <- NULL
+  if (!length(select_colnames)) {
+    select_colnames <- NULL
+  }
 
   if (!identical(center, character(0)) || !identical(scale, character(0))) {
     if (!identical(names(select_data), select_colnames)) {
-      err("scaling (and transforms) should be specified with select_data or center/scale not both", tidy = FALSE)
+      err(
+        "scaling (and transforms) should be specified with select_data or center/scale not both",
+        tidy = FALSE
+      )
     }
 
-    warning("arguments center and scale are deprecated; please use select_data instead.",
+    warning(
+      "arguments center and scale are deprecated; please use select_data instead.",
       call. = FALSE
     )
   }
 
   check_all_elements_class_character(random_effects)
-  check_x_in_y(unlist(random_effects), select_colnames,
-    x_name = "random_effects", y_name = "select_data",
-    type_x = "elements", type_y = "names"
+  check_x_in_y(
+    unlist(random_effects),
+    select_colnames,
+    x_name = "random_effects",
+    y_name = "select_data",
+    type_x = "elements",
+    type_y = "names"
   )
-  check_x_not_in_y(names(random_effects), select_colnames,
-    x_name = "random_effects", y_name = "select_data",
-    type_x = "names", type_y = "names"
+  check_x_not_in_y(
+    names(random_effects),
+    select_colnames,
+    x_name = "random_effects",
+    y_name = "select_data",
+    type_x = "names",
+    type_y = "names"
   )
-  check_x_not_in_y(derived, select_colnames,
-    x_name = "derived", y_name = "select_data", type_y = "names"
+  check_x_not_in_y(
+    derived,
+    select_colnames,
+    x_name = "derived",
+    y_name = "select_data",
+    type_y = "names"
   )
-  check_x_not_in_y(names(random_effects), derived,
-    x_name = "random_effects", y_name = "derived", type_x = "names"
+  check_x_not_in_y(
+    names(random_effects),
+    derived,
+    x_name = "random_effects",
+    y_name = "derived",
+    type_x = "names"
   )
-  check_x_not_in_y(unlist(random_effects), center,
+  check_x_not_in_y(
+    unlist(random_effects),
+    center,
     x_name = "random_effects",
     type_x = "elements"
   )
-  check_x_not_in_y(unlist(random_effects), scale,
+  check_x_not_in_y(
+    unlist(random_effects),
+    scale,
     x_name = "random_effects",
     type_x = "elements"
   )
-  check_x_not_in_y(derived, center,
+  check_x_not_in_y(
+    derived,
+    center,
     x_name = "random_effects",
     type_x = "elements"
   )
-  check_x_not_in_y(derived, scale,
+  check_x_not_in_y(
+    derived,
+    scale,
     x_name = "random_effects",
     type_x = "elements"
   )
 
-  check_x_in_y(center, select_colnames, y_name = "select_data", type_y = "names")
+  check_x_in_y(
+    center,
+    select_colnames,
+    y_name = "select_data",
+    type_y = "names"
+  )
   check_x_in_y(scale, select_colnames, y_name = "select_data", type_y = "names")
 
   derived <- check_model_pars(

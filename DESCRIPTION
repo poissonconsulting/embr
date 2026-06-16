@@ -57,8 +57,11 @@ Suggests:
     cli,
     covr,
     jmbr,
+    rmarkdown,
+    scales,
+    smbr2,
     testthat (>= 3.0.0)
-RdMacros: 
+RdMacros:
     lifecycle
 Remotes: 
     poissonconsulting/extras,
@@ -67,10 +70,12 @@ Remotes:
     poissonconsulting/mcmcdata,
     poissonconsulting/mcmcderive,
     poissonconsulting/newdata,
-    poissonconsulting/rescale
+    poissonconsulting/rescale,
+    poissonconsulting/smbr2
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 Config/testthat/edition: 3
 Config/Needs/website: poissonconsulting/poissontemplate
 Config/roxygen2/version: 8.0.0.9000
+RoxygenNote: 7.3.3.9000

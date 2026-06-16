@@ -2,6 +2,7 @@
 % Please edit documentation in R/derive.R
 \name{mcmc_derive.mb_analysis}
 \alias{mcmc_derive.mb_analysis}
+\alias{mcmc_derive.mb_analyses}
 \title{Derive}
 \usage{
 \method{mcmc_derive}{mb_analysis}(
@@ -19,13 +20,30 @@
   quiet = getOption("mb.quiet", TRUE),
   ...
 )
+
+\method{mcmc_derive}{mb_analyses}(
+  object,
+  new_data = data_set(object),
+  new_expr = NULL,
+  new_values = list(),
+  term = "prediction",
+  modify_new_data = NULL,
+  ref_data = FALSE,
+  new_expr_vec = getOption("mb.new_expr_vec", FALSE),
+  parallel = getOption("mb.parallel", FALSE),
+  quiet = getOption("mb.quiet", TRUE),
+  ...
+)
 }
 \arguments{
 \item{object}{An object inheriting from class mb_analysis.}
 
-\item{new_data}{The data frame to calculate the predictions for.}
+\item{new_data}{A data frame at which to derive the term.
+Pass \code{character(0)} to extract a scalar \code{term} from new_expr.}
 
-\item{new_expr}{A string of R code specifying the predictive relationship.}
+\item{new_expr}{An R expression (e.g. \code{{ ... }}) or a character string of R
+code specifying the predictive relationship. If \code{NULL}, uses the expression
+set in \code{\link[=model]{model()}} and stored in the \code{mb_analysis} object.}
 
 \item{new_values}{A named list of new or replacement values to pass to new_expr.}
 
@@ -33,7 +51,8 @@
 
 \item{modify_new_data}{A single argument function to modify new data (in list form) immediately prior to calculating new_expr.}
 
-\item{ref_data}{A flag or a data frame with 1 row indicating the reference values for calculating the effects size.}
+\item{ref_data}{A flag or a data frame with 1 row indicating the reference values for calculating the effects size.
+If \code{FALSE}, no reference applied. If \code{TRUE}, the reference is a 1 row data.frame with all variables held at reference value.}
 
 \item{ref_fun2}{A function whose first argument takes a vector of two numbers and returns a scalar of a metric of the difference between them.}
 
@@ -52,4 +71,42 @@ A object of class mcmcr.
 }
 \description{
 Calculate derived parameters.
+}
+\examples{
+\dontrun{
+# Pull multiple scalar terms in one call by regex. Quantities defined in
+# new_expr are usually easiest to extract individually with predict();
+# mcmc_derive() is most useful when (a) you want raw mcmcr samples for
+# downstream operations predict() does not support (probability
+# statements, custom quantiles) or (b) you want to compose multiple terms
+# with arbitrary arithmetic. See vignette("prediction") for worked
+# patterns.
+
+scalars <- mcmc_derive(
+  analysis,
+  new_data = character(0),
+  term = "^(eBaseCount|eRestoredEffect)$"
+)
+coef(scalars)
+
+# Custom expression with injected scalar constants
+as.mcmcr(analysis) |>
+  mcmc_derive(
+    expr = "biomass <- exp(bIntercept) * mean_mass_g",
+    values = list(mean_mass_g = 250)
+  ) |>
+  coef()
+}
+}
+\seealso{
+\itemize{
+\item The \href{https://poissonconsulting.github.io/embr/articles/prediction.html}{prediction article}
+for worked patterns including arithmetic on \code{mcmcr} posteriors.
+\item \code{\link[=predict.mb_analysis]{predict.mb_analysis()}} for tidy posterior summaries at new covariate
+values.
+\item \code{\link[=mcmc_derive_data.mb_analysis]{mcmc_derive_data.mb_analysis()}} for raw MCMC samples paired with
+\code{new_data} and group-level summaries.
+\item \code{\link[mcmcr:combine_samples]{mcmcr::combine_samples()}} for combining MCMC samples across independent
+analyses on shared data keys.
+}
 }

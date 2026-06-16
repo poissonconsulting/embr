@@ -1,14 +1,16 @@
-mcmc_derive_fun <- function(object,
-                            new_data = data_set(object),
-                            new_expr = NULL,
-                            new_values = list(),
-                            term = "prediction",
-                            modify_new_data = NULL,
-                            random_effects = NULL,
-                            new_expr_vec = getOption("mb.new_expr_vec", FALSE),
-                            parallel,
-                            quiet,
-                            ...) {
+mcmc_derive_fun <- function(
+  object,
+  new_data = data_set(object),
+  new_expr = NULL,
+  new_values = list(),
+  term = "prediction",
+  modify_new_data = NULL,
+  random_effects = NULL,
+  new_expr_vec = getOption("mb.new_expr_vec", FALSE),
+  parallel,
+  quiet,
+  ...
+) {
   chk_data(new_data)
   if (is.null(random_effects) || isTRUE(random_effects)) {
     random_effects <- random_effects(object)
@@ -64,12 +66,16 @@ mcmcdata::mcmc_derive_data
 #' Calculate derived parameters.
 #'
 #' @param object An object inheriting from class mb_analysis.
-#' @param new_data The data frame to calculate the predictions for.
-#' @param new_expr A string of R code specifying the predictive relationship.
+#' @param new_data A data frame at which to derive the term.
+#'   Pass `character(0)` to extract a scalar `term` from new_expr.
+#' @param new_expr An R expression (e.g. `{ ... }`) or a character string of R
+#'   code specifying the predictive relationship. If `NULL`, uses the expression
+#'   set in [model()] and stored in the `mb_analysis` object.
 #' @param new_values A named list of new or replacement values to pass to new_expr.
 #' @param term A string of the term in new_expr.
 #' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
 #' @param ref_data A flag or a data frame with 1 row indicating the reference values for calculating the effects size.
+#' If `FALSE`, no reference applied. If `TRUE`, the reference is a 1 row data.frame with all variables held at reference value.
 #' @param ref_fun2 A function whose first argument takes a vector of two numbers and returns a scalar of a metric of the difference between them.
 #' @param random_effects A named list specifying the random effects and the associated factors.
 #' @param new_expr_vec A flag specifying whether to vectorize the new_expr code.
@@ -78,21 +84,52 @@ mcmcdata::mcmc_derive_data
 #' @param beep A flag indicating whether to beep on completion of the analysis.
 #' @param ...  Additional arguments.
 #' @return A object of class mcmc_data.
+#' @seealso
+#' * The [prediction article](https://poissonconsulting.github.io/embr/articles/prediction.html)
+#'   for worked patterns including group-level summaries.
+#' * [predict.mb_analysis()] for tidy posterior summaries at new covariate
+#'   values.
+#' * [mcmc_derive.mb_analysis()] for scalar derived quantities and arithmetic
+#'   on `mcmcr` posteriors.
+#' * [mcmcr::combine_samples()] for combining MCMC samples across independent
+#'   analyses on shared data keys.
+#' * [newdata::xnew_data()] for building covariate grids.
+#' @examples
+#' \dontrun{
+#' # `analysis` is a fitted mb_analysis with factors site, treatment and
+#' # new_expr that defines per-row term `eCount`.
+#' data <- data_set(analysis)
+#'
+#' # Per-group posterior summaries via group_by() + summarise().
+#' # Default .fun = sum; use mean for the per-treatment posterior mean.
+#' mcmc_derive_data(analysis, new_data = data, term = "^eCount$") |>
+#'   group_by(treatment) |>
+#'   summarise(.fun = mean) |>
+#'   coef()
+#'
+#' # Custom summarise function, e.g. range within group
+#' mcmc_derive_data(analysis, new_data = data, term = "^eCount$") |>
+#'   group_by(treatment) |>
+#'   summarise(.fun = function(x) max(x) - min(x)) |>
+#'   coef()
+#' }
 #' @export
-mcmc_derive_data.mb_analysis <- function(object,
-                                         new_data = data_set(object),
-                                         new_expr = NULL,
-                                         new_values = list(),
-                                         term = "prediction",
-                                         modify_new_data = NULL,
-                                         ref_data = FALSE,
-                                         ref_fun2 = proportional_change2,
-                                         new_expr_vec = getOption("mb.new_expr_vec", FALSE),
-                                         random_effects = NULL,
-                                         parallel = getOption("mb.parallel", FALSE),
-                                         quiet = getOption("mb.quiet", TRUE),
-                                         beep = getOption("mb.beep", FALSE),
-                                         ...) {
+mcmc_derive_data.mb_analysis <- function(
+  object,
+  new_data = data_set(object),
+  new_expr = NULL,
+  new_values = list(),
+  term = "prediction",
+  modify_new_data = NULL,
+  ref_data = FALSE,
+  ref_fun2 = proportional_change2,
+  new_expr_vec = getOption("mb.new_expr_vec", FALSE),
+  random_effects = NULL,
+  parallel = getOption("mb.parallel", FALSE),
+  quiet = getOption("mb.quiet", TRUE),
+  beep = getOption("mb.beep", FALSE),
+  ...
+) {
   chk_string(term)
   if (!vld_data(new_data) && !vld_character(new_data)) {
     chkor_vld(vld_data(new_data), vld_character(new_data))
@@ -128,7 +165,8 @@ mcmc_derive_data.mb_analysis <- function(object,
 #'
 #' @param object An object inheriting from class mb_analysis.
 #' @param new_data The data frame to calculate the predictions for.
-#' @param new_expr A string of R code specifying the predictive relationship.
+#' @param new_expr An R expression (e.g. `{ ... }`) or a character string of R
+#'   code specifying the predictive relationship.
 #' @param new_values A named list of new or replacement values to pass to new_expr.
 #' @param term A string of the term in new_expr.
 #' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
@@ -140,20 +178,24 @@ mcmc_derive_data.mb_analysis <- function(object,
 #' @param beep A flag indicating whether to beep on completion of the analysis.
 #' @param ...  Additional arguments.
 #' @return A object of class mcmc_data.
+#' @seealso [mcmc_derive_data.mb_analysis()] for full argument documentation
+#'   and examples.
 #' @export
-mcmc_derive_data.mb_analyses <- function(object,
-                                         new_data = data_set(object),
-                                         new_expr = NULL,
-                                         new_values = list(),
-                                         term = "prediction",
-                                         modify_new_data = NULL,
-                                         ref_data = FALSE,
-                                         ref_fun2 = proportional_change2,
-                                         new_expr_vec = getOption("mb.new_expr_vec", FALSE),
-                                         parallel = getOption("mb.parallel", FALSE),
-                                         quiet = getOption("mb.quiet", TRUE),
-                                         beep = getOption("mb.beep", FALSE),
-                                         ...) {
+mcmc_derive_data.mb_analyses <- function(
+  object,
+  new_data = data_set(object),
+  new_expr = NULL,
+  new_values = list(),
+  term = "prediction",
+  modify_new_data = NULL,
+  ref_data = FALSE,
+  ref_fun2 = proportional_change2,
+  new_expr_vec = getOption("mb.new_expr_vec", FALSE),
+  parallel = getOption("mb.parallel", FALSE),
+  quiet = getOption("mb.quiet", TRUE),
+  beep = getOption("mb.beep", FALSE),
+  ...
+) {
   chk_string(term)
   if (!vld_data(new_data) && !vld_character(new_data)) {
     chkor_vld(vld_data(new_data), vld_character(new_data))

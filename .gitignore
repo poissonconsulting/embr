@@ -12,3 +12,5 @@
 
 docs/
 inst/docs/
+claude.md
+.claude/
