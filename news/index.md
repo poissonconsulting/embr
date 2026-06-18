@@ -1,5 +1,10 @@
 # Changelog
 
+## embr 1.0.0.9000
+
+- Add fledge-bump workflow
+- Add fledge-tag-on-merge workflow
+
 ## embr 1.0.0
 
 - Merge pull request
