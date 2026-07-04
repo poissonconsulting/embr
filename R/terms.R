@@ -22,5 +22,8 @@ nterms.mb_analysis <- function(x, param_type = "fixed", include_constant = TRUE,
 #' @param ... Not used.
 #' @export
 terms.mb_analysis <- function(x, param_type = "fixed", include_constant = TRUE, ...) {
-  coef(x, param_type = param_type, include_constant = include_constant, simplify = TRUE)$term
+  coef(x,
+    param_type = param_type, include_constant = include_constant,
+    simplify = TRUE, directional_information = FALSE
+  )$term
 }

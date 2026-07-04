@@ -102,11 +102,11 @@ test_that("analyse", {
   expect_identical(glance$nthin, 1L)
   expect_identical(glance$K, 5L)
 
-  derived <- coef(analysis, param_type = "derived", simplify = TRUE)
+  derived <- coef(analysis, param_type = "derived", simplify = TRUE, directional_information = FALSE)
   expect_identical(colnames(derived), c("term", "estimate", "lower", "upper", "svalue"))
   expect_identical(nrow(derived), 300L)
 
-  coef <- coef(analysis, simplify = TRUE)
+  coef <- coef(analysis, simplify = TRUE, directional_information = FALSE)
 
   expect_s3_class(coef, "tbl")
   expect_identical(colnames(coef), c("term", "estimate", "lower", "upper", "svalue"))
@@ -117,8 +117,8 @@ test_that("analyse", {
     "log_sDensity", "log_sSiteYear"
   )))
 
-  expect_identical(nrow(coef(analysis, "primary", simplify = TRUE)), 66L)
-  expect_identical(nrow(coef(analysis, "all", simplify = TRUE)), 366L)
+  expect_identical(nrow(coef(analysis, "primary", simplify = TRUE, directional_information = FALSE)), 66L)
+  expect_identical(nrow(coef(analysis, "all", simplify = TRUE, directional_information = FALSE)), 366L)
 
   tidy <- tidy(analysis)
   expect_identical(colnames(tidy), c("term", "estimate", "lower", "upper", "esr", "rhat"))

@@ -255,7 +255,7 @@ glance(analysis)
 `coef()` extracts the fixed-effect and scale parameters:
 
 ```{r coef}
-coef(analysis, include_constant = FALSE, simplify = TRUE) |>
+coef(analysis, include_constant = FALSE, simplify = TRUE, directional_information = FALSE) |>
   mutate(across(estimate:svalue, ~ signif(.x, 3)))
 ```
 
@@ -355,7 +355,7 @@ analysis_pf <- analyse(
   beep = FALSE
 )
 
-coef(analysis_pf, include_constant = FALSE, simplify = TRUE) |>
+coef(analysis_pf, include_constant = FALSE, simplify = TRUE, directional_information = FALSE) |>
   filter(term %in% c("bIntercept", "bTreatment_dev[1]", "bTemp")) |>
   mutate(across(estimate:svalue, ~ signif(.x, 3)))
 ```

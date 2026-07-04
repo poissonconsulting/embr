@@ -110,10 +110,10 @@ model {
     glance <- glance(analysis)
     expect_snapshot(glance)
 
-    coef <- coef(analysis, simplify = TRUE)
+    coef <- coef(analysis, simplify = TRUE, directional_information = FALSE)
     expect_snapshot(coef)
 
-    derived <- coef(analysis, param_type = "derived", simplify = TRUE)
+    derived <- coef(analysis, param_type = "derived", simplify = TRUE, directional_information = FALSE)
     expect_snapshot(derived)
 
     tidy <- tidy(analysis)

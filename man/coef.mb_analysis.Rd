@@ -11,6 +11,7 @@
   conf_level = getOption("mb.conf_level", 0.95),
   estimate = getOption("mb.estimate", median),
   simplify = FALSE,
+  directional_information = FALSE,
   ...
 )
 }
@@ -26,6 +27,13 @@
 \item{estimate}{The function to use to calculating the estimate for Bayesian models.}
 
 \item{simplify}{A flag specifying whether to drop sd and zscore columns and return svalue instead of pvalue.}
+
+\item{directional_information}{A flag specifying whether the svalue column
+for a Bayesian analysis should be calculated using
+\code{\link[extras:directional_information]{extras::directional_information()}} instead of \code{\link[extras:svalue]{extras::svalue()}}.
+The default value will change from \code{FALSE} to \code{TRUE} in a future release;
+set the argument explicitly to avoid the deprecation warning.
+Ignored for frequentist analyses where the svalue is always \code{-log2(pvalue)}.}
 
 \item{...}{Not used.}
 }
