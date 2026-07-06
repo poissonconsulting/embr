@@ -1,5 +1,10 @@
 <!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
 
+# embr 1.0.0.9001
+
+- Same as previous version.
+
+
 # embr 1.0.0.9000
 
 * Add fledge-bump workflow
