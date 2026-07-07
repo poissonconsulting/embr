@@ -11,7 +11,7 @@ jobs:
     uses: poissonconsulting/.github/.github/workflows/R-CMD-check.yaml@v1
     with:
       tier: important
-      jags: false
+      jags: true
       tex: false
       private: false
     secrets: inherit
