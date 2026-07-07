@@ -766,6 +766,13 @@ scalars <- mcmc_derive(
 )
 
 coef(scalars)
+#> Warning: The `directional_information` argument of `coef()` should be explicitly set as
+#> of mcmcr 0.7.0.
+#> ℹ The default value of `directional_information` will change from `FALSE` to
+#>   `TRUE` in a future release.
+#> This warning is displayed once per session.
+#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+#> generated.
 #> # A tibble: 2 × 5
 #>   term            estimate lower upper svalue
 #>   <term>             <dbl> <dbl> <dbl>  <dbl>
