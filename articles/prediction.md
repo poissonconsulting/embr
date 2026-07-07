@@ -156,7 +156,7 @@ analysis <- analyse(
 #> 1   132     6       3    500     1   414  1.00 FALSE                 0
 #> # ℹ 2 more variables: max_treedepth <int>, ebfmi <dbl>
 
-coef(analysis, include_constant = FALSE, simplify = TRUE) |>
+coef(analysis, include_constant = FALSE, simplify = TRUE, directional_information = FALSE) |>
   mutate(across(estimate:svalue, ~ signif(.x, 3)))
 #> # A tibble: 6 × 5
 #>   term           estimate  lower upper svalue

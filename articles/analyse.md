@@ -278,7 +278,7 @@ and scale parameters:
 
 ``` r
 
-coef(analysis, include_constant = FALSE, simplify = TRUE) |>
+coef(analysis, include_constant = FALSE, simplify = TRUE, directional_information = FALSE) |>
   mutate(across(estimate:svalue, ~ signif(.x, 3)))
 #> # A tibble: 6 × 5
 #>   term           estimate   lower upper svalue
@@ -398,7 +398,7 @@ analysis_pf <- analyse(
 #>   <int> <int> <lgl>           <int>
 #> 1   132     6 TRUE                0
 
-coef(analysis_pf, include_constant = FALSE, simplify = TRUE) |>
+coef(analysis_pf, include_constant = FALSE, simplify = TRUE, directional_information = FALSE) |>
   filter(term %in% c("bIntercept", "bTreatment_dev[1]", "bTemp")) |>
   mutate(across(estimate:svalue, ~ signif(.x, 3)))
 #> # A tibble: 2 × 5

@@ -52,6 +52,7 @@
 <span>  conf_level <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.conf_level"</span>, <span class="fl">0.95</span><span class="op">)</span>,</span>
 <span>  estimate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">getOption</a></span><span class="op">(</span><span class="st">"mb.estimate"</span>, <span class="va">median</span><span class="op">)</span>,</span>
 <span>  simplify <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  directional_information <span class="op">=</span> <span class="cn">FALSE</span>,</span>
 <span>  <span class="va">...</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
@@ -82,6 +83,15 @@
 
 <dt id="arg-simplify">simplify<a class="anchor" aria-label="anchor" href="#arg-simplify"></a></dt>
 <dd><p>A flag specifying whether to drop sd and zscore columns and return svalue instead of pvalue.</p></dd>
+
+
+<dt id="arg-directional-information">directional_information<a class="anchor" aria-label="anchor" href="#arg-directional-information"></a></dt>
+<dd><p>A flag specifying whether the svalue column
+for a Bayesian analysis should be calculated using
+<code><a href="https://poissonconsulting.github.io/extras/reference/directional-information.html" class="external-link">extras::directional_information()</a></code> instead of <code><a href="https://poissonconsulting.github.io/extras/reference/svalue.html" class="external-link">extras::svalue()</a></code>.
+The default value will change from <code>FALSE</code> to <code>TRUE</code> in a future release;
+set the argument explicitly to avoid the deprecation warning.
+Ignored for frequentist analyses where the svalue is always <code>-log2(pvalue)</code>.</p></dd>
 
 
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>

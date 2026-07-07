@@ -13,6 +13,7 @@ coef(
   conf_level = getOption("mb.conf_level", 0.95),
   estimate = getOption("mb.estimate", median),
   simplify = FALSE,
+  directional_information = FALSE,
   ...
 )
 ```
@@ -43,6 +44,18 @@ coef(
 
   A flag specifying whether to drop sd and zscore columns and return
   svalue instead of pvalue.
+
+- directional_information:
+
+  A flag specifying whether the svalue column for a Bayesian analysis
+  should be calculated using
+  [`extras::directional_information()`](https://poissonconsulting.github.io/extras/reference/directional-information.html)
+  instead of
+  [`extras::svalue()`](https://poissonconsulting.github.io/extras/reference/svalue.html).
+  The default value will change from `FALSE` to `TRUE` in a future
+  release; set the argument explicitly to avoid the deprecation warning.
+  Ignored for frequentist analyses where the svalue is always
+  `-log2(pvalue)`.
 
 - ...:
 
