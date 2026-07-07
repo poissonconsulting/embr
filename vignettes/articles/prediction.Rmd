@@ -202,7 +202,7 @@ analysis <- analyse(
   beep = FALSE
 )
 
-coef(analysis, include_constant = FALSE, simplify = TRUE) |>
+coef(analysis, include_constant = FALSE, simplify = TRUE, directional_information = FALSE) |>
   mutate(across(estimate:svalue, ~ signif(.x, 3)))
 ```
 

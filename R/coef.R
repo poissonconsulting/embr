@@ -1,6 +1,19 @@
 #' @export
 stats::coef
 
+warn_default_directional_information <- function(env = parent.frame(), user_env = parent.frame(2)) {
+  lifecycle::deprecate_soft(
+    "1.1.0",
+    "coef(directional_information = 'should be explicitly set')",
+    details = paste(
+      "The default value of `directional_information` will change from",
+      "`FALSE` to `TRUE` in a future release."
+    ),
+    env = env,
+    user_env = user_env
+  )
+}
+
 get_frequentist_coef <- function(object, conf_level = 0.95) {
   object <- dplyr::mutate(object,
     zscore = .data$estimate / .data$sd,
@@ -16,6 +29,7 @@ coef.mb_null_analysis <- function(object, param_type = "fixed", include_constant
                                   conf_level = getOption("mb.conf_level", 0.95),
                                   estimate = getOption("mb.estimate", median),
                                   simplify = FALSE,
+                                  directional_information = FALSE,
                                   ...) {
   chk_string(param_type)
   chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
@@ -23,6 +37,7 @@ coef.mb_null_analysis <- function(object, param_type = "fixed", include_constant
   chk_number(conf_level)
   chk_range(conf_level, c(0.5, 0.99))
   chk_flag(simplify)
+  chk_flag(directional_information)
 
   coef <- tibble(
     term = as_term(character(0)),
@@ -57,6 +72,12 @@ coef.mb_null_analysis <- function(object, param_type = "fixed", include_constant
 #' @param conf_level A number specifying the confidence level. By default 0.95.
 #' @param estimate The function to use to calculating the estimate for Bayesian models.
 #' @param simplify A flag specifying whether to drop sd and zscore columns and return svalue instead of pvalue.
+#' @param directional_information A flag specifying whether the svalue column
+#' for a Bayesian analysis should be calculated using
+#' [extras::directional_information()] instead of [extras::svalue()].
+#' The default value will change from `FALSE` to `TRUE` in a future release;
+#' set the argument explicitly to avoid the deprecation warning.
+#' Ignored for frequentist analyses where the svalue is always `-log2(pvalue)`.
 #' @param ... Not used.
 #' @return A tidy tibble of the coefficient terms.
 #' @export
@@ -64,6 +85,7 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
                              conf_level = getOption("mb.conf_level", 0.95),
                              estimate = getOption("mb.estimate", median),
                              simplify = FALSE,
+                             directional_information = FALSE,
                              ...) {
   chk_string(param_type)
   chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
@@ -71,6 +93,11 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
   chk_number(conf_level)
   chk_range(conf_level, c(0.5, 0.99))
   chk_flag(simplify)
+  chk_flag(directional_information)
+
+  if (simplify && missing(directional_information) && is_bayesian(object)) {
+    warn_default_directional_information()
+  }
 
   pars <- pars(object, param_type)
 
@@ -98,17 +125,20 @@ coef.mb_analysis <- function(object, param_type = "fixed", include_constant = TR
   if (is_bayesian(object)) {
     coef <- as.mcmcr(object)
     coef <- subset(coef, pars = pars)
-    coef <- coef(coef, estimate = estimate, simplify = simplify)
+    coef <- coef(coef,
+      estimate = estimate, simplify = simplify,
+      directional_information = directional_information
+    )
 
     if (!include_constant) coef <- dplyr::filter(coef, .data$lower != .data$upper)
   } else {
     coef <- as.mcmcr(object)
     coef <- subset(coef, pars = pars)
-    coef <- coef(coef)
+    coef <- coef(coef, directional_information = FALSE)
 
     sd <- as.mcmcr(object$sd)
     sd <- subset(sd, pars = pars)
-    sd <- coef(sd)
+    sd <- coef(sd, directional_information = FALSE)
 
     coef$sd <- sd$estimate
 
