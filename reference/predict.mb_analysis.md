@@ -99,7 +99,7 @@ predict(
 
 A data frame with one row per row of `new_data`, containing the
 posterior summary columns produced by
-[`mcmcdata::coef.mcmc_data()`](https://rdrr.io/pkg/mcmcdata/man/coef.mcmc_data.html)
+[`coef.mcmc_data()`](https://rdrr.io/pkg/mcmcdata/man/coef.mcmc_data.html)
 and all columns of `new_data`.
 
 ## Details
