@@ -232,39 +232,53 @@ import(mcmcr)
 import(nlist)
 import(rlang)
 import(term)
-importFrom(dplyr,mutate)
-importFrom(dplyr,select)
-importFrom(extras,log_odds_ratio2)
-importFrom(extras,odds_ratio2)
-importFrom(extras,proportional_change2)
-importFrom(extras,proportional_difference2)
+importFrom(dplyr,
+  mutate,
+  select
+)
+importFrom(extras,
+  log_odds_ratio2,
+  odds_ratio2,
+  proportional_change2,
+  proportional_difference2
+)
 importFrom(foreach,getDoParWorkers)
-importFrom(generics,augment)
-importFrom(generics,glance)
-importFrom(generics,tidy)
+importFrom(generics,
+  augment,
+  glance,
+  tidy
+)
 importFrom(graphics,plot)
-importFrom(lubridate,dhours)
-importFrom(lubridate,dminutes)
-importFrom(lubridate,is.duration)
+importFrom(lubridate,
+  dhours,
+  dminutes,
+  is.duration
+)
 importFrom(matrixStats,colLogSumExps)
 importFrom(mcmcdata,mcmc_derive_data)
-importFrom(priorsense,create_priorsense_data)
-importFrom(priorsense,log_lik_draws)
-importFrom(priorsense,log_prior_draws)
-importFrom(priorsense,powerscale_sensitivity)
+importFrom(priorsense,
+  create_priorsense_data,
+  log_lik_draws,
+  log_prior_draws,
+  powerscale_sensitivity
+)
 importFrom(rescale,check_valid_rescalers)
-importFrom(rlang,"!!")
-importFrom(rlang,.data)
-importFrom(rlang,parse_expr)
-importFrom(stats,coef)
-importFrom(stats,fitted)
-importFrom(stats,logLik)
-importFrom(stats,median)
-importFrom(stats,pnorm)
-importFrom(stats,predict)
-importFrom(stats,qnorm)
-importFrom(stats,residuals)
-importFrom(stats,terms)
-importFrom(stats,var)
+importFrom(rlang,
+  "!!",
+  .data,
+  parse_expr
+)
+importFrom(stats,
+  coef,
+  fitted,
+  logLik,
+  median,
+  pnorm,
+  predict,
+  qnorm,
+  residuals,
+  terms,
+  var
+)
 importFrom(universals,estimates)
 importFrom(utils,packageVersion)

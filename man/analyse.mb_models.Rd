@@ -43,15 +43,15 @@
 
 \item{stan_engine}{A string selecting the Stan engine:
 \itemize{
-\item \code{"cmdstan-mcmc"}: MCMC via \code{\link[cmdstanr:model-method-sample]{cmdstanr::sample()}}.
-\item \code{"cmdstan-pathfinder"}: pathfinder via \code{\link[cmdstanr:model-method-pathfinder]{cmdstanr::pathfinder()}}.
-\item \code{"cmdstan-variational"}: variational ADVI via \code{\link[cmdstanr:model-method-variational]{cmdstanr::variational()}}.
-\item \code{"cmdstan-optimize"}: optimization via \code{\link[cmdstanr:model-method-optimize]{cmdstanr::optimize()}}.
-\item \code{"cmdstan-laplace"}: Laplace approximation via \code{\link[cmdstanr:model-method-laplace]{cmdstanr::laplace()}}.
+\item \code{"cmdstan-mcmc"}: MCMC via \code{\link[cmdstanr:sample]{cmdstanr::sample()}}.
+\item \code{"cmdstan-pathfinder"}: pathfinder via \code{\link[cmdstanr:pathfinder]{cmdstanr::pathfinder()}}.
+\item \code{"cmdstan-variational"}: variational ADVI via \code{\link[cmdstanr:variational]{cmdstanr::variational()}}.
+\item \code{"cmdstan-optimize"}: optimization via \code{\link[cmdstanr:optimize]{cmdstanr::optimize()}}.
+\item \code{"cmdstan-laplace"}: Laplace approximation via \code{\link[cmdstanr:laplace]{cmdstanr::laplace()}}.
 }
 
 Defaults to \code{character(0)}. Any value other than the five above (including
-the empty default) falls back to MCMC via \code{\link[rstan:stanmodel-method-sampling]{rstan::sampling()}}. Ignored for
+the empty default) falls back to MCMC via \code{\link[rstan:sampling]{rstan::sampling()}}. Ignored for
 JAGS models, which always use \link[rjags:rjags-package]{rjags}.}
 
 \item{niters_warmup}{A count of the number of warmup iterations. The default is to use the same number of iterations as \code{niters}. This is currently only implemented for Stan models.}
