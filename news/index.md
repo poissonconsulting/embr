@@ -1,5 +1,9 @@
 # Changelog
 
+## embr 1.0.0.9002
+
+- Same as previous version.
+
 ## embr 1.0.0.9001
 
 - Same as previous version.
