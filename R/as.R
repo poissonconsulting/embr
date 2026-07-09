@@ -66,7 +66,9 @@ as.models.mb_model <- function(x, ...) {
 #' @export
 as.models.list <- function(x, ...) {
   chk_unused(...)
-  if (!is.list(x)) err("x must be a list", tidy = FALSE)
+  if (!is.list(x)) {
+    err("x must be a list", tidy = FALSE)
+  }
 
   if (length(x)) {
     if (!all(purrr::map_lgl(x, is.mb_model))) {
@@ -105,7 +107,9 @@ as.mcmcrs.mb_analyses <- function(x, ...) {
 #' @export
 as.analyses.list <- function(x, ...) {
   chk_unused(...)
-  if (!is.list(x)) err("x must be a list", tidy = FALSE)
+  if (!is.list(x)) {
+    err("x must be a list", tidy = FALSE)
+  }
 
   if (length(x)) {
     if (!all(purrr::map_lgl(x, is.mb_analysis))) {

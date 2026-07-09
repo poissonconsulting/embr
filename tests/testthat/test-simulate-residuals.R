@@ -8,10 +8,17 @@ test_that("edit_residuals_code", {
     edit_residuals_code(rlang::expr(residual <- res_bern(x)), type = "dev")
   })
   expect_snapshot({
-    edit_residuals_code(rlang::expr(residual[i] <- res_bern(x)), simulate = TRUE)
+    edit_residuals_code(
+      rlang::expr(residual[i] <- res_bern(x)),
+      simulate = TRUE
+    )
   })
   expect_snapshot({
-    edit_residuals_code(rlang::expr(residual[i] <- res_bern(x)), type = "data", simulate = TRUE)
+    edit_residuals_code(
+      rlang::expr(residual[i] <- res_bern(x)),
+      type = "data",
+      simulate = TRUE
+    )
   })
   expect_snapshot({
     edit_residuals_code(
@@ -25,7 +32,8 @@ test_that("edit_residuals_code", {
   })
 })
 
-cli::test_that_cli("edit_residuals_code errors when lhs does not start with res",
+cli::test_that_cli(
+  "edit_residuals_code errors when lhs does not start with res",
   {
     local_edition(3)
     expect_snapshot(error = TRUE, {

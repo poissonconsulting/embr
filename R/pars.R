@@ -24,17 +24,21 @@ pars.mb_code <- function(x, ...) {
 #' @export
 pars.mb_model <- function(x, param_type = "all", ...) {
   chk_string(param_type)
-  chk_subset(param_type, c("fixed", "random", "derived", "primary", "all", "raw"))
+  chk_subset(
+    param_type,
+    c("fixed", "random", "derived", "primary", "all", "raw")
+  )
   chk_unused(...)
 
   if (param_type == "raw") {
     return(pars(code(x)))
   }
 
-
   if (param_type %in% c("primary", "all")) {
     pars <- c("fixed", "random")
-    if (param_type == "all") pars <- c(pars, "derived")
+    if (param_type == "all") {
+      pars <- c(pars, "derived")
+    }
 
     pars <- purrr::map(pars, pars_arg2to1, x = x)
     pars <- unlist(pars)
@@ -44,7 +48,9 @@ pars.mb_model <- function(x, param_type = "all", ...) {
   }
 
   random <- names(random_effects(x))
-  if (is.null(random)) random <- character(0)
+  if (is.null(random)) {
+    random <- character(0)
+  }
   random <- sort(random)
 
   if (param_type == "random") {
@@ -74,8 +80,13 @@ pars.mb_model <- function(x, param_type = "all", ...) {
 #' @export
 pars.mb_analysis <- function(x, param_type = "all", scalar = NULL, ...) {
   chk_string(param_type)
-  chk_subset(param_type, c("fixed", "random", "derived", "primary", "all", "raw"))
-  if (!is.null(scalar)) chk_flag(scalar)
+  chk_subset(
+    param_type,
+    c("fixed", "random", "derived", "primary", "all", "raw")
+  )
+  if (!is.null(scalar)) {
+    chk_flag(scalar)
+  }
 
   if (param_type == "raw") {
     return(pars(get_model(x), param_type = "raw"))
@@ -83,7 +94,9 @@ pars.mb_analysis <- function(x, param_type = "all", scalar = NULL, ...) {
 
   if (param_type %in% c("primary", "all")) {
     pars <- c("fixed", "random")
-    if (param_type == "all") pars <- c(pars, "derived")
+    if (param_type == "all") {
+      pars <- c(pars, "derived")
+    }
 
     pars <- purrr::map(pars, pars_arg2to1, x = x, scalar = scalar)
     pars <- unlist(pars)
@@ -95,7 +108,9 @@ pars.mb_analysis <- function(x, param_type = "all", scalar = NULL, ...) {
   pars <- pars(as.mcmcr(x), scalar = scalar)
 
   random <- names(random_effects(x))
-  if (is.null(random)) random <- character(0)
+  if (is.null(random)) {
+    random <- character(0)
+  }
   random <- intersect(random, pars)
   random <- sort(random)
 

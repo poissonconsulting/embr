@@ -14,7 +14,8 @@ expr_type <- function(x) {
 }
 
 switch_expr <- function(x, ...) {
-  switch(expr_type(x),
+  switch(
+    expr_type(x),
     ...,
     stop("Don't know how to handle type ", typeof(x), call. = FALSE)
   )
@@ -36,7 +37,8 @@ edit_residuals_code <- function(new_expr, type = NULL, simulate = NULL) {
   }
 
   is_res_call <- function(xx) {
-    is.call(xx) && grepl("^res_[[:alnum:]_]+$", rlang::as_string(xx[[1]]), perl = TRUE)
+    is.call(xx) &&
+      grepl("^res_[[:alnum:]_]+$", rlang::as_string(xx[[1]]), perl = TRUE)
   }
 
   tweak_res_call <- function(xx) {
@@ -79,7 +81,9 @@ edit_residuals_code <- function(new_expr, type = NULL, simulate = NULL) {
   new_expr <- walk_ast(new_expr)
 
   if (!residual_assignment_found) {
-    err("`new_expr` must include `residual <- res_xxx(` or `residual[i] <- res_xxx(`.")
+    err(
+      "`new_expr` must include `residual <- res_xxx(` or `residual[i] <- res_xxx(`."
+    )
   }
 
   new_expr

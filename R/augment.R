@@ -19,7 +19,11 @@ augment.mb_analysis <- function(x, ...) {
         data$vlog_lik <- apply(logLik, 2, var)
       }
     } else {
-      data$log_lik <- predict(x, new_data = data_set(x), term = "log_lik")$estimate
+      data$log_lik <- predict(
+        x,
+        new_data = data_set(x),
+        term = "log_lik"
+      )$estimate
     }
   }
   data

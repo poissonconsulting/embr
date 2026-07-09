@@ -5,25 +5,34 @@
 #'   or "all".
 #' @param param_type A string specifying which parameters to include: 'fixed',
 #'   'random', 'derived', 'primary', or 'all'.
-#' @param mb.prior_cjs A number specifying the CJS threshold for weak prior 
+#' @param mb.prior_cjs A number specifying the CJS threshold for weak prior
 #'   classification.
-#' @param mb.lik_cjs A number specifying the CJS threshold for strong data 
+#' @param mb.lik_cjs A number specifying the CJS threshold for strong data
 #'   classification.
 #' @param ... Arguments passed to [add_sensitivity()].
 #'
 #' @return A tibble summarizing the sensitivity of the analysis object.
 #' @export
-sensitivity <- function(x, by = "term", param_type = "all",
-                        mb.prior_cjs = getOption("mb.prior_cjs", 0.1),
-                        mb.lik_cjs = getOption("mb.lik_cjs", 0.05), ...) {
+sensitivity <- function(
+  x,
+  by = "term",
+  param_type = "all",
+  mb.prior_cjs = getOption("mb.prior_cjs", 0.1),
+  mb.lik_cjs = getOption("mb.lik_cjs", 0.05),
+  ...
+) {
   UseMethod("sensitivity")
 }
 
 #' @export
-sensitivity.mb_analysis <- function(x, by = "term", param_type = "all",
-                                    mb.prior_cjs = getOption("mb.prior_cjs", 0.1),
-                                    mb.lik_cjs = getOption("mb.lik_cjs", 0.05),
-                                    ...) {
+sensitivity.mb_analysis <- function(
+  x,
+  by = "term",
+  param_type = "all",
+  mb.prior_cjs = getOption("mb.prior_cjs", 0.1),
+  mb.lik_cjs = getOption("mb.lik_cjs", 0.05),
+  ...
+) {
   check_mb_analysis(x)
   chk_string(by)
   chk_subset(by, c("all", "parameter", "term"))
@@ -43,7 +52,10 @@ sensitivity.mb_analysis <- function(x, by = "term", param_type = "all",
     dplyr::mutate(parameter = term::pars_terms(.data$term)) |>
     dplyr::filter(!is.nan(.data$prior)) |>
     dplyr::select(
-      "parameter", "term", "prior", "likelihood"
+      "parameter",
+      "term",
+      "prior",
+      "likelihood"
     ) |>
     dplyr::mutate(
       dplyr::across(c("prior", "likelihood"), \(x) round(x, 3)),
@@ -68,8 +80,12 @@ sensitivity.mb_analysis <- function(x, by = "term", param_type = "all",
         .groups = "drop"
       ) |>
       dplyr::select(
-        "parameter", "nterms", "prior", "likelihood",
-        "weak_prior", "strong_data"
+        "parameter",
+        "nterms",
+        "prior",
+        "likelihood",
+        "weak_prior",
+        "strong_data"
       ) |>
       dplyr::arrange(.data$parameter, .data$weak_prior, .data$strong_data)
   } else if (by == "all") {
@@ -83,7 +99,11 @@ sensitivity.mb_analysis <- function(x, by = "term", param_type = "all",
         .groups = "drop"
       ) |>
       dplyr::select(
-        "nterms", "prior", "likelihood", "weak_prior", "strong_data"
+        "nterms",
+        "prior",
+        "likelihood",
+        "weak_prior",
+        "strong_data"
       ) |>
       dplyr::arrange(.data$weak_prior, .data$strong_data)
   }

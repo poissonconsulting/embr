@@ -38,24 +38,38 @@ IC.mb_analysis <- function(object, ...) {
 IC.mb_analyses <- function(object, ...) {
   if (!length(object)) {
     return(tibble(
-      model = character(0), K = integer(0), IC = numeric(0),
-      DeltaIC = numeric(0), ICWt = numeric(0)
+      model = character(0),
+      K = integer(0),
+      IC = numeric(0),
+      DeltaIC = numeric(0),
+      ICWt = numeric(0)
     ))
   }
   if (!all(vapply(object, is.mb_analysis, TRUE))) {
     err("object must be a list of mb_analysis objects", tidy = FALSE)
   }
 
-  if (is.null(names(object))) names(object) <- 1:length(object)
+  if (is.null(names(object))) {
+    names(object) <- 1:length(object)
+  }
 
-  if (anyDuplicated(names(object))) err("objects must be uniquely named", tidy = FALSE)
+  if (anyDuplicated(names(object))) {
+    err("objects must be uniquely named", tidy = FALSE)
+  }
 
   data <- lapply(object, data_set)
-  if (!all(vapply(data, identical, TRUE, data[[1]]))) err("all elements of object must have the same data", tidy = FALSE)
+  if (!all(vapply(data, identical, TRUE, data[[1]]))) {
+    err("all elements of object must have the same data", tidy = FALSE)
+  }
 
   random_effects <- lapply(object, random_effects)
   random_effects <- lapply(random_effects, sort_random_effects)
-  if (!all(vapply(data, identical, TRUE, data[[1]]))) err("all elements of object must have the same random effects", tidy = FALSE)
+  if (!all(vapply(data, identical, TRUE, data[[1]]))) {
+    err(
+      "all elements of object must have the same random effects",
+      tidy = FALSE
+    )
+  }
 
   tibble <- tibble(model = names(object))
   tibble$K <- vapply(object, nterms, 1L, include_constant = FALSE)

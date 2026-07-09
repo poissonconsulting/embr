@@ -8,7 +8,9 @@ make_all_models <- function(model, drops = list()) {
   check_mb_model(model)
   check_drops(drops)
 
-  if (!length(drops)) drops <- model$drops
+  if (!length(drops)) {
+    drops <- model$drops
+  }
 
   if (!length(drops)) {
     return(models(full = model))

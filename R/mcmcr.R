@@ -1,6 +1,11 @@
 #' @export
-rhat.mb_analysis <- function(x, by = "all", param_type = "all", as_df = FALSE,
-                             ...) {
+rhat.mb_analysis <- function(
+  x,
+  by = "all",
+  param_type = "all",
+  as_df = FALSE,
+  ...
+) {
   chk_string(param_type)
   chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
   chk_unused(...)
@@ -16,8 +21,14 @@ rhat.mb_analysis <- function(x, by = "all", param_type = "all", as_df = FALSE,
 rhat.mb_null_analysis <- function(x, ...) Inf
 
 #' @export
-rhat.mb_analyses <- function(x, by = "all", param_type = "all", as_df = FALSE,
-                             bound = FALSE, ...) {
+rhat.mb_analyses <- function(
+  x,
+  by = "all",
+  param_type = "all",
+  as_df = FALSE,
+  bound = FALSE,
+  ...
+) {
   chk_string(param_type)
   chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
   chk_unused(...)
@@ -31,7 +42,13 @@ rhat.mb_analyses <- function(x, by = "all", param_type = "all", as_df = FALSE,
 }
 
 #' @export
-esr.mb_analysis <- function(x, by = "all", as_df = FALSE, param_type = "all", ...) {
+esr.mb_analysis <- function(
+  x,
+  by = "all",
+  as_df = FALSE,
+  param_type = "all",
+  ...
+) {
   chk_string(param_type)
   chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
   chk_unused(...)
@@ -47,7 +64,13 @@ esr.mb_analysis <- function(x, by = "all", as_df = FALSE, param_type = "all", ..
 esr.mb_null_analysis <- function(x, ...) 0
 
 #' @export
-esr.mb_analyses <- function(x, by = "all", as_df = FALSE, param_type = "all", ...) {
+esr.mb_analyses <- function(
+  x,
+  by = "all",
+  as_df = FALSE,
+  param_type = "all",
+  ...
+) {
   chk_string(param_type)
   chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
   chk_unused(...)
@@ -61,8 +84,15 @@ esr.mb_analyses <- function(x, by = "all", as_df = FALSE, param_type = "all", ..
 }
 
 #' @export
-converged.mb_analysis <- function(x, rhat = 1.1, esr = 0.33, by = "all",
-                                  param_type = "all", as_df = FALSE, ...) {
+converged.mb_analysis <- function(
+  x,
+  rhat = 1.1,
+  esr = 0.33,
+  by = "all",
+  param_type = "all",
+  as_df = FALSE,
+  ...
+) {
   chk_string(param_type)
   chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
   chk_unused(...)
@@ -79,10 +109,16 @@ converged.mb_analysis <- function(x, rhat = 1.1, esr = 0.33, by = "all",
 converged.mb_null_analysis <- function(x, ...) FALSE
 
 #' @export
-converged.mb_analyses <- function(x, rhat = 1.1, esr = 0.33, by = "all",
-                                  param_type = "all", as_df = FALSE,
-                                  bound = FALSE,
-                                  ...) {
+converged.mb_analyses <- function(
+  x,
+  rhat = 1.1,
+  esr = 0.33,
+  by = "all",
+  param_type = "all",
+  as_df = FALSE,
+  bound = FALSE,
+  ...
+) {
   chk_string(param_type)
   chk_subset(param_type, c("fixed", "random", "derived", "primary", "all"))
   chk_unused(...)

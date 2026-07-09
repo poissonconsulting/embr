@@ -19,8 +19,20 @@ pars_arg2to1 <- function(param_type, x, scalar = NULL) {
   pars(x = x, param_type = param_type, scalar = scalar)
 }
 
-coef_arg2to1 <- function(param_type, object, include_constant, conf_level, ...) {
-  coef(object, param_type = param_type, include_constant = include_constant, conf_level = conf_level, ...)
+coef_arg2to1 <- function(
+  param_type,
+  object,
+  include_constant,
+  conf_level,
+  ...
+) {
+  coef(
+    object,
+    param_type = param_type,
+    include_constant = include_constant,
+    conf_level = conf_level,
+    ...
+  )
 }
 
 
@@ -162,7 +174,9 @@ drop_indices <- function(x) {
 }
 
 response_lm <- function(x) {
-  if (!is.character(x)) x <- template(x)
+  if (!is.character(x)) {
+    x <- template(x)
+  }
   x <- sub("\\s+~.*", "", x)
   x <- gsub("\\s{1,}", "", x)
   x

@@ -8,6 +8,8 @@ base_model <- function(model, drops = list()) {
   check_mb_model(model)
   check_drops(drops)
 
-  if (!length(drops)) drops <- model$drops
+  if (!length(drops)) {
+    drops <- model$drops
+  }
   drop_pars(model, full_drop(drops))
 }

@@ -16,7 +16,12 @@ add_sensitivity <- function(x, new_expr = NULL, replace = FALSE, ...) {
 }
 
 #' @export
-add_sensitivity.mb_analysis <- function(x, new_expr = NULL, replace = FALSE, ...) {
+add_sensitivity.mb_analysis <- function(
+  x,
+  new_expr = NULL,
+  replace = FALSE,
+  ...
+) {
   check_mb_analysis(x)
   chk_flag(replace)
 

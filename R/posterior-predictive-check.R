@@ -31,8 +31,18 @@ posterior_predictive_check.mb_analysis <- function(x, zeros = TRUE, ...) {
   simulate_residuals <- as.mcmc(collapse_chains(simulate_residuals$mcmc))
 
   means <- apply(simulate_residuals, 1, FUN = extras::xtr_mean, na_rm = TRUE)
-  variances <- apply(simulate_residuals, 1, FUN = extras::variance, na_rm = TRUE)
-  skewnesses <- apply(simulate_residuals, 1, FUN = extras::skewness, na_rm = TRUE)
+  variances <- apply(
+    simulate_residuals,
+    1,
+    FUN = extras::variance,
+    na_rm = TRUE
+  )
+  skewnesses <- apply(
+    simulate_residuals,
+    1,
+    FUN = extras::skewness,
+    na_rm = TRUE
+  )
   kurtoses <- apply(simulate_residuals, 1, FUN = extras::kurtosis, na_rm = TRUE)
 
   residuals <- residuals$estimate
@@ -58,12 +68,32 @@ posterior_predictive_check.mb_analysis <- function(x, zeros = TRUE, ...) {
     zeroses_svalue <- NA_real_
   }
 
-  tibble <- tibble::tibble(moment = c("zeros", "mean", "variance", "skewness", "kurtosis"))
+  tibble <- tibble::tibble(
+    moment = c("zeros", "mean", "variance", "skewness", "kurtosis")
+  )
   tibble$moment <- factor(tibble$moment, tibble$moment)
   tibble$observed <- c(zeros, mean, variance, skewness, kurtosis)
-  tibble$median <- c(median(zeroses), median(means), median(variances), median(skewnesses), median(kurtoses))
-  tibble$lower <- c(lower(zeroses), lower(means), lower(variances), lower(skewnesses), lower(kurtoses))
-  tibble$upper <- c(upper(zeroses), upper(means), upper(variances), upper(skewnesses), upper(kurtoses))
+  tibble$median <- c(
+    median(zeroses),
+    median(means),
+    median(variances),
+    median(skewnesses),
+    median(kurtoses)
+  )
+  tibble$lower <- c(
+    lower(zeroses),
+    lower(means),
+    lower(variances),
+    lower(skewnesses),
+    lower(kurtoses)
+  )
+  tibble$upper <- c(
+    upper(zeroses),
+    upper(means),
+    upper(variances),
+    upper(skewnesses),
+    upper(kurtoses)
+  )
   tibble$svalue <- c(
     zeroses_svalue,
     svalue(means, threshold = mean),

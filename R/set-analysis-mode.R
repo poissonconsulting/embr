@@ -129,6 +129,11 @@ set_analysis_mode <- function(mode = "report") {
       mb.conf_level = 0.95
     )
   } else {
-    err("mode '", mode, "' unrecognised (possible values are 'debug', 'reset', 'check', 'quick', 'report' or 'paper')", tidy = FALSE)
+    err(
+      "mode '",
+      mode,
+      "' unrecognised (possible values are 'debug', 'reset', 'check', 'quick', 'report' or 'paper')",
+      tidy = FALSE
+    )
   }
 }

@@ -4,16 +4,37 @@ translate_jmbr <- function(template) {
   mb_code(out)
 }
 
-r_ops <- c("+", "-", "*", "/", "^", "%%", "%/%", ">", "<", ">=", "<=", "==", "!=", "&", "|", "!", ":", "~", "=", "<-")
+r_ops <- c(
+  "+",
+  "-",
+  "*",
+  "/",
+  "^",
+  "%%",
+  "%/%",
+  ">",
+  "<",
+  ">=",
+  "<=",
+  "==",
+  "!=",
+  "&",
+  "|",
+  "!",
+  ":",
+  "~",
+  "=",
+  "<-"
+)
 r_brackets <- c("(" = ")", "{" = "}", "[" = "]")
 
 # ";"
 
 walk_translate_jmbr <- function(expr) {
-  switch(expr_type(expr),
+  switch(
+    expr_type(expr),
     constant = ,
-    symbol =
-      as.character(expr),
+    symbol = as.character(expr),
     call = {
       if (as.character(expr[[1]]) %in% c("T", "I")) {
         t_fun <- expr[[1]]
@@ -35,7 +56,11 @@ walk_translate_jmbr <- function(expr) {
           }
 
           if (fun == "{") {
-            paste0("{\n", paste(gsub("(^|\n)", "\\1  ", args), collapse = "\n"), "\n}")
+            paste0(
+              "{\n",
+              paste(gsub("(^|\n)", "\\1  ", args), collapse = "\n"),
+              "\n}"
+            )
           } else if (fun == "[") {
             paste0(args[[1]], "[", paste0(args[-1], collapse = ", "), "]")
           } else if (fun == "(") {

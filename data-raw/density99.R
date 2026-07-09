@@ -25,7 +25,8 @@ site_year <- expand.grid(Site = site$Site, Year = 1:nyear + start_year)
 site_year$site_year_effect <- rnorm(nrow(site_year), sd = exp(log_sd_site_year))
 
 data <- expand.grid(
-  Visit = 1:nvisit, Site = site$Site,
+  Visit = 1:nvisit,
+  Site = site$Site,
   Year = 1:nyear + start_year
 )
 
@@ -34,7 +35,16 @@ data <- inner_join(data, site_year, by = c("Site", "Year"))
 
 residual <- rnorm(nrow(data), sd = exp(log_sd))
 
-data <- mutate(data, Density = exp(alpha + beta * (Year - mean(Year)) + (as.integer(HabitatQuality) - 1) * habitat + site_year_effect + residual))
+data <- mutate(
+  data,
+  Density = exp(
+    alpha +
+      beta * (Year - mean(Year)) +
+      (as.integer(HabitatQuality) - 1) * habitat +
+      site_year_effect +
+      residual
+  )
+)
 
 data <- select(data, Site, HabitatQuality, Year, Visit, Density)
 data <- arrange(data, Site, Year, Visit)
