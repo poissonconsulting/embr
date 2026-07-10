@@ -44,16 +44,21 @@ test_that("analyse", {
   model <- model(
     code = jags_template,
     select_data = list(
-      "Year+" = numeric(), YearFactor = factor(),
-      Site = factor(), Density = numeric(),
+      "Year+" = numeric(),
+      YearFactor = factor(),
+      Site = factor(),
+      Density = numeric(),
       HabitatQuality = factor()
     ),
-    fixed = "^(b|l)", derived = "eDensity",
+    fixed = "^(b|l)",
+    derived = "eDensity",
     random_effects = list(bSiteYear = c("Site", "YearFactor")),
     new_expr = new_expr
   )
 
-  expect_output(expect_warning(expect_warning(analysis <- analyse(model, data = data))))
+  expect_output(expect_warning(expect_warning(
+    analysis <- analyse(model, data = data)
+  )))
 
   expect_equal(as.data.frame(data_set(analysis)), data)
   data2 <- data_set(analysis, marginalize_random_effects = TRUE)
@@ -80,69 +85,158 @@ test_that("analyse", {
   expect_identical(niters(analysis), 10L)
   expect_identical(ngens(analysis), 40L)
 
-
-  expect_identical(pars(analysis, "fixed"), sort(c("bHabitatQuality", "bIntercept", "bYear", "log_sDensity", "log_sSiteYear")))
+  expect_identical(
+    pars(analysis, "fixed"),
+    sort(c(
+      "bHabitatQuality",
+      "bIntercept",
+      "bYear",
+      "log_sDensity",
+      "log_sSiteYear"
+    ))
+  )
   expect_identical(pars(analysis, "random"), "bSiteYear")
   expect_identical(pars(analysis, "derived"), "eDensity")
   expect_identical(
     pars(analysis, "primary"),
-    c("bHabitatQuality", "bIntercept", "bSiteYear", "bYear", "log_sDensity", "log_sSiteYear")
+    c(
+      "bHabitatQuality",
+      "bIntercept",
+      "bSiteYear",
+      "bYear",
+      "log_sDensity",
+      "log_sSiteYear"
+    )
   )
   expect_identical(
     pars(analysis),
-    c("bHabitatQuality", "bIntercept", "bSiteYear", "bYear", "eDensity", "log_sDensity", "log_sSiteYear")
+    c(
+      "bHabitatQuality",
+      "bIntercept",
+      "bSiteYear",
+      "bYear",
+      "eDensity",
+      "log_sDensity",
+      "log_sSiteYear"
+    )
   )
 
   expect_s3_class(as.mcmcr(analysis), "mcmcr")
 
   glance <- glance(analysis)
   expect_s3_class(glance, "tbl")
-  expect_identical(colnames(glance), c("n", "K", "nchains", "niters", "nthin", "ess", "rhat", "converged"))
+  expect_identical(
+    colnames(glance),
+    c("n", "K", "nchains", "niters", "nthin", "ess", "rhat", "converged")
+  )
   expect_identical(glance$n, 300L)
   expect_identical(glance$nthin, 1L)
   expect_identical(glance$K, 5L)
 
-  derived <- coef(analysis, param_type = "derived", simplify = TRUE, directional_information = FALSE)
-  expect_identical(colnames(derived), c("term", "estimate", "lower", "upper", "svalue"))
+  derived <- coef(
+    analysis,
+    param_type = "derived",
+    simplify = TRUE,
+    directional_information = FALSE
+  )
+  expect_identical(
+    colnames(derived),
+    c("term", "estimate", "lower", "upper", "svalue")
+  )
   expect_identical(nrow(derived), 300L)
 
   coef <- coef(analysis, simplify = TRUE, directional_information = FALSE)
 
   expect_s3_class(coef, "tbl")
-  expect_identical(colnames(coef), c("term", "estimate", "lower", "upper", "svalue"))
+  expect_identical(
+    colnames(coef),
+    c("term", "estimate", "lower", "upper", "svalue")
+  )
 
-  expect_identical(coef$term, as.term(c(
-    "bHabitatQuality[1]", "bHabitatQuality[2]",
-    "bIntercept", "bYear",
-    "log_sDensity", "log_sSiteYear"
-  )))
+  expect_identical(
+    coef$term,
+    as.term(c(
+      "bHabitatQuality[1]",
+      "bHabitatQuality[2]",
+      "bIntercept",
+      "bYear",
+      "log_sDensity",
+      "log_sSiteYear"
+    ))
+  )
 
-  expect_identical(nrow(coef(analysis, "primary", simplify = TRUE, directional_information = FALSE)), 66L)
-  expect_identical(nrow(coef(analysis, "all", simplify = TRUE, directional_information = FALSE)), 366L)
+  expect_identical(
+    nrow(coef(
+      analysis,
+      "primary",
+      simplify = TRUE,
+      directional_information = FALSE
+    )),
+    66L
+  )
+  expect_identical(
+    nrow(coef(
+      analysis,
+      "all",
+      simplify = TRUE,
+      directional_information = FALSE
+    )),
+    366L
+  )
 
   tidy <- tidy(analysis)
-  expect_identical(colnames(tidy), c("term", "estimate", "lower", "upper", "esr", "rhat"))
+  expect_identical(
+    colnames(tidy),
+    c("term", "estimate", "lower", "upper", "esr", "rhat")
+  )
 
   year <- predict(analysis, new_data = "Year")
 
   ppc <- posterior_predictive_check(analysis)
 
   expect_s3_class(ppc, "tbl_df")
-  expect_identical(colnames(ppc), c("moment", "observed", "median", "lower", "upper", "svalue"))
-  expect_identical(ppc$moment, structure(1:5, .Label = c(
-    "zeros", "mean", "variance", "skewness",
-    "kurtosis"
-  ), class = "factor"))
+  expect_identical(
+    colnames(ppc),
+    c("moment", "observed", "median", "lower", "upper", "svalue")
+  )
+  expect_identical(
+    ppc$moment,
+    structure(
+      1:5,
+      .Label = c(
+        "zeros",
+        "mean",
+        "variance",
+        "skewness",
+        "kurtosis"
+      ),
+      class = "factor"
+    )
+  )
   expect_s3_class(year, "tbl")
-  expect_identical(colnames(year), c(
-    "Site", "HabitatQuality", "Year", "Visit",
-    "Density", "YearFactor",
-    "estimate", "lower", "upper", "svalue"
-  ))
+  expect_identical(
+    colnames(year),
+    c(
+      "Site",
+      "HabitatQuality",
+      "Year",
+      "Visit",
+      "Density",
+      "YearFactor",
+      "estimate",
+      "lower",
+      "upper",
+      "svalue"
+    )
+  )
   expect_true(all(year$lower < year$estimate))
   expect_false(is.unsorted(year$estimate))
 
-  dd <- mcmc_derive_data(analysis, new_data = c("Site", "Year"), ref_data = TRUE)
+  dd <- mcmc_derive_data(
+    analysis,
+    new_data = c("Site", "Year"),
+    ref_data = TRUE
+  )
   expect_true(mcmcdata::is.mcmc_data(dd))
 
   expect_warning(expect_warning(expect_warning(
@@ -173,5 +267,17 @@ test_that("analyse", {
 
   expect_s3_class(glance, "tbl")
   expect_identical(nrow(glance), 1L)
-  expect_identical(colnames(glance), c("n", "K", "nchains", "niters", "rhat_1", "rhat_2", "rhat_all", "converged"))
+  expect_identical(
+    colnames(glance),
+    c(
+      "n",
+      "K",
+      "nchains",
+      "niters",
+      "rhat_1",
+      "rhat_2",
+      "rhat_all",
+      "converged"
+    )
+  )
 })

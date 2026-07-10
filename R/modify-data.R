@@ -49,13 +49,37 @@ select_rescale_data <- function(data, model, data2 = data) {
   chk_data(data2)
   chk_not_empty(data2)
   check_mb_model(model)
-  data <- select_data(data, model$select_data, model$center, model$scale, model$random_effects)
-  data2 <- select_data(data2, model$select_data, model$center, model$scale, model$random_effects)
+  data <- select_data(
+    data,
+    model$select_data,
+    model$center,
+    model$scale,
+    model$random_effects
+  )
+  data2 <- select_data(
+    data2,
+    model$select_data,
+    model$center,
+    model$scale,
+    model$random_effects
+  )
 
-  if (!identical(model$center, character(0)) || !identical(model$scale, character(0))) {
-    data <- rescale::rescale(data, data2 = data2, center = model$center, scale = model$scale)
+  if (
+    !identical(model$center, character(0)) ||
+      !identical(model$scale, character(0))
+  ) {
+    data <- rescale::rescale(
+      data,
+      data2 = data2,
+      center = model$center,
+      scale = model$scale
+    )
   } else if (length(model$select_data)) {
-    data <- rescale::rescale_c(data, data2 = data2, colnames = names(model$select_data))
+    data <- rescale::rescale_c(
+      data,
+      data2 = data2,
+      colnames = names(model$select_data)
+    )
   }
   data
 }
@@ -86,7 +110,9 @@ modify_data <- function(data, model, numericize_factors = FALSE) {
   data <- numericize_dates(data)
   data <- numericize_difftimes(data)
   data <- add_nfactors(data)
-  if (numericize_factors) data <- numericize_factors(data)
+  if (numericize_factors) {
+    data <- numericize_factors(data)
+  }
   data$nObs <- nobs
   data <- model$modify_data(data)
   data
@@ -102,7 +128,13 @@ modify_data <- function(data, model, numericize_factors = FALSE) {
 #' @param modify_new_data A single argument function to modify new data (in list form) immediately prior to calculating new_expr.
 #' @return The modified data in list form.
 #' @export
-modify_new_data <- function(data, data2, model, modify_new_data = NULL, numericize_factors = FALSE) {
+modify_new_data <- function(
+  data,
+  data2,
+  model,
+  modify_new_data = NULL,
+  numericize_factors = FALSE
+) {
   chk_data(data)
   chk_not_empty(data)
   chk_data(data2)
@@ -110,7 +142,9 @@ modify_new_data <- function(data, data2, model, modify_new_data = NULL, numerici
   check_mb_model(model)
   chk_flag(numericize_factors)
 
-  if (is.null(modify_new_data)) modify_new_data <- model$modify_new_data
+  if (is.null(modify_new_data)) {
+    modify_new_data <- model$modify_new_data
+  }
   check_single_arg_fun(modify_new_data)
 
   if (any(c("nObs", "Obs") %in% colnames(data))) {
@@ -126,7 +160,9 @@ modify_new_data <- function(data, data2, model, modify_new_data = NULL, numerici
   data <- numericize_difftimes(data)
   data <- add_nfactors(data)
 
-  if (numericize_factors) data <- numericize_factors(data)
+  if (numericize_factors) {
+    data <- numericize_factors(data)
+  }
   data$nObs <- nobs
   data <- modify_new_data(data)
   data

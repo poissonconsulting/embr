@@ -39,19 +39,21 @@
 #'   coef()
 #' }
 #' @export
-mcmc_derive.mb_analysis <- function(object,
-                                    new_data = data_set(object),
-                                    new_expr = NULL,
-                                    new_values = list(),
-                                    term = "prediction",
-                                    modify_new_data = NULL,
-                                    ref_data = FALSE,
-                                    ref_fun2 = proportional_change2,
-                                    random_effects = NULL,
-                                    new_expr_vec = getOption("mb.new_expr_vec", FALSE),
-                                    parallel = getOption("mb.parallel", FALSE),
-                                    quiet = getOption("mb.quiet", TRUE),
-                                    ...) {
+mcmc_derive.mb_analysis <- function(
+  object,
+  new_data = data_set(object),
+  new_expr = NULL,
+  new_values = list(),
+  term = "prediction",
+  modify_new_data = NULL,
+  ref_data = FALSE,
+  ref_fun2 = proportional_change2,
+  random_effects = NULL,
+  new_expr_vec = getOption("mb.new_expr_vec", FALSE),
+  parallel = getOption("mb.parallel", FALSE),
+  quiet = getOption("mb.quiet", TRUE),
+  ...
+) {
   chk_function(ref_fun2)
 
   if (!vld_data(new_data) && !vld_character(new_data)) {
@@ -119,20 +121,24 @@ mcmc_derive.mb_analysis <- function(object,
 
 #' @rdname mcmc_derive.mb_analysis
 #' @export
-mcmc_derive.mb_analyses <- function(object,
-                                    new_data = data_set(object),
-                                    new_expr = NULL,
-                                    new_values = list(),
-                                    term = "prediction",
-                                    modify_new_data = NULL,
-                                    ref_data = FALSE,
-                                    new_expr_vec = getOption("mb.new_expr_vec", FALSE),
-                                    parallel = getOption("mb.parallel", FALSE),
-                                    quiet = getOption("mb.quiet", TRUE),
-                                    ...) {
+mcmc_derive.mb_analyses <- function(
+  object,
+  new_data = data_set(object),
+  new_expr = NULL,
+  new_values = list(),
+  term = "prediction",
+  modify_new_data = NULL,
+  ref_data = FALSE,
+  new_expr_vec = getOption("mb.new_expr_vec", FALSE),
+  parallel = getOption("mb.parallel", FALSE),
+  quiet = getOption("mb.quiet", TRUE),
+  ...
+) {
   ic <- IC(object)
 
-  if (!all(is.finite(ic$IC))) err("non-finite IC values", tidy = FALSE)
+  if (!all(is.finite(ic$IC))) {
+    err("non-finite IC values", tidy = FALSE)
+  }
 
   object <- lapply(
     object,
@@ -149,7 +155,9 @@ mcmc_derive.mb_analyses <- function(object,
     beep = FALSE
   )
 
-  set_weight <- function(x, weight) mcmc_map(x, .f = function(x, weight) x * weight, weight = weight)
+  set_weight <- function(x, weight) {
+    mcmc_map(x, .f = function(x, weight) x * weight, weight = weight)
+  }
 
   object <- purrr::map2(object, ic$ICWt, set_weight)
 

@@ -34,7 +34,10 @@ rm_comments.character <- function(object, comment_string = "#", ...) {
 
 #' @export
 rm_comments.mb_code <- function(object, ...) {
-  object$template <- rm_comments(object$template, comment_string = comment_string(object))
+  object$template <- rm_comments(
+    object$template,
+    comment_string = comment_string(object)
+  )
   object
 }
 

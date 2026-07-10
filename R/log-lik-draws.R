@@ -16,7 +16,12 @@ priorsense::log_lik_draws
 #' @returns A draws_array object containing log_lik values.
 #' @export
 #'
-log_lik_draws.mb_analysis <- function(x, joint = FALSE, log_lik_name = "log_lik", ...) {
+log_lik_draws.mb_analysis <- function(
+  x,
+  joint = FALSE,
+  log_lik_name = "log_lik",
+  ...
+) {
   if (!is.mb_analysis(x)) {
     stop("Not an mb_analysis object.", call. = FALSE)
   }
@@ -25,15 +30,24 @@ log_lik_draws.mb_analysis <- function(x, joint = FALSE, log_lik_name = "log_lik"
   chk::chk_character(log_lik_name)
   chk::chk_unused(...)
 
-  def_new_expr <- any(stringr::str_detect(as.character(x$model$new_expr), paste0("\\b", log_lik_name, "\\b")))
+  def_new_expr <- any(stringr::str_detect(
+    as.character(x$model$new_expr),
+    paste0("\\b", log_lik_name, "\\b")
+  ))
   def_model <- any(stringr::str_detect(pars(x), log_lik_name))
 
   if (def_new_expr & def_model) {
-    warning("`log_lik` is defined as a parameter within the model and in the new expression; the definition in the new expression will take precedence.")
+    warning(
+      "`log_lik` is defined as a parameter within the model and in the new expression; the definition in the new expression will take precedence."
+    )
   }
 
   if (def_new_expr) {
-    log_lik <- posterior::as_draws_array(as.mcmc.list(mcmc_derive(x, term = log_lik_name, parallel = FALSE)))
+    log_lik <- posterior::as_draws_array(as.mcmc.list(mcmc_derive(
+      x,
+      term = log_lik_name,
+      parallel = FALSE
+    )))
   } else if (def_model) {
     log_lik <- posterior::subset_draws(
       posterior::as_draws_array(as.mcmc.list(x$mcmcr)),

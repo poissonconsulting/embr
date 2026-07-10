@@ -1,9 +1,10 @@
 #' @export
 analyse.pmb_model <- function(
-    x,
-    data,
-    ...,
-    engine = NULL) {
+  x,
+  data,
+  ...,
+  engine = NULL
+) {
   # FIXME: Generic translation
   if (identical(engine, "jags")) {
     x$code <- translate_jmbr(x$code)

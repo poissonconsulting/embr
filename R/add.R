@@ -5,8 +5,12 @@
 #' @return An object of class mb_models.
 #' @export
 add_models <- function(x, x2) {
-  if (is.mb_model(x)) x <- list(x)
-  if (is.mb_model(x2)) x2 <- list(x2)
+  if (is.mb_model(x)) {
+    x <- list(x)
+  }
+  if (is.mb_model(x2)) {
+    x2 <- list(x2)
+  }
   x <- c(x, x2)
   as.models(x)
 }
@@ -18,8 +22,12 @@ add_models <- function(x, x2) {
 #' @return An object of class mb_analyses.
 #' @export
 add_analyses <- function(x, x2) {
-  if (is.mb_analysis(x)) x <- list(x)
-  if (is.mb_analysis(x2)) x2 <- list(x2)
+  if (is.mb_analysis(x)) {
+    x <- list(x)
+  }
+  if (is.mb_analysis(x2)) {
+    x2 <- list(x2)
+  }
   x <- c(x, x2)
   as.analyses(x)
 }

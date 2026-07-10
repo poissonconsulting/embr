@@ -25,11 +25,15 @@ R2 <- function(object, ...) {
 #'
 #' @return A number of the R2 value.
 #' @export
-R2.mb_analysis <- function(object, response, marginal = FALSE,
-                           term = "prediction",
-                           parallel = getOption("mb.parallel", FALSE),
-                           quiet = getOption("mb.quiet", TRUE),
-                           ...) {
+R2.mb_analysis <- function(
+  object,
+  response,
+  marginal = FALSE,
+  term = "prediction",
+  parallel = getOption("mb.parallel", FALSE),
+  quiet = getOption("mb.quiet", TRUE),
+  ...
+) {
   chk_string(response)
   chk_flag(marginal)
 
@@ -38,10 +42,15 @@ R2.mb_analysis <- function(object, response, marginal = FALSE,
 
   new_data <- data_set(object, marginalize_random_effects = marginal)
 
-  prediction <- predict(object,
-    new_data = new_data, term = term,
-    parallel = parallel, quiet = quiet
+  prediction <- predict(
+    object,
+    new_data = new_data,
+    term = term,
+    parallel = parallel,
+    quiet = quiet
   )
 
-  1 - stats::var(data[[response]] - prediction$estimate) / stats::var(data[[response]])
+  1 -
+    stats::var(data[[response]] - prediction$estimate) /
+      stats::var(data[[response]])
 }

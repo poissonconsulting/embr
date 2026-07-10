@@ -28,7 +28,6 @@ test_that("analyse", {
   }
 }"
 
-
   code <- mb_code(template)
 
   expect_identical(class(code), c("jmb_code", "mb_code"))
@@ -38,7 +37,11 @@ test_that("analyse", {
   expect_error(pars(code, param_type = "primary"))
   expect_error(pars(code, scalar = TRUE))
 
-  code10 <- sd_priors_by(code, 10, distributions = c("logistic", "normal", "lognormal", "t"))
+  code10 <- sd_priors_by(
+    code,
+    10,
+    distributions = c("logistic", "normal", "lognormal", "t")
+  )
   expect_identical(pars(code10), pars(code))
   expect_identical(
     as.character(code10),

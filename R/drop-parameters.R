@@ -17,13 +17,14 @@ drop_pars.character <- function(x, pars = character(0), ...) {
   chk_not_any_na(pars)
   chk_unique(pars)
 
-
   if (!length(pars)) {
     return(x)
   }
 
   # check that [ not in parameter name or followed by [ in x
-  if (any(grepl("\\[", pars))) err("pars must be scalar", tidy = FALSE)
+  if (any(grepl("\\[", pars))) {
+    err("pars must be scalar", tidy = FALSE)
+  }
   if (length(x) & length(pars)) {
     if (length(x) && any(stringr::str_detect(x, p0(pars, "\\s*\\[")))) {
       err("pars must be scalar", tidy = FALSE)
@@ -53,10 +54,13 @@ drop_pars_language <- function(expr, pars = character(0), ...) {
   }
 
   # check that [ not in parameter name or followed by [ in x
-  if (any(grepl("\\[", pars))) err("pars must be scalar", tidy = FALSE)
+  if (any(grepl("\\[", pars))) {
+    err("pars must be scalar", tidy = FALSE)
+  }
 
   walk_ast <- function(x) {
-    switch_expr(x,
+    switch_expr(
+      x,
       # Base cases
       constant = x,
       symbol = {
@@ -92,7 +96,6 @@ drop_pars.mb_model <- function(x, pars = character(0), ...) {
   chk_s3_class(pars, "character")
   chk_not_any_na(pars)
   chk_unique(pars)
-
 
   if (!length(pars)) {
     return(x)

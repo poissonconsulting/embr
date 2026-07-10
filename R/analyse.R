@@ -141,30 +141,88 @@ analyse <- function(x, ...) {
 #' @return An `mb_analysis` object.
 #' @keywords internal
 #' @export
-analyse1 <- function(model, data, loaded, nchains, niters, nthin, quiet, glance, parallel, seed, niters_warmup, ...) {
+analyse1 <- function(
+  model,
+  data,
+  loaded,
+  nchains,
+  niters,
+  nthin,
+  quiet,
+  glance,
+  parallel,
+  seed,
+  niters_warmup,
+  ...
+) {
   UseMethod("analyse1")
 }
 
-analyse_data <- function(data, name = NULL, x, loaded, nchains, niters, nthin,
-                         parallel, quiet, glance, seed, niters_warmup, ...) {
+analyse_data <- function(
+  data,
+  name = NULL,
+  x,
+  loaded,
+  nchains,
+  niters,
+  nthin,
+  parallel,
+  quiet,
+  glance,
+  seed,
+  niters_warmup,
+  ...
+) {
   check_no_sf(data)
-  if (!is.null(name) & glance) cat("Data:", name, "\n")
-  analyse1(x, data,
-    loaded = loaded, nchains = nchains, niters = niters,
-    nthin = nthin, parallel = parallel, quiet = quiet,
-    glance = glance, seed = seed,
-    niters_warmup = niters_warmup, ...
+  if (!is.null(name) & glance) {
+    cat("Data:", name, "\n")
+  }
+  analyse1(
+    x,
+    data,
+    loaded = loaded,
+    nchains = nchains,
+    niters = niters,
+    nthin = nthin,
+    parallel = parallel,
+    quiet = quiet,
+    glance = glance,
+    seed = seed,
+    niters_warmup = niters_warmup,
+    ...
   )
 }
 
 
-analyse_model <- function(x, name = NULL, data, parallel, nchains, niters, nthin, quiet, glance, beep, stan_engine, ...) {
-  if (!is.null(name) & glance) cat("Model:", name, "\n")
-  analyse(x,
-    data = data, parallel = parallel,
-    nchains = nchains, niters = niters, nthin = nthin,
-    quiet = quiet, glance = glance, beep = beep,
-    stan_engine = stan_engine, ...
+analyse_model <- function(
+  x,
+  name = NULL,
+  data,
+  parallel,
+  nchains,
+  niters,
+  nthin,
+  quiet,
+  glance,
+  beep,
+  stan_engine,
+  ...
+) {
+  if (!is.null(name) & glance) {
+    cat("Model:", name, "\n")
+  }
+  analyse(
+    x,
+    data = data,
+    parallel = parallel,
+    nchains = nchains,
+    niters = niters,
+    nthin = nthin,
+    quiet = quiet,
+    glance = glance,
+    beep = beep,
+    stan_engine = stan_engine,
+    ...
   )
 }
 
@@ -185,44 +243,61 @@ analyse_model <- function(x, name = NULL, data, parallel, nchains, niters, nthin
 #' @return An `mb_analysis` or `mb_meta_analysis`. See [analyse()] for details.
 #' @seealso [analyse()] for full argument documentation and engine details.
 #' @export
-analyse.character <- function(x, data,
-                              select_data = list(),
-                              nchains = getOption("mb.nchains", 3L),
-                              niters = getOption("mb.niters", 1000L),
-                              nthin = getOption("mb.nthin", 1L),
-                              parallel = getOption("mb.parallel", FALSE),
-                              quiet = getOption("mb.quiet", TRUE),
-                              glance = getOption("mb.glance", TRUE),
-                              beep = getOption("mb.beep", TRUE),
-                              seed = sample.int(.Machine$integer.max, 1),
-                              stan_engine = getOption("mb.stan_engine", character(0)),
-                              niters_warmup = niters,
-                              ...) {
+analyse.character <- function(
+  x,
+  data,
+  select_data = list(),
+  nchains = getOption("mb.nchains", 3L),
+  niters = getOption("mb.niters", 1000L),
+  nthin = getOption("mb.nthin", 1L),
+  parallel = getOption("mb.parallel", FALSE),
+  quiet = getOption("mb.quiet", TRUE),
+  glance = getOption("mb.glance", TRUE),
+  beep = getOption("mb.beep", TRUE),
+  seed = sample.int(.Machine$integer.max, 1),
+  stan_engine = getOption("mb.stan_engine", character(0)),
+  niters_warmup = niters,
+  ...
+) {
   x <- model(x, select_data = select_data)
-  analyse(x,
+  analyse(
+    x,
     data = data,
-    parallel = parallel, nchains = nchains, niters = niters, nthin = nthin, quiet = quiet,
-    glance = glance, beep = beep, seed = seed, stan_engine = stan_engine,
-    niters_warmup = niters_warmup, ...
+    parallel = parallel,
+    nchains = nchains,
+    niters = niters,
+    nthin = nthin,
+    quiet = quiet,
+    glance = glance,
+    beep = beep,
+    seed = seed,
+    stan_engine = stan_engine,
+    niters_warmup = niters_warmup,
+    ...
   )
 }
 
 #' @rdname analyse
 #' @export
-analyse.mb_model <- function(x, data,
-                             nchains = getOption("mb.nchains", 3L),
-                             niters = getOption("mb.niters", 1000L),
-                             nthin = getOption("mb.thin", NULL),
-                             parallel = getOption("mb.parallel", FALSE),
-                             quiet = getOption("mb.quiet", TRUE),
-                             glance = getOption("mb.glance", TRUE),
-                             beep = getOption("mb.beep", TRUE),
-                             seed = sample.int(.Machine$integer.max, 1),
-                             stan_engine = getOption("mb.stan_engine", character(0)),
-                             niters_warmup = niters,
-                             ...) {
+analyse.mb_model <- function(
+  x,
+  data,
+  nchains = getOption("mb.nchains", 3L),
+  niters = getOption("mb.niters", 1000L),
+  nthin = getOption("mb.thin", NULL),
+  parallel = getOption("mb.parallel", FALSE),
+  quiet = getOption("mb.quiet", TRUE),
+  glance = getOption("mb.glance", TRUE),
+  beep = getOption("mb.beep", TRUE),
+  seed = sample.int(.Machine$integer.max, 1),
+  stan_engine = getOption("mb.stan_engine", character(0)),
+  niters_warmup = niters,
+  ...
+) {
   chk_flag(beep)
-  if (beep) on.exit(beepr::beep())
+  if (beep) {
+    on.exit(beepr::beep())
+  }
 
   if (is.data.frame(data)) {
     chk_data(data)
@@ -250,7 +325,9 @@ analyse.mb_model <- function(x, data,
   chk_whole_number(niters_warmup)
   chk_range(niters_warmup, c(10L, 100000L))
 
-  if (is.null(nthin)) nthin <- nthin(x)
+  if (is.null(nthin)) {
+    nthin <- nthin(x)
+  }
 
   if (identical(stan_engine, "cmdstan-mcmc")) {
     class(x) <- c("cmdstan_model", "cmdstan_mcmc_model", class(x))
@@ -268,11 +345,18 @@ analyse.mb_model <- function(x, data,
 
   if (is.data.frame(data)) {
     return(analyse_data(
-      data = data, x = x, loaded = loaded,
-      nchains = nchains, niters = niters, nthin = nthin,
-      parallel = parallel, quiet = quiet, glance = glance,
+      data = data,
+      x = x,
+      loaded = loaded,
+      nchains = nchains,
+      niters = niters,
+      nthin = nthin,
+      parallel = parallel,
+      quiet = quiet,
+      glance = glance,
       seed = seed,
-      niters_warmup = niters_warmup, ...
+      niters_warmup = niters_warmup,
+      ...
     ))
   }
 
@@ -281,12 +365,21 @@ analyse.mb_model <- function(x, data,
     names(data) <- seq_along(data)
   }
 
-  analyses <- purrr::imap(data, analyse_data,
-    x = x, loaded = loaded,
-    nchains = nchains, niters = niters, nthin = nthin,
-    parallel = parallel, quiet = quiet, glance = glance,
-    seed = seed, stan_engine = stan_engine,
-    niters_warmup = niters_warmup, ...
+  analyses <- purrr::imap(
+    data,
+    analyse_data,
+    x = x,
+    loaded = loaded,
+    nchains = nchains,
+    niters = niters,
+    nthin = nthin,
+    parallel = parallel,
+    quiet = quiet,
+    glance = glance,
+    seed = seed,
+    stan_engine = stan_engine,
+    niters_warmup = niters_warmup,
+    ...
   )
 
   names(data) <- names
@@ -308,30 +401,46 @@ analyse.mb_model <- function(x, data,
 #'   data frames).
 #' @seealso [analyse()] for full argument documentation and engine details.
 #' @export
-analyse.mb_models <- function(x, data,
-                              nchains = getOption("mb.nchains", 3L),
-                              niters = getOption("mb.niters", 1000L),
-                              nthin = getOption("mb.thin", NULL),
-                              parallel = getOption("mb.parallel", FALSE),
-                              quiet = getOption("mb.quiet", TRUE),
-                              glance = getOption("mb.glance", TRUE),
-                              beep = getOption("mb.beep", TRUE),
-                              seed = sample.int(.Machine$integer.max, 1),
-                              stan_engine = getOption("mb.stan_engine", character(0)),
-                              niters_warmup = niters,
-                              ...) {
+analyse.mb_models <- function(
+  x,
+  data,
+  nchains = getOption("mb.nchains", 3L),
+  niters = getOption("mb.niters", 1000L),
+  nthin = getOption("mb.thin", NULL),
+  parallel = getOption("mb.parallel", FALSE),
+  quiet = getOption("mb.quiet", TRUE),
+  glance = getOption("mb.glance", TRUE),
+  beep = getOption("mb.beep", TRUE),
+  seed = sample.int(.Machine$integer.max, 1),
+  stan_engine = getOption("mb.stan_engine", character(0)),
+  niters_warmup = niters,
+  ...
+) {
   chk_flag(beep)
-  if (beep) on.exit(beepr::beep())
+  if (beep) {
+    on.exit(beepr::beep())
+  }
 
   names <- names(x)
-  if (is.null(names)) names(x) <- seq_along(x)
+  if (is.null(names)) {
+    names(x) <- seq_along(x)
+  }
 
-  analyses <- purrr::imap(x, analyse_model,
+  analyses <- purrr::imap(
+    x,
+    analyse_model,
     data = data,
-    nchains = nchains, niters = niters, nthin = nthin,
-    parallel = parallel, quiet = quiet, glance = glance, beep = FALSE,
-    seed = seed, stan_engine = stan_engine,
-    niters_warmup = niters_warmup, ...
+    nchains = nchains,
+    niters = niters,
+    nthin = nthin,
+    parallel = parallel,
+    quiet = quiet,
+    glance = glance,
+    beep = FALSE,
+    seed = seed,
+    stan_engine = stan_engine,
+    niters_warmup = niters_warmup,
+    ...
   )
 
   if (is.data.frame(data)) {

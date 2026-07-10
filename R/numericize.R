@@ -3,7 +3,9 @@ days_since_2000 <- function(x) {
 }
 
 numericize_dates <- function(data) {
-  if (!is.list(data)) err("data must be a list", tidy = FALSE)
+  if (!is.list(data)) {
+    err("data must be a list", tidy = FALSE)
+  }
   if (!length(data)) {
     return(data)
   }
@@ -15,7 +17,9 @@ numericize_dates <- function(data) {
 }
 
 numericize_difftimes <- function(data) {
-  if (!is.list(data)) err("data must be a list", tidy = FALSE)
+  if (!is.list(data)) {
+    err("data must be a list", tidy = FALSE)
+  }
   if (!length(data)) {
     return(data)
   }
@@ -27,7 +31,9 @@ numericize_difftimes <- function(data) {
 }
 
 numericize_logicals <- function(data) {
-  if (!is.list(data)) err("data must be a list", tidy = FALSE)
+  if (!is.list(data)) {
+    err("data must be a list", tidy = FALSE)
+  }
   if (!length(data)) {
     return(data)
   }
@@ -39,7 +45,9 @@ numericize_logicals <- function(data) {
 }
 
 numericize_factors <- function(data) {
-  if (!is.list(data)) err("data must be a list", tidy = FALSE)
+  if (!is.list(data)) {
+    err("data must be a list", tidy = FALSE)
+  }
   if (!length(data)) {
     return(data)
   }

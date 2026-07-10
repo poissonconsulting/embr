@@ -42,15 +42,19 @@ test_that("update new expr string expression", {
   }",
     new_expr_vec = FALSE,
     select_data = list(
-      "Year+" = numeric(), YearFactor = factor(),
-      Site = factor(), Density = numeric(),
+      "Year+" = numeric(),
+      YearFactor = factor(),
+      Site = factor(),
+      Density = numeric(),
       HabitatQuality = factor()
     ),
-    fixed = "^(b|l)", derived = "eDensity",
+    fixed = "^(b|l)",
+    derived = "eDensity",
     random_effects = list(bSiteYear = c("Site", "YearFactor"))
   )
 
-  model <- update_model(model,
+  model <- update_model(
+    model,
     new_expr = "
             {
           fit <- bIntercept + bYear * Year + bHabitatQuality[HabitatQuality] +
@@ -71,11 +75,21 @@ test_that("update new expr string expression", {
   year <- predict(analysis, new_data = "Year")
 
   expect_s3_class(year, "tbl")
-  expect_identical(colnames(year), c(
-    "Site", "HabitatQuality", "Year", "Visit",
-    "Density", "YearFactor",
-    "estimate", "lower", "upper", "svalue"
-  ))
+  expect_identical(
+    colnames(year),
+    c(
+      "Site",
+      "HabitatQuality",
+      "Year",
+      "Visit",
+      "Density",
+      "YearFactor",
+      "estimate",
+      "lower",
+      "upper",
+      "svalue"
+    )
+  )
   expect_true(all(year$lower < year$estimate))
   expect_false(is.unsorted(year$estimate))
 
@@ -128,33 +142,46 @@ test_that("update new expr bare expression", {
   }",
     new_expr_vec = FALSE,
     select_data = list(
-      "Year+" = numeric(), YearFactor = factor(),
-      Site = factor(), Density = numeric(),
+      "Year+" = numeric(),
+      YearFactor = factor(),
+      Site = factor(),
+      Density = numeric(),
       HabitatQuality = factor()
     ),
-    fixed = "^(b|l)", derived = "eDensity",
+    fixed = "^(b|l)",
+    derived = "eDensity",
     random_effects = list(bSiteYear = c("Site", "YearFactor"))
   )
 
-  model <- update_model(model,
-    new_expr = {
-      fit <- bIntercept + bYear * Year + bHabitatQuality[HabitatQuality] +
-        bSiteYear[cbind(Site, YearFactor)]
-      log(prediction) <- fit
-      residual <- res_lnorm(Density, fit, exp(log_sDensity))
-    }
-  )
+  model <- update_model(model, new_expr = {
+    fit <- bIntercept +
+      bYear * Year +
+      bHabitatQuality[HabitatQuality] +
+      bSiteYear[cbind(Site, YearFactor)]
+    log(prediction) <- fit
+    residual <- res_lnorm(Density, fit, exp(log_sDensity))
+  })
   niters <- 250L
   analysis <- analyse(model, data = data, niters = niters, glance = FALSE)
 
   year <- predict(analysis, new_data = "Year")
 
   expect_s3_class(year, "tbl")
-  expect_identical(colnames(year), c(
-    "Site", "HabitatQuality", "Year", "Visit",
-    "Density", "YearFactor",
-    "estimate", "lower", "upper", "svalue"
-  ))
+  expect_identical(
+    colnames(year),
+    c(
+      "Site",
+      "HabitatQuality",
+      "Year",
+      "Visit",
+      "Density",
+      "YearFactor",
+      "estimate",
+      "lower",
+      "upper",
+      "svalue"
+    )
+  )
   expect_true(all(year$lower < year$estimate))
   expect_false(is.unsorted(year$estimate))
 
@@ -206,18 +233,20 @@ test_that("add new_expr_vec argument to update model", {
   }",
     new_expr_vec = TRUE,
     select_data = list(
-      "Year+" = numeric(), YearFactor = factor(),
-      Site = factor(), Density = numeric(),
+      "Year+" = numeric(),
+      YearFactor = factor(),
+      Site = factor(),
+      Density = numeric(),
       HabitatQuality = factor()
     ),
-    fixed = "^(b|l)", derived = "eDensity",
+    fixed = "^(b|l)",
+    derived = "eDensity",
     random_effects = list(bSiteYear = c("Site", "YearFactor"))
   )
 
   model <- update_model(
     model,
-    new_expr =
-      "
+    new_expr = "
       for(i in 1:length(Density)) {
         fit[i] <- bIntercept + bYear * Year[i] + bHabitatQuality[HabitatQuality[i]] + bSiteYear[Site[i], YearFactor[i]]
         log(prediction[i]) <- fit[i]
@@ -231,11 +260,21 @@ test_that("add new_expr_vec argument to update model", {
   year <- predict(analysis, new_data = "Year")
 
   expect_s3_class(year, "tbl")
-  expect_identical(colnames(year), c(
-    "Site", "HabitatQuality", "Year", "Visit",
-    "Density", "YearFactor",
-    "estimate", "lower", "upper", "svalue"
-  ))
+  expect_identical(
+    colnames(year),
+    c(
+      "Site",
+      "HabitatQuality",
+      "Year",
+      "Visit",
+      "Density",
+      "YearFactor",
+      "estimate",
+      "lower",
+      "upper",
+      "svalue"
+    )
+  )
   expect_true(all(year$lower < year$estimate))
   expect_false(is.unsorted(year$estimate))
 
@@ -287,11 +326,14 @@ test_that("add new_expr_vec argument to update model and updates original new_ex
   }",
     new_expr_vec = FALSE,
     select_data = list(
-      "Year+" = numeric(), YearFactor = factor(),
-      Site = factor(), Density = numeric(),
+      "Year+" = numeric(),
+      YearFactor = factor(),
+      Site = factor(),
+      Density = numeric(),
       HabitatQuality = factor()
     ),
-    fixed = "^(b|l)", derived = "eDensity",
+    fixed = "^(b|l)",
+    derived = "eDensity",
     random_effects = list(bSiteYear = c("Site", "YearFactor"))
   )
 
@@ -305,11 +347,21 @@ test_that("add new_expr_vec argument to update model and updates original new_ex
   year <- predict(analysis, new_data = "Year")
 
   expect_s3_class(year, "tbl")
-  expect_identical(colnames(year), c(
-    "Site", "HabitatQuality", "Year", "Visit",
-    "Density", "YearFactor",
-    "estimate", "lower", "upper", "svalue"
-  ))
+  expect_identical(
+    colnames(year),
+    c(
+      "Site",
+      "HabitatQuality",
+      "Year",
+      "Visit",
+      "Density",
+      "YearFactor",
+      "estimate",
+      "lower",
+      "upper",
+      "svalue"
+    )
+  )
   expect_true(all(year$lower < year$estimate))
   expect_false(is.unsorted(year$estimate))
 
@@ -361,11 +413,14 @@ test_that("cannot undo the vectorization if orignally set in the model", {
   }",
     new_expr_vec = TRUE,
     select_data = list(
-      "Year+" = numeric(), YearFactor = factor(),
-      Site = factor(), Density = numeric(),
+      "Year+" = numeric(),
+      YearFactor = factor(),
+      Site = factor(),
+      Density = numeric(),
       HabitatQuality = factor()
     ),
-    fixed = "^(b|l)", derived = "eDensity",
+    fixed = "^(b|l)",
+    derived = "eDensity",
     random_effects = list(bSiteYear = c("Site", "YearFactor"))
   )
 
@@ -379,11 +434,21 @@ test_that("cannot undo the vectorization if orignally set in the model", {
   year <- predict(analysis, new_data = "Year")
 
   expect_s3_class(year, "tbl")
-  expect_identical(colnames(year), c(
-    "Site", "HabitatQuality", "Year", "Visit",
-    "Density", "YearFactor",
-    "estimate", "lower", "upper", "svalue"
-  ))
+  expect_identical(
+    colnames(year),
+    c(
+      "Site",
+      "HabitatQuality",
+      "Year",
+      "Visit",
+      "Density",
+      "YearFactor",
+      "estimate",
+      "lower",
+      "upper",
+      "svalue"
+    )
+  )
   expect_true(all(year$lower < year$estimate))
   expect_false(is.unsorted(year$estimate))
 

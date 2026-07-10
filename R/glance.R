@@ -2,7 +2,12 @@
 generics::glance
 
 #' @export
-glance.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), esr = getOption("mb.esr", 0.33), ...) {
+glance.mb_analysis <- function(
+  x,
+  rhat = getOption("mb.rhat", 1.1),
+  esr = getOption("mb.esr", 0.33),
+  ...
+) {
   glance <- tibble(
     n = sample_size(x),
     K = nterms(x, include_constant = FALSE)
@@ -22,11 +27,18 @@ glance.mb_analysis <- function(x, rhat = getOption("mb.rhat", 1.1), esr = getOpt
 
 #' @export
 glance.mb_analyses <- function(
-    x, rhat = getOption("mb.rhat", 1.1), bound = FALSE, ...) {
+  x,
+  rhat = getOption("mb.rhat", 1.1),
+  bound = FALSE,
+  ...
+) {
   chk_flag(bound)
   if (bound) {
     if (!is_bayesian(x)) {
-      err("glance with bound = TRUE is only defined for Bayesian analyses.", tidy = FALSE)
+      err(
+        "glance with bound = TRUE is only defined for Bayesian analyses.",
+        tidy = FALSE
+      )
     }
 
     glance <- glance(x, rhat = rhat)

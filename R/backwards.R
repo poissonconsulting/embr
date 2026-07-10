@@ -16,20 +16,36 @@
 #' @param ... Unused.
 #' @return A list of the analyses.
 #' @export
-backwards <- function(model, data, drops = list(), conf_level = getOption("mb.conf_level", 0.95),
-                      beep = getOption("mb.beep", TRUE), ...) {
+backwards <- function(
+  model,
+  data,
+  drops = list(),
+  conf_level = getOption("mb.conf_level", 0.95),
+  beep = getOption("mb.beep", TRUE),
+  ...
+) {
   UseMethod("backwards")
 }
 
 #' @export
-backwards.mb_model <- function(model, data, drops = list(), conf_level = getOption("mb.conf_level", 0.95),
-                               beep = getOption("mb.beep", TRUE), ...) {
+backwards.mb_model <- function(
+  model,
+  data,
+  drops = list(),
+  conf_level = getOption("mb.conf_level", 0.95),
+  beep = getOption("mb.beep", TRUE),
+  ...
+) {
   .NotYetImplemented()
 
   chk_flag(beep)
-  if (beep) on.exit(beepr::beep(2))
+  if (beep) {
+    on.exit(beepr::beep(2))
+  }
 
-  if (!length(drops)) drops <- model$drops
+  if (!length(drops)) {
+    drops <- model$drops
+  }
 
   drops_org <- drops
 

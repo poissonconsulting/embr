@@ -4,7 +4,10 @@ test_that("mb_null_analysis", {
 
   coef <- coef(analysis)
   expect_s3_class(coef, "tbl")
-  expect_identical(colnames(coef), c("term", "estimate", "sd", "zscore", "lower", "upper", "pvalue"))
+  expect_identical(
+    colnames(coef),
+    c("term", "estimate", "sd", "zscore", "lower", "upper", "pvalue")
+  )
   expect_identical(nrow(coef), 0L)
 
   glance <- glance(analysis)

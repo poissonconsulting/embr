@@ -8,7 +8,12 @@ stats::terms
 #' @param include_constant A flag specifying whether to include constant terms.
 #' @param ... unused
 #' @export
-nterms.mb_analysis <- function(x, param_type = "fixed", include_constant = TRUE, ...) {
+nterms.mb_analysis <- function(
+  x,
+  param_type = "fixed",
+  include_constant = TRUE,
+  ...
+) {
   length(terms(x, param_type = param_type, include_constant = include_constant))
 }
 
@@ -21,9 +26,17 @@ nterms.mb_analysis <- function(x, param_type = "fixed", include_constant = TRUE,
 #' @param include_constant A flag specifying whether to include constant terms.
 #' @param ... Not used.
 #' @export
-terms.mb_analysis <- function(x, param_type = "fixed", include_constant = TRUE, ...) {
-  coef(x,
-    param_type = param_type, include_constant = include_constant,
-    simplify = TRUE, directional_information = FALSE
+terms.mb_analysis <- function(
+  x,
+  param_type = "fixed",
+  include_constant = TRUE,
+  ...
+) {
+  coef(
+    x,
+    param_type = param_type,
+    include_constant = include_constant,
+    simplify = TRUE,
+    directional_information = FALSE
   )$term
 }

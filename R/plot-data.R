@@ -36,7 +36,9 @@ plot_data.default <- function(x, y, x_name, y_name, ...) {
 #' @export
 plot_data.factor <- function(x, y, x_name, y_name, ...) {
   ggplot_data(x, y, x_name, y_name) +
-    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust = 1))
+    ggplot2::theme(
+      axis.text.x = ggplot2::element_text(angle = 90, vjust = 0.5, hjust = 1)
+    )
 }
 
 #' @export
@@ -54,8 +56,10 @@ plot_data.data.frame <- function(x, ...) {
     for (y_name in names(x)) {
       if (!identical(x_name, y_name)) {
         plot <- plot_data(
-          x = x[[x_name]], y = x[[y_name]],
-          x_name = x_name, y_name = y_name
+          x = x[[x_name]],
+          y = x[[y_name]],
+          x_name = x_name,
+          y_name = y_name
         )
         plot <- list(plot)
         plot <- stats::setNames(plot, paste(x_name, y_name))

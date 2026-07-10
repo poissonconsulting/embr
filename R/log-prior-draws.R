@@ -16,7 +16,12 @@ priorsense::log_prior_draws
 #' @return A draws_array object containing log_prior values.
 #' @export
 #'
-log_prior_draws.mb_analysis <- function(x, joint = FALSE, log_prior_name = "lprior", ...) {
+log_prior_draws.mb_analysis <- function(
+  x,
+  joint = FALSE,
+  log_prior_name = "lprior",
+  ...
+) {
   if (!is.mb_analysis(x)) {
     stop("Not an mb_analysis object.", call. = FALSE)
   }
@@ -25,15 +30,24 @@ log_prior_draws.mb_analysis <- function(x, joint = FALSE, log_prior_name = "lpri
   chk::chk_character(log_prior_name)
   chk::chk_unused(...)
 
-  def_new_expr <- any(stringr::str_detect(as.character(x$model$new_expr), log_prior_name))
+  def_new_expr <- any(stringr::str_detect(
+    as.character(x$model$new_expr),
+    log_prior_name
+  ))
   def_model <- any(stringr::str_detect(pars(x), log_prior_name))
 
   if (def_new_expr & def_model) {
-    warning("`lprior` is defined both as a parameter within the model and in the new expression. Change `lprior` in the new expression to `elprior`, and supply `log_prior_name = 'elprior'` to the function.")
+    warning(
+      "`lprior` is defined both as a parameter within the model and in the new expression. Change `lprior` in the new expression to `elprior`, and supply `log_prior_name = 'elprior'` to the function."
+    )
   }
 
   if (def_new_expr) {
-    log_prior <- posterior::as_draws_array(as.mcmc.list(mcmc_derive(x, term = log_prior_name, parallel = FALSE)))
+    log_prior <- posterior::as_draws_array(as.mcmc.list(mcmc_derive(
+      x,
+      term = log_prior_name,
+      parallel = FALSE
+    )))
   } else if (def_model) {
     log_prior <- posterior::subset_draws(
       posterior::as_draws_array(as.mcmc.list(x$mcmcr)),
