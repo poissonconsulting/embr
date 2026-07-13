@@ -10,7 +10,7 @@
   include_constant = TRUE,
   conf_level = getOption("mb.conf_level", 0.95),
   estimate = getOption("mb.estimate", median),
-  simplify = FALSE,
+  simplify = TRUE,
   directional_information = FALSE,
   ...
 )
@@ -26,7 +26,8 @@
 
 \item{estimate}{The function to use to calculating the estimate for Bayesian models.}
 
-\item{simplify}{A flag specifying whether to drop sd and zscore columns and return svalue instead of pvalue.}
+\item{simplify}{Must be \code{TRUE}.
+\code{simplify = FALSE} is defunct as of embr 1.1.0.}
 
 \item{directional_information}{A flag specifying whether the svalue column
 for a Bayesian analysis should be calculated using
@@ -38,11 +39,10 @@ Ignored for frequentist analyses where the svalue is always \code{-log2(pvalue)}
 \item{...}{Not used.}
 }
 \value{
-A tidy tibble of the coefficient terms.
+A tidy tibble of the coefficient terms with the columns indicating
+the \code{term}, \code{estimate}, \code{lower} and \code{upper} confidence or credible intervals
+and \code{svalue}.
 }
 \description{
 Coefficients for a JAGS analysis.
-}
-\details{
-The \code{zscore} is mean / sd.
 }

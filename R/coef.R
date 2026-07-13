@@ -36,7 +36,7 @@ coef.mb_null_analysis <- function(
   include_constant = TRUE,
   conf_level = getOption("mb.conf_level", 0.95),
   estimate = getOption("mb.estimate", median),
-  simplify = FALSE,
+  simplify = TRUE,
   directional_information = FALSE,
   ...
 ) {
@@ -47,6 +47,10 @@ coef.mb_null_analysis <- function(
   chk_range(conf_level, c(0.5, 0.99))
   chk_flag(simplify)
   chk_flag(directional_information)
+
+  if (!simplify) {
+    lifecycle::deprecate_stop("1.1.0", "coef(simplify = 'must be TRUE')")
+  }
 
   coef <- tibble(
     term = as_term(character(0)),
@@ -57,17 +61,15 @@ coef.mb_null_analysis <- function(
 
   coef <- get_frequentist_coef(coef)
 
-  if (simplify) {
-    coef <- mutate(coef, svalue = -log(.data$pvalue, base = 2))
-    coef <- select(
-      coef,
-      "term",
-      "estimate",
-      "lower",
-      "upper",
-      "svalue"
-    )
-  }
+  coef <- mutate(coef, svalue = -log(.data$pvalue, base = 2))
+  coef <- select(
+    coef,
+    "term",
+    "estimate",
+    "lower",
+    "upper",
+    "svalue"
+  )
 
   class(coef) <- c("mb_analysis_coef", class(coef))
 
@@ -78,14 +80,13 @@ coef.mb_null_analysis <- function(
 #'
 #' Coefficients for a JAGS analysis.
 #'
-#' The `zscore` is mean / sd.
-#'
 #' @param object The mb_analysis object.
 #' @param param_type A flag specifying whether 'fixed', 'random' or 'derived' terms.
 #' @param include_constant A flag specifying whether to include constant terms.
 #' @param conf_level A number specifying the confidence level. By default 0.95.
 #' @param estimate The function to use to calculating the estimate for Bayesian models.
-#' @param simplify A flag specifying whether to drop sd and zscore columns and return svalue instead of pvalue.
+#' @param simplify Must be `TRUE`.
+#' `simplify = FALSE` is defunct as of embr 1.1.0.
 #' @param directional_information A flag specifying whether the svalue column
 #' for a Bayesian analysis should be calculated using
 #' [extras::directional_information()] instead of [extras::svalue()].
@@ -93,7 +94,9 @@ coef.mb_null_analysis <- function(
 #' set the argument explicitly to avoid the deprecation warning.
 #' Ignored for frequentist analyses where the svalue is always `-log2(pvalue)`.
 #' @param ... Not used.
-#' @return A tidy tibble of the coefficient terms.
+#' @return A tidy tibble of the coefficient terms with the columns indicating
+#' the `term`, `estimate`, `lower` and `upper` confidence or credible intervals
+#' and `svalue`.
 #' @export
 coef.mb_analysis <- function(
   object,
@@ -101,7 +104,7 @@ coef.mb_analysis <- function(
   include_constant = TRUE,
   conf_level = getOption("mb.conf_level", 0.95),
   estimate = getOption("mb.estimate", median),
-  simplify = FALSE,
+  simplify = TRUE,
   directional_information = FALSE,
   ...
 ) {
@@ -113,7 +116,11 @@ coef.mb_analysis <- function(
   chk_flag(simplify)
   chk_flag(directional_information)
 
-  if (simplify && missing(directional_information) && is_bayesian(object)) {
+  if (!simplify) {
+    lifecycle::deprecate_stop("1.1.0", "coef(simplify = 'must be TRUE')")
+  }
+
+  if (missing(directional_information) && is_bayesian(object)) {
     warn_default_directional_information()
   }
 
@@ -128,17 +135,15 @@ coef.mb_analysis <- function(
 
     coef <- get_frequentist_coef(coef)
 
-    if (simplify) {
-      coef <- mutate(coef, svalue = -log(.data$pvalue, base = 2))
-      coef <- select(
-        coef,
-        "term",
-        "estimate",
-        "lower",
-        "upper",
-        "svalue"
-      )
-    }
+    coef <- mutate(coef, svalue = -log(.data$pvalue, base = 2))
+    coef <- select(
+      coef,
+      "term",
+      "estimate",
+      "lower",
+      "upper",
+      "svalue"
+    )
 
     class(coef) <- c("mb_analysis_coef", class(coef))
     return(coef)
@@ -172,17 +177,15 @@ coef.mb_analysis <- function(
     if (!include_constant) {
       coef <- dplyr::filter(coef, .data$lower != .data$upper)
     }
-    if (simplify) {
-      coef <- mutate(coef, svalue = -log(.data$pvalue, base = 2))
-      coef <- select(
-        coef,
-        "term",
-        "estimate",
-        "lower",
-        "upper",
-        "svalue"
-      )
-    }
+    coef <- mutate(coef, svalue = -log(.data$pvalue, base = 2))
+    coef <- select(
+      coef,
+      "term",
+      "estimate",
+      "lower",
+      "upper",
+      "svalue"
+    )
   }
 
   class(coef) <- c("mb_analysis_coef", class(coef))

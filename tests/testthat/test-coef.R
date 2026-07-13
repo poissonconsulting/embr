@@ -35,6 +35,57 @@ test_that("coef directional_information for Bayesian analysis", {
   )
 })
 
+test_that("coef simplifies by default", {
+  analysis <- readRDS(
+    file = system.file(
+      package = "embr",
+      "test-objects/analysis_jags_newexpr.RDS"
+    )
+  )
+
+  coef <- coef(analysis, directional_information = FALSE)
+  expect_identical(
+    colnames(coef),
+    c("term", "estimate", "lower", "upper", "svalue")
+  )
+})
+
+test_that("coef errors if simplify = FALSE", {
+  analysis <- readRDS(
+    file = system.file(
+      package = "embr",
+      "test-objects/analysis_jags_newexpr.RDS"
+    )
+  )
+
+  expect_error(
+    coef(analysis, simplify = FALSE),
+    "must be TRUE",
+    class = "defunctError"
+  )
+
+  null_analysis <- list(data = datasets::mtcars)
+  class(null_analysis) <- c("mb_null_analysis", "mb_analysis")
+
+  expect_error(
+    coef(null_analysis, simplify = FALSE),
+    "must be TRUE",
+    class = "defunctError"
+  )
+})
+
+test_that("coef simplifies null analysis by default", {
+  analysis <- list(data = datasets::mtcars)
+  class(analysis) <- c("mb_null_analysis", "mb_analysis")
+
+  coef <- coef(analysis)
+  expect_identical(
+    colnames(coef),
+    c("term", "estimate", "lower", "upper", "svalue")
+  )
+  expect_identical(nrow(coef), 0L)
+})
+
 test_that("coef soft-deprecates unset directional_information for Bayesian analysis", {
   analysis <- readRDS(
     file = system.file(
