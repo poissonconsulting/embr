@@ -222,6 +222,13 @@ nrow(temp_data)
 #> [1] 30
 
 pred_temp <- predict(analysis, new_data = temp_data)
+#> Warning: `zero()` was deprecated in mcmcr 0.2.1.
+#> ℹ Please use `fill_all()` instead.
+#> ℹ The deprecated feature was likely used in the purrr package.
+#>   Please report the issue at <https://github.com/tidyverse/purrr/issues>.
+#> This warning is displayed once per session.
+#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+#> generated.
 
 head(pred_temp)
 #> # A tibble: 6 × 9

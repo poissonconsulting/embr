@@ -12,7 +12,7 @@ coef(
   include_constant = TRUE,
   conf_level = getOption("mb.conf_level", 0.95),
   estimate = getOption("mb.estimate", median),
-  simplify = FALSE,
+  simplify = TRUE,
   directional_information = FALSE,
   ...
 )
@@ -42,8 +42,7 @@ coef(
 
 - simplify:
 
-  A flag specifying whether to drop sd and zscore columns and return
-  svalue instead of pvalue.
+  Must be `TRUE`. `simplify = FALSE` is defunct as of embr 1.1.0.
 
 - directional_information:
 
@@ -63,8 +62,6 @@ coef(
 
 ## Value
 
-A tidy tibble of the coefficient terms.
-
-## Details
-
-The `zscore` is mean / sd.
+A tidy tibble of the coefficient terms with the columns indicating the
+`term`, `estimate`, `lower` and `upper` confidence or credible intervals
+and `svalue`.
