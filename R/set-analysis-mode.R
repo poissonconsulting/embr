@@ -24,6 +24,7 @@
 #'   \item{mb.nreanalyses}{A count specifying the maximum number of reanalyses.}
 #'   \item{mb.rhat}{A number specifying the rhat threshold.}
 #'   \item{mb.esr}{A number specifying the minimum effective sampling rate.}
+#'   \item{mb.perc_divergent}{A number specifying the maximum percent divergent transitions.}
 #'   \item{mb.duration}{The maximum total time to spend on analysis and reanalysis.}
 #'   \item{mb.conf_level}{A number specifying the confidence level.}
 #' }
@@ -50,6 +51,7 @@ set_analysis_mode <- function(mode = "report") {
       mb.nreanalyses = NULL,
       mb.rhat = NULL,
       mb.esr = NULL,
+      mb.perc_divergent = NULL,
       mb.duration = NULL,
       mb.conf_level = NULL
     )
@@ -65,6 +67,7 @@ set_analysis_mode <- function(mode = "report") {
       mb.nreanalyses = 0L,
       mb.rhat = 1.05,
       mb.esr = 0.1,
+      mb.perc_divergent = 0.2,
       mb.duration = dminutes(1),
       mb.conf_level = 0.95
     )
@@ -80,6 +83,7 @@ set_analysis_mode <- function(mode = "report") {
       mb.nreanalyses = 0L,
       mb.rhat = 1.05,
       mb.esr = 0.1,
+      mb.perc_divergent = 0.2,
       mb.duration = dminutes(1),
       mb.conf_level = 0.95
     )
@@ -95,6 +99,7 @@ set_analysis_mode <- function(mode = "report") {
       mb.nreanalyses = 1L,
       mb.rhat = 1.0,
       mb.esr = 1.0,
+      mb.perc_divergent = 0,
       mb.duration = dminutes(2),
       mb.conf_level = 0.95
     )
@@ -110,6 +115,7 @@ set_analysis_mode <- function(mode = "report") {
       mb.nreanalyses = 1L,
       mb.rhat = 1.05,
       mb.esr = 0.1,
+      mb.perc_divergent = 0.2,
       mb.duration = dhours(1),
       mb.conf_level = 0.95
     )
@@ -125,6 +131,7 @@ set_analysis_mode <- function(mode = "report") {
       mb.nreanalyses = 2L,
       mb.rhat = 1.01,
       mb.esr = 0.25,
+      mb.perc_divergent = 0,
       mb.duration = dhours(6),
       mb.conf_level = 0.95
     )

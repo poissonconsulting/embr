@@ -15,6 +15,7 @@
 #'   \item{mb.nreanalyses}{A count specifying the maximum number of reanalyses.}
 #'   \item{mb.rhat}{A number specifying the rhat threshold.}
 #'   \item{mb.esr}{A number specifying the minimum effective sampling rate.}
+#'   \item{mb.perc_divergent}{A number specifying the maximum percent divergent transitions.}
 #'   \item{mb.duration}{The maximum total time to spend on analysis and reanalysis.}
 #'   \item{mb.conf_level}{A number specifying the confidence level.}
 #' }
@@ -37,6 +38,7 @@ get_analysis_mode <- function() {
     mb.nreanalyses = getOption("mb.nreanalyses"),
     mb.rhat = getOption("mb.rhat"),
     mb.esr = getOption("mb.esr"),
+    mb.perc_divergent = getOption("mb.perc_divergent"),
     mb.duration = getOption("mb.duration"),
     mb.conf_level = getOption("mb.conf_level")
   )
