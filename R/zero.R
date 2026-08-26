@@ -20,7 +20,7 @@ zero_random_effects <- function(mcmcr, data, random_effects) {
     return(mcmcr)
   }
 
-  mcmcr <- purrr::map_at(mcmcr, random_effects, zero)
+  mcmcr <- purrr::map_at(mcmcr, random_effects, fill_all, value = 0)
   class(mcmcr) <- "mcmcr"
   mcmcr
 }
