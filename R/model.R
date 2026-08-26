@@ -188,9 +188,9 @@ model <- function(
     if (is.character(x)) {
       deprecate_soft(
         "0.0.1.9036",
-        "model(x = 'character()')",
-        "model(code = 'character()')",
-        details = 'Passing a string to model() is deprecated. Use model(code = ...) or model(mb_code("..."), ...) instead.'
+        "model(x = 'should not be a string')",
+        "model(code)",
+        details = 'Alternatively, use model(code = ...) or model(mb_code("..."), ...) instead.'
       )
       x <- mb_code(x)
     } else if (is.mb_analysis(x)) {
