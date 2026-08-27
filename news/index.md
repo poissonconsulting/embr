@@ -215,8 +215,8 @@ replace chkor
   been decreased from `1.1` to `1.05` for report mode and from `1.05` to
   `1.01` for paper mode.
 
-- [`parameters()`](https://poissonconsulting.github.io/term/reference/deprecated.html)
-  now returns `character(0)` as opposed to `NULL` if no parameters.
+- `parameters()` now returns `character(0)` as opposed to `NULL` if no
+  parameters.
 
 - Rename
   [`derive()`](https://ggplot2.tidyverse.org/reference/sec_axis.html)

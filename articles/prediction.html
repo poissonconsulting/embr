@@ -292,13 +292,6 @@ generate a sequence from min to max, with length 30. Notice factors
 <span><span class="co">#&gt; [1] 30</span></span>
 <span></span>
 <span><span class="va">pred_temp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">analysis</span>, new_data <span class="op">=</span> <span class="va">temp_data</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: `zero()` was deprecated in mcmcr 0.2.1.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use `fill_all()` instead.</span></span>
-<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">purrr</span> package.</span></span>
-<span><span class="co">#&gt;   Please report the issue at <span style="color: #0000BB; font-style: italic;">&lt;https://github.com/tidyverse/purrr/issues&gt;</span>.</span></span>
-<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once per session.</span></span></span>
-<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
-<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">pred_temp</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 9</span></span></span>
@@ -322,6 +315,14 @@ generate a sequence from min to max, with length 30. Notice factors
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://poissonconsulting.github.io/newdata/reference/xnew_data.html" class="external-link">xnew_data</a></span><span class="op">(</span><span class="va">data</span>, <span class="fu"><a href="https://poissonconsulting.github.io/newdata/reference/xnew_seq.html" class="external-link">xnew_seq</a></span><span class="op">(</span><span class="va">temperature</span>, length_out <span class="op">=</span> <span class="fl">5</span><span class="op">)</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">analysis</span>, new_data <span class="op">=</span> <span class="va">_</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: The `length_out` argument of `new_seq()` is deprecated as of newdata 0.1.0.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> Please use the `.length_out` argument instead.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> The deprecated feature was likely used in the <span style="color: #0000BB;">newdata</span> package.</span></span>
+<span><span class="co">#&gt;   Please report the issue at</span></span>
+<span><span class="co">#&gt;   <span style="color: #0000BB; font-style: italic;">&lt;https://github.com/poissonconsulting/newdata/issues&gt;</span>.</span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">This warning is displayed once per session.</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was</span></span></span>
+<span><span class="co">#&gt; <span style="color: #555555;">generated.</span></span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 9</span></span></span>
 <span><span class="co">#&gt;   count site  annual treatment temperature estimate lower upper svalue</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
