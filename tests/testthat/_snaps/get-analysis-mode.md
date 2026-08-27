@@ -33,6 +33,9 @@
       $mb.esr
       NULL
       
+      $mb.prop_divergent
+      NULL
+      
       $mb.duration
       NULL
       
@@ -74,6 +77,9 @@
       
       $mb.esr
       [1] 0.1
+      
+      $mb.prop_divergent
+      [1] 0.002
       
       $mb.duration
       [1] "60s (~1 minutes)"
