@@ -99,14 +99,6 @@ model {
     )
   )
 
-  analysis_bare <- analysis
-  analysis_bare$duration <- NULL
-  analysis_bare$stanfit <- NULL
-  analysis_bare$model <- NULL
-  expect_snapshot(analysis_bare)
-
-  expect_output(analysis <- reanalyse(analysis, seed = seed))
-
   expect_identical(
     pars(analysis, "fixed"),
     sort(c(
@@ -119,15 +111,28 @@ model {
   )
   expect_identical(pars(analysis, "random"), "bSiteYear")
   expect_identical(pars(analysis, "derived"), "eDensity")
-
   expect_equal(as.data.frame(data_set(analysis)), data)
-
   expect_s3_class(as.mcmcr(analysis), "mcmcr")
 
-  glance <- glance(analysis)
+  expect_output(analysis <- reanalyse(analysis, seed = seed))
+  expect_identical(pars(analysis, "random"), "bSiteYear")
+  expect_identical(pars(analysis, "derived"), "eDensity")
+  expect_equal(as.data.frame(data_set(analysis)), data)
+  expect_s3_class(as.mcmcr(analysis), "mcmcr")
+
+  glance <- glance(analysis) %>%
+    mutate(
+      ess = 0L,
+      rhat = 0,
+      converged = FALSE,
+      num_divergent = 0,
+      max_treedepth = 0L,
+      ebfmi = 0
+    )
   expect_snapshot(glance)
 
-  coef <- coef(analysis, simplify = TRUE, directional_information = FALSE)
+  coef <- coef(analysis, simplify = TRUE, directional_information = FALSE) %>%
+    mutate(estimate = 0, lower = 0, upper = 0, svalue = 0)
   expect_snapshot(coef)
 
   derived <- coef(
@@ -135,13 +140,16 @@ model {
     param_type = "derived",
     simplify = TRUE,
     directional_information = FALSE
-  )
+  ) %>%
+    mutate(estimate = 0, lower = 0, upper = 0, svalue = 0)
   expect_snapshot(derived)
 
-  tidy <- tidy(analysis)
+  tidy <- tidy(analysis) %>%
+    mutate(estimate = 0, lower = 0, upper = 0, esr = 0, rhat = 0)
   expect_snapshot(tidy)
 
-  year <- predict(analysis, new_data = "Year")
+  year <- predict(analysis, new_data = "Year") %>%
+    mutate(estimate = 0, lower = 0, upper = 0, svalue = 0)
   expect_snapshot(year)
 
   dd <- mcmc_derive_data(
@@ -149,6 +157,18 @@ model {
     new_data = c("Site", "Year"),
     ref_data = TRUE
   )
+
+  dd$mcmc[] <- 0
+
   expect_snapshot(dd)
   expect_true(mcmcdata::is.mcmc_data(dd))
+
+  analysis_bare <- analysis
+  analysis_bare$duration <- NULL # model fit time varies each time
+  analysis_bare$cmdstan_fit <- NULL # parameter estimates vary across OSs
+  analysis_bare$mcmcr[] <- NULL # parameter estimates vary across OSs
+  analysis_bare$model$gen_inits <- NULL # bytecode and environment change
+  analysis_bare$model$modify_data <- NULL # bytecode changes
+  analysis_bare$model$modify_new_data <- NULL # bytecode changes
+  expect_snapshot(analysis_bare)
 })
