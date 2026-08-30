@@ -239,10 +239,10 @@ test_that("analyse", {
   )
   expect_true(mcmcdata::is.mcmc_data(dd))
 
-  expect_warning(expect_warning(expect_warning(
+  expect_warning(expect_warning(
     sensitivity <- sd_priors_by(analysis, by = 10, glance = FALSE),
     "incomplete adaptation"
-  )))
+  ))
 
   analyses <- analyses(analysis, sensitivity)
 

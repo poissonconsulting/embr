@@ -54,7 +54,7 @@ as.mcmcr.mb_analysis <- function(x, ...) {
 #' @export
 as.model.mb_analysis <- function(x, ...) {
   chk_unused(...)
-  model(x)
+  get_model(x)
 }
 
 #' @export
@@ -87,7 +87,7 @@ as.models.list <- function(x, ...) {
 #' @export
 as.models.mb_analysis <- function(x, ...) {
   chk_unused(...)
-  as.models(model(x))
+  as.models(get_model(x))
 }
 
 #' @export

@@ -42,7 +42,7 @@ template.mb_model <- function(object, ...) {
 #' @export
 template.mb_analysis <- function(object, ...) {
   chk_unused(...)
-  template(model(object), ...)
+  template(get_model(object), ...)
 }
 
 #' @export

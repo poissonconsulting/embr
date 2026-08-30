@@ -49,6 +49,8 @@ update_model.mb_model <- function(
 ) {
   if (is.null(code)) {
     code <- code(model)
+  } else if (is.character(code)) {
+    code <- mb_code(code)
   }
   if (is.null(gen_inits)) {
     gen_inits <- model$gen_inits

@@ -259,7 +259,7 @@ analyse.character <- function(
   niters_warmup = niters,
   ...
 ) {
-  x <- model(x, select_data = select_data)
+  x <- model(code = x, select_data = select_data)
   analyse(
     x,
     data = data,
