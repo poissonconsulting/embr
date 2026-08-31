@@ -1,6 +1,6 @@
 # Changelog
 
-## embr 1.0.0.9007
+## embr 1.1.0
 
 ### Breaking changes
 
