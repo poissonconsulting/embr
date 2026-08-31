@@ -56,6 +56,10 @@ Retrieves what is set for each of the following package options.
 
   A number specifying the minimum effective sampling rate.
 
+- mb.prop_divergent:
+
+  A number specifying the maximum proportion of divergent transitions.
+
 - mb.duration:
 
   The maximum total time to spend on analysis and reanalysis.
