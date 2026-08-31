@@ -1,6 +1,6 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
-# embr 1.0.0.9007
+# embr 1.1.0
 
 ## Breaking changes
 
