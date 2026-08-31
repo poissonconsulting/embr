@@ -2,48 +2,36 @@
 
 # embr 1.0.0.9007
 
-- Merge pull request #127 from poissonconsulting/fix-tests.
+## Breaking changes
 
-  Fix tests
+- `coef(simplify = FALSE)` is defunct (#120). `simplify` must now be `TRUE`,
+  which is also the new default; passing `FALSE` raises an error.
 
+## New features
 
-# embr 1.0.0.9006
+- `coef()` methods gain a `directional_information` argument (#117). When
+  `TRUE`, the `svalue` column for a Bayesian analysis is calculated with
+  `extras::directional_information()` rather than `extras::svalue()`. The
+  column keeps the name `svalue` either way, and output for a frequentist
+  analysis is unchanged. The default is currently `FALSE` and will change to
+  `TRUE` in a future release, so a Bayesian analysis that does not set the
+  argument explicitly emits a deprecation warning.
 
-- Same as previous version.
+## Documentation
 
+- `analyse()`, `model()` and `predict()` documentation rewritten, and articles
+  added covering analysis and prediction (#112).
 
-# embr 1.0.0.9005
+## Internal
 
-- Same as previous version.
+- Internal calls use `get_model()` and `model(code = )` in place of the
+  deprecated `model(x = <mb_analysis>)` and `model(x = <string>)` paths (#131).
+- Dev-version bumping automated with fledge (#113).
+- CI standardized on the organisation's reusable workflows (#115, #118, #121).
+- Source formatted with air (#119).
+- Test fixes for snapshot stability and the `mcmcr::zero()` to `fill_all()`
+  rename (#127).
 
-
-# embr 1.0.0.9004
-
-- Same as previous version.
-
-
-# embr 1.0.0.9003
-
-- Same as previous version.
-
-
-# embr 1.0.0.9002
-
-- Same as previous version.
-
-
-# embr 1.0.0.9001
-
-- Same as previous version.
-
-
-# embr 1.0.0.9000
-
-* Add fledge-bump workflow
-* Add fledge-tag-on-merge workflow
-
-
-<!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
 # embr 1.0.0
 
