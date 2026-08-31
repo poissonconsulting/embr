@@ -39,40 +39,30 @@
 
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.0.9007" id="embr-1009007">embr 1.0.0.9007<a class="anchor" aria-label="anchor" href="#embr-1009007"></a></h2>
+<div class="section level3">
+<h3 id="breaking-changes-1-0-0-9007">Breaking changes<a class="anchor" aria-label="anchor" href="#breaking-changes-1-0-0-9007"></a></h3>
 <ul><li>
-<p>Merge pull request <a href="https://github.com/poissonconsulting/embr/issues/127" class="external-link">#127</a> from poissonconsulting/fix-tests.</p>
-<p>Fix tests</p>
-</li>
+<code>coef(simplify = FALSE)</code> is defunct (<a href="https://github.com/poissonconsulting/embr/issues/120" class="external-link">#120</a>). <code>simplify</code> must now be <code>TRUE</code>, which is also the new default; passing <code>FALSE</code> raises an error.</li>
 </ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.0.9006" id="embr-1009006">embr 1.0.0.9006<a class="anchor" aria-label="anchor" href="#embr-1009006"></a></h2>
-<ul><li>Same as previous version.</li>
+<div class="section level3">
+<h3 id="new-features-1-0-0-9007">New features<a class="anchor" aria-label="anchor" href="#new-features-1-0-0-9007"></a></h3>
+<ul><li>
+<code><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef()</a></code> methods gain a <code>directional_information</code> argument (<a href="https://github.com/poissonconsulting/embr/issues/117" class="external-link">#117</a>). When <code>TRUE</code>, the <code>svalue</code> column for a Bayesian analysis is calculated with <code><a href="https://poissonconsulting.github.io/extras/reference/directional-information.html" class="external-link">extras::directional_information()</a></code> rather than <code><a href="https://poissonconsulting.github.io/extras/reference/svalue.html" class="external-link">extras::svalue()</a></code>. The column keeps the name <code>svalue</code> either way, and output for a frequentist analysis is unchanged. The default is currently <code>FALSE</code> and will change to <code>TRUE</code> in a future release, so a Bayesian analysis that does not set the argument explicitly emits a deprecation warning.</li>
 </ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.0.9005" id="embr-1009005">embr 1.0.0.9005<a class="anchor" aria-label="anchor" href="#embr-1009005"></a></h2>
-<ul><li>Same as previous version.</li>
+<div class="section level3">
+<h3 id="documentation-1-0-0-9007">Documentation<a class="anchor" aria-label="anchor" href="#documentation-1-0-0-9007"></a></h3>
+<ul><li>
+<code><a href="../reference/analyse.html">analyse()</a></code>, <code><a href="../reference/model.html">model()</a></code> and <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> documentation rewritten, and articles added covering analysis and prediction (<a href="https://github.com/poissonconsulting/embr/issues/112" class="external-link">#112</a>).</li>
 </ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.0.9004" id="embr-1009004">embr 1.0.0.9004<a class="anchor" aria-label="anchor" href="#embr-1009004"></a></h2>
-<ul><li>Same as previous version.</li>
+<div class="section level3">
+<h3 id="internal-1-0-0-9007">Internal<a class="anchor" aria-label="anchor" href="#internal-1-0-0-9007"></a></h3>
+<ul><li>Internal calls use <code><a href="../reference/get_model.html">get_model()</a></code> and <code>model(code = )</code> in place of the deprecated <code>model(x = &lt;mb_analysis&gt;)</code> and <code>model(x = &lt;string&gt;)</code> paths (<a href="https://github.com/poissonconsulting/embr/issues/131" class="external-link">#131</a>).</li>
+<li>Dev-version bumping automated with fledge (<a href="https://github.com/poissonconsulting/embr/issues/113" class="external-link">#113</a>).</li>
+<li>CI standardized on the organisation’s reusable workflows (<a href="https://github.com/poissonconsulting/embr/issues/115" class="external-link">#115</a>, <a href="https://github.com/poissonconsulting/embr/issues/118" class="external-link">#118</a>, <a href="https://github.com/poissonconsulting/embr/issues/121" class="external-link">#121</a>).</li>
+<li>Source formatted with air (<a href="https://github.com/poissonconsulting/embr/issues/119" class="external-link">#119</a>).</li>
+<li>Test fixes for snapshot stability and the <code><a href="https://poissonconsulting.github.io/mcmcr/reference/zero.html" class="external-link">mcmcr::zero()</a></code> to <code><a href="https://poissonconsulting.github.io/extras/reference/fill_all.html" class="external-link">fill_all()</a></code> rename (<a href="https://github.com/poissonconsulting/embr/issues/127" class="external-link">#127</a>).</li>
 </ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.0.9003" id="embr-1009003">embr 1.0.0.9003<a class="anchor" aria-label="anchor" href="#embr-1009003"></a></h2>
-<ul><li>Same as previous version.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.0.9002" id="embr-1009002">embr 1.0.0.9002<a class="anchor" aria-label="anchor" href="#embr-1009002"></a></h2>
-<ul><li>Same as previous version.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.0.9001" id="embr-1009001">embr 1.0.0.9001<a class="anchor" aria-label="anchor" href="#embr-1009001"></a></h2>
-<ul><li>Same as previous version.</li>
-</ul></div>
-    <div class="section level2">
-<h2 class="pkg-version" data-toc-text="1.0.0.9000" id="embr-1009000">embr 1.0.0.9000<a class="anchor" aria-label="anchor" href="#embr-1009000"></a></h2>
-<ul><li>Add fledge-bump workflow</li>
-<li>Add fledge-tag-on-merge workflow</li>
-</ul><!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file --></div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="1.0.0" id="embr-100">embr 1.0.0<a class="anchor" aria-label="anchor" href="#embr-100"></a></h2>
 <ul><li>

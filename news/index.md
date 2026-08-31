@@ -2,40 +2,56 @@
 
 ## embr 1.0.0.9007
 
-- Merge pull request
-  [\#127](https://github.com/poissonconsulting/embr/issues/127) from
-  poissonconsulting/fix-tests.
+### Breaking changes
 
-  Fix tests
+- `coef(simplify = FALSE)` is defunct
+  ([\#120](https://github.com/poissonconsulting/embr/issues/120)).
+  `simplify` must now be `TRUE`, which is also the new default; passing
+  `FALSE` raises an error.
 
-## embr 1.0.0.9006
+### New features
 
-- Same as previous version.
+- [`coef()`](https://rdrr.io/r/stats/coef.html) methods gain a
+  `directional_information` argument
+  ([\#117](https://github.com/poissonconsulting/embr/issues/117)). When
+  `TRUE`, the `svalue` column for a Bayesian analysis is calculated with
+  [`extras::directional_information()`](https://poissonconsulting.github.io/extras/reference/directional-information.html)
+  rather than
+  [`extras::svalue()`](https://poissonconsulting.github.io/extras/reference/svalue.html).
+  The column keeps the name `svalue` either way, and output for a
+  frequentist analysis is unchanged. The default is currently `FALSE`
+  and will change to `TRUE` in a future release, so a Bayesian analysis
+  that does not set the argument explicitly emits a deprecation warning.
 
-## embr 1.0.0.9005
+### Documentation
 
-- Same as previous version.
+- [`analyse()`](https://poissonconsulting.github.io/embr/reference/analyse.md),
+  [`model()`](https://poissonconsulting.github.io/embr/reference/model.md)
+  and [`predict()`](https://rdrr.io/r/stats/predict.html) documentation
+  rewritten, and articles added covering analysis and prediction
+  ([\#112](https://github.com/poissonconsulting/embr/issues/112)).
 
-## embr 1.0.0.9004
+### Internal
 
-- Same as previous version.
-
-## embr 1.0.0.9003
-
-- Same as previous version.
-
-## embr 1.0.0.9002
-
-- Same as previous version.
-
-## embr 1.0.0.9001
-
-- Same as previous version.
-
-## embr 1.0.0.9000
-
-- Add fledge-bump workflow
-- Add fledge-tag-on-merge workflow
+- Internal calls use
+  [`get_model()`](https://poissonconsulting.github.io/embr/reference/get_model.md)
+  and `model(code = )` in place of the deprecated
+  `model(x = <mb_analysis>)` and `model(x = <string>)` paths
+  ([\#131](https://github.com/poissonconsulting/embr/issues/131)).
+- Dev-version bumping automated with fledge
+  ([\#113](https://github.com/poissonconsulting/embr/issues/113)).
+- CI standardized on the organisation’s reusable workflows
+  ([\#115](https://github.com/poissonconsulting/embr/issues/115),
+  [\#118](https://github.com/poissonconsulting/embr/issues/118),
+  [\#121](https://github.com/poissonconsulting/embr/issues/121)).
+- Source formatted with air
+  ([\#119](https://github.com/poissonconsulting/embr/issues/119)).
+- Test fixes for snapshot stability and the
+  [`mcmcr::zero()`](https://poissonconsulting.github.io/mcmcr/reference/zero.html)
+  to
+  [`fill_all()`](https://poissonconsulting.github.io/extras/reference/fill_all.html)
+  rename
+  ([\#127](https://github.com/poissonconsulting/embr/issues/127)).
 
 ## embr 1.0.0
 
