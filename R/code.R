@@ -19,5 +19,5 @@ code.mb_model <- function(object, ...) {
 #' @export
 code.mb_analysis <- function(object, ...) {
   chk_unused(...)
-  code(model(object), ...)
+  code(get_model(object), ...)
 }

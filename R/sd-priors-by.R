@@ -48,7 +48,7 @@ sd_priors_by.mb_analysis <- function(
   chk_unused(...)
 
   analyse(
-    sd_priors_by(model(x), by = by, distributions = distributions),
+    sd_priors_by(get_model(x), by = by, distributions = distributions),
     data = data_set(x),
     nchains = nchains(x),
     niters = niters(x),

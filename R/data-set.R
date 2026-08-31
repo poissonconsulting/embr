@@ -42,7 +42,11 @@ data_set.mb_analysis <- function(
   }
 
   if (modify) {
-    data <- modify_data(data, model(x), numericize_factors = numericize_factors)
+    data <- modify_data(
+      data,
+      get_model(x),
+      numericize_factors = numericize_factors
+    )
   } else {
     data <- tibble::as_tibble(data)
   }

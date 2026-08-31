@@ -138,7 +138,7 @@ reanalyse.mb_analysis <- function(
       !converged(object, rhat = rhat, esr = esr)
   ) {
     object <- analyse(
-      model(object),
+      get_model(object),
       data_set(object),
       nchains = nchains(object),
       niters = niters(object),

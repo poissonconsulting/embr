@@ -11,5 +11,5 @@ load_model <- function(x, quiet, ...) {
 
 #' @export
 load_model.mb_analysis <- function(x, quiet, ...) {
-  load_model(model(x), quiet, ...)
+  load_model(get_model(x), quiet, ...)
 }
