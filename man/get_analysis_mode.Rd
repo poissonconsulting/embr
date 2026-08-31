@@ -26,6 +26,7 @@ Retrieves what is set for each of the following package options.
 \item{mb.nreanalyses}{A count specifying the maximum number of reanalyses.}
 \item{mb.rhat}{A number specifying the rhat threshold.}
 \item{mb.esr}{A number specifying the minimum effective sampling rate.}
+\item{mb.prop_divergent}{A number specifying the maximum proportion of divergent transitions.}
 \item{mb.duration}{The maximum total time to spend on analysis and reanalysis.}
 \item{mb.conf_level}{A number specifying the confidence level.}
 }
