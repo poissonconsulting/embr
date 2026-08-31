@@ -1,4 +1,11 @@
-<!-- NEWS.md is maintained by https://cynkra.github.io/fledge, do not edit -->
+<!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
+
+# embr 1.0.0.9007
+
+- Merge pull request #127 from poissonconsulting/fix-tests.
+
+  Fix tests
+
 
 # embr 1.0.0.9006
 
