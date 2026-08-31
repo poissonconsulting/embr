@@ -1,5 +1,13 @@
 # Changelog
 
+## embr 1.0.0.9007
+
+- Merge pull request
+  [\#127](https://github.com/poissonconsulting/embr/issues/127) from
+  poissonconsulting/fix-tests.
+
+  Fix tests
+
 ## embr 1.0.0.9006
 
 - Same as previous version.
