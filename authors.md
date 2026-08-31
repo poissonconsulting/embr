@@ -31,7 +31,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/poissonconsulting/embr/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/poissonconsulting/embr/blob/v1.1.0/DESCRIPTION)
 
 Thorley J, Müller K (2026). *embr: Model Builder Utility Functions and
 Virtual Classes*. R package version 1.1.0,
