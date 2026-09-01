@@ -186,18 +186,18 @@ model <- function(
   } else {
     chk_null(code)
     if (is.character(x)) {
-      deprecate_soft(
+      deprecate_warn(
         "0.0.1.9036",
-        "model(x = 'character()')",
-        "model(code = 'character()')",
-        details = 'Passing a string to model() is deprecated. Use model(code = ...) or model(mb_code("..."), ...) instead.'
+        "model(x = 'should not be a string')",
+        "model(code)",
+        details = "Alternatively pass an mb_code object to `x`."
       )
       x <- mb_code(x)
     } else if (is.mb_analysis(x)) {
-      deprecate_soft(
+      deprecate_warn(
         "0.0.1.9036",
-        "model(x = 'new_analysis()')",
-        details = "Passing an mb_analysis object to model() is deprecated. Use get_model() instead."
+        "model(x = 'must not be an mb_analysis object')",
+        "get_model()"
       )
       return(get_model(x))
     }
