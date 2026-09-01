@@ -1,5 +1,12 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# embr 1.1.0.9000
+
+- Merge pull request #124 from poissonconsulting/add-perc-divergent.
+
+  Add option for analysis mode for perc divergent
+
+
 # embr 1.1.0
 
 ## Breaking changes
