@@ -1,5 +1,13 @@
 # Changelog
 
+## embr 1.1.0.9000
+
+- Merge pull request
+  [\#124](https://github.com/poissonconsulting/embr/issues/124) from
+  poissonconsulting/add-perc-divergent.
+
+  Add option for analysis mode for perc divergent
+
 ## embr 1.1.0
 
 ### Breaking changes
