@@ -151,10 +151,10 @@ analysis <- analyse(
   beep = FALSE
 )
 #> # A tibble: 1 × 11
-#>       n     K nchains niters nthin   ess  rhat converged num_divergent
-#>   <int> <int>   <int>  <int> <int> <int> <dbl> <lgl>             <dbl>
-#> 1   132     6       3    500     1   414  1.00 FALSE                 0
-#> # ℹ 2 more variables: max_treedepth <int>, ebfmi <dbl>
+#>       n     K nchains niters nthin   ess  rhat converged perc_divergent
+#>   <int> <int>   <int>  <int> <int> <int> <dbl> <lgl>              <dbl>
+#> 1   132     6       3    500     1   414  1.00 FALSE                  0
+#> # ℹ 2 more variables: perc_max_treedepth <dbl>, ebfmi <dbl>
 
 coef(analysis, include_constant = FALSE, simplify = TRUE, directional_information = FALSE) |>
   mutate(across(estimate:svalue, ~ signif(.x, 3)))

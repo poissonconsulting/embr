@@ -258,19 +258,19 @@ analysis <- analyse(
 #> Warning: 2 of 1500 (0.0%) transitions ended with a divergence.
 #> See https://mc-stan.org/misc/warnings for details.
 #> # A tibble: 1 × 11
-#>       n     K nchains niters nthin   ess  rhat converged num_divergent
-#>   <int> <int>   <int>  <int> <int> <int> <dbl> <lgl>             <dbl>
-#> 1   132     6       3    500     1   413  1.00 FALSE                 2
-#> # ℹ 2 more variables: max_treedepth <int>, ebfmi <dbl>
+#>       n     K nchains niters nthin   ess  rhat converged perc_divergent
+#>   <int> <int>   <int>  <int> <int> <int> <dbl> <lgl>              <dbl>
+#> 1   132     6       3    500     1   413  1.00 FALSE              0.133
+#> # ℹ 2 more variables: perc_max_treedepth <dbl>, ebfmi <dbl>
 
 glance(analysis)
 #> Warning: 2 of 1500 (0.0%) transitions ended with a divergence.
 #> See https://mc-stan.org/misc/warnings for details.
 #> # A tibble: 1 × 11
-#>       n     K nchains niters nthin   ess  rhat converged num_divergent
-#>   <int> <int>   <int>  <int> <int> <int> <dbl> <lgl>             <dbl>
-#> 1   132     6       3    500     1   413  1.00 FALSE                 2
-#> # ℹ 2 more variables: max_treedepth <int>, ebfmi <dbl>
+#>       n     K nchains niters nthin   ess  rhat converged perc_divergent
+#>   <int> <int>   <int>  <int> <int> <int> <dbl> <lgl>              <dbl>
+#> 1   132     6       3    500     1   413  1.00 FALSE              0.133
+#> # ℹ 2 more variables: perc_max_treedepth <dbl>, ebfmi <dbl>
 ```
 
 [`coef()`](https://rdrr.io/r/stats/coef.html) extracts the fixed-effect

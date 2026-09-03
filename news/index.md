@@ -1,5 +1,12 @@
 # Changelog
 
+## embr 1.1.0.9001
+
+- Fix
+  [`plot_data()`](https://poissonconsulting.github.io/embr/reference/plot_data.md)
+  plots: unquote `x` and `y` to use data columns
+  ([\#138](https://github.com/poissonconsulting/embr/issues/138)).
+
 ## embr 1.1.0.9000
 
 - Merge pull request
