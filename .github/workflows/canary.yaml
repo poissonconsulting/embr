@@ -1,0 +1,31 @@
+name: canary
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  R-CMD-check:
+    uses: poissonconsulting/.github/.github/workflows/R-CMD-check.yaml@main
+    with:
+      tier: important
+      jags: true
+      cmdstan: true
+      tex: false
+      private: false
+    secrets: inherit
+  test-coverage:
+    uses: poissonconsulting/.github/.github/workflows/test-coverage.yaml@main
+    with:
+      cmdstan: true
+      tex: false
+      private: false
+    secrets: inherit
+  pkgdown:
+    permissions:
+      contents: write
+    uses: poissonconsulting/.github/.github/workflows/pkgdown.yaml@main
+    with:
+      cmdstan: true
+      private: false
+      deploy: false
+    secrets: inherit
