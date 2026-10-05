@@ -3,11 +3,12 @@
     Code
       glance
     Output
-      # A tibble: 1 x 11
-            n     K nchains niters nthin   ess  rhat converged num_divergent
-        <int> <int>   <int>  <int> <int> <int> <dbl> <lgl>             <dbl>
-      1   300     5       2    250     1     0     0 FALSE                 0
-      # i 2 more variables: max_treedepth <int>, ebfmi <dbl>
+      # A tibble: 1 x 13
+            n     K nchains niters nthin   ess  rhat converged perc_divergent
+        <int> <int>   <int>  <int> <int> <int> <dbl> <lgl>              <dbl>
+      1   300     5       2    250     1     0     0 FALSE                  0
+      # i 4 more variables: perc_max_treedepth <dbl>, ebfmi <dbl>,
+      #   num_divergent <dbl>, max_treedepth <int>
 
 ---
 
