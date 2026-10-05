@@ -22,9 +22,9 @@ to see their documentation.
 
 - priorsense:
 
-  [`log_lik_draws()`](https://n-kall.github.io/priorsense/reference/log_lik_draws.html),
-  [`log_prior_draws()`](https://n-kall.github.io/priorsense/reference/log_prior_draws.html),
-  [`powerscale_sensitivity()`](https://n-kall.github.io/priorsense/reference/powerscale-sensitivity.html)
+  [`log_lik_draws()`](https://mc-stan.org/priorsense/reference/log_lik_draws.html),
+  [`log_prior_draws()`](https://mc-stan.org/priorsense/reference/log_prior_draws.html),
+  [`powerscale_sensitivity()`](https://mc-stan.org/priorsense/reference/powerscale-sensitivity.html)
 
 - stats:
 

@@ -228,7 +228,7 @@ unbalanced design (i.e., not all sites have all years with data).</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 11</span></span></span>
 <span><span class="co">#&gt;       n     K nchains niters nthin   ess  rhat converged perc_divergent</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;lgl&gt;</span>              <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   132     6       3    500     1   414  1.00 FALSE                  0</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>   132     6       3    500     1   484  1.01 FALSE              0.133</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># ℹ 2 more variables: perc_max_treedepth &lt;dbl&gt;, ebfmi &lt;dbl&gt;</span></span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">analysis</span>, include_constant <span class="op">=</span> <span class="cn">FALSE</span>, simplify <span class="op">=</span> <span class="cn">TRUE</span>, directional_information <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span> <span class="op">|&gt;</span></span>
@@ -236,12 +236,12 @@ unbalanced design (i.e., not all sites have all years with data).</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 5</span></span></span>
 <span><span class="co">#&gt;   term           estimate  lower upper svalue</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;term&gt;</span>            <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> bIntercept        3.69  2.99   4.32   10.6 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> bPhi              4.13  3.13   5.41   10.6 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> bTemp             0.109 0.020<span style="text-decoration: underline;">3</span> 0.193   6.38</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> bTreatment_dev    0.55  0.387  0.727  10.6 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> sAnnual           0.267 0.113  0.782  10.6 </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> sSite             0.464 0.232  1.25   10.6</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> bIntercept        3.68  3.04   4.35   10.6 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> bPhi              4.13  3.13   5.29   10.6 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span> bTemp             0.109 0.013<span style="text-decoration: underline;">7</span> 0.202   5.46</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span> bTreatment_dev    0.551 0.372  0.724  10.6 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span> sAnnual           0.284 0.103  0.791  10.6 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span> sSite             0.498 0.254  1.32   10.6</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="default-prediction">Default prediction<a class="anchor" aria-label="anchor" href="#default-prediction"></a>
@@ -254,12 +254,12 @@ from the <code>prediction[i]</code> line in <code>new_expr</code>:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 9</span></span></span>
 <span><span class="co">#&gt;   count site  annual treatment temperature estimate lower upper svalue</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    55 a     1      control          14.7     51.4  38.4  69.0   10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    55 b     1      control          10.9     78.3  59.9 104.    10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    19 c     1      control          12.7     85.6  65.9 112.    10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    51 d     1      control          13.3     40.7  31.1  53.2   10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>    11 a     2      control          12.8     31.4  23.7  42.4   10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>    53 b     2      control          11.8     56.1  42.1  74.7   10.6</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    55 a     1      control          14.7     51.0  38.1  68.4   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    55 b     1      control          10.9     78.7  60.2 102.    10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    19 c     1      control          12.7     86.2  65.1 112.    10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    51 d     1      control          13.3     40.3  30.9  53.0   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>    11 a     2      control          12.8     31.0  23.9  40.8   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>    53 b     2      control          11.8     56.2  43.1  72.6   10.6</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="covariate-grids-with-the-newdata-helpers">Covariate grids with the <code>newdata</code> helpers<a class="anchor" aria-label="anchor" href="#covariate-grids-with-the-newdata-helpers"></a>
@@ -297,12 +297,12 @@ generate a sequence from min to max, with length 30. Notice factors
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 9</span></span></span>
 <span><span class="co">#&gt;   count site  annual treatment temperature estimate lower upper svalue</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      control          6.01     29.2  14.6  59.5   10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    62 a     1      control          6.41     29.8  15.0  60.1   10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    62 a     1      control          6.80     30.4  15.4  60.9   10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    62 a     1      control          7.19     31.1  15.9  62.0   10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>    62 a     1      control          7.58     31.7  16.2  63.0   10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>    62 a     1      control          7.98     32.4  16.4  63.6   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      control          6.01     28.8  14.5  59.6   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    62 a     1      control          6.41     29.4  14.8  60.4   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    62 a     1      control          6.80     30.0  15.0  61.6   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    62 a     1      control          7.19     30.7  15.4  62.5   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>    62 a     1      control          7.58     31.4  15.8  63.2   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>    62 a     1      control          7.98     32.1  16.3  63.7   10.6</span></span>
 <span></span>
 <span><span class="fu">plot_ribbon</span><span class="op">(</span><span class="va">pred_temp</span>, <span class="va">temperature</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Expected count"</span>, x <span class="op">=</span> <span class="st">"Temperature (scaled)"</span><span class="op">)</span></span></code></pre></div>
@@ -326,18 +326,18 @@ generate a sequence from min to max, with length 30. Notice factors
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 9</span></span></span>
 <span><span class="co">#&gt;   count site  annual treatment temperature estimate lower upper svalue</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      control          6.01     29.2  14.6  59.5   10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    62 a     1      control          8.86     33.9  17.2  65.0   10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    62 a     1      control         11.7      39.6  19.8  74.1   10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    62 a     1      control         14.6      45.9  22.7  88.0   10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>    62 a     1      control         17.4      53.3  26.1 102.    10.6</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      control          6.01     28.8  14.5  59.6   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    62 a     1      control          8.86     33.7  17.4  66.3   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    62 a     1      control         11.7      39.2  20.5  76.3   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    62 a     1      control         14.6      45.6  23.5  90.0   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>    62 a     1      control         17.4      52.9  26.7 110.    10.6</span></span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://poissonconsulting.github.io/newdata/reference/xnew_data.html" class="external-link">xnew_data</a></span><span class="op">(</span><span class="va">data</span>, temperature <span class="op">=</span> <span class="fl">10</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">analysis</span>, new_data <span class="op">=</span> <span class="va">_</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 9</span></span></span>
 <span><span class="co">#&gt;   count site  annual treatment temperature estimate lower upper svalue</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      control            10     36.1  18.1  67.7   10.6</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      control            10     35.8  18.8  70.5   10.6</span></span></code></pre></div>
 <p>Note that any rescaling transformations are automatically handled by
 <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code>.</p>
 </div>
@@ -354,11 +354,11 @@ held at mean value.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 5 × 9</span></span></span>
 <span><span class="co">#&gt;   count site  annual treatment temperature estimate lower upper svalue</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      control          11.9     33.6  22.4  49.3   10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    62 b     1      control          11.9     63.2  42.0  90.9   10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    62 c     1      control          11.9     62.7  41.6  90.8   10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    62 d     1      control          11.9     28.8  19.0  41.9   10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>    62 e     1      control          11.9     28.9  18.1  47.0   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      control          11.9     32.8  22.1  47.1   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    62 b     1      control          11.9     62.6  42.5  88.3   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    62 c     1      control          11.9     62.0  41.9  87.0   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    62 d     1      control          11.9     28.2  18.7  40.0   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>    62 e     1      control          11.9     28.0  18.1  43.4   10.6</span></span>
 <span></span>
 <span><span class="fu">plot_pointrange</span><span class="op">(</span><span class="va">pred_site</span>, <span class="va">site</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>y <span class="op">=</span> <span class="st">"Expected count"</span>, x <span class="op">=</span> <span class="st">"Site"</span><span class="op">)</span></span></code></pre></div>
@@ -400,7 +400,7 @@ them in <code><a href="https://poissonconsulting.github.io/newdata/reference/xob
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 9</span></span></span>
 <span><span class="co">#&gt;   count site  annual treatment temperature estimate lower upper svalue</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      restored            1     39.0  17.8  89.3   10.6</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      restored            1     37.6  18.1  87.6   10.6</span></span></code></pre></div>
 <p>Note that <code>xnew_data(data, site = "a")</code> will not work:
 bare <code>=</code> assignment is for <em>continuous</em> covariates
 (e.g., <code>temperature = 1</code>). To fix a factor at a specific
@@ -418,12 +418,12 @@ which scalar:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 9</span></span></span>
 <span><span class="co">#&gt;   count site  annual treatment temperature estimate lower upper svalue</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      control          11.9     40.1  19.9  75.3   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      control          11.9     39.6  20.9  77.4   10.6</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span><span class="va">analysis</span>, new_data <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>, term <span class="op">=</span> <span class="st">"eRestoredEffect"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 9</span></span></span>
 <span><span class="co">#&gt;   count site  annual treatment temperature estimate lower upper svalue</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      control          11.9     1.73  1.47  2.07   10.6</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      control          11.9     1.73  1.45  2.06   10.6</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="random-effect-zeroing">Random-effect zeroing<a class="anchor" aria-label="anchor" href="#random-effect-zeroing"></a>
@@ -446,9 +446,9 @@ population-level prediction:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 9</span></span></span>
 <span><span class="co">#&gt;   count site  annual treatment temperature estimate lower upper svalue</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      control          6.01     29.2  14.6  59.5   10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    62 a     1      control          6.41     29.8  15.0  60.1   10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    62 a     1      control          6.80     30.4  15.4  60.9   10.6</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      control          6.01     28.8  14.5  59.6   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    62 a     1      control          6.41     29.4  14.8  60.4   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    62 a     1      control          6.80     30.0  15.0  61.6   10.6</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="random_effects-false">
@@ -464,9 +464,9 @@ predictions use the literal first level of each random-effect factor
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 9</span></span></span>
 <span><span class="co">#&gt;   count site  annual treatment temperature estimate lower upper svalue</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      control          6.01     32.3  22.2  48.0   10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    62 a     1      control          6.41     32.9  22.9  48.3   10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    62 a     1      control          6.80     33.6  23.7  48.9   10.6</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      control          6.01     32.3  21.5  48.3   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    62 a     1      control          6.41     32.9  22.3  48.8   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    62 a     1      control          6.80     33.6  23.1  49.3   10.6</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="named-list-zero-a-subset-of-random-effects">Named list: zero a subset of random effects<a class="anchor" aria-label="anchor" href="#named-list-zero-a-subset-of-random-effects"></a>
@@ -489,9 +489,9 @@ level.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 3 × 9</span></span></span>
 <span><span class="co">#&gt;   count site  annual treatment temperature estimate lower upper svalue</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      control          6.01     38.9  20.1  71.7   10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    62 a     1      control          6.41     39.7  20.6  72.8   10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    62 a     1      control          6.80     40.6  21.2  73.3   10.6</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      control          6.01     38.8  19.2  76.0   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    62 a     1      control          6.41     39.7  19.8  76.7   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    62 a     1      control          6.80     40.5  20.3  77.4   10.6</span></span></code></pre></div>
 <p>For the call above (with <code>site</code> and <code>annual</code>
 both at level 1 in <code>new_data</code>):</p>
 <ul>
@@ -538,7 +538,7 @@ automatically generated with all variables held at reference value.</p>
 <span><span class="co">#&gt;   count site  annual treatment temperature estimate lower upper svalue</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      control          11.9    0     0      0       0  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    62 a     1      restored         11.9    0.734 0.472  1.07   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    62 a     1      restored         11.9    0.735 0.450  1.06   10.6</span></span>
 <span></span>
 <span><span class="fu">plot_pointrange</span><span class="op">(</span><span class="va">pred_prop</span>, <span class="va">treatment</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -569,7 +569,7 @@ count scale (restored minus control) rather than as a percentage:</p>
 <span><span class="co">#&gt;   count site  annual treatment temperature estimate lower upper svalue</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
 <span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      control          11.9      0     0     0      0  </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    62 a     1      restored         11.9     28.9  13.8  58.0   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    62 a     1      restored         11.9     28.6  13.8  61.3   10.6</span></span>
 <span></span>
 <span><span class="fu">plot_pointrange</span><span class="op">(</span><span class="va">pred_diff</span>, <span class="va">treatment</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_abline.html" class="external-link">geom_hline</a></span><span class="op">(</span>yintercept <span class="op">=</span> <span class="fl">0</span>, linetype <span class="op">=</span> <span class="st">"dashed"</span><span class="op">)</span> <span class="op">+</span></span>
@@ -612,10 +612,10 @@ side-by-side:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 4 × 10</span></span></span>
 <span><span class="co">#&gt;   count site  annual treatment temperature estimate lower upper svalue scope    </span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;chr&gt;</span>    </span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      control          11.9     40.1 19.9   75.3   10.6 typical …</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    62 a     1      restored         11.9     68.7 34.5  131.    10.6 typical …</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    62 a     1      control          11.9     41.4  9.38 170.    10.6 unobserv…</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    62 a     1      restored         11.9     72.2 15.8  302.    10.6 unobserv…</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      control          11.9     39.6 20.9   77.4   10.6 typical …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    62 a     1      restored         11.9     68.2 36.3  138.    10.6 typical …</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    62 a     1      control          11.9     39.7  8.50 239.    10.6 unobserv…</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>    62 a     1      restored         11.9     69.1 14.1  428.    10.6 unobserv…</span></span></code></pre></div>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_rows.html" class="external-link">bind_rows</a></span><span class="op">(</span><span class="va">typical</span>, <span class="va">unobserved</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span><span class="va">treatment</span>, <span class="va">estimate</span>, ymin <span class="op">=</span> <span class="va">lower</span>, ymax <span class="op">=</span> <span class="va">upper</span>, colour <span class="op">=</span> <span class="va">scope</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
@@ -642,8 +642,8 @@ mass (g), without refitting the count model:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 9</span></span></span>
 <span><span class="co">#&gt;   count site  annual treatment temperature estimate lower upper svalue</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      control          11.9     33.6  22.4  49.3   10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    62 b     1      control          11.9     63.2  42.0  90.9   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      control          11.9     32.8  22.1  47.1   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    62 b     1      control          11.9     62.6  42.5  88.3   10.6</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict</a></span><span class="op">(</span></span>
 <span>  <span class="va">analysis</span>,</span>
@@ -660,8 +660,8 @@ mass (g), without refitting the count model:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 9</span></span></span>
 <span><span class="co">#&gt;   count site  annual treatment temperature estimate lower upper svalue</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;int&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span> <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>           <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      control          11.9     403.  269.  592.   10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    62 b     1      control          11.9     758.  503. <span style="text-decoration: underline;">1</span>091.   10.6</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    62 a     1      control          11.9     393.  265.  565.   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    62 b     1      control          11.9     751.  510. <span style="text-decoration: underline;">1</span>060.   10.6</span></span></code></pre></div>
 <p>The second call multiplies the predicted count by an external mean
 mass of 12 g, giving the posterior of expected biomass per site.
 Compatibility limits scale proportionally because the constant has no
@@ -686,8 +686,8 @@ posterior distribution summaries.</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 5</span></span></span>
 <span><span class="co">#&gt;   treatment estimate lower upper svalue</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> control      <span style="text-decoration: underline;">3</span>101. <span style="text-decoration: underline;">2</span>712. <span style="text-decoration: underline;">3</span>569.   10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> restored     <span style="text-decoration: underline;">5</span>250. <span style="text-decoration: underline;">4</span>613. <span style="text-decoration: underline;">6</span>059.   10.6</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> control      <span style="text-decoration: underline;">3</span>104. <span style="text-decoration: underline;">2</span>727. <span style="text-decoration: underline;">3</span>521.   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> restored     <span style="text-decoration: underline;">5</span>255. <span style="text-decoration: underline;">4</span>638. <span style="text-decoration: underline;">6</span>028.   10.6</span></span></code></pre></div>
 <p>The default summary function is <code>sum</code>, which returns the
 posterior of <em>total</em> abundance per treatment across all rows.</p>
 </div>
@@ -705,8 +705,8 @@ treatment:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 5</span></span></span>
 <span><span class="co">#&gt;   treatment estimate lower upper svalue</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;fct&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> control      0.461 0.374 0.552   10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> restored     0.492 0.393 0.596   10.6</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> control      0.463 0.381 0.550   10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> restored     0.497 0.402 0.593   10.6</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -805,8 +805,8 @@ extracted in one call:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 2 × 5</span></span></span>
 <span><span class="co">#&gt;   term            estimate lower upper svalue</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;term&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> eBaseCount         40.1  19.9  75.3    10.6</span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> eRestoredEffect     1.73  1.47  2.07   10.6</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> eBaseCount         39.6  20.9  77.4    10.6</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span> eRestoredEffect     1.73  1.45  2.06   10.6</span></span></code></pre></div>
 <p><code><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef()</a></code> is run on the <code><a href="https://poissonconsulting.github.io/mcmcderive/reference/mcmc_derive.html" class="external-link">mcmc_derive()</a></code> output
 to get point estimates with compatibility limits.</p>
 </div>
@@ -841,12 +841,12 @@ multiplicative ratio) doesn’t quantify:</p>
 <span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 1 × 5</span></span></span>
 <span><span class="co">#&gt;   term      estimate lower upper svalue</span></span>
 <span><span class="co">#&gt;   <span style="color: #949494; font-style: italic;">&lt;term&gt;</span>       <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
-<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> parameter    <span style="text-decoration: underline;">2</span>147. <span style="text-decoration: underline;">1</span>450. <span style="text-decoration: underline;">3</span>010.   10.6</span></span></code></pre></div>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span> parameter    <span style="text-decoration: underline;">2</span>166. <span style="text-decoration: underline;">1</span>426. <span style="text-decoration: underline;">2</span>938.   10.6</span></span></code></pre></div>
 <p>And the posterior probability that restoration adds at least 2000
 fish in total — a question <code><a href="https://rdrr.io/r/stats/predict.html" class="external-link">predict()</a></code> cannot answer:</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">extra_catch</span> <span class="op">&gt;=</span> <span class="fl">2000</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 0.6606667</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 0.6586667</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">

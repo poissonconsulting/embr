@@ -29,7 +29,7 @@ add_sensitivity(x, new_expr = NULL, replace = FALSE, ...)
 - ...:
 
   Arguments passed to
-  [`powerscale_sensitivity()`](https://n-kall.github.io/priorsense/reference/powerscale-sensitivity.html).
+  [`powerscale_sensitivity()`](https://mc-stan.org/priorsense/reference/powerscale-sensitivity.html).
 
 ## Value
 

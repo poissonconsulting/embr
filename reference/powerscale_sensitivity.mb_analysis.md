@@ -20,7 +20,7 @@ powerscale_sensitivity(x, ...)
 - ...:
 
   Arguments passed to methods to
-  [`priorsense::powerscale_sensitivity()`](https://n-kall.github.io/priorsense/reference/powerscale-sensitivity.html).
+  [`priorsense::powerscale_sensitivity()`](https://mc-stan.org/priorsense/reference/powerscale-sensitivity.html).
   Alternative functions for `log_lik_fn` and `log_prior_fn` cannot be
   used.
 

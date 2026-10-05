@@ -255,21 +255,21 @@ analysis <- analyse(
   quiet = TRUE,
   beep = FALSE
 )
-#> Warning: 2 of 1500 (0.0%) transitions ended with a divergence.
+#> Warning: 1 of 1500 (0.0%) transitions ended with a divergence.
 #> See https://mc-stan.org/misc/warnings for details.
 #> # A tibble: 1 × 11
 #>       n     K nchains niters nthin   ess  rhat converged perc_divergent
 #>   <int> <int>   <int>  <int> <int> <int> <dbl> <lgl>              <dbl>
-#> 1   132     6       3    500     1   413  1.00 FALSE              0.133
+#> 1   132     6       3    500     1   518  1.00 TRUE              0.0667
 #> # ℹ 2 more variables: perc_max_treedepth <dbl>, ebfmi <dbl>
 
 glance(analysis)
-#> Warning: 2 of 1500 (0.0%) transitions ended with a divergence.
+#> Warning: 1 of 1500 (0.0%) transitions ended with a divergence.
 #> See https://mc-stan.org/misc/warnings for details.
 #> # A tibble: 1 × 11
 #>       n     K nchains niters nthin   ess  rhat converged perc_divergent
 #>   <int> <int>   <int>  <int> <int> <int> <dbl> <lgl>              <dbl>
-#> 1   132     6       3    500     1   413  1.00 FALSE              0.133
+#> 1   132     6       3    500     1   518  1.00 TRUE              0.0667
 #> # ℹ 2 more variables: perc_max_treedepth <dbl>, ebfmi <dbl>
 ```
 
@@ -283,12 +283,12 @@ coef(analysis, include_constant = FALSE, simplify = TRUE, directional_informatio
 #> # A tibble: 6 × 5
 #>   term           estimate   lower upper svalue
 #>   <term>            <dbl>   <dbl> <dbl>  <dbl>
-#> 1 bIntercept       3.56    2.46   4.56  10.6  
-#> 2 bPhi             0.18    0.138  0.232 10.6  
-#> 3 bTemp            0.0858 -0.37   0.502  0.471
-#> 4 bTreatment_dev   0.501  -0.39   1.44   1.86 
-#> 5 sSite            0.606   0.0348 1.84  10.6  
-#> 6 sSiteAnnual      0.319   0.0156 1.26  10.6
+#> 1 bIntercept       3.58    2.44   4.54  10.6  
+#> 2 bPhi             0.181   0.141  0.234 10.6  
+#> 3 bTemp            0.0902 -0.325  0.499  0.635
+#> 4 bTreatment_dev   0.467  -0.478  1.39   1.63 
+#> 5 sSite            0.644   0.0307 1.98  10.6  
+#> 6 sSiteAnnual      0.304   0.0117 1.14  10.6
 ```
 
 ## Common arguments
