@@ -1,5 +1,10 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# embr 1.1.0.9002
+
+- Internal changes only.
+
+
 # embr 1.1.0.9001
 
 - Fix `plot_data()` plots: unquote `x` and `y` to use data columns (#138).
