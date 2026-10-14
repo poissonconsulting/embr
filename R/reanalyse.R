@@ -92,6 +92,7 @@ reanalyse_data <- function(
 #' @param glance A flag indicating whether to print summary of model.
 #' @param beep A flag indicating whether to beep on completion of the analysis.
 #' @param parallel A flag indicating whether to perform the analysis in parallel if possible.
+#' @inheritParams params
 #' @param ... Unused arguments.
 #' @export
 reanalyse.mb_analysis <- function(
@@ -104,6 +105,7 @@ reanalyse.mb_analysis <- function(
   quiet = getOption("mb.quiet", TRUE),
   glance = getOption("mb.glance", TRUE),
   beep = getOption("mb.beep", TRUE),
+  seed = sample.int(.Machine$integer.max, 1),
   ...
 ) {
   chk_flag(beep)
@@ -121,6 +123,8 @@ reanalyse.mb_analysis <- function(
   chk_flag(glance)
   chk_number(esr)
   chk_range(esr, c(0, 1))
+  chk_whole_number(seed)
+  chk_gt(seed, 0L)
 
   if (
     nreanalyses == 0L ||
@@ -146,7 +150,8 @@ reanalyse.mb_analysis <- function(
       parallel = parallel,
       quiet = quiet,
       glance = glance,
-      beep = FALSE
+      beep = FALSE,
+      seed = seed
     )
     nreanalyses <- nreanalyses - 1L
   }
