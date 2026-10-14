@@ -154,6 +154,7 @@ coef.mb_analysis <- function(
     coef <- subset(coef, pars = pars)
     coef <- coef(
       coef,
+      conf_level = conf_level,
       estimate = estimate,
       simplify = simplify,
       directional_information = directional_information
