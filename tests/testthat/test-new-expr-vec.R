@@ -54,7 +54,7 @@ test_that("vectorize predict string expression", {
   )
 
   expect_warning(expect_warning(
-    analysis <- analyse(model, data = data, glance = TRUE)
+    analysis <- analyse(model, data = data, glance = TRUE, seed = 1L)
   ))
 
   year <- predict(analysis, new_data = "Year")
@@ -168,7 +168,7 @@ test_that("vectorize predict bare expression", {
   )
 
   expect_warning(expect_warning(
-    analysis <- analyse(model, data = data, glance = FALSE)
+    analysis <- analyse(model, data = data, glance = FALSE, seed = 1L)
   ))
 
   year <- predict(analysis, new_data = "Year")
@@ -282,7 +282,7 @@ test_that("two expressions wrapped even when new_expr_vec = TRUE", {
   )
 
   expect_warning(expect_warning(
-    analysis <- analyse(model, data = data, glance = FALSE)
+    analysis <- analyse(model, data = data, glance = FALSE, seed = 1L)
   ))
 
   year <- predict(analysis, new_data = "Year")
