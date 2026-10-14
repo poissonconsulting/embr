@@ -120,3 +120,24 @@ test_that("coef directional_information for null analysis", {
   )
   expect_identical(nrow(coef), 0L)
 })
+
+test_that("coef respects conf_level for Bayesian analysis", {
+  analysis <- readRDS(
+    file = system.file(
+      package = "embr",
+      "test-objects/analysis_jags_newexpr.RDS"
+    )
+  )
+
+  coef95 <- coef(analysis, conf_level = 0.95, directional_information = FALSE)
+  coef50 <- coef(analysis, conf_level = 0.5, directional_information = FALSE)
+
+  expect_identical(coef50$estimate, coef95$estimate)
+  expect_true(all(coef50$upper - coef50$lower < coef95$upper - coef95$lower))
+
+  mcmcr <- subset(as.mcmcr(analysis), pars = pars(analysis, "fixed"))
+  expect_identical(
+    coef50$lower,
+    coef(mcmcr, conf_level = 0.5, directional_information = FALSE)$lower
+  )
+})
