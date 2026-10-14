@@ -17,7 +17,7 @@ test_that("vectorize predict string expression", {
     bHabitatQuality[i] ~ dnorm(0, 5.^-2) T(0,)
   }
 
-  log_sSiteYear ~ dlnorm(0, 5^-2)
+  log_sSiteYear ~ dnorm(0, 5^-2)
   log_sDensity ~ dt(0, 5^-2, 4.5)
 
   log(sSiteYear) <- log_sSiteYear
@@ -129,7 +129,7 @@ test_that("vectorize predict bare expression", {
     bHabitatQuality[i] ~ dnorm(0, 5.^-2) T(0,)
   }
 
-  log_sSiteYear ~ dlnorm(0, 5^-2)
+  log_sSiteYear ~ dnorm(0, 5^-2)
   log_sDensity ~ dt(0, 5^-2, 4.5)
 
   log(sSiteYear) <- log_sSiteYear
@@ -243,7 +243,7 @@ test_that("two expressions wrapped even when new_expr_vec = TRUE", {
     bHabitatQuality[i] ~ dnorm(0, 5.^-2) T(0,)
   }
 
-  log_sSiteYear ~ dlnorm(0, 5^-2)
+  log_sSiteYear ~ dnorm(0, 5^-2)
   log_sDensity ~ dt(0, 5^-2, 4.5)
 
   log(sSiteYear) <- log_sSiteYear
