@@ -16,6 +16,7 @@ reanalyse(
   quiet = getOption("mb.quiet", TRUE),
   glance = getOption("mb.glance", TRUE),
   beep = getOption("mb.beep", TRUE),
+  seed = sample.int(.Machine$integer.max, 1),
   ...
 )
 ```
@@ -58,6 +59,11 @@ reanalyse(
 - beep:
 
   A flag indicating whether to beep on completion of the analysis.
+
+- seed:
+
+  A positive whole number specifying the seed to use. The default is
+  random. This is currently only implemented for Stan models.
 
 - ...:
 
