@@ -17,7 +17,7 @@ test_that("update new expr string expression", {
     bHabitatQuality[i] ~ dnorm(0, 5.^-2) T(0,)
   }
 
-  log_sSiteYear ~ dlnorm(0, 5^-2)
+  log_sSiteYear ~ dnorm(0, 5^-2)
   log_sDensity ~ dt(0, 5^-2, 4.5)
 
   log(sSiteYear) <- log_sSiteYear
@@ -117,7 +117,7 @@ test_that("update new expr bare expression", {
     bHabitatQuality[i] ~ dnorm(0, 5.^-2) T(0,)
   }
 
-  log_sSiteYear ~ dlnorm(0, 5^-2)
+  log_sSiteYear ~ dnorm(0, 5^-2)
   log_sDensity ~ dt(0, 5^-2, 4.5)
 
   log(sSiteYear) <- log_sSiteYear
@@ -208,7 +208,7 @@ test_that("add new_expr_vec argument to update model", {
     bHabitatQuality[i] ~ dnorm(0, 5.^-2) T(0,)
   }
 
-  log_sSiteYear ~ dlnorm(0, 5^-2)
+  log_sSiteYear ~ dnorm(0, 5^-2)
   log_sDensity ~ dt(0, 5^-2, 4.5)
 
   log(sSiteYear) <- log_sSiteYear
@@ -301,7 +301,7 @@ test_that("add new_expr_vec argument to update model and updates original new_ex
     bHabitatQuality[i] ~ dnorm(0, 5.^-2) T(0,)
   }
 
-  log_sSiteYear ~ dlnorm(0, 5^-2)
+  log_sSiteYear ~ dnorm(0, 5^-2)
   log_sDensity ~ dt(0, 5^-2, 4.5)
 
   log(sSiteYear) <- log_sSiteYear
@@ -388,7 +388,7 @@ test_that("cannot undo the vectorization if orignally set in the model", {
     bHabitatQuality[i] ~ dnorm(0, 5.^-2) T(0,)
   }
 
-  log_sSiteYear ~ dlnorm(0, 5^-2)
+  log_sSiteYear ~ dnorm(0, 5^-2)
   log_sDensity ~ dt(0, 5^-2, 4.5)
 
   log(sSiteYear) <- log_sSiteYear
