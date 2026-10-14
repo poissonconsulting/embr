@@ -46,7 +46,7 @@ across datasets.}
 
 \item{beep}{A flag indicating whether to beep on completion of the analysis.}
 
-\item{seed}{A positive whole number specifying the seed to use. The default is random. This is currently only implemented for Stan models.}
+\item{seed}{A positive whole number specifying the seed to use. The default is random. When \code{x} or \code{data} is a list, the same seed is used for each analysis.}
 
 \item{stan_engine}{A string selecting the Stan engine:
 \itemize{
