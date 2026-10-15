@@ -57,7 +57,7 @@ test_that("analyse", {
   )
 
   expect_output(expect_warning(expect_warning(
-    analysis <- analyse(model, data = data)
+    analysis <- analyse(model, data = data, seed = 1L)
   )))
 
   expect_equal(as.data.frame(data_set(analysis)), data)

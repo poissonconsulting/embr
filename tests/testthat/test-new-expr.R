@@ -54,7 +54,7 @@ test_that("predict string expression", {
   )
 
   expect_warning(expect_warning(
-    analysis <- analyse(model, data = data, glance = FALSE)
+    analysis <- analyse(model, data = data, glance = FALSE, seed = 1L)
   ))
 
   year <- predict(analysis, new_data = "Year")
@@ -168,7 +168,7 @@ test_that("predict bare expression", {
   )
 
   expect_warning(expect_warning(
-    analysis <- analyse(model, data = data, glance = FALSE)
+    analysis <- analyse(model, data = data, glance = FALSE, seed = 1L)
   ))
 
   year <- predict(analysis, new_data = "Year")
