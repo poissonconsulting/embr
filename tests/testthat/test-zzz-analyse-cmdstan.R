@@ -132,7 +132,7 @@ model {
   expect_snapshot(glance)
 
   coef <- coef(analysis, simplify = TRUE, directional_information = FALSE) %>%
-    mutate(estimate = 0, lower = 0, upper = 0, svalue = 0)
+    mutate(estimate = 0, sd = 0, lower = 0, upper = 0, svalue = 0)
   expect_snapshot(coef)
 
   derived <- coef(
@@ -141,7 +141,7 @@ model {
     simplify = TRUE,
     directional_information = FALSE
   ) %>%
-    mutate(estimate = 0, lower = 0, upper = 0, svalue = 0)
+    mutate(estimate = 0, sd = 0, lower = 0, upper = 0, svalue = 0)
   expect_snapshot(derived)
 
   tidy <- tidy(analysis) %>%
@@ -149,7 +149,7 @@ model {
   expect_snapshot(tidy)
 
   year <- predict(analysis, new_data = "Year") %>%
-    mutate(estimate = 0, lower = 0, upper = 0, svalue = 0)
+    mutate(estimate = 0, sd = 0, lower = 0, upper = 0, svalue = 0)
   expect_snapshot(year)
 
   dd <- mcmc_derive_data(

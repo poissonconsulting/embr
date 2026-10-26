@@ -141,7 +141,7 @@ test_that("analyse", {
   )
   expect_identical(
     colnames(derived),
-    c("term", "estimate", "lower", "upper", "svalue")
+    c("term", "estimate", "sd", "lower", "upper", "svalue")
   )
   expect_identical(nrow(derived), 300L)
 
@@ -150,7 +150,7 @@ test_that("analyse", {
   expect_s3_class(coef, "tbl")
   expect_identical(
     colnames(coef),
-    c("term", "estimate", "lower", "upper", "svalue")
+    c("term", "estimate", "sd", "lower", "upper", "svalue")
   )
 
   expect_identical(
@@ -224,6 +224,7 @@ test_that("analyse", {
       "Density",
       "YearFactor",
       "estimate",
+      "sd",
       "lower",
       "upper",
       "svalue"

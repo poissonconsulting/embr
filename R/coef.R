@@ -66,6 +66,7 @@ coef.mb_null_analysis <- function(
     coef,
     "term",
     "estimate",
+    "sd",
     "lower",
     "upper",
     "svalue"
@@ -95,8 +96,9 @@ coef.mb_null_analysis <- function(
 #' Ignored for frequentist analyses where the svalue is always `-log2(pvalue)`.
 #' @param ... Not used.
 #' @return A tidy tibble of the coefficient terms with the columns indicating
-#' the `term`, `estimate`, `lower` and `upper` confidence or credible intervals
-#' and `svalue`.
+#' the `term`, `estimate`, `sd` (the posterior standard deviation for Bayesian
+#' models or the standard error for frequentist models), `lower` and `upper`
+#' confidence or credible intervals and `svalue`.
 #' @export
 coef.mb_analysis <- function(
   object,
@@ -140,6 +142,7 @@ coef.mb_analysis <- function(
       coef,
       "term",
       "estimate",
+      "sd",
       "lower",
       "upper",
       "svalue"
@@ -183,6 +186,7 @@ coef.mb_analysis <- function(
       coef,
       "term",
       "estimate",
+      "sd",
       "lower",
       "upper",
       "svalue"

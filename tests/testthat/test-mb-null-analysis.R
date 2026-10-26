@@ -6,7 +6,7 @@ test_that("mb_null_analysis", {
   expect_s3_class(coef, "tbl")
   expect_identical(
     colnames(coef),
-    c("term", "estimate", "lower", "upper", "svalue")
+    c("term", "estimate", "sd", "lower", "upper", "svalue")
   )
   expect_identical(nrow(coef), 0L)
 

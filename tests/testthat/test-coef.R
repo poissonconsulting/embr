@@ -13,13 +13,13 @@ test_that("coef directional_information for Bayesian analysis", {
   )
   expect_identical(
     colnames(coef_svalue),
-    c("term", "estimate", "lower", "upper", "svalue")
+    c("term", "estimate", "sd", "lower", "upper", "svalue")
   )
 
   coef_di <- coef(analysis, simplify = TRUE, directional_information = TRUE)
   expect_identical(
     colnames(coef_di),
-    c("term", "estimate", "lower", "upper", "svalue")
+    c("term", "estimate", "sd", "lower", "upper", "svalue")
   )
 
   expect_identical(
@@ -46,7 +46,7 @@ test_that("coef simplifies by default", {
   coef <- coef(analysis, directional_information = FALSE)
   expect_identical(
     colnames(coef),
-    c("term", "estimate", "lower", "upper", "svalue")
+    c("term", "estimate", "sd", "lower", "upper", "svalue")
   )
 })
 
@@ -81,7 +81,7 @@ test_that("coef simplifies null analysis by default", {
   coef <- coef(analysis)
   expect_identical(
     colnames(coef),
-    c("term", "estimate", "lower", "upper", "svalue")
+    c("term", "estimate", "sd", "lower", "upper", "svalue")
   )
   expect_identical(nrow(coef), 0L)
 })
@@ -116,7 +116,7 @@ test_that("coef directional_information for null analysis", {
   coef <- coef(analysis, simplify = TRUE, directional_information = TRUE)
   expect_identical(
     colnames(coef),
-    c("term", "estimate", "lower", "upper", "svalue")
+    c("term", "estimate", "sd", "lower", "upper", "svalue")
   )
   expect_identical(nrow(coef), 0L)
 })
@@ -140,4 +140,21 @@ test_that("coef respects conf_level for Bayesian analysis", {
     coef50$lower,
     coef(mcmcr, conf_level = 0.5, directional_information = FALSE)$lower
   )
+})
+
+test_that("coef returns the posterior standard deviation for Bayesian analysis", {
+  analysis <- readRDS(
+    file = system.file(
+      package = "embr",
+      "test-objects/analysis_jags_newexpr.RDS"
+    )
+  )
+
+  coef <- coef(analysis, simplify = TRUE, directional_information = FALSE)
+  expected <- coef(
+    subset(as.mcmcr(analysis), pars = pars(analysis, "fixed")),
+    directional_information = FALSE
+  )
+  expect_identical(coef$sd, expected$sd)
+  expect_true(all(coef$sd > 0))
 })
