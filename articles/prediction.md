@@ -153,7 +153,7 @@ analysis <- analyse(
 #> # A tibble: 1 × 11
 #>       n     K nchains niters nthin   ess  rhat converged perc_divergent
 #>   <int> <int>   <int>  <int> <int> <int> <dbl> <lgl>              <dbl>
-#> 1   132     6       3    500     1   484  1.01 FALSE              0.133
+#> 1   132     6       3    500     1   501  1.00 TRUE              0.0667
 #> # ℹ 2 more variables: perc_max_treedepth <dbl>, ebfmi <dbl>
 
 coef(analysis, include_constant = FALSE, simplify = TRUE, directional_information = FALSE) |>
@@ -161,12 +161,12 @@ coef(analysis, include_constant = FALSE, simplify = TRUE, directional_informatio
 #> # A tibble: 6 × 5
 #>   term           estimate  lower upper svalue
 #>   <term>            <dbl>  <dbl> <dbl>  <dbl>
-#> 1 bIntercept        3.68  3.04   4.35   10.6 
-#> 2 bPhi              4.13  3.13   5.29   10.6 
-#> 3 bTemp             0.109 0.0137 0.202   5.46
-#> 4 bTreatment_dev    0.551 0.372  0.724  10.6 
-#> 5 sAnnual           0.284 0.103  0.791  10.6 
-#> 6 sSite             0.498 0.254  1.32   10.6
+#> 1 bIntercept        3.69  3.09   4.37   10.6 
+#> 2 bPhi              4.09  3.13   5.19   10.6 
+#> 3 bTemp             0.107 0.0225 0.196   5.46
+#> 4 bTreatment_dev    0.55  0.37   0.732  10.6 
+#> 5 sAnnual           0.289 0.12   0.777  10.6 
+#> 6 sSite             0.489 0.245  1.12   10.6
 ```
 
 ## Default prediction
@@ -181,12 +181,12 @@ predict(analysis) |> head()
 #> # A tibble: 6 × 9
 #>   count site  annual treatment temperature estimate lower upper svalue
 #>   <int> <fct> <fct>  <fct>           <dbl>    <dbl> <dbl> <dbl>  <dbl>
-#> 1    55 a     1      control          14.7     51.0  38.1  68.4   10.6
-#> 2    55 b     1      control          10.9     78.7  60.2 102.    10.6
-#> 3    19 c     1      control          12.7     86.2  65.1 112.    10.6
-#> 4    51 d     1      control          13.3     40.3  30.9  53.0   10.6
-#> 5    11 a     2      control          12.8     31.0  23.9  40.8   10.6
-#> 6    53 b     2      control          11.8     56.2  43.1  72.6   10.6
+#> 1    55 a     1      control          14.7     50.9  38.0  67.8   10.6
+#> 2    55 b     1      control          10.9     78.9  59.9 103.    10.6
+#> 3    19 c     1      control          12.7     85.8  65.5 112.    10.6
+#> 4    51 d     1      control          13.3     40.9  30.5  54.5   10.6
+#> 5    11 a     2      control          12.8     31.0  23.8  41.7   10.6
+#> 6    53 b     2      control          11.8     55.9  42.0  73.8   10.6
 ```
 
 ## Covariate grids with the `newdata` helpers
@@ -227,12 +227,12 @@ head(pred_temp)
 #> # A tibble: 6 × 9
 #>   count site  annual treatment temperature estimate lower upper svalue
 #>   <int> <fct> <fct>  <fct>           <dbl>    <dbl> <dbl> <dbl>  <dbl>
-#> 1    62 a     1      control          6.01     28.8  14.5  59.6   10.6
-#> 2    62 a     1      control          6.41     29.4  14.8  60.4   10.6
-#> 3    62 a     1      control          6.80     30.0  15.0  61.6   10.6
-#> 4    62 a     1      control          7.19     30.7  15.4  62.5   10.6
-#> 5    62 a     1      control          7.58     31.4  15.8  63.2   10.6
-#> 6    62 a     1      control          7.98     32.1  16.3  63.7   10.6
+#> 1    62 a     1      control          6.01     29.3  14.9  61.3   10.6
+#> 2    62 a     1      control          6.41     29.9  15.4  61.9   10.6
+#> 3    62 a     1      control          6.80     30.4  15.8  62.8   10.6
+#> 4    62 a     1      control          7.19     31.0  16.2  63.5   10.6
+#> 5    62 a     1      control          7.58     31.7  16.7  64.5   10.6
+#> 6    62 a     1      control          7.98     32.4  17.1  65.7   10.6
 
 plot_ribbon(pred_temp, temperature) +
   labs(y = "Expected count", x = "Temperature (scaled)")
@@ -257,11 +257,11 @@ xnew_data(data, xnew_seq(temperature, length_out = 5)) |>
 #> # A tibble: 5 × 9
 #>   count site  annual treatment temperature estimate lower upper svalue
 #>   <int> <fct> <fct>  <fct>           <dbl>    <dbl> <dbl> <dbl>  <dbl>
-#> 1    62 a     1      control          6.01     28.8  14.5  59.6   10.6
-#> 2    62 a     1      control          8.86     33.7  17.4  66.3   10.6
-#> 3    62 a     1      control         11.7      39.2  20.5  76.3   10.6
-#> 4    62 a     1      control         14.6      45.6  23.5  90.0   10.6
-#> 5    62 a     1      control         17.4      52.9  26.7 110.    10.6
+#> 1    62 a     1      control          6.01     29.3  14.9  61.3   10.6
+#> 2    62 a     1      control          8.86     33.9  17.9  68.4   10.6
+#> 3    62 a     1      control         11.7      39.5  21.6  77.9   10.6
+#> 4    62 a     1      control         14.6      45.6  25.2  89.6   10.6
+#> 5    62 a     1      control         17.4      53.5  28.5 104.    10.6
 ```
 
 ``` r
@@ -271,7 +271,7 @@ xnew_data(data, temperature = 10) |>
 #> # A tibble: 1 × 9
 #>   count site  annual treatment temperature estimate lower upper svalue
 #>   <int> <fct> <fct>  <fct>           <dbl>    <dbl> <dbl> <dbl>  <dbl>
-#> 1    62 a     1      control            10     35.8  18.8  70.5   10.6
+#> 1    62 a     1      control            10     36.0  19.4  71.9   10.6
 ```
 
 Note that any rescaling transformations are automatically handled by
@@ -291,11 +291,11 @@ pred_site
 #> # A tibble: 5 × 9
 #>   count site  annual treatment temperature estimate lower upper svalue
 #>   <int> <fct> <fct>  <fct>           <dbl>    <dbl> <dbl> <dbl>  <dbl>
-#> 1    62 a     1      control          11.9     32.8  22.1  47.1   10.6
-#> 2    62 b     1      control          11.9     62.6  42.5  88.3   10.6
-#> 3    62 c     1      control          11.9     62.0  41.9  87.0   10.6
-#> 4    62 d     1      control          11.9     28.2  18.7  40.0   10.6
-#> 5    62 e     1      control          11.9     28.0  18.1  43.4   10.6
+#> 1    62 a     1      control          11.9     33.4  23.0  48.8   10.6
+#> 2    62 b     1      control          11.9     63.1  43.4  92.2   10.6
+#> 3    62 c     1      control          11.9     62.3  42.7  90.6   10.6
+#> 4    62 d     1      control          11.9     29.0  19.7  42.4   10.6
+#> 5    62 e     1      control          11.9     28.8  18.7  44.9   10.6
 
 plot_pointrange(pred_site, site) +
   labs(y = "Expected count", x = "Site")
@@ -347,7 +347,7 @@ xnew_data(
 #> # A tibble: 1 × 9
 #>   count site  annual treatment temperature estimate lower upper svalue
 #>   <int> <fct> <fct>  <fct>           <dbl>    <dbl> <dbl> <dbl>  <dbl>
-#> 1    62 a     1      restored            1     37.6  18.1  87.6   10.6
+#> 1    62 a     1      restored            1     39.2  17.4  90.8   10.6
 ```
 
 Note that `xnew_data(data, site = "a")` will not work: bare `=`
@@ -366,12 +366,12 @@ predict(analysis, new_data = character(0), term = "eBaseCount")
 #> # A tibble: 1 × 9
 #>   count site  annual treatment temperature estimate lower upper svalue
 #>   <int> <fct> <fct>  <fct>           <dbl>    <dbl> <dbl> <dbl>  <dbl>
-#> 1    62 a     1      control          11.9     39.6  20.9  77.4   10.6
+#> 1    62 a     1      control          11.9     39.8  21.9  78.7   10.6
 predict(analysis, new_data = character(0), term = "eRestoredEffect")
 #> # A tibble: 1 × 9
 #>   count site  annual treatment temperature estimate lower upper svalue
 #>   <int> <fct> <fct>  <fct>           <dbl>    <dbl> <dbl> <dbl>  <dbl>
-#> 1    62 a     1      control          11.9     1.73  1.45  2.06   10.6
+#> 1    62 a     1      control          11.9     1.73  1.45  2.08   10.6
 ```
 
 ## Random-effect zeroing
@@ -395,9 +395,9 @@ xnew_data(data, temperature) |>
 #> # A tibble: 3 × 9
 #>   count site  annual treatment temperature estimate lower upper svalue
 #>   <int> <fct> <fct>  <fct>           <dbl>    <dbl> <dbl> <dbl>  <dbl>
-#> 1    62 a     1      control          6.01     28.8  14.5  59.6   10.6
-#> 2    62 a     1      control          6.41     29.4  14.8  60.4   10.6
-#> 3    62 a     1      control          6.80     30.0  15.0  61.6   10.6
+#> 1    62 a     1      control          6.01     29.3  14.9  61.3   10.6
+#> 2    62 a     1      control          6.41     29.9  15.4  61.9   10.6
+#> 3    62 a     1      control          6.80     30.4  15.8  62.8   10.6
 ```
 
 ### `random_effects = FALSE`
@@ -414,9 +414,9 @@ xnew_data(data, temperature) |>
 #> # A tibble: 3 × 9
 #>   count site  annual treatment temperature estimate lower upper svalue
 #>   <int> <fct> <fct>  <fct>           <dbl>    <dbl> <dbl> <dbl>  <dbl>
-#> 1    62 a     1      control          6.01     32.3  21.5  48.3   10.6
-#> 2    62 a     1      control          6.41     32.9  22.3  48.8   10.6
-#> 3    62 a     1      control          6.80     33.6  23.1  49.3   10.6
+#> 1    62 a     1      control          6.01     32.5  21.6  47.5   10.6
+#> 2    62 a     1      control          6.41     33.1  22.3  47.9   10.6
+#> 3    62 a     1      control          6.80     33.8  23.0  48.5   10.6
 ```
 
 ### Named list: zero a subset of random effects
@@ -441,9 +441,9 @@ xnew_data(data, temperature) |>
 #> # A tibble: 3 × 9
 #>   count site  annual treatment temperature estimate lower upper svalue
 #>   <int> <fct> <fct>  <fct>           <dbl>    <dbl> <dbl> <dbl>  <dbl>
-#> 1    62 a     1      control          6.01     38.8  19.2  76.0   10.6
-#> 2    62 a     1      control          6.41     39.7  19.8  76.7   10.6
-#> 3    62 a     1      control          6.80     40.5  20.3  77.4   10.6
+#> 1    62 a     1      control          6.01     39.1  20.5  75.4   10.6
+#> 2    62 a     1      control          6.41     39.9  21.1  76.6   10.6
+#> 3    62 a     1      control          6.80     40.7  21.8  77.2   10.6
 ```
 
 For the call above (with `site` and `annual` both at level 1 in
@@ -486,7 +486,7 @@ pred_prop
 #>   count site  annual treatment temperature estimate lower upper svalue
 #>   <int> <fct> <fct>  <fct>           <dbl>    <dbl> <dbl> <dbl>  <dbl>
 #> 1    62 a     1      control          11.9    0     0      0       0  
-#> 2    62 a     1      restored         11.9    0.735 0.450  1.06   10.6
+#> 2    62 a     1      restored         11.9    0.734 0.448  1.08   10.6
 
 plot_pointrange(pred_prop, treatment) +
   geom_hline(yintercept = 0, linetype = "dashed") +
@@ -521,7 +521,7 @@ pred_diff
 #>   count site  annual treatment temperature estimate lower upper svalue
 #>   <int> <fct> <fct>  <fct>           <dbl>    <dbl> <dbl> <dbl>  <dbl>
 #> 1    62 a     1      control          11.9      0     0     0      0  
-#> 2    62 a     1      restored         11.9     28.6  13.8  61.3   10.6
+#> 2    62 a     1      restored         11.9     29.7  14.1  60.0   10.6
 
 plot_pointrange(pred_diff, treatment) +
   geom_hline(yintercept = 0, linetype = "dashed") +
@@ -570,10 +570,10 @@ bind_rows(typical, unobserved)
 #> # A tibble: 4 × 10
 #>   count site  annual treatment temperature estimate lower upper svalue scope    
 #>   <int> <fct> <fct>  <fct>           <dbl>    <dbl> <dbl> <dbl>  <dbl> <chr>    
-#> 1    62 a     1      control          11.9     39.6 20.9   77.4   10.6 typical …
-#> 2    62 a     1      restored         11.9     68.2 36.3  138.    10.6 typical …
-#> 3    62 a     1      control          11.9     39.7  8.50 239.    10.6 unobserv…
-#> 4    62 a     1      restored         11.9     69.1 14.1  428.    10.6 unobserv…
+#> 1    62 a     1      control          11.9     39.8 21.9   78.7   10.6 typical …
+#> 2    62 a     1      restored         11.9     69.1 37.3  136.    10.6 typical …
+#> 3    62 a     1      control          11.9     41.1  9.57 184.    10.6 unobserv…
+#> 4    62 a     1      restored         11.9     71.2 16.6  316.    10.6 unobserv…
 ```
 
 ``` r
@@ -607,8 +607,8 @@ xnew_data(data, site) |>
 #> # A tibble: 2 × 9
 #>   count site  annual treatment temperature estimate lower upper svalue
 #>   <int> <fct> <fct>  <fct>           <dbl>    <dbl> <dbl> <dbl>  <dbl>
-#> 1    62 a     1      control          11.9     32.8  22.1  47.1   10.6
-#> 2    62 b     1      control          11.9     62.6  42.5  88.3   10.6
+#> 1    62 a     1      control          11.9     33.4  23.0  48.8   10.6
+#> 2    62 b     1      control          11.9     63.1  43.4  92.2   10.6
 
 predict(
   analysis,
@@ -625,8 +625,8 @@ predict(
 #> # A tibble: 2 × 9
 #>   count site  annual treatment temperature estimate lower upper svalue
 #>   <int> <fct> <fct>  <fct>           <dbl>    <dbl> <dbl> <dbl>  <dbl>
-#> 1    62 a     1      control          11.9     393.  265.  565.   10.6
-#> 2    62 b     1      control          11.9     751.  510. 1060.   10.6
+#> 1    62 a     1      control          11.9     400.  276.  586.   10.6
+#> 2    62 b     1      control          11.9     758.  521. 1106.   10.6
 ```
 
 The second call multiplies the predicted count by an external mean mass
@@ -655,8 +655,8 @@ mcmc_derive_data(analysis, new_data = data, term = "^eCount$") |>
 #> # A tibble: 2 × 5
 #>   treatment estimate lower upper svalue
 #>   <fct>        <dbl> <dbl> <dbl>  <dbl>
-#> 1 control      3104. 2727. 3521.   10.6
-#> 2 restored     5255. 4638. 6028.   10.6
+#> 1 control      3094. 2735. 3523.   10.6
+#> 2 restored     5265. 4621. 6065.   10.6
 ```
 
 The default summary function is `sum`, which returns the posterior of
@@ -676,8 +676,8 @@ mcmc_derive_data(analysis, new_data = data, term = "^eCount$") |>
 #> # A tibble: 2 × 5
 #>   treatment estimate lower upper svalue
 #>   <fct>        <dbl> <dbl> <dbl>  <dbl>
-#> 1 control      0.463 0.381 0.550   10.6
-#> 2 restored     0.497 0.402 0.593   10.6
+#> 1 control      0.463 0.375 0.551   10.6
+#> 2 restored     0.494 0.399 0.594   10.6
 ```
 
 ## Combining across analyses with `combine_samples()`
@@ -781,11 +781,17 @@ coef(scalars)
 #> This warning is displayed once per session.
 #> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
 #> generated.
+#> Warning: The `sd` argument of `coef()` should be explicitly set as of mcmcr 0.8.0.
+#> ℹ The default value of `sd` will change from `FALSE` to `TRUE` in a future
+#>   release.
+#> This warning is displayed once per session.
+#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+#> generated.
 #> # A tibble: 2 × 5
 #>   term            estimate lower upper svalue
 #>   <term>             <dbl> <dbl> <dbl>  <dbl>
-#> 1 eBaseCount         39.6  20.9  77.4    10.6
-#> 2 eRestoredEffect     1.73  1.45  2.06   10.6
+#> 1 eBaseCount         39.8  21.9  78.7    10.6
+#> 2 eRestoredEffect     1.73  1.45  2.08   10.6
 ```
 
 [`coef()`](https://rdrr.io/r/stats/coef.html) is run on the
@@ -832,7 +838,7 @@ coef(extra_catch)
 #> # A tibble: 1 × 5
 #>   term      estimate lower upper svalue
 #>   <term>       <dbl> <dbl> <dbl>  <dbl>
-#> 1 parameter    2166. 1426. 2938.   10.6
+#> 1 parameter    2163. 1373. 2987.   10.6
 ```
 
 And the posterior probability that restoration adds at least 2000 fish
@@ -842,7 +848,7 @@ in total — a question
 ``` r
 
 mean(extra_catch >= 2000)
-#> [1] 0.6586667
+#> [1] 0.6633333
 ```
 
 ## Cheat sheet
