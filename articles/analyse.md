@@ -280,6 +280,12 @@ and scale parameters:
 
 coef(analysis, include_constant = FALSE, simplify = TRUE, directional_information = FALSE) |>
   mutate(across(estimate:svalue, ~ signif(.x, 3)))
+#> Warning: The `sd` argument of `coef()` should be explicitly set as of embr 1.2.0.
+#> ℹ The default value of `sd` will change from `FALSE` to `TRUE` in a future
+#>   release.
+#> This warning is displayed once per session.
+#> Call `lifecycle::last_lifecycle_warnings()` to see where this warning was
+#> generated.
 #> # A tibble: 6 × 5
 #>   term           estimate   lower upper svalue
 #>   <term>            <dbl>   <dbl> <dbl>  <dbl>

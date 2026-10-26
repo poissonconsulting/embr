@@ -14,6 +14,7 @@ coef(
   estimate = getOption("mb.estimate", median),
   simplify = TRUE,
   directional_information = FALSE,
+  sd = FALSE,
   ...
 )
 ```
@@ -56,6 +57,14 @@ coef(
   Ignored for frequentist analyses where the svalue is always
   `-log2(pvalue)`.
 
+- sd:
+
+  A flag specifying whether to include an `sd` column with the posterior
+  standard deviation for a Bayesian analysis or the standard error for a
+  frequentist analysis. The default value will change from `FALSE` to
+  `TRUE` in a future release; set the argument explicitly to avoid the
+  deprecation warning.
+
 - ...:
 
   Not used.
@@ -63,5 +72,5 @@ coef(
 ## Value
 
 A tidy tibble of the coefficient terms with the columns indicating the
-`term`, `estimate`, `lower` and `upper` confidence or credible intervals
-and `svalue`.
+`term`, `estimate`, `lower` and `upper` confidence or credible
+intervals, `sd` (only when `sd = TRUE`) and `svalue`.

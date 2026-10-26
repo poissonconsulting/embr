@@ -22,6 +22,7 @@ predict(
   random_effects = NULL,
   parallel = getOption("mb.parallel", FALSE),
   quiet = getOption("mb.quiet", TRUE),
+  sd = FALSE,
   ...
 )
 ```
@@ -90,6 +91,13 @@ predict(
 - quiet:
 
   A flag indicating whether to disable tracing information.
+
+- sd:
+
+  A flag specifying whether to include an `sd` column with the posterior
+  standard deviation. The default value will change from `FALSE` to
+  `TRUE` in a future release; set the argument explicitly to avoid the
+  deprecation warning.
 
 - ...:
 
