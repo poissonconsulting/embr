@@ -1,5 +1,12 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# embr 1.1.0.9005
+
+## Features
+
+- Add sd argument to coef() and predict() to return the standard deviation (#152, #153).
+
+
 # embr 1.1.0.9004
 
 - Internal changes only.
