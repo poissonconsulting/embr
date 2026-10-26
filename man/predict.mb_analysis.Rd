@@ -18,6 +18,7 @@
   random_effects = NULL,
   parallel = getOption("mb.parallel", FALSE),
   quiet = getOption("mb.quiet", TRUE),
+  sd = FALSE,
   ...
 )
 }
@@ -51,6 +52,11 @@ If \code{FALSE}, no reference applied. If \code{TRUE}, the reference is a 1 row 
 \item{parallel}{A flag indicating whether to do predictions using parallel backend provided by foreach.}
 
 \item{quiet}{A flag indicating whether to disable tracing information.}
+
+\item{sd}{A flag specifying whether to include an \code{sd} column with the
+posterior standard deviation.
+The default value will change from \code{FALSE} to \code{TRUE} in a future release;
+set the argument explicitly to avoid the deprecation warning.}
 
 \item{...}{Additional arguments.}
 }

@@ -137,20 +137,21 @@ test_that("analyse", {
     analysis,
     param_type = "derived",
     simplify = TRUE,
-    directional_information = FALSE
+    directional_information = FALSE,
+    sd = FALSE
   )
   expect_identical(
     colnames(derived),
-    c("term", "estimate", "lower", "upper", "sd", "svalue")
+    c("term", "estimate", "lower", "upper", "svalue")
   )
   expect_identical(nrow(derived), 300L)
 
-  coef <- coef(analysis, simplify = TRUE, directional_information = FALSE)
+  coef <- coef(analysis, simplify = TRUE, directional_information = FALSE, sd = FALSE)
 
   expect_s3_class(coef, "tbl")
   expect_identical(
     colnames(coef),
-    c("term", "estimate", "lower", "upper", "sd", "svalue")
+    c("term", "estimate", "lower", "upper", "svalue")
   )
 
   expect_identical(
@@ -170,7 +171,8 @@ test_that("analyse", {
       analysis,
       "primary",
       simplify = TRUE,
-      directional_information = FALSE
+      directional_information = FALSE,
+      sd = FALSE
     )),
     66L
   )
@@ -179,7 +181,8 @@ test_that("analyse", {
       analysis,
       "all",
       simplify = TRUE,
-      directional_information = FALSE
+      directional_information = FALSE,
+      sd = FALSE
     )),
     366L
   )
@@ -190,7 +193,7 @@ test_that("analyse", {
     c("term", "estimate", "lower", "upper", "esr", "rhat")
   )
 
-  year <- predict(analysis, new_data = "Year")
+  year <- predict(analysis, new_data = "Year", sd = FALSE)
 
   ppc <- posterior_predictive_check(analysis)
 
@@ -226,7 +229,6 @@ test_that("analyse", {
       "estimate",
       "lower",
       "upper",
-      "sd",
       "svalue"
     )
   )

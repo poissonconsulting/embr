@@ -57,7 +57,15 @@ test_that("predict string expression", {
     analysis <- analyse(model, data = data, glance = FALSE)
   ))
 
-  year <- predict(analysis, new_data = "Year")
+  year <- predict(analysis, new_data = "Year", sd = FALSE)
+  year_sd <- predict(analysis, new_data = "Year", sd = TRUE)
+  expect_identical(
+    setdiff(colnames(year_sd), colnames(year)),
+    "sd"
+  )
+  expect_identical(year_sd[colnames(year)], year)
+  expect_true(all(year_sd$sd > 0))
+  lifecycle::expect_deprecated(predict(analysis, new_data = "Year"))
 
   expect_s3_class(year, "tbl")
   expect_identical(
@@ -72,7 +80,6 @@ test_that("predict string expression", {
       "estimate",
       "lower",
       "upper",
-      "sd",
       "svalue"
     )
   )
@@ -172,7 +179,7 @@ test_that("predict bare expression", {
     analysis <- analyse(model, data = data, glance = FALSE)
   ))
 
-  year <- predict(analysis, new_data = "Year")
+  year <- predict(analysis, new_data = "Year", sd = FALSE)
 
   expect_s3_class(year, "tbl")
   expect_identical(
@@ -187,7 +194,6 @@ test_that("predict bare expression", {
       "estimate",
       "lower",
       "upper",
-      "sd",
       "svalue"
     )
   )

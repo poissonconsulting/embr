@@ -72,7 +72,7 @@ test_that("update new expr string expression", {
   expect_identical(length(pars(analysis, "all")), 7L)
   expect_identical(length(pars(analysis, "fixed")), 5L)
 
-  year <- predict(analysis, new_data = "Year")
+  year <- predict(analysis, new_data = "Year", sd = FALSE)
 
   expect_s3_class(year, "tbl")
   expect_identical(
@@ -87,7 +87,6 @@ test_that("update new expr string expression", {
       "estimate",
       "lower",
       "upper",
-      "sd",
       "svalue"
     )
   )
@@ -165,7 +164,7 @@ test_that("update new expr bare expression", {
   niters <- 250L
   analysis <- analyse(model, data = data, niters = niters, glance = FALSE)
 
-  year <- predict(analysis, new_data = "Year")
+  year <- predict(analysis, new_data = "Year", sd = FALSE)
 
   expect_s3_class(year, "tbl")
   expect_identical(
@@ -180,7 +179,6 @@ test_that("update new expr bare expression", {
       "estimate",
       "lower",
       "upper",
-      "sd",
       "svalue"
     )
   )
@@ -259,7 +257,7 @@ test_that("add new_expr_vec argument to update model", {
   niters <- 250L
   analysis <- analyse(model, data = data, niters = niters, glance = FALSE)
 
-  year <- predict(analysis, new_data = "Year")
+  year <- predict(analysis, new_data = "Year", sd = FALSE)
 
   expect_s3_class(year, "tbl")
   expect_identical(
@@ -274,7 +272,6 @@ test_that("add new_expr_vec argument to update model", {
       "estimate",
       "lower",
       "upper",
-      "sd",
       "svalue"
     )
   )
@@ -347,7 +344,7 @@ test_that("add new_expr_vec argument to update model and updates original new_ex
   niters <- 250L
   analysis <- analyse(model, data = data, niters = niters, glance = TRUE)
 
-  year <- predict(analysis, new_data = "Year")
+  year <- predict(analysis, new_data = "Year", sd = FALSE)
 
   expect_s3_class(year, "tbl")
   expect_identical(
@@ -362,7 +359,6 @@ test_that("add new_expr_vec argument to update model and updates original new_ex
       "estimate",
       "lower",
       "upper",
-      "sd",
       "svalue"
     )
   )
@@ -435,7 +431,7 @@ test_that("cannot undo the vectorization if orignally set in the model", {
   niters <- 250L
   analysis <- analyse(model, niters = niters, data = data, glance = FALSE)
 
-  year <- predict(analysis, new_data = "Year")
+  year <- predict(analysis, new_data = "Year", sd = FALSE)
 
   expect_s3_class(year, "tbl")
   expect_identical(
@@ -450,7 +446,6 @@ test_that("cannot undo the vectorization if orignally set in the model", {
       "estimate",
       "lower",
       "upper",
-      "sd",
       "svalue"
     )
   )

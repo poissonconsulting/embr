@@ -15,33 +15,33 @@
     Code
       coef
     Output
-      # A tibble: 5 x 6
-        term            estimate lower upper    sd svalue
-        <term>             <dbl> <dbl> <dbl> <dbl>  <dbl>
-      1 bHabitatQuality        0     0     0     0      0
-      2 bIntercept             0     0     0     0      0
-      3 bYear                  0     0     0     0      0
-      4 log_sDensity           0     0     0     0      0
-      5 log_sSiteYear          0     0     0     0      0
+      # A tibble: 5 x 5
+        term            estimate lower upper svalue
+        <term>             <dbl> <dbl> <dbl>  <dbl>
+      1 bHabitatQuality        0     0     0      0
+      2 bIntercept             0     0     0      0
+      3 bYear                  0     0     0      0
+      4 log_sDensity           0     0     0      0
+      5 log_sSiteYear          0     0     0      0
 
 ---
 
     Code
       derived
     Output
-      # A tibble: 300 x 6
-         term         estimate lower upper    sd svalue
-         <term>          <dbl> <dbl> <dbl> <dbl>  <dbl>
-       1 eDensity[1]         0     0     0     0      0
-       2 eDensity[2]         0     0     0     0      0
-       3 eDensity[3]         0     0     0     0      0
-       4 eDensity[4]         0     0     0     0      0
-       5 eDensity[5]         0     0     0     0      0
-       6 eDensity[6]         0     0     0     0      0
-       7 eDensity[7]         0     0     0     0      0
-       8 eDensity[8]         0     0     0     0      0
-       9 eDensity[9]         0     0     0     0      0
-      10 eDensity[10]        0     0     0     0      0
+      # A tibble: 300 x 5
+         term         estimate lower upper svalue
+         <term>          <dbl> <dbl> <dbl>  <dbl>
+       1 eDensity[1]         0     0     0      0
+       2 eDensity[2]         0     0     0      0
+       3 eDensity[3]         0     0     0      0
+       4 eDensity[4]         0     0     0      0
+       5 eDensity[5]         0     0     0      0
+       6 eDensity[6]         0     0     0      0
+       7 eDensity[7]         0     0     0      0
+       8 eDensity[8]         0     0     0      0
+       9 eDensity[9]         0     0     0      0
+      10 eDensity[10]        0     0     0      0
       # i 290 more rows
 
 ---
@@ -61,7 +61,7 @@
     Code
       year
     Output
-      # A tibble: 30 x 11
+      # A tibble: 30 x 10
          Site  HabitatQuality  Year Visit  Density YearFactor estimate lower upper
          <fct> <fct>          <dbl> <int>    <dbl> <fct>         <dbl> <dbl> <dbl>
        1 Site1 High           2001      3 1135466. 2001              0     0     0
@@ -75,7 +75,7 @@
        9 Site1 High           2003.     3 1135466. 2001              0     0     0
       10 Site1 High           2004.     3 1135466. 2001              0     0     0
       # i 20 more rows
-      # i 2 more variables: sd <dbl>, svalue <dbl>
+      # i 1 more variable: svalue <dbl>
 
 ---
 

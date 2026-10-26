@@ -22,7 +22,8 @@ augment.mb_analysis <- function(x, ...) {
       data$log_lik <- predict(
         x,
         new_data = data_set(x),
-        term = "log_lik"
+        term = "log_lik",
+        sd = FALSE
       )$estimate
     }
   }

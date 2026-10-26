@@ -86,7 +86,7 @@ next_drop <- function(analysis, drops, conf_level) {
     return(character(0))
   }
 
-  coef <- coef(analysis)
+  coef <- coef(analysis, sd = FALSE)
   # scalar only
   coef <- dplyr::filter(coef, !grepl("\\[", .data$term))
 

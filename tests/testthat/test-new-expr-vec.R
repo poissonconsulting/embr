@@ -57,7 +57,7 @@ test_that("vectorize predict string expression", {
     analysis <- analyse(model, data = data, glance = TRUE)
   ))
 
-  year <- predict(analysis, new_data = "Year")
+  year <- predict(analysis, new_data = "Year", sd = FALSE)
 
   expect_s3_class(year, "tbl")
   expect_identical(
@@ -72,7 +72,6 @@ test_that("vectorize predict string expression", {
       "estimate",
       "lower",
       "upper",
-      "sd",
       "svalue"
     )
   )
@@ -172,7 +171,7 @@ test_that("vectorize predict bare expression", {
     analysis <- analyse(model, data = data, glance = FALSE)
   ))
 
-  year <- predict(analysis, new_data = "Year")
+  year <- predict(analysis, new_data = "Year", sd = FALSE)
 
   expect_s3_class(year, "tbl")
   expect_identical(
@@ -187,7 +186,6 @@ test_that("vectorize predict bare expression", {
       "estimate",
       "lower",
       "upper",
-      "sd",
       "svalue"
     )
   )
@@ -287,7 +285,7 @@ test_that("two expressions wrapped even when new_expr_vec = TRUE", {
     analysis <- analyse(model, data = data, glance = FALSE)
   ))
 
-  year <- predict(analysis, new_data = "Year")
+  year <- predict(analysis, new_data = "Year", sd = FALSE)
 
   expect_s3_class(year, "tbl")
   expect_identical(
@@ -302,7 +300,6 @@ test_that("two expressions wrapped even when new_expr_vec = TRUE", {
       "estimate",
       "lower",
       "upper",
-      "sd",
       "svalue"
     )
   )

@@ -125,21 +125,22 @@ model {
   glance <- glance(analysis)
   expect_snapshot(glance)
 
-  coef <- coef(analysis, simplify = TRUE, directional_information = FALSE)
+  coef <- coef(analysis, simplify = TRUE, directional_information = FALSE, sd = FALSE)
   expect_snapshot(coef)
 
   derived <- coef(
     analysis,
     param_type = "derived",
     simplify = TRUE,
-    directional_information = FALSE
+    directional_information = FALSE,
+    sd = FALSE
   )
   expect_snapshot(derived)
 
   tidy <- tidy(analysis)
   expect_snapshot(tidy)
 
-  year <- predict(analysis, new_data = "Year")
+  year <- predict(analysis, new_data = "Year", sd = FALSE)
   expect_snapshot(year)
 
   dd <- mcmc_derive_data(

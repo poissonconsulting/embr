@@ -12,6 +12,7 @@
   estimate = getOption("mb.estimate", median),
   simplify = TRUE,
   directional_information = FALSE,
+  sd = FALSE,
   ...
 )
 }
@@ -36,13 +37,18 @@ The default value will change from \code{FALSE} to \code{TRUE} in a future relea
 set the argument explicitly to avoid the deprecation warning.
 Ignored for frequentist analyses where the svalue is always \code{-log2(pvalue)}.}
 
+\item{sd}{A flag specifying whether to include an \code{sd} column with the
+posterior standard deviation for a Bayesian analysis or the standard error
+for a frequentist analysis.
+The default value will change from \code{FALSE} to \code{TRUE} in a future release;
+set the argument explicitly to avoid the deprecation warning.}
+
 \item{...}{Not used.}
 }
 \value{
 A tidy tibble of the coefficient terms with the columns indicating
 the \code{term}, \code{estimate}, \code{lower} and \code{upper} confidence or credible
-intervals, \code{sd} (the posterior standard deviation for Bayesian models or the
-standard error for frequentist models) and \code{svalue}.
+intervals, \code{sd} (only when \code{sd = TRUE}) and \code{svalue}.
 }
 \description{
 Coefficients for a JAGS analysis.

@@ -37,6 +37,7 @@ terms.mb_analysis <- function(
     param_type = param_type,
     include_constant = include_constant,
     simplify = TRUE,
-    directional_information = FALSE
+    directional_information = FALSE,
+    sd = FALSE
   )$term
 }
