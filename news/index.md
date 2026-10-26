@@ -1,5 +1,14 @@
 # Changelog
 
+## embr 1.1.0.9005
+
+### Features
+
+- Add sd argument to coef() and predict() to return the standard
+  deviation
+  ([\#152](https://github.com/poissonconsulting/embr/issues/152),
+  [\#153](https://github.com/poissonconsulting/embr/issues/153)).
+
 ## embr 1.1.0.9004
 
 - Internal changes only.
