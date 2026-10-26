@@ -64,7 +64,13 @@ test_that("update new expr string expression", {
       }"
   )
   niters <- 250L
-  analysis <- analyse(model, data = data, niters = niters, glance = FALSE)
+  analysis <- analyse(
+    model,
+    data = data,
+    niters = niters,
+    glance = FALSE,
+    seed = 1L
+  )
 
   expect_identical(pars(analysis, "derived"), "eDensity")
   expect_identical(pars(analysis, "random"), "bSiteYear")
@@ -162,7 +168,13 @@ test_that("update new expr bare expression", {
     residual <- res_lnorm(Density, fit, exp(log_sDensity))
   })
   niters <- 250L
-  analysis <- analyse(model, data = data, niters = niters, glance = FALSE)
+  analysis <- analyse(
+    model,
+    data = data,
+    niters = niters,
+    glance = FALSE,
+    seed = 1L
+  )
 
   year <- predict(analysis, new_data = "Year")
 
@@ -255,7 +267,13 @@ test_that("add new_expr_vec argument to update model", {
     new_expr_vec = FALSE
   )
   niters <- 250L
-  analysis <- analyse(model, data = data, niters = niters, glance = FALSE)
+  analysis <- analyse(
+    model,
+    data = data,
+    niters = niters,
+    glance = FALSE,
+    seed = 1L
+  )
 
   year <- predict(analysis, new_data = "Year")
 
@@ -342,7 +360,13 @@ test_that("add new_expr_vec argument to update model and updates original new_ex
     new_expr_vec = TRUE
   )
   niters <- 250L
-  analysis <- analyse(model, data = data, niters = niters, glance = TRUE)
+  analysis <- analyse(
+    model,
+    data = data,
+    niters = niters,
+    glance = TRUE,
+    seed = 1L
+  )
 
   year <- predict(analysis, new_data = "Year")
 
@@ -429,7 +453,13 @@ test_that("cannot undo the vectorization if orignally set in the model", {
     new_expr_vec = FALSE
   )
   niters <- 250L
-  analysis <- analyse(model, niters = niters, data = data, glance = FALSE)
+  analysis <- analyse(
+    model,
+    niters = niters,
+    data = data,
+    glance = FALSE,
+    seed = 1L
+  )
 
   year <- predict(analysis, new_data = "Year")
 
