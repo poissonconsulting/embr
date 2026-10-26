@@ -40,9 +40,9 @@ Ignored for frequentist analyses where the svalue is always \code{-log2(pvalue)}
 }
 \value{
 A tidy tibble of the coefficient terms with the columns indicating
-the \code{term}, \code{estimate}, \code{sd} (the posterior standard deviation for Bayesian
-models or the standard error for frequentist models), \code{lower} and \code{upper}
-confidence or credible intervals and \code{svalue}.
+the \code{term}, \code{estimate}, \code{lower} and \code{upper} confidence or credible
+intervals, \code{sd} (the posterior standard deviation for Bayesian models or the
+standard error for frequentist models) and \code{svalue}.
 }
 \description{
 Coefficients for a JAGS analysis.

@@ -70,9 +70,9 @@ test_that("vectorize predict string expression", {
       "Density",
       "YearFactor",
       "estimate",
-      "sd",
       "lower",
       "upper",
+      "sd",
       "svalue"
     )
   )
@@ -185,9 +185,9 @@ test_that("vectorize predict bare expression", {
       "Density",
       "YearFactor",
       "estimate",
-      "sd",
       "lower",
       "upper",
+      "sd",
       "svalue"
     )
   )
@@ -300,9 +300,9 @@ test_that("two expressions wrapped even when new_expr_vec = TRUE", {
       "Density",
       "YearFactor",
       "estimate",
-      "sd",
       "lower",
       "upper",
+      "sd",
       "svalue"
     )
   )

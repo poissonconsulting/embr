@@ -13,13 +13,13 @@ test_that("coef directional_information for Bayesian analysis", {
   )
   expect_identical(
     colnames(coef_svalue),
-    c("term", "estimate", "sd", "lower", "upper", "svalue")
+    c("term", "estimate", "lower", "upper", "sd", "svalue")
   )
 
   coef_di <- coef(analysis, simplify = TRUE, directional_information = TRUE)
   expect_identical(
     colnames(coef_di),
-    c("term", "estimate", "sd", "lower", "upper", "svalue")
+    c("term", "estimate", "lower", "upper", "sd", "svalue")
   )
 
   expect_identical(
@@ -46,7 +46,7 @@ test_that("coef simplifies by default", {
   coef <- coef(analysis, directional_information = FALSE)
   expect_identical(
     colnames(coef),
-    c("term", "estimate", "sd", "lower", "upper", "svalue")
+    c("term", "estimate", "lower", "upper", "sd", "svalue")
   )
 })
 
@@ -81,7 +81,7 @@ test_that("coef simplifies null analysis by default", {
   coef <- coef(analysis)
   expect_identical(
     colnames(coef),
-    c("term", "estimate", "sd", "lower", "upper", "svalue")
+    c("term", "estimate", "lower", "upper", "sd", "svalue")
   )
   expect_identical(nrow(coef), 0L)
 })
@@ -116,7 +116,7 @@ test_that("coef directional_information for null analysis", {
   coef <- coef(analysis, simplify = TRUE, directional_information = TRUE)
   expect_identical(
     colnames(coef),
-    c("term", "estimate", "sd", "lower", "upper", "svalue")
+    c("term", "estimate", "lower", "upper", "sd", "svalue")
   )
   expect_identical(nrow(coef), 0L)
 })

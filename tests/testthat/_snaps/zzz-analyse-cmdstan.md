@@ -16,7 +16,7 @@
       coef
     Output
       # A tibble: 5 x 6
-        term            estimate    sd lower upper svalue
+        term            estimate lower upper    sd svalue
         <term>             <dbl> <dbl> <dbl> <dbl>  <dbl>
       1 bHabitatQuality        0     0     0     0      0
       2 bIntercept             0     0     0     0      0
@@ -30,7 +30,7 @@
       derived
     Output
       # A tibble: 300 x 6
-         term         estimate    sd lower upper svalue
+         term         estimate lower upper    sd svalue
          <term>          <dbl> <dbl> <dbl> <dbl>  <dbl>
        1 eDensity[1]         0     0     0     0      0
        2 eDensity[2]         0     0     0     0      0
@@ -62,7 +62,7 @@
       year
     Output
       # A tibble: 30 x 11
-         Site  HabitatQuality  Year Visit  Density YearFactor estimate    sd lower
+         Site  HabitatQuality  Year Visit  Density YearFactor estimate lower upper
          <fct> <fct>          <dbl> <int>    <dbl> <fct>         <dbl> <dbl> <dbl>
        1 Site1 High           2001      3 1135466. 2001              0     0     0
        2 Site1 High           2001.     3 1135466. 2001              0     0     0
@@ -75,7 +75,7 @@
        9 Site1 High           2003.     3 1135466. 2001              0     0     0
       10 Site1 High           2004.     3 1135466. 2001              0     0     0
       # i 20 more rows
-      # i 2 more variables: upper <dbl>, svalue <dbl>
+      # i 2 more variables: sd <dbl>, svalue <dbl>
 
 ---
 

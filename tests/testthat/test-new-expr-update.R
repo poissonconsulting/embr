@@ -85,9 +85,9 @@ test_that("update new expr string expression", {
       "Density",
       "YearFactor",
       "estimate",
-      "sd",
       "lower",
       "upper",
+      "sd",
       "svalue"
     )
   )
@@ -178,9 +178,9 @@ test_that("update new expr bare expression", {
       "Density",
       "YearFactor",
       "estimate",
-      "sd",
       "lower",
       "upper",
+      "sd",
       "svalue"
     )
   )
@@ -272,9 +272,9 @@ test_that("add new_expr_vec argument to update model", {
       "Density",
       "YearFactor",
       "estimate",
-      "sd",
       "lower",
       "upper",
+      "sd",
       "svalue"
     )
   )
@@ -360,9 +360,9 @@ test_that("add new_expr_vec argument to update model and updates original new_ex
       "Density",
       "YearFactor",
       "estimate",
-      "sd",
       "lower",
       "upper",
+      "sd",
       "svalue"
     )
   )
@@ -448,9 +448,9 @@ test_that("cannot undo the vectorization if orignally set in the model", {
       "Density",
       "YearFactor",
       "estimate",
-      "sd",
       "lower",
       "upper",
+      "sd",
       "svalue"
     )
   )

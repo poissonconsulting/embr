@@ -70,9 +70,9 @@ test_that("predict string expression", {
       "Density",
       "YearFactor",
       "estimate",
-      "sd",
       "lower",
       "upper",
+      "sd",
       "svalue"
     )
   )
@@ -185,9 +185,9 @@ test_that("predict bare expression", {
       "Density",
       "YearFactor",
       "estimate",
-      "sd",
       "lower",
       "upper",
+      "sd",
       "svalue"
     )
   )
