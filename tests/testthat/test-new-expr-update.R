@@ -78,7 +78,7 @@ test_that("update new expr string expression", {
   expect_identical(length(pars(analysis, "all")), 7L)
   expect_identical(length(pars(analysis, "fixed")), 5L)
 
-  year <- predict(analysis, new_data = "Year")
+  year <- predict(analysis, new_data = "Year", sd = FALSE)
 
   expect_s3_class(year, "tbl")
   expect_identical(
@@ -176,7 +176,7 @@ test_that("update new expr bare expression", {
     seed = 1L
   )
 
-  year <- predict(analysis, new_data = "Year")
+  year <- predict(analysis, new_data = "Year", sd = FALSE)
 
   expect_s3_class(year, "tbl")
   expect_identical(
@@ -275,7 +275,7 @@ test_that("add new_expr_vec argument to update model", {
     seed = 1L
   )
 
-  year <- predict(analysis, new_data = "Year")
+  year <- predict(analysis, new_data = "Year", sd = FALSE)
 
   expect_s3_class(year, "tbl")
   expect_identical(
@@ -368,7 +368,7 @@ test_that("add new_expr_vec argument to update model and updates original new_ex
     seed = 1L
   )
 
-  year <- predict(analysis, new_data = "Year")
+  year <- predict(analysis, new_data = "Year", sd = FALSE)
 
   expect_s3_class(year, "tbl")
   expect_identical(
@@ -461,7 +461,7 @@ test_that("cannot undo the vectorization if orignally set in the model", {
     seed = 1L
   )
 
-  year <- predict(analysis, new_data = "Year")
+  year <- predict(analysis, new_data = "Year", sd = FALSE)
 
   expect_s3_class(year, "tbl")
   expect_identical(

@@ -131,7 +131,7 @@ model {
     )
   expect_snapshot(glance)
 
-  coef <- coef(analysis, simplify = TRUE, directional_information = FALSE) %>%
+  coef <- coef(analysis, simplify = TRUE, directional_information = FALSE, sd = FALSE) %>%
     mutate(estimate = 0, lower = 0, upper = 0, svalue = 0)
   expect_snapshot(coef)
 
@@ -139,7 +139,8 @@ model {
     analysis,
     param_type = "derived",
     simplify = TRUE,
-    directional_information = FALSE
+    directional_information = FALSE,
+    sd = FALSE
   ) %>%
     mutate(estimate = 0, lower = 0, upper = 0, svalue = 0)
   expect_snapshot(derived)
@@ -148,7 +149,7 @@ model {
     mutate(estimate = 0, lower = 0, upper = 0, esr = 0, rhat = 0)
   expect_snapshot(tidy)
 
-  year <- predict(analysis, new_data = "Year") %>%
+  year <- predict(analysis, new_data = "Year", sd = FALSE) %>%
     mutate(estimate = 0, lower = 0, upper = 0, svalue = 0)
   expect_snapshot(year)
 

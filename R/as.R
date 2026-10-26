@@ -46,7 +46,7 @@ as.mcmcr.mb_analysis <- function(x, ...) {
   }
 
   # this needs switching off by removing lm and replacing R function based optimizer
-  x <- coef(x, "all")
+  x <- coef(x, "all", sd = FALSE)
   x <- as.mcmcr(x)
   x
 }

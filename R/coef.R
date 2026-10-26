@@ -17,6 +17,23 @@ warn_default_directional_information <- function(
   )
 }
 
+warn_default_sd <- function(
+  fun = "coef",
+  env = parent.frame(),
+  user_env = parent.frame(2)
+) {
+  lifecycle::deprecate_soft(
+    "1.2.0",
+    paste0(fun, "(sd = 'should be explicitly set')"),
+    details = paste(
+      "The default value of `sd` will change from",
+      "`FALSE` to `TRUE` in a future release."
+    ),
+    env = env,
+    user_env = user_env
+  )
+}
+
 get_frequentist_coef <- function(object, conf_level = 0.95) {
   object <- dplyr::mutate(
     object,
@@ -38,6 +55,7 @@ coef.mb_null_analysis <- function(
   estimate = getOption("mb.estimate", median),
   simplify = TRUE,
   directional_information = FALSE,
+  sd = FALSE,
   ...
 ) {
   chk_string(param_type)
@@ -47,9 +65,14 @@ coef.mb_null_analysis <- function(
   chk_range(conf_level, c(0.5, 0.99))
   chk_flag(simplify)
   chk_flag(directional_information)
+  chk_flag(sd)
 
   if (!simplify) {
     lifecycle::deprecate_stop("1.1.0", "coef(simplify = 'must be TRUE')")
+  }
+
+  if (missing(sd)) {
+    warn_default_sd()
   }
 
   coef <- tibble(
@@ -68,8 +91,12 @@ coef.mb_null_analysis <- function(
     "estimate",
     "lower",
     "upper",
+    "sd",
     "svalue"
   )
+  if (!sd) {
+    coef$sd <- NULL
+  }
 
   class(coef) <- c("mb_analysis_coef", class(coef))
 
@@ -93,10 +120,15 @@ coef.mb_null_analysis <- function(
 #' The default value will change from `FALSE` to `TRUE` in a future release;
 #' set the argument explicitly to avoid the deprecation warning.
 #' Ignored for frequentist analyses where the svalue is always `-log2(pvalue)`.
+#' @param sd A flag specifying whether to include an `sd` column with the
+#' posterior standard deviation for a Bayesian analysis or the standard error
+#' for a frequentist analysis.
+#' The default value will change from `FALSE` to `TRUE` in a future release;
+#' set the argument explicitly to avoid the deprecation warning.
 #' @param ... Not used.
 #' @return A tidy tibble of the coefficient terms with the columns indicating
-#' the `term`, `estimate`, `lower` and `upper` confidence or credible intervals
-#' and `svalue`.
+#' the `term`, `estimate`, `lower` and `upper` confidence or credible
+#' intervals, `sd` (only when `sd = TRUE`) and `svalue`.
 #' @export
 coef.mb_analysis <- function(
   object,
@@ -106,6 +138,7 @@ coef.mb_analysis <- function(
   estimate = getOption("mb.estimate", median),
   simplify = TRUE,
   directional_information = FALSE,
+  sd = FALSE,
   ...
 ) {
   chk_string(param_type)
@@ -115,6 +148,7 @@ coef.mb_analysis <- function(
   chk_range(conf_level, c(0.5, 0.99))
   chk_flag(simplify)
   chk_flag(directional_information)
+  chk_flag(sd)
 
   if (!simplify) {
     lifecycle::deprecate_stop("1.1.0", "coef(simplify = 'must be TRUE')")
@@ -122,6 +156,9 @@ coef.mb_analysis <- function(
 
   if (missing(directional_information) && is_bayesian(object)) {
     warn_default_directional_information()
+  }
+  if (missing(sd)) {
+    warn_default_sd()
   }
 
   pars <- pars(object, param_type)
@@ -142,8 +179,12 @@ coef.mb_analysis <- function(
       "estimate",
       "lower",
       "upper",
+      "sd",
       "svalue"
     )
+    if (!sd) {
+      coef$sd <- NULL
+    }
 
     class(coef) <- c("mb_analysis_coef", class(coef))
     return(coef)
@@ -157,7 +198,8 @@ coef.mb_analysis <- function(
       conf_level = conf_level,
       estimate = estimate,
       simplify = simplify,
-      directional_information = directional_information
+      directional_information = directional_information,
+      sd = sd
     )
 
     if (!include_constant) {
@@ -166,13 +208,13 @@ coef.mb_analysis <- function(
   } else {
     coef <- as.mcmcr(object)
     coef <- subset(coef, pars = pars)
-    coef <- coef(coef, directional_information = FALSE)
+    coef <- coef(coef, directional_information = FALSE, sd = FALSE)
 
-    sd <- as.mcmcr(object$sd)
-    sd <- subset(sd, pars = pars)
-    sd <- coef(sd, directional_information = FALSE)
+    se <- as.mcmcr(object$sd)
+    se <- subset(se, pars = pars)
+    se <- coef(se, directional_information = FALSE, sd = FALSE)
 
-    coef$sd <- sd$estimate
+    coef$sd <- se$estimate
 
     coef <- get_frequentist_coef(coef, conf_level = conf_level)
     if (!include_constant) {
@@ -185,8 +227,12 @@ coef.mb_analysis <- function(
       "estimate",
       "lower",
       "upper",
+      "sd",
       "svalue"
     )
+    if (!sd) {
+      coef$sd <- NULL
+    }
   }
 
   class(coef) <- c("mb_analysis_coef", class(coef))

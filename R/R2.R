@@ -47,7 +47,8 @@ R2.mb_analysis <- function(
     new_data = new_data,
     term = term,
     parallel = parallel,
-    quiet = quiet
+    quiet = quiet,
+    sd = FALSE
   )
 
   1 -

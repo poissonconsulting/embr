@@ -15,7 +15,7 @@ stats::predict
 #' @return The analysis data set with the fitted values.
 #' @export
 fitted.mb_analysis <- function(object, ...) {
-  predict(object, new_data = data_set(object), term = "fit")
+  predict(object, new_data = data_set(object), term = "fit", sd = FALSE)
 }
 
 #' Predict from a `mb_analysis` object
@@ -42,6 +42,10 @@ fitted.mb_analysis <- function(object, ...) {
 #'
 #' @inheritParams mcmc_derive_data.mb_analysis
 #' @param conf_level A number specifying the confidence level. By default 0.95.
+#' @param sd A flag specifying whether to include an `sd` column with the
+#' posterior standard deviation.
+#' The default value will change from `FALSE` to `TRUE` in a future release;
+#' set the argument explicitly to avoid the deprecation warning.
 #' @return A data frame with one row per row of `new_data`, containing the
 #'   posterior summary columns produced by [coef.mcmc_data()] and all columns
 #'   of `new_data`.
@@ -108,10 +112,15 @@ predict.mb_analysis <- function(
   random_effects = NULL,
   parallel = getOption("mb.parallel", FALSE),
   quiet = getOption("mb.quiet", TRUE),
+  sd = FALSE,
   ...
 ) {
   chk_number(conf_level)
   chk_range(conf_level, c(0.5, 0.99))
+  chk_flag(sd)
+  if (missing(sd)) {
+    warn_default_sd("predict")
+  }
 
   term <- p0("^", term, "$")
 
@@ -132,7 +141,7 @@ predict.mb_analysis <- function(
     ...
   )
 
-  object <- coef(object, conf_level = conf_level)
+  object <- coef(object, conf_level = conf_level, sd = sd)
 
   object
 }
@@ -177,7 +186,8 @@ predict.mb_analyses <- function(
     new_expr_vec = new_expr_vec,
     parallel = parallel,
     quiet = quiet,
-    beep = FALSE
+    beep = FALSE,
+    sd = FALSE
   )
 
   if (!all(is.finite(ic$IC))) {

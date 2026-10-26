@@ -12,7 +12,8 @@ tidy.mb_analysis <- function(
     conf_level = conf_level,
     beep = FALSE,
     simplify = TRUE,
-    directional_information = FALSE
+    directional_information = FALSE,
+    sd = FALSE
   )
 
   coef <- coef[c("term", "estimate", "lower", "upper")]

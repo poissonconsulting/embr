@@ -2,7 +2,7 @@ test_that("mb_null_analysis", {
   analysis <- list(data = datasets::mtcars)
   class(analysis) <- c("mb_null_analysis", "mb_analysis")
 
-  coef <- coef(analysis)
+  coef <- coef(analysis, sd = FALSE)
   expect_s3_class(coef, "tbl")
   expect_identical(
     colnames(coef),
