@@ -9,7 +9,7 @@
 #' @param quiet A flag indicating whether to disable messages and warnings, including sampling progress.
 #' @param glance A flag indicating whether to print a model summary.
 #' @param beep A flag indicating whether to beep on completion of the analysis.
-#' @param seed A positive whole number specifying the seed to use. The default is random. This is currently only implemented for Stan models.
+#' @param seed A positive whole number specifying the seed to use. The default is random. When `x` or `data` is a list, the same seed is used for each analysis.
 #' @param niters_warmup A count of the number of warmup iterations. The default is to use the same number of iterations as `niters`. This is currently only implemented for Stan models.
 #' @param stan_engine A string selecting the Stan engine:
 #' * `"cmdstan-mcmc"`: MCMC via [cmdstanr::sample()].
