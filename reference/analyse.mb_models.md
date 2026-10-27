@@ -68,7 +68,8 @@ analyse(
 - seed:
 
   A positive whole number specifying the seed to use. The default is
-  random. This is currently only implemented for Stan models.
+  random. When `x` or `data` is a list, the same seed is used for each
+  analysis.
 
 - stan_engine:
 
