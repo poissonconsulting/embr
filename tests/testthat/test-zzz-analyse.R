@@ -146,7 +146,12 @@ test_that("analyse", {
   )
   expect_identical(nrow(derived), 300L)
 
-  coef <- coef(analysis, simplify = TRUE, directional_information = FALSE, sd = FALSE)
+  coef <- coef(
+    analysis,
+    simplify = TRUE,
+    directional_information = FALSE,
+    sd = FALSE
+  )
 
   expect_s3_class(coef, "tbl")
   expect_identical(
@@ -195,13 +200,23 @@ test_that("analyse", {
 
   year <- predict(analysis, new_data = "Year", sd = FALSE)
 
-  ppc <- posterior_predictive_check(analysis)
+  ppc <- posterior_predictive_check(analysis, sd = FALSE)
 
   expect_s3_class(ppc, "tbl_df")
   expect_identical(
     colnames(ppc),
-    c("moment", "observed", "median", "lower", "upper", "svalue")
+    c("moment", "observed", "estimate", "lower", "upper", "svalue")
   )
+  ppc_sd <- posterior_predictive_check(analysis, sd = TRUE)
+  expect_identical(
+    colnames(ppc_sd),
+    c("moment", "observed", "estimate", "lower", "upper", "sd", "svalue")
+  )
+  expect_true(all(ppc_sd$sd >= 0))
+  lifecycle::expect_deprecated(
+    ppc_default <- posterior_predictive_check(analysis)
+  )
+  expect_identical(colnames(ppc_default), colnames(ppc))
   expect_identical(
     ppc$moment,
     structure(

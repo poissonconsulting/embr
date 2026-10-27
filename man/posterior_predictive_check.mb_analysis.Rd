@@ -4,7 +4,7 @@
 \alias{posterior_predictive_check.mb_analysis}
 \title{Posterior Predictive Check}
 \usage{
-\method{posterior_predictive_check}{mb_analysis}(x, zeros = TRUE, ...)
+\method{posterior_predictive_check}{mb_analysis}(x, zeros = TRUE, sd = FALSE, ...)
 }
 \arguments{
 \item{x}{The MB analysis object.}
@@ -12,10 +12,16 @@
 \item{zeros}{A flag specifying whether to perform a posterior predictive check
 on the number of zeros in the data.}
 
+\item{sd}{A flag specifying whether to include the standard deviation of
+the simulated moments as column \code{sd}.}
+
 \item{...}{Unused.}
 }
 \value{
-A tibble of the checks.
+A tibble of the checks with the columns \code{moment}, \code{observed},
+\code{estimate}, \code{lower}, \code{upper}, \code{sd} (only when \code{sd = TRUE}) and \code{svalue}.
+The \code{estimate}, \code{lower} and \code{upper} columns are the median and 95\%
+compatibility limits of the simulated moments.
 }
 \description{
 Posterior Predictive Check
