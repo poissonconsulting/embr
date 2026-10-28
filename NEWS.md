@@ -1,5 +1,10 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# embr 1.1.0.9006
+
+- Same as previous version.
+
+
 # embr 1.1.0.9005
 
 ## Features
