@@ -1,5 +1,9 @@
 # Changelog
 
+## embr 1.1.0.9006
+
+- Same as previous version.
+
 ## embr 1.1.0.9005
 
 ### Features
