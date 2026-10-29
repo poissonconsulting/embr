@@ -78,12 +78,12 @@ test_that("vectorize predict string expression", {
   expect_true(all(year$lower < year$estimate))
   expect_false(is.unsorted(year$estimate))
 
-  ppc <- posterior_predictive_check(analysis)
+  ppc <- posterior_predictive_check(analysis, sd = FALSE)
 
   expect_s3_class(ppc, "tbl_df")
   expect_identical(
     colnames(ppc),
-    c("moment", "observed", "median", "lower", "upper", "svalue")
+    c("moment", "observed", "estimate", "lower", "upper", "svalue")
   )
   expect_identical(
     ppc$moment,
@@ -192,12 +192,12 @@ test_that("vectorize predict bare expression", {
   expect_true(all(year$lower < year$estimate))
   expect_false(is.unsorted(year$estimate))
 
-  ppc <- posterior_predictive_check(analysis)
+  ppc <- posterior_predictive_check(analysis, sd = FALSE)
 
   expect_s3_class(ppc, "tbl_df")
   expect_identical(
     colnames(ppc),
-    c("moment", "observed", "median", "lower", "upper", "svalue")
+    c("moment", "observed", "estimate", "lower", "upper", "svalue")
   )
   expect_identical(
     ppc$moment,
@@ -306,12 +306,12 @@ test_that("two expressions wrapped even when new_expr_vec = TRUE", {
   expect_true(all(year$lower < year$estimate))
   expect_false(is.unsorted(year$estimate))
 
-  ppc <- posterior_predictive_check(analysis)
+  ppc <- posterior_predictive_check(analysis, sd = FALSE)
 
   expect_s3_class(ppc, "tbl_df")
   expect_identical(
     colnames(ppc),
-    c("moment", "observed", "median", "lower", "upper", "svalue")
+    c("moment", "observed", "estimate", "lower", "upper", "svalue")
   )
   expect_identical(
     ppc$moment,

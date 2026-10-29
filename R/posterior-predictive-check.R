@@ -15,11 +15,25 @@ posterior_predictive_check <- function(x, ...) {
 #' @param x The MB analysis object.
 #' @param zeros A flag specifying whether to perform a posterior predictive check
 #' on the number of zeros in the data.
+#' @param sd A flag specifying whether to include the standard deviation of
+#' the simulated moments as column `sd`.
 #' @param ... Unused.
-#' @return A tibble of the checks.
+#' @return A tibble of the checks with the columns `moment`, `observed`,
+#' `estimate`, `lower`, `upper`, `sd` (only when `sd = TRUE`) and `svalue`.
+#' The `estimate`, `lower` and `upper` columns are the median and 95%
+#' compatibility limits of the simulated moments.
 #' @export
-posterior_predictive_check.mb_analysis <- function(x, zeros = TRUE, ...) {
+posterior_predictive_check.mb_analysis <- function(
+  x,
+  zeros = TRUE,
+  sd = FALSE,
+  ...
+) {
   chk_flag(zeros)
+  chk_flag(sd)
+  if (missing(sd)) {
+    warn_default_sd("posterior_predictive_check")
+  }
   chk_unused(...)
 
   simulate_residuals <- simulate_residuals(x)
@@ -73,7 +87,7 @@ posterior_predictive_check.mb_analysis <- function(x, zeros = TRUE, ...) {
   )
   tibble$moment <- factor(tibble$moment, tibble$moment)
   tibble$observed <- c(zeros, mean, variance, skewness, kurtosis)
-  tibble$median <- c(
+  tibble$estimate <- c(
     median(zeroses),
     median(means),
     median(variances),
@@ -94,6 +108,15 @@ posterior_predictive_check.mb_analysis <- function(x, zeros = TRUE, ...) {
     upper(skewnesses),
     upper(kurtoses)
   )
+  if (sd) {
+    tibble$sd <- c(
+      stats::sd(zeroses),
+      stats::sd(means),
+      stats::sd(variances),
+      stats::sd(skewnesses),
+      stats::sd(kurtoses)
+    )
+  }
   tibble$svalue <- c(
     zeroses_svalue,
     svalue(means, threshold = mean),
