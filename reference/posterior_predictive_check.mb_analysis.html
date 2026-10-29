@@ -45,7 +45,7 @@
     <div class="section level2">
     <h2 id="ref-usage">Usage<a class="anchor" aria-label="anchor" href="#ref-usage"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="co"># S3 method for class 'mb_analysis'</span></span>
-<span><span class="fu"><a href="posterior_predictive_check.html">posterior_predictive_check</a></span><span class="op">(</span><span class="va">x</span>, zeros <span class="op">=</span> <span class="cn">TRUE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu"><a href="posterior_predictive_check.html">posterior_predictive_check</a></span><span class="op">(</span><span class="va">x</span>, zeros <span class="op">=</span> <span class="cn">TRUE</span>, sd <span class="op">=</span> <span class="cn">FALSE</span>, <span class="va">...</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div class="section level2">
@@ -61,13 +61,21 @@
 on the number of zeros in the data.</p></dd>
 
 
+<dt id="arg-sd">sd<a class="anchor" aria-label="anchor" href="#arg-sd"></a></dt>
+<dd><p>A flag specifying whether to include the standard deviation of
+the simulated moments as column <code>sd</code>.</p></dd>
+
+
 <dt id="arg--">...<a class="anchor" aria-label="anchor" href="#arg--"></a></dt>
 <dd><p>Unused.</p></dd>
 
 </dl></div>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
-    <p>A tibble of the checks.</p>
+    <p>A tibble of the checks with the columns <code>moment</code>, <code>observed</code>,
+<code>estimate</code>, <code>lower</code>, <code>upper</code>, <code>sd</code> (only when <code>sd = TRUE</code>) and <code>svalue</code>.
+The <code>estimate</code>, <code>lower</code> and <code>upper</code> columns are the median and 95%
+compatibility limits of the simulated moments.</p>
     </div>
 
   </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
