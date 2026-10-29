@@ -1,5 +1,21 @@
 # Changelog
 
+## embr 1.1.0.9007
+
+### Features
+
+- Breaking change: Rename median to estimate and add sd argument in
+  posterior_predictive_check()
+  ([\#154](https://github.com/poissonconsulting/embr/issues/154),
+  [\#155](https://github.com/poissonconsulting/embr/issues/155)).
+
+### Breaking changes
+
+- Breaking change: Rename median to estimate and add sd argument in
+  posterior_predictive_check()
+  ([\#154](https://github.com/poissonconsulting/embr/issues/154),
+  [\#155](https://github.com/poissonconsulting/embr/issues/155)).
+
 ## embr 1.1.0.9006
 
 - Same as previous version.
