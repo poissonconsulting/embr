@@ -1,5 +1,16 @@
 <!-- NEWS.md is maintained by https://fledge.cynkra.com, contributors should not edit this file -->
 
+# embr 1.1.0.9007
+
+## Features
+
+- Breaking change: Rename median to estimate and add sd argument in posterior_predictive_check() (#154, #155).
+
+## Breaking changes
+
+- Breaking change: Rename median to estimate and add sd argument in posterior_predictive_check() (#154, #155).
+
+
 # embr 1.1.0.9006
 
 - Same as previous version.
