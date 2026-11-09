@@ -34,10 +34,10 @@ Imports:
     graphics,
     lifecycle,
     lubridate,
+    matrixStats,
     mcmcdata,
     mcmcderive (>= 0.1.2.9002),
     mcmcr (>= 0.7.0.9003),
-    matrixStats,
     newdata,
     nlist,
     plyr,
@@ -66,15 +66,14 @@ RdMacros:
 Remotes: 
     poissonconsulting/extras,
     poissonconsulting/jmbr,
-    poissonconsulting/mcmcr,
     poissonconsulting/mcmcdata,
     poissonconsulting/mcmcderive,
-    poissonconsulting/newdata,
+    poissonconsulting/mcmcr,
     poissonconsulting/rescale,
     poissonconsulting/smbr2
+Config/Needs/website: poissonconsulting/poissontemplate
+Config/roxygen2/version: 8.1.0.9000
+Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-Config/testthat/edition: 3
-Config/Needs/website: poissonconsulting/poissontemplate
-Config/roxygen2/version: 8.1.0.9000
